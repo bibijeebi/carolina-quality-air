@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const processSteps = [
+  {
+    step: "01",
+    title: "Inspection",
+    description: "We start with a thorough inspection of your entire duct system using digital video cameras to assess the condition and identify problem areas."
+  },
+  {
+    step: "02",
+    title: "Setup",
+    description: "We connect our high-powered vacuum system to your ductwork, creating negative pressure that ensures all debris flows toward our collection unit."
+  },
+  {
+    step: "03",
+    title: "Agitation",
+    description: "Using the High Velocity Air Sweeper, we brush all interior surfaces to dislodge mold, soot, lint, hair, bacteria, and other buildup."
+  },
+  {
+    step: "04",
+    title: "Extraction",
+    description: "As debris is loosened, our vacuum system immediately captures it. Nothing escapes back into your living space."
+  },
+  {
+    step: "05",
+    title: "Sanitization",
+    description: "Finally, we fog the entire duct system with an EPA-approved sanitizer, eliminating remaining bacteria and leaving your air fresh."
+  }
+];
+
+const beforeAfterPairs = [
+  { before: "Heavy dust and debris buildup", after: "Clean, clear ductwork" },
+  { before: "Visible mold growth", after: "Sanitized surfaces" },
+  { before: "Restricted airflow", after: "Full air circulation" },
+];
+---
+
+<Layout title="Services" description="Our EPA-approved Source Removal method is the only method recognized by the EPA that fulfills all requirements to properly clean your air ducts.">
+  <Header />
+  
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      <div class="absolute inset-0">
+        <img src="/images/general/process.jpg" alt="" class="w-full h-full object-cover opacity-20" />
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80"></div>
+      </div>
+      
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <span class="text-brand-400 font-semibold text-sm uppercase tracking-wider">Our Services</span>
+          <h1 class="text-5xl sm:text-6xl font-bold mt-3 mb-6">
+            The right way to clean air ducts
+          </h1>
+          <p class="text-xl text-slate-300 leading-relaxed">
+            We use Source Removal, the only method recognized by the U.S. Environmental Protection Agency 
+            that fulfills all requirements to properly clean your air duct system.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Our Process</span>
+          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
+            How we clean your ducts
+          </h2>
+          <p class="text-lg text-slate-600">
+            Every job follows our proven 5-step process to ensure thorough, lasting results.
+          </p>
+        </div>
+
+        <div class="relative">
+          <!-- Connection line -->
+          <div class="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-200 to-transparent"></div>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+            {processSteps.map((step, i) => (
+              <div class="relative">
+                <div class="bg-slate-50 rounded-2xl p-6 h-full hover:bg-brand-50 transition-colors">
+                  <div class="w-12 h-12 bg-brand-600 rounded-xl flex items-center justify-center text-white font-bold mb-4">
+                    {step.step}
+                  </div>
+                  <h3 class="text-lg font-bold text-slate-900 mb-2">{step.title}</h3>
+                  <p class="text-sm text-slate-600 leading-relaxed">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before/After Section -->
+    <section class="py-24 bg-slate-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-400 font-semibold text-sm uppercase tracking-wider">Results</span>
+          <h2 class="text-4xl font-bold mt-3 mb-4">
+            See the difference
+          </h2>
+          <p class="text-lg text-slate-300">
+            Real results from real jobs. This is what years of buildup looks like, and what we can do about it.
+          </p>
+        </div>
+
+        <!-- Before/After grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1,2,3,4,5,6].map((n) => (
+            <div class="bg-white/5 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10">
+              <div class="grid grid-cols-2">
+                <div class="aspect-square relative overflow-hidden">
+                  <img src={`/images/before-after/${n}-before.jpg`} alt={`Before cleaning ${n}`} class="absolute inset-0 w-full h-full object-cover" />
+                  <span class="absolute top-3 left-3 px-2 py-1 bg-black/60 text-white text-xs font-medium rounded">Before</span>
+                </div>
+                <div class="aspect-square relative overflow-hidden">
+                  <img src={`/images/before-after/${n}-after.jpg`} alt={`After cleaning ${n}`} class="absolute inset-0 w-full h-full object-cover" />
+                  <span class="absolute top-3 right-3 px-2 py-1 bg-brand-600 text-white text-xs font-medium rounded">After</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="text-center text-slate-400 mt-8 text-sm">
+          Real results from real jobs across Eastern North Carolina.
+        </p>
+      </div>
+    </section>
+
+    <!-- Service Types -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">What We Clean</span>
+          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
+            Services for every property type
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-slate-50 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Air Duct Cleaning</h3>
+            <ul class="space-y-3 text-slate-600">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Complete supply and return duct cleaning
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Register and grille cleaning
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Air handler/furnace cleaning
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                EPA-approved sanitization
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Dryer Vent Cleaning</h3>
+            <ul class="space-y-3 text-slate-600">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Complete lint removal
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Fire hazard prevention
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Improved dryer efficiency
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Extended appliance lifespan
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Video Inspection</h3>
+            <ul class="space-y-3 text-slate-600">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Digital camera inspection
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Before/after documentation
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Problem area identification
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Video recording available
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Commercial & Industrial</h3>
+            <ul class="space-y-3 text-slate-600">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Large-scale HVAC systems
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Hospital/healthcare standards
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Minimal disruption scheduling
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                NADCA certification documentation
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-brand-600">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6">Ready to get started?</h2>
+        <p class="text-xl text-white/80 mb-10">
+          Schedule a free inspection and quote. We'll show you exactly what's in your ducts.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="/contact" 
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-brand-600 font-semibold rounded-full hover:bg-slate-100 transition-all"
+          >
+            Schedule Inspection
+          </a>
+          <a 
+            href="tel:+12523217447"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 transition-all"
+          >
+            Call 252-321-7447
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
