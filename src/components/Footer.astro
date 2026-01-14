@@ -1,0 +1,127 @@
+---
+const currentYear = new Date().getFullYear();
+
+const locations = [
+  {
+    name: "Raleigh/Cary Office",
+    address: "140 Towerview Ct",
+    city: "Cary, NC 27513",
+    phone: "919-907-9742",
+    mapUrl: "https://goo.gl/maps/uxLTf7gKZSTJfqiK8"
+  },
+  {
+    name: "Greenville Office",
+    address: "111 Essex Dr",
+    city: "Winterville, NC 28590",
+    phone: "252-321-7447",
+    mapUrl: "https://goo.gl/maps/arg4sqCekj4WjdP77"
+  },
+  {
+    name: "Wilmington Office",
+    address: "Wilmington Area",
+    city: "Wilmington, NC",
+    phone: "910-679-4471",
+    mapUrl: "#"
+  }
+];
+
+const services = [
+  { label: "Residential Cleaning", href: "/services" },
+  { label: "Commercial Cleaning", href: "/services" },
+  { label: "Industrial Systems", href: "/services" },
+  { label: "Medical Facilities", href: "/services" },
+  { label: "Dryer Vent Cleaning", href: "/services" },
+];
+
+const company = [
+  { label: "About Us", href: "/about" },
+  { label: "Why Clean Ducts", href: "/benefits" },
+  { label: "NADCA Certification", href: "/nadca" },
+  { label: "Testimonials", href: "/testimonials" },
+  { label: "Contact", href: "/contact" },
+];
+---
+
+<footer class="bg-slate-900 text-slate-300">
+  <!-- Main footer -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <!-- Brand column -->
+      <div class="lg:col-span-1">
+        <a href="/" class="block mb-6">
+          <img src="/images/logo-cqa.png" alt="Carolina Quality Air" class="h-12 w-auto brightness-0 invert" />
+        </a>
+        <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+          Family owned since 1999. Eastern NC's first NADCA-certified duct cleaning specialists. 
+          We train duct cleaners nationwide.
+        </p>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-full">
+            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+            NADCA Certified
+          </span>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Services</h4>
+        <ul class="space-y-3">
+          {services.map(item => (
+            <li>
+              <a href={item.href} class="text-sm text-slate-400 hover:text-white transition-colors">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Company</h4>
+        <ul class="space-y-3">
+          {company.map(item => (
+            <li>
+              <a href={item.href} class="text-sm text-slate-400 hover:text-white transition-colors">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Locations -->
+      <div>
+        <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Locations</h4>
+        <div class="space-y-4">
+          {locations.map(loc => (
+            <div class="text-sm">
+              <div class="text-white font-medium">{loc.name}</div>
+              <a href={loc.mapUrl} class="text-slate-400 hover:text-white transition-colors">
+                {loc.address}<br />{loc.city}
+              </a>
+              <a href={`tel:${loc.phone.replace(/-/g, '')}`} class="block text-brand-400 hover:text-brand-300 mt-1 font-medium">
+                {loc.phone}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-slate-500">
+          © {currentYear} Carolina Quality Air. All rights reserved.
+        </p>
+        <p class="text-sm text-slate-500">
+          Email: <a href="mailto:carolinaqualityair@yahoo.com" class="text-slate-400 hover:text-white">carolinaqualityair@yahoo.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
