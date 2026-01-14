@@ -1,0 +1,194 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const benefits = [
+  {
+    title: "Reduce Allergies & Asthma",
+    description: "Dust, pollen, pet dander, and mold spores accumulate in your ducts and get recirculated every time your HVAC runs. Cleaning removes these triggers.",
+    icon: "lungs"
+  },
+  {
+    title: "Eliminate Odors",
+    description: "Musty smells, smoke residue, pet odors, and cooking smells get trapped in ductwork. A thorough cleaning eliminates odors at the source.",
+    icon: "nose"
+  },
+  {
+    title: "Improve Airflow",
+    description: "Clogged ducts make your HVAC work harder. Clean ducts mean better airflow, more even temperatures, and lower energy bills.",
+    icon: "wind"
+  },
+  {
+    title: "Remove Contaminants",
+    description: "Bacteria, viruses, and mold can thrive in dirty ductwork. Our EPA-approved sanitization eliminates these health hazards.",
+    icon: "shield"
+  },
+  {
+    title: "Extend HVAC Lifespan",
+    description: "When your system doesn't have to work as hard, it lasts longer. Clean ducts reduce wear and tear on your expensive equipment.",
+    icon: "clock"
+  },
+  {
+    title: "Better Sleep",
+    description: "Cleaner air means easier breathing, especially at night. Many customers report improved sleep quality after duct cleaning.",
+    icon: "moon"
+  }
+];
+
+const warningSignsQs = [
+  "Does anyone in your house have allergies, asthma, or other respiratory problems?",
+  "Does anyone in your family suffer from unexplained headaches, nasal congestion, or sinus problems?",
+  "Is there a smoker in the house?",
+  "Do you have pets that live in the house?",
+  "Is there a musty or stale odor when the air conditioner or heater runs?",
+  "Does it seem that there is not enough airflow coming from your vents?",
+  "Have you noticed excessive dust on furniture despite regular cleaning?",
+  "Has it been more than 3 years since your ducts were last cleaned?"
+];
+---
+
+<Layout title="Benefits" description="Indoor air can be up to 70 times more polluted than outdoor air. Learn why duct cleaning matters for your health and home.">
+  <Header />
+  
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      <div class="absolute inset-0">
+        <img src="/images/general/duct-cleaning.jpg" alt="" class="w-full h-full object-cover opacity-20" />
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80"></div>
+      </div>
+      
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <span class="text-brand-400 font-semibold text-sm uppercase tracking-wider">Why It Matters</span>
+          <h1 class="text-5xl sm:text-6xl font-bold mt-3 mb-6">
+            The air inside your home matters
+          </h1>
+          <p class="text-xl text-slate-300 leading-relaxed">
+            Indoor air can be up to 70 times more polluted than outdoor air. 
+            Most people spend 60-90% of their time indoors. Do the math.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="bg-brand-600 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+          <div>
+            <div class="text-5xl font-bold text-white">70x</div>
+            <div class="text-brand-200 mt-2">More polluted than outdoor air</div>
+          </div>
+          <div>
+            <div class="text-5xl font-bold text-white">90%</div>
+            <div class="text-brand-200 mt-2">Of time spent indoors</div>
+          </div>
+          <div>
+            <div class="text-5xl font-bold text-white">40lbs</div>
+            <div class="text-brand-200 mt-2">Of dust created per year in avg home</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Grid -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Benefits</span>
+          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
+            Why clean your ducts?
+          </h2>
+          <p class="text-lg text-slate-600">
+            Beyond just breathing easier, there are real health and financial benefits to professional duct cleaning.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {benefits.map(benefit => (
+            <div class="bg-slate-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
+              <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6">
+                <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 mb-3">{benefit.title}</h3>
+              <p class="text-slate-600 leading-relaxed">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Assessment -->
+    <section class="py-24 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Self Assessment</span>
+          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
+            Do you need duct cleaning?
+          </h2>
+          <p class="text-lg text-slate-600">
+            If you answer "yes" to any of these questions, it's probably time to call us.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
+          <ul class="space-y-4">
+            {warningSignsQs.map((q, i) => (
+              <li class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+                <div class="flex-shrink-0 w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600 font-bold text-sm">
+                  {i + 1}
+                </div>
+                <span class="text-slate-700 pt-1">{q}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-10 pt-8 border-t border-slate-100 text-center">
+            <p class="text-slate-600 mb-6">
+              If you answered yes to even one question, your home could benefit from professional duct cleaning.
+            </p>
+            <a 
+              href="/contact" 
+              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition-all"
+            >
+              Schedule Free Inspection
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-slate-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to breathe easier?</h2>
+        <p class="text-xl text-slate-300 mb-10">
+          Get a free inspection and quote from Eastern NC's most trusted duct cleaning experts.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="/contact" 
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition-all"
+          >
+            Get Free Quote
+          </a>
+          <a 
+            href="tel:+12523217447"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 transition-all"
+          >
+            Call 252-321-7447
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
