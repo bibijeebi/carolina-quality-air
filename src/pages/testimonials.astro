@@ -47,7 +47,7 @@ import Footer from '../components/Footer.astro';
         <script>
           async function loadTestimonials() {
             try {
-              const res = await fetch('https://cqa-admin.bennyforeman1.workers.dev/api/public/testimonials');
+              const res = await fetch('https://cqa-public-api.bennyforeman1.workers.dev/testimonials');
               const data = await res.json();
               const grid = document.getElementById('testimonials-grid');
               if (!data.length) { grid.innerHTML = '<p class="text-slate-500 text-center col-span-3">No testimonials yet.</p>'; return; }
