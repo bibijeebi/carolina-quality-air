@@ -1,7 +1,21 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
-.astro/
-.DS_Store
-*.log
+
+# Environment
 .env
 .env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Astro
+.astro/
