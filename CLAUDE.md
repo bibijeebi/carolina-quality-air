@@ -15,7 +15,15 @@ Marketing website for Carolina Quality Air, a family-owned NADCA-certified air d
 |-----------------|---------------------------------------------------------------------|
 | Production      | https://carolina-quality-air.pages.dev                              |
 | Admin Panel     | https://cqa-admin.bennyforeman1.workers.dev                         |
-| Testimonials API| https://cqa-admin.bennyforeman1.workers.dev/api/public/testimonials |
+| Testimonials API| https://cqa-public-api.bennyforeman1.workers.dev/testimonials |
+
+## Cal.com Booking Links
+
+| Event | URL |
+|-------|-----|
+| Free Inspection | https://cal.com/benjamin-foreman-nmetle/free-inspection |
+| Dryer Vent Cleaning | https://cal.com/benjamin-foreman-nmetle/dryer-vent |
+| Commercial Consultation | https://cal.com/benjamin-foreman-nmetle/commercial-consultation |
 
 ## Development
 
