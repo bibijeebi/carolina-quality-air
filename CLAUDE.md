@@ -1,83 +1,64 @@
 # Carolina Quality Air Website
 
-## Project Overview
-Marketing website for Carolina Quality Air, a family-owned NADCA-certified air duct cleaning company in Eastern North Carolina. Site built with Astro, hosted on Cloudflare Pages.
+Marketing website for Carolina Quality Air, a family-owned NADCA-certified air duct cleaning company in Eastern North Carolina.
 
 ## Tech Stack
+
 - **Framework**: Astro 5.x (static site generation)
 - **Styling**: Tailwind CSS (via CDN in layout)
-- **Hosting**: Cloudflare Pages (auto-deploy from main branch)
-- **Backend**: Cloudflare Workers + D1 (separate repo/deployment)
+- **Hosting**: Cloudflare Pages (auto-deploy from `main` branch)
+- **Backend**: Cloudflare Workers + D1 (separate `cqa-admin` Worker)
 
 ## URLs
-| Environment | URL |
-|-------------|-----|
-| Production | https://carolina-quality-air.pages.dev |
-| Admin Panel | https://cqa-admin.bennyforeman1.workers.dev |
-| Testimonials API | https://cqa-admin.bennyforeman1.workers.dev/api/public/testimonials |
 
-## Project Structure
-```
-src/
-├── components/
-│   ├── Header.astro    # Nav with mobile menu
-│   └── Footer.astro    # Footer with contact info
-├── layouts/
-│   └── Layout.astro    # Base HTML layout, meta tags, Tailwind
-├── pages/
-│   ├── index.astro     # Homepage (dynamic testimonials)
-│   ├── about.astro     # Company history, team
-│   ├── services.astro  # Service offerings
-│   ├── benefits.astro  # Why clean ducts
-│   ├── contact.astro   # Contact form
-│   ├── testimonials.astro  # Full testimonials page
-│   └── nadca.astro     # NADCA certification info
-└── styles/
-    └── global.css      # Custom styles, animations
-public/
-└── images/             # Static images (before/after, logos, etc.)
-```
-
-## Key Integrations
-
-### Dynamic Testimonials
-Homepage fetches testimonials from the admin API at build time isn't needed - it's client-side JS:
-```javascript
-fetch('https://cqa-admin.bennyforeman1.workers.dev/api/public/testimonials')
-```
-API returns JSON array with `name`, `location_type`, `rating`, `text` fields. 5-minute cache.
-
-### Contact Form
-Submits to `https://cqa-admin.bennyforeman1.workers.dev/api/submissions` (not yet wired up in this codebase - form currently just has mailto fallback).
+| Environment     | URL                                                                 |
+|-----------------|---------------------------------------------------------------------|
+| Production      | https://carolina-quality-air.pages.dev                              |
+| Admin Panel     | https://cqa-admin.bennyforeman1.workers.dev                         |
+| Testimonials API| https://cqa-admin.bennyforeman1.workers.dev/api/public/testimonials |
 
 ## Development
+
 ```bash
 npm install
 npm run dev      # Local dev server at localhost:4321
 npm run build    # Build to dist/
+npm run preview  # Preview build locally
 ```
+
+## Architecture
+
+### Frontend (this repo)
+- Static Astro site
+- Testimonials fetched client-side from Workers API
+- Contact form submits to `cqa-form-handler` Worker
+
+### Backend (separate)
+- `cqa-admin` Worker: Admin panel with Cloudflare Access (Google OAuth)
+- `cqa-form-handler` Worker: Handles contact form submissions
+- D1 database `cqa-contacts`: submissions, testimonials, settings tables
+
+## Pages
+
+- `/` - Homepage with hero, services, benefits, testimonials preview
+- `/about` - About the company, team, certifications
+- `/services` - Service offerings (residential, commercial, industrial, medical)
+- `/benefits` - Why clean ducts matters
+- `/testimonials` - Full testimonials page (fetches from API)
+- `/contact` - Contact form (submits to Workers backend)
+- `/nadca` - NADCA certification info
+
+## Key Files
+
+- `src/pages/*.astro` - Page components
+- `src/components/*.astro` - Shared components (Header, Footer)
+- `src/layouts/Layout.astro` - Base layout with Tailwind CDN
+- `public/images/` - Static images (logos, before-after, general)
 
 ## Deployment
-Automatic on push to `main` branch via Cloudflare Pages GitHub integration.
 
-Manual deploy (if needed):
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name=carolina-quality-air
-```
+Pushes to `main` trigger automatic deployment via Cloudflare Pages GitHub integration.
 
-## Brand Colors
-- Primary blue: `brand-600` (#2563eb equivalent, defined in Tailwind config)
-- Backgrounds: slate-50, slate-900
-- Accents: emerald for badges, amber for stars
+## Related Repos
 
-## TODO
-- [ ] Wire contact form to Workers API instead of mailto
-- [ ] Make /testimonials page fetch dynamically (currently hardcoded)
-- [ ] Add Cal.com booking embed for free inspections
-- [ ] Service area map
-- [ ] Blog/content section
-
-## Related Repos/Resources
-- Admin panel Worker: deployed separately via wrangler (cqa-admin)
-- D1 Database: `cqa-contacts` (73a15800-6f3a-4dca-9dca-8083389f7ecc)
+- Admin Worker code: Deployed directly via Wrangler (not in Git yet)
