@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const stats = [
+  { value: "1999", label: "Founded" },
+  { value: "2000", label: "NADCA Certified" },
+  { value: "20,000+", label: "Systems Cleaned" },
+  { value: "37", label: "Team Members" },
+];
+
+const certifications = [
+  "ASCS (Air Systems Cleaning Specialist)",
+  "VSMR (Ventilation System Mold Remediator)",
+  "NADCA Regional Coordinator - Southern US",
+  "NADCA Mentor - Training new specialists nationwide",
+  "Education and Safety Committee Member"
+];
+---
+
+<Layout title="About Us" description="Family owned since 1999. Meet the NADCA-certified experts behind Carolina Quality Air.">
+  <Header />
+  
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      <div class="absolute inset-0 opacity-20">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(26,117,232,0.3),transparent_50%)]"></div>
+      </div>
+      
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <span class="text-brand-400 font-semibold text-sm uppercase tracking-wider">About Us</span>
+          <h1 class="text-5xl sm:text-6xl font-bold mt-3 mb-6">
+            Family owned. <br />Industry leaders.
+          </h1>
+          <p class="text-xl text-slate-300 leading-relaxed">
+            When you hire Carolina Quality Air, you're not getting a franchise or a call center. 
+            You're getting a family business that literally helps write the industry standards.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats bar -->
+    <section class="bg-brand-600 py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map(stat => (
+            <div class="text-center">
+              <div class="text-3xl font-bold text-white">{stat.value}</div>
+              <div class="text-sm text-brand-200">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Story section -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Our Story</span>
+            <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-6">
+              From local business to national trainers
+            </h2>
+            <div class="prose prose-lg text-slate-600">
+              <p>
+                We started cleaning air ducts in 1999 as a small family operation. Within a year, 
+                we became one of the first companies in Eastern North Carolina to earn NADCA certification.
+              </p>
+              <p>
+                Today, Perry Bagley serves as a Regional Coordinator for NADCA's Southern US region 
+                and helps train duct cleaners across the country. His son Jeff serves on NADCA's 
+                Education and Safety Committee.
+              </p>
+              <p>
+                <strong>What does this mean for you?</strong> When you hire us, you're getting 
+                the same people who train other companies how to do this job right. A NADCA Certified 
+                Specialist will be on-site for every single job.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <!-- Van/Team photos -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="rounded-2xl overflow-hidden shadow-lg">
+                <img src="/images/general/van-house.jpg" alt="Carolina Quality Air at work" class="w-full h-48 object-cover" />
+              </div>
+              <div class="rounded-2xl overflow-hidden shadow-lg">
+                <img src="/images/general/van-front.jpg" alt="Our equipment truck" class="w-full h-48 object-cover" />
+              </div>
+            </div>
+            
+            <div class="bg-slate-100 rounded-3xl p-8">
+              <h3 class="text-xl font-bold text-slate-900 mb-6">Our Certifications</h3>
+              <ul class="space-y-4">
+                {certifications.map(cert => (
+                  <li class="flex items-start gap-3">
+                    <div class="flex-shrink-0 w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mt-0.5">
+                      <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span class="text-slate-700">{cert}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Floating badge -->
+            <div class="absolute -bottom-6 -right-6 bg-brand-600 text-white rounded-2xl p-6 shadow-xl">
+              <div class="text-3xl font-bold">25+</div>
+              <div class="text-sm text-brand-200">Years of Excellence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What sets us apart -->
+    <section class="py-24 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Our Difference</span>
+          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
+            Why choose Carolina Quality Air?
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-2xl p-8 shadow-sm">
+            <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">NADCA Certificate</h3>
+            <p class="text-slate-600">
+              We're the ONLY company in the area that provides a NADCA certificate proving your 
+              ductwork was cleaned by a certified specialist. Keep it for your records.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 shadow-sm">
+            <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Expert On Every Job</h3>
+            <p class="text-slate-600">
+              A NADCA Certified Air System Cleaning Specialist is personally on-site for 
+              every job we do. Not trainees. Not subcontractors. Certified specialists.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 shadow-sm">
+            <div class="w-14 h-14 bg-brand-100 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">All Property Types</h3>
+            <p class="text-slate-600">
+              Hospitals. Universities. Industrial plants. And yes, your neighbor's house. 
+              We have the equipment and expertise for any scale.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-slate-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to work with the best?</h2>
+        <p class="text-xl text-slate-300 mb-10">
+          Schedule a free inspection with Eastern NC's most experienced duct cleaning team.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="/contact" 
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition-all"
+          >
+            Schedule Inspection
+          </a>
+          <a 
+            href="tel:+12523217447"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 transition-all"
+          >
+            Call 252-321-7447
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
