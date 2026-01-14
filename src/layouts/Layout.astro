@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Eastern North Carolina's premier NADCA-certified air duct cleaning experts. Family owned since 1999." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | Carolina Quality Air</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | Carolina Quality Air`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://carolina-quality-air.pages.dev/images/og-image.jpg" />
+    <meta property="og:url" content="https://carolina-quality-air.pages.dev" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | Carolina Quality Air`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://carolina-quality-air.pages.dev/images/og-image.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-white text-slate-900">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>
