@@ -57,7 +57,11 @@ npm run preview  # Preview build locally
 
 ## Deployment
 
-Pushes to `main` trigger automatic deployment via Cloudflare Pages GitHub integration.
+Pushes to `main` trigger automatic deployment via GitHub Actions → Cloudflare Pages.
+
+**Required GitHub Secrets** (Settings → Secrets → Actions):
+- `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token with Pages edit permissions
+- `CLOUDFLARE_ACCOUNT_ID`: `561fd0701605e15d264ed1ca0e27752a`
 
 ## Related Repos
 
