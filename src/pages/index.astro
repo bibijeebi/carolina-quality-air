@@ -3,12 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-const stats = [
-  { value: "20,000+", label: "Systems Cleaned" },
-  { value: "25+", label: "Years Experience" },
-  { value: "37", label: "Team Members" },
-];
-
 const services = [
   {
     title: "Residential",
@@ -59,16 +53,16 @@ const benefits = [
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              NADCA Certified Since 2000
+              <span data-content="hero_badge">NADCA Certified Since 2000</span>
             </div>
             
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.1] mb-6">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.1] mb-6" data-content="hero_headline">
               Breathe 
               <span class="text-brand-600">cleaner</span>
               <br />air at home.
             </h1>
             
-            <p class="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
+            <p class="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed" data-content="hero_subheadline">
               Eastern North Carolina's first NADCA-certified air duct cleaning experts. 
               Family owned since 1999, trusted by hospitals, universities, and 20,000+ homes.
             </p>
@@ -106,12 +100,18 @@ const benefits = [
 
             <!-- Stats -->
             <div class="flex flex-wrap gap-8">
-              {stats.map(stat => (
-                <div>
-                  <div class="text-3xl font-bold text-slate-900">{stat.value}</div>
-                  <div class="text-sm text-slate-500">{stat.label}</div>
-                </div>
-              ))}
+              <div>
+                <div class="text-3xl font-bold text-slate-900" data-content="stat_systems">20,000+</div>
+                <div class="text-sm text-slate-500">Systems Cleaned</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-slate-900" data-content="stat_years">25+</div>
+                <div class="text-sm text-slate-500">Years Experience</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-slate-900" data-content="stat_team">37</div>
+                <div class="text-sm text-slate-500">Team Members</div>
+              </div>
             </div>
           </div>
 
@@ -308,10 +308,10 @@ const benefits = [
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-16">
           <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Testimonials</span>
-          <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mt-3 mb-4">
+          <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mt-3 mb-4" data-content="testimonials_title">
             Trusted by thousands
           </h2>
-          <p class="text-lg text-slate-600">
+          <p class="text-lg text-slate-600" data-content="testimonials_subtitle">
             See what our customers say about working with Carolina Quality Air.
           </p>
         </div>
@@ -354,6 +354,21 @@ const benefits = [
           document.addEventListener('DOMContentLoaded', loadTestimonials);
         </script>
 
+        <script>
+          // Load dynamic content from CMS
+          async function loadContent() {
+            try {
+              const res = await fetch('https://cqa-public-api.bennyforeman1.workers.dev/content');
+              const content = await res.json();
+              document.querySelectorAll('[data-content]').forEach(el => {
+                const key = el.getAttribute('data-content');
+                if (content[key]) el.textContent = content[key];
+              });
+            } catch (e) { console.error('Failed to load content:', e); }
+          }
+          document.addEventListener('DOMContentLoaded', loadContent);
+        </script>
+
         <div class="text-center mt-12">
           <a 
             href="/testimonials" 
@@ -375,10 +390,10 @@ const benefits = [
       </div>
       
       <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6">
+        <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6" data-content="cta_headline">
           Ready to breathe easier?
         </h2>
-        <p class="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+        <p class="text-xl text-white/80 mb-10 max-w-2xl mx-auto" data-content="cta_subheadline">
           Get a free quote from Eastern NC's most trusted NADCA-certified duct cleaning experts. 
           We serve Raleigh, Cary, Greenville, Wilmington, and surrounding areas.
         </p>
