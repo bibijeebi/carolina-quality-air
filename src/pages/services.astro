@@ -145,124 +145,152 @@ const beforeAfterPairs = [
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-slate-50 rounded-2xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">Air Duct Cleaning</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Complete supply and return duct cleaning
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Register and grille cleaning
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Air handler/furnace cleaning
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                EPA-approved sanitization
-              </li>
-            </ul>
+          <!-- Air Duct Cleaning -->
+          <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+            <div class="relative h-48 overflow-hidden">
+              <img src="/images/general/residential.jpg" alt="Residential air duct cleaning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-6 text-2xl font-bold text-white">Air Duct Cleaning</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-slate-600">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Complete supply and return duct cleaning
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Register and grille cleaning
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Air handler/furnace cleaning
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  EPA-approved sanitization
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">Dryer Vent Cleaning</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Complete lint removal
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Fire hazard prevention
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Improved dryer efficiency
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Extended appliance lifespan
-              </li>
-            </ul>
+          <!-- Dryer Vent Cleaning -->
+          <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+            <div class="relative h-48 overflow-hidden">
+              <img src="/images/general/brush-cleaning.jpg" alt="Dryer vent cleaning equipment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-6 text-2xl font-bold text-white">Dryer Vent Cleaning</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-slate-600">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Complete lint removal
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Fire hazard prevention
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Improved dryer efficiency
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Extended appliance lifespan
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">Video Inspection</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Digital camera inspection
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Before/after documentation
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Problem area identification
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Video recording available
-              </li>
-            </ul>
+          <!-- Video Inspection -->
+          <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+            <div class="relative h-48 overflow-hidden">
+              <img src="/images/before-after/2-before.jpg" alt="Video inspection of ductwork" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-6 text-2xl font-bold text-white">Video Inspection</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-slate-600">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Digital camera inspection
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Before/after documentation
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Problem area identification
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Video recording available
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">Commercial & Industrial</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Large-scale HVAC systems
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Hospital/healthcare standards
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Minimal disruption scheduling
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                NADCA certification documentation
-              </li>
-            </ul>
+          <!-- Commercial & Industrial -->
+          <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+            <div class="relative h-48 overflow-hidden">
+              <img src="/images/general/commercial.jpg" alt="Commercial HVAC systems" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-6 text-2xl font-bold text-white">Commercial & Industrial</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-slate-600">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Large-scale HVAC systems
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Hospital/healthcare standards
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Minimal disruption scheduling
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  NADCA certification documentation
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
