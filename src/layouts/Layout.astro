@@ -1,42 +1,89 @@
 ---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import MobileCallBar from "../components/MobileCallBar.astro";
+import { site } from "../data/site";
+
 interface Props {
   title: string;
   description?: string;
+  /** Set false on the homepage, where the title stands alone. */
+  suffixTitle?: boolean;
 }
 
-const { title, description = "Eastern North Carolina's premier NADCA-certified air duct cleaning experts. Family owned since 1999." } = Astro.props;
+const {
+  title,
+  description = "NADCA-certified air duct cleaning across Eastern North Carolina. Family owned since 1999, serving Greenville, the Triangle and Wilmington.",
+  suffixTitle = true,
+} = Astro.props;
+
+const fullTitle = suffixTitle ? `${title} | ${site.name}` : title;
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://carolina-quality-air.pages.dev",
+);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <title>{title} | Carolina Quality Air</title>
+    <link rel="canonical" href={canonical.href} />
+
+    {
+      /*
+      The site stays out of search until Carolina Quality Air takes it over.
+      A polished clone competing with their real .com would split their local
+      SEO and help nobody. Remove this block (and public/robots.txt) at handoff.
+    */
+    }
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Open Graph / Social -->
+    <meta name="theme-color" content="#0a6a96" />
+
+    {/* Self-hosted variable fonts: no third-party connection, no FOIT. */}
+    <link
+      rel="preload"
+      href="/fonts/fraunces-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/publicsans-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${title} | Carolina Quality Air`} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://carolina-quality-air.pages.dev/images/og-image.jpg" />
-    <meta property="og:url" content="https://carolina-quality-air.pages.dev" />
-    
-    <!-- Twitter -->
+    <meta property="og:url" content={canonical.href} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} | Carolina Quality Air`} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://carolina-quality-air.pages.dev/images/og-image.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   </head>
-  <body class="bg-white text-slate-900">
-    <slot />
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <MobileCallBar />
   </body>
 </html>
-
-<style is:global>
-  @import "../styles/global.css";
-</style>

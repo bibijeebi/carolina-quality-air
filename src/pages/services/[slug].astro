@@ -1,0 +1,136 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import CallToAction from "../../components/CallToAction.astro";
+import ServiceIcon from "../../components/ServiceIcon.astro";
+import { site } from "../../data/site";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"services">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const others = (await getCollection("services"))
+  .filter((s) => s.id !== entry.id)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const bookingUrl = d.bookingUrl ?? site.booking.freeInspection;
+---
+
+<Layout title={d.title} description={d.summary}>
+  <section class="border-b border-hairline bg-paper-2">
+    <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+      <a
+        href="/services"
+        class="link-slide text-[0.85rem] font-semibold text-ink-3">&larr; All services</a
+      >
+      <div class="mt-8 flex items-start gap-5">
+        <ServiceIcon
+          name={d.icon}
+          class="mt-1 size-10 shrink-0 text-brand-600"
+        />
+        <div>
+          <h1 class="max-w-[18ch] font-display text-display optical-lg text-ink">
+            {d.title}
+          </h1>
+          <p class="mt-6 max-w-2xl text-lede text-ink-2">{d.lede}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div
+    class="mx-auto grid max-w-[80rem] gap-14 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1fr_20rem] lg:gap-20"
+  >
+    <article class="prose max-w-2xl">
+      <Content />
+    </article>
+
+    <aside class="lg:sticky lg:top-28 lg:self-start">
+      <div class="border border-hairline bg-paper-2 p-7">
+        <h2 class="eyebrow eyebrow-plain">What is included</h2>
+        <ul class="mt-5 space-y-3">
+          {
+            d.includes.map((item) => (
+              <li class="flex gap-3 text-[0.9rem] leading-snug text-ink-2">
+                <svg
+                  class="mt-0.5 size-4 shrink-0 text-brand-600"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 12.5 9.5 18 20 7"
+                  />
+                </svg>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="mt-6 border border-hairline p-7">
+        <h2 class="eyebrow eyebrow-plain">Usually the right call for</h2>
+        <ul class="mt-5 space-y-3">
+          {
+            d.bestFor.map((item) => (
+              <li class="flex gap-3 text-[0.9rem] leading-snug text-ink-2">
+                <span class="mt-2.5 h-px w-3 shrink-0 bg-brand-400" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <a
+        href={bookingUrl}
+        class="mt-6 block rounded-xs bg-clay-600 px-6 py-4 text-center font-semibold text-white transition-colors hover:bg-clay-700"
+      >
+        Book a free inspection
+      </a>
+      <a
+        href={site.phone.href}
+        class="tnum mt-3 block rounded-xs border border-ink/20 px-6 py-4 text-center font-semibold text-ink transition-colors hover:border-ink/50"
+      >
+        {site.phone.display}
+      </a>
+    </aside>
+  </div>
+
+  <section class="border-t border-hairline bg-paper-2">
+    <div class="mx-auto max-w-[80rem] px-5 py-14 sm:px-8">
+      <h2 class="eyebrow eyebrow-plain">Other services</h2>
+      <div class="mt-7 flex flex-wrap gap-x-8 gap-y-4">
+        {
+          others.map((s) => (
+            <a
+              href={`/services/${s.id}`}
+              class="link-slide font-display text-xl text-ink hover:text-brand-700"
+            >
+              {s.data.navLabel}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</Layout>

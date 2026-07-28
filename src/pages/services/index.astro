@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import CallToAction from "../../components/CallToAction.astro";
+import ServiceIcon from "../../components/ServiceIcon.astro";
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout
+  title="Services"
+  description="Residential, commercial, industrial and medical duct cleaning, plus dryer vent cleaning, across Eastern North Carolina."
+>
+  <PageHero
+    eyebrow="What we do"
+    title="Five services. One method."
+    lede="Every job runs the same way regardless of size — inspect, contain, agitate, extract, document. What changes is the equipment and the scheduling."
+  />
+
+  <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-24">
+    <div class="grid gap-px border border-hairline bg-hairline md:grid-cols-2">
+      {
+        services.map((s) => (
+          <a
+            href={`/services/${s.id}`}
+            class="group flex flex-col bg-paper p-8 transition-colors hover:bg-paper-2 sm:p-10"
+          >
+            <ServiceIcon name={s.data.icon} class="size-8 text-brand-600" />
+            <h2 class="mt-6 font-display text-title text-ink">
+              {s.data.title}
+            </h2>
+            <p class="mt-4 text-[0.98rem] leading-relaxed text-ink-2">
+              {s.data.summary}
+            </p>
+
+            <ul class="mt-6 space-y-2">
+              {s.data.bestFor.slice(0, 3).map((b) => (
+                <li class="flex gap-2.5 text-[0.88rem] leading-snug text-ink-3">
+                  <span class="mt-2 h-px w-3 shrink-0 bg-brand-400" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <span class="link-slide mt-auto pt-8 font-semibold text-brand-700">
+              Read about {s.data.navLabel.toLowerCase()}
+            </span>
+          </a>
+        ))
+      }
+
+      <div class="bg-paper-3/60 p-8 sm:p-10">
+        <h2 class="font-display text-title text-ink">Not sure which?</h2>
+        <p class="mt-4 text-[0.98rem] leading-relaxed text-ink-2">
+          Describe the building and what you are noticing. We will tell you
+          which of these it is, or tell you that it is not a duct problem at
+          all.
+        </p>
+        <a
+          href="/contact"
+          class="link-slide mt-6 inline-block font-semibold text-brand-700"
+        >
+          Ask us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</Layout>

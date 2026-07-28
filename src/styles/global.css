@@ -1,68 +1,361 @@
 @import "tailwindcss";
 
-/* Custom theme variables */
-@theme {
-  --font-display: "DM Serif Display", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
-  
-  --color-brand-50: #eff8ff;
-  --color-brand-100: #dbeffe;
-  --color-brand-200: #bfe3fe;
-  --color-brand-300: #93d2fc;
-  --color-brand-400: #5fb8f9;
-  --color-brand-500: #3a9af4;
-  --color-brand-600: #1a75e8;  /* Primary */
-  --color-brand-700: #1a62d6;
-  --color-brand-800: #1b50ad;
-  --color-brand-900: #1c4589;
-  --color-brand-950: #162b53;
-  
-  --color-accent: #10b981;
-  --color-surface: #f8fafc;
-  --color-surface-dark: #0f172a;
+/* ============================================================
+   CAROLINA QUALITY AIR — DESIGN TOKENS
+   ------------------------------------------------------------
+   Direction: editorial-industrial. Warm paper ground, deep
+   cyan-blue drawn from the company's own logo mark, clay accent
+   pulled from the "dirty duct" side of the before/after photos.
+   Deliberately not default-Tailwind: no blue-600, no pure white,
+   no pill-shaped everything, hairline rules instead of card
+   shadows.
+   ============================================================ */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin-var.woff2") format("woff2-variations");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Base styles */
+@font-face {
+  font-family: "Public Sans";
+  src: url("/fonts/publicsans-latin-var.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  /* -- Type families -------------------------------------- */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* -- Ink & paper ----------------------------------------
+     A warm off-white ground is the single biggest tell that a
+     human picked the colors. Pure white + slate-50 reads AI. */
+  --color-paper: #f7f4ef;
+  --color-paper-2: #efeae1;
+  --color-paper-3: #e4ddd1;
+  --color-ink: #10191f;
+  --color-ink-2: #26333d;
+  /* ink-3 and ink-4 are both verified ≥4.5:1 on --color-paper, so muted
+     text still passes AA. Use --color-mist for muted text on dark grounds,
+     where the ink tones would fail. */
+  --color-ink-3: #4a5a66;
+  --color-ink-4: #5b6a75;
+  --color-mist: #9aa8b2;
+  --color-hairline: #d8d0c4;
+  --color-hairline-dark: #2c3a45;
+
+  /* -- Brand: deep cyan-blue, sampled from the CQA swirl ---
+     Distinct from Tailwind blue-600 (#2563eb): more cyan,
+     lower lightness, reads "water/air" not "SaaS button". */
+  --color-brand-50: #eef7fb;
+  --color-brand-100: #d6ecf5;
+  --color-brand-200: #a9d8ea;
+  --color-brand-300: #6fbcd9;
+  --color-brand-400: #329ec5;
+  --color-brand-500: #1281b0;
+  --color-brand-600: #0a6a96;
+  --color-brand-700: #08557a;
+  --color-brand-800: #0a4462;
+  --color-brand-900: #0b3950;
+  --color-brand-950: #072434;
+
+  /* -- Clay: warm counterpoint, from duct-dust brown -------
+     Used for emphasis and the primary CTA. The warm/cool
+     tension is what makes the palette look art-directed. */
+  --color-clay-100: #f6e7dd;
+  --color-clay-300: #e0a781;
+  --color-clay-500: #c26a34;
+  --color-clay-600: #ad5620;
+  --color-clay-700: #8c421a;
+
+  /* -- Verified green, used only for certification proof --- */
+  --color-verify-100: #dcefe3;
+  --color-verify-600: #2f7a4f;
+  --color-verify-700: #235f3d;
+
+  /* -- Fluid type scale ------------------------------------ */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.1;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  --text-hero: clamp(2.75rem, 1.6rem + 5.1vw, 6.5rem);
+  --text-hero--line-height: 0.94;
+  --text-hero--letter-spacing: -0.028em;
+
+  --text-display: clamp(2.1rem, 1.35rem + 3.1vw, 4.25rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.022em;
+
+  --text-title: clamp(1.5rem, 1.15rem + 1.5vw, 2.4rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.015em;
+
+  --text-lede: clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);
+  --text-lede--line-height: 1.55;
+
+  /* -- Radii: near-square. Editorial, not bubbly. ---------- */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* -- Motion --------------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 {
+/* Fraunces carries an optical-size axis. Wiring opsz to the
+   rendered size is the difference between "a serif font" and
+   typography — large sizes get tighter, more dramatic cuts. */
+.font-display,
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
+  font-weight: 600;
 }
 
-/* Animations */
-@keyframes fade-up {
+.optical-sm {
+  font-variation-settings: "opsz" 14, "SOFT" 0, "WONK" 0;
+}
+.optical-md {
+  font-variation-settings: "opsz" 42, "SOFT" 0, "WONK" 0;
+}
+.optical-lg {
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+}
+
+/* Tabular figures for phone numbers, stats, prices. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+::selection {
+  background-color: var(--color-brand-600);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   COMPONENT LANGUAGE
+   ============================================================ */
+
+/* Eyebrow: small-caps label with a leading rule. Used instead
+   of the centered pill-badge cliche. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-ink-3);
+}
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+.eyebrow-plain::before {
+  display: none;
+}
+
+/* Hairline rules carry the layout instead of drop shadows. */
+.rule {
+  border-top: 1px solid var(--color-hairline);
+}
+.rule-dark {
+  border-top: 1px solid var(--color-hairline-dark);
+}
+
+/* Link with an underline that grows from the left on hover. */
+.link-slide {
+  position: relative;
+  display: inline-block;
+}
+.link-slide::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.link-slide:hover::after {
+  transform: scaleX(1);
+}
+
+/* Photographic treatment: a subtle warm grade keeps stock and
+   phone photography feeling like one shoot. */
+.photo-warm {
+  filter: saturate(0.94) contrast(1.04);
+}
+
+/* Grain overlay — breaks up flat color fields so large dark
+   sections don't read as a flat CSS block. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Long-form copy from markdown. Hand-rolled rather than pulling in the
+   typography plugin — it is ~40 lines and keeps the dependency count at
+   three. */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink-2);
+}
+.prose > * + * {
+  margin-top: 1.35em;
+}
+.prose h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 42, "SOFT" 0, "WONK" 0;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  margin-top: 2.6em;
+}
+.prose h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24, "SOFT" 0, "WONK" 0;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--color-ink);
+  margin-top: 2em;
+}
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.75em;
+}
+.prose strong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.prose em {
+  font-style: italic;
+}
+.prose a {
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.15rem;
+}
+.prose li + li {
+  margin-top: 0.5em;
+}
+.prose ul > li {
+  list-style: none;
+  position: relative;
+}
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.15rem;
+  top: 0.7em;
+  width: 0.4rem;
+  height: 1px;
+  background-color: var(--color-brand-500);
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose blockquote {
+  border-left: 2px solid var(--color-brand-400);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: var(--color-ink-3);
+}
+
+/* Entrance animation, opt-in and reduced-motion safe. */
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.rise {
+  animation: rise 0.7s var(--ease-out-expo) both;
 }
-
-.animate-fade-up {
-  animation: fade-up 0.6s ease-out forwards;
+.rise-1 {
+  animation-delay: 0.06s;
 }
-
-.animate-fade-in {
-  animation: fade-in 0.4s ease-out forwards;
+.rise-2 {
+  animation-delay: 0.12s;
 }
-
-/* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
+.rise-3 {
+  animation-delay: 0.18s;
+}
+.rise-4 {
+  animation-delay: 0.24s;
+}

@@ -1,0 +1,144 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  before: ImageMetadata;
+  after: ImageMetadata;
+  alt: string;
+  caption?: string;
+  /** Where the divider sits on load, 0–100. */
+  start?: number;
+  eager?: boolean;
+}
+
+const { before, after, alt, caption, start = 55, eager = false } = Astro.props;
+---
+
+{/*
+  Drag-to-compare, built on a range input so it works with a mouse, a finger,
+  a keyboard and a screen reader. With JavaScript disabled the slider still
+  renders at its starting position, so the comparison is never lost.
+*/}
+<figure class="ba-figure">
+  <div
+    class="ba group relative select-none overflow-hidden rounded-sm bg-ink"
+    style={`--pos:${start}%`}
+  >
+    <Image
+      src={before}
+      alt={`Before — ${alt}`}
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 1024px) 46rem, 92vw"
+      class="photo-warm block w-full"
+      loading={eager ? "eager" : "lazy"}
+      fetchpriority={eager ? "high" : undefined}
+    />
+
+    <div class="ba-clip absolute inset-0">
+      <Image
+        src={after}
+        alt={`After — ${alt}`}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 1024px) 46rem, 92vw"
+        class="photo-warm absolute inset-0 h-full w-full object-cover"
+        loading={eager ? "eager" : "lazy"}
+      />
+    </div>
+
+    <span
+      class="pointer-events-none absolute left-4 top-4 rounded-xs bg-ink/75 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-paper backdrop-blur-sm"
+      >Before</span
+    >
+    <span
+      class="pointer-events-none absolute right-4 top-4 rounded-xs bg-brand-600/90 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-sm"
+      >After</span
+    >
+
+    <div class="ba-divider pointer-events-none absolute inset-y-0">
+      <div class="absolute inset-y-0 -left-px w-0.5 bg-paper/90"></div>
+      <div
+        class="absolute top-1/2 left-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-paper/70 bg-paper text-ink shadow-lg"
+      >
+        <svg
+          class="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 6L4 12l5 6"
+          ></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 6l5 6-5 6"></path>
+        </svg>
+      </div>
+    </div>
+
+    <input
+      class="ba-range absolute inset-0 h-full w-full cursor-ew-resize appearance-none bg-transparent"
+      type="range"
+      min="0"
+      max="100"
+      value={start}
+      step="0.1"
+      aria-label={`Reveal the cleaned duct — ${alt}`}
+    />
+  </div>
+
+  {
+    caption && (
+      <figcaption class="mt-3 text-[0.85rem] leading-relaxed text-ink-3">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .ba-clip {
+    clip-path: inset(0 0 0 var(--pos));
+  }
+  .ba-divider {
+    left: var(--pos);
+  }
+
+  /* The range input is the whole surface: invisible, but it owns the
+     pointer and keyboard interaction so we never hand-roll drag logic. */
+  .ba-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 3rem;
+    height: 3rem;
+    cursor: ew-resize;
+  }
+  .ba-range::-moz-range-thumb {
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    background: transparent;
+    cursor: ew-resize;
+  }
+  .ba-range:focus-visible {
+    outline: none;
+  }
+  .ba-range:focus-visible ~ .ba-divider > div:last-child {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  // One listener per comparison. No framework, no hydration — this is the
+  // only interactive element on the site.
+  for (const root of document.querySelectorAll<HTMLElement>(".ba")) {
+    const range = root.querySelector<HTMLInputElement>(".ba-range");
+    if (!range) continue;
+
+    const apply = () => root.style.setProperty("--pos", `${range.value}%`);
+    range.addEventListener("input", apply);
+    apply();
+  }
+</script>

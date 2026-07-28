@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import CallToAction from "../../components/CallToAction.astro";
+import { site } from "../../data/site";
+
+const areas = (await getCollection("areas")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout
+  title="Service areas"
+  description="Carolina Quality Air serves Greenville and Pitt County, Raleigh and the Triangle, and Wilmington and the Cape Fear coast."
+>
+  <PageHero
+    eyebrow="Where we work"
+    title="Two offices, most of eastern North Carolina."
+    lede="Our shop is in Winterville and we keep a second office in Cary. Between them we cover the coastal plain, the Triangle and the Cape Fear."
+  />
+
+  <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-24">
+    <div class="space-y-px">
+      {
+        areas.map((a, i) => {
+          const office = site.offices.find((o) => o.slug === a.data.officeSlug);
+          return (
+            <a
+              href={`/service-areas/${a.id}`}
+              class="group grid gap-6 border-t border-hairline py-10 transition-colors hover:bg-paper-2 lg:grid-cols-[auto_1fr_18rem] lg:gap-10"
+            >
+              <span class="tnum font-display text-lg text-ink-4">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              <div>
+                <h2 class="font-display text-title text-ink">{a.data.city}</h2>
+                <p class="mt-3 max-w-xl text-[0.98rem] leading-relaxed text-ink-2">
+                  {a.data.summary}
+                </p>
+                <p class="mt-4 max-w-2xl text-[0.88rem] leading-relaxed text-ink-3">
+                  {a.data.localAngle}
+                </p>
+                <p class="mt-5 max-w-2xl text-[0.82rem] leading-relaxed text-ink-4">
+                  {a.data.towns.join(" · ")}
+                </p>
+              </div>
+
+              {office && (
+                <div class="lg:text-right">
+                  <p class="text-[0.8rem] uppercase tracking-[0.12em] text-ink-4">
+                    {office.role}
+                  </p>
+                  <p class="tnum mt-2 font-display text-2xl text-brand-700">
+                    {office.phone}
+                  </p>
+                  {office.mapUrl && (
+                    <p class="mt-2 text-[0.85rem] leading-snug text-ink-3">
+                      {office.street}
+                      <br />
+                      {office.city}
+                    </p>
+                  )}
+                </div>
+              )}
+            </a>
+          );
+        })
+      }
+      <div class="border-t border-hairline"></div>
+    </div>
+
+    <p class="mt-10 max-w-2xl text-[0.9rem] leading-relaxed text-ink-3">
+      Not on the list? We travel further than this for larger commercial and
+      industrial work. Call the Winterville shop and describe the job — if it
+      is not something we should take on, we will say so.
+    </p>
+  </section>
+
+  <CallToAction />
+</Layout>
