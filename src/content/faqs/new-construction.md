@@ -1,6 +1,6 @@
 ---
 question: "My house is brand new. Do the ducts need cleaning?"
-order: 11
+order: 12
 category: "Getting started"
 ---
 

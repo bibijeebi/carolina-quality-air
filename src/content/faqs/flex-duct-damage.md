@@ -1,6 +1,6 @@
 ---
 question: "Will you damage my ductwork? We have flex duct in the crawlspace."
-order: 16
+order: 17
 category: "The cleaning itself"
 ---
 

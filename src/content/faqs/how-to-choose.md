@@ -1,6 +1,6 @@
 ---
 question: "What should I look for when hiring a duct cleaning contractor?"
-order: 14
+order: 15
 category: "Choosing a company"
 ---
 

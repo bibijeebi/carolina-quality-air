@@ -62,6 +62,55 @@ const canonical = new URL(
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
     <meta name="twitter:card" content="summary_large_image" />
+
+    {/* Structured data: one HVACBusiness entity, HQ address, all offices
+        as contact points. Facts limited to what the company publishes. */}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "HVACBusiness",
+        "@id": "https://carolinaqualityair.xyz/#business",
+        name: site.name,
+        url: "https://carolinaqualityair.xyz/",
+        email: site.email,
+        telephone: "+1-252-321-7447",
+        foundingDate: "1999",
+        description:
+          "Family-owned, NADCA-certified air duct and dryer vent cleaning serving Eastern North Carolina since 1999.",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "111 Essex Dr",
+          addressLocality: "Winterville",
+          addressRegion: "NC",
+          postalCode: "28590",
+          addressCountry: "US",
+        },
+        contactPoint: site.offices.map((o) => ({
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          telephone: "+1-" + o.phone,
+          areaServed: o.name,
+        })),
+        areaServed: [
+          "Greenville NC",
+          "Winterville NC",
+          "Raleigh NC",
+          "Cary NC",
+          "Wilmington NC",
+          "Eastern North Carolina",
+        ],
+        memberOf: {
+          "@type": "Organization",
+          name: "National Air Duct Cleaners Association",
+          url: "https://nadca.com",
+        },
+        sameAs: [
+          "https://www.facebook.com/hvaccleaning/",
+          "https://www.youtube.com/channel/UCytmEca5Hpr3XmVKTHF62Hg",
+        ],
+      })}
+    />
   </head>
 
   <body>

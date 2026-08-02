@@ -1,6 +1,6 @@
 ---
 question: "What is the difference between a certified company and a guy with a shop vac?"
-order: 7
+order: 8
 category: "Choosing a company"
 ---
 

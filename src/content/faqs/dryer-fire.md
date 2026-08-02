@@ -1,6 +1,6 @@
 ---
 question: "How dangerous is a clogged dryer vent, really?"
-order: 9
+order: 10
 category: "Health & air quality"
 ---
 

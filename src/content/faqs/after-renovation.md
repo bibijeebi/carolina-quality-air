@@ -1,6 +1,6 @@
 ---
 question: "We just finished a renovation. Should we clean the ducts?"
-order: 12
+order: 13
 category: "Getting started"
 ---
 

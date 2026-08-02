@@ -1,6 +1,6 @@
 ---
 question: "Is the '$99 whole house special' a scam?"
-order: 6
+order: 7
 category: "Cost"
 ---
 

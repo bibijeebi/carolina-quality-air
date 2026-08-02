@@ -1,6 +1,6 @@
 ---
 question: "We have pets and someone with allergies. Does that change anything?"
-order: 13
+order: 14
 category: "Health & air quality"
 ---
 

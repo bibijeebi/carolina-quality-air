@@ -1,6 +1,6 @@
 ---
 question: "Will cleaning my ducts lower my power bill?"
-order: 8
+order: 9
 category: "Cost"
 ---
 

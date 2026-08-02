@@ -60,7 +60,7 @@ export const site = {
     {
       slug: "raleigh-triangle",
       name: "Raleigh / Cary",
-      shortName: "Raleigh",
+      shortName: "Cary",
       street: "140 Towerview Ct",
       city: "Cary, NC 27513",
       phone: "919-907-9742",
