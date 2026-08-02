@@ -1,0 +1,11 @@
+# Carolina Quality Air — preview build.
+#
+# This site is intentionally hidden from search engines until it is handed
+# over to Carolina Quality Air. Until then it must not compete with
+# carolinaqualityair.com for local results.
+#
+# At handoff: delete this file and remove the noindex block in
+# src/layouts/Layout.astro.
+
+User-agent: *
+Disallow: /

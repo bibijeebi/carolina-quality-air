@@ -1,0 +1,131 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import CallToAction from "../../components/CallToAction.astro";
+import { site } from "../../data/site";
+
+export async function getStaticPaths() {
+  const areas = await getCollection("areas");
+  return areas.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"areas">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const office = site.offices.find((o) => o.slug === d.officeSlug)!;
+const others = (await getCollection("areas"))
+  .filter((a) => a.id !== entry.id)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout title={d.title} description={d.summary}>
+  <section class="border-b border-hairline bg-paper-2">
+    <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+      <a
+        href="/service-areas"
+        class="link-slide text-[0.85rem] font-semibold text-ink-3"
+        >&larr; All service areas</a
+      >
+      <h1 class="mt-8 max-w-[20ch] font-display text-display optical-lg text-ink">
+        {d.title}
+      </h1>
+      <p class="mt-6 max-w-2xl text-lede text-ink-2">{d.summary}</p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
+        <a
+          href={office.phoneHref}
+          class="tnum inline-flex items-center gap-2.5 font-display text-2xl text-brand-700"
+        >
+          {office.phone}
+        </a>
+        <span class="text-[0.85rem] text-ink-3">
+          {office.role}{office.mapUrl && ` · ${office.street}, ${office.city}`}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div
+    class="mx-auto grid max-w-[80rem] gap-14 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1fr_20rem] lg:gap-20"
+  >
+    <article class="prose max-w-2xl">
+      <Content />
+    </article>
+
+    <aside class="lg:sticky lg:top-28 lg:self-start">
+      <div class="border border-hairline bg-paper-2 p-7">
+        <h2 class="eyebrow eyebrow-plain">Towns we cover</h2>
+        <ul class="mt-5 grid grid-cols-2 gap-x-4 gap-y-2">
+          {
+            d.towns.map((t) => (
+              <li class="text-[0.87rem] leading-snug text-ink-2">{t}</li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="mt-6 border border-hairline p-7">
+        <h2 class="eyebrow eyebrow-plain">Services here</h2>
+        <ul class="mt-5 space-y-2.5">
+          {
+            services.map((s) => (
+              <li>
+                <a
+                  href={`/services/${s.id}`}
+                  class="link-slide text-[0.9rem] text-ink-2 hover:text-brand-700"
+                >
+                  {s.data.navLabel}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <a
+        href={site.booking.freeInspection}
+        class="mt-6 block rounded-xs bg-clay-600 px-6 py-4 text-center font-semibold text-white transition-colors hover:bg-clay-700"
+      >
+        Book a free inspection
+      </a>
+      <a
+        href={office.phoneHref}
+        class="tnum mt-3 block rounded-xs border border-ink/20 px-6 py-4 text-center font-semibold text-ink transition-colors hover:border-ink/50"
+      >
+        {office.phone}
+      </a>
+    </aside>
+  </div>
+
+  <section class="border-t border-hairline bg-paper-2">
+    <div class="mx-auto max-w-[80rem] px-5 py-14 sm:px-8">
+      <h2 class="eyebrow eyebrow-plain">Other areas</h2>
+      <div class="mt-7 flex flex-wrap gap-x-8 gap-y-4">
+        {
+          others.map((a) => (
+            <a
+              href={`/service-areas/${a.id}`}
+              class="link-slide font-display text-xl text-ink hover:text-brand-700"
+            >
+              {a.data.city}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</Layout>

@@ -1,0 +1,41 @@
+---
+import { site } from "../data/site";
+---
+
+{/*
+  Persistent thumb-reach actions on phones. Most visitors to a trade site are
+  on a phone and want to either call or book — never make them hunt for it.
+*/}
+<div
+  class="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-hairline-dark bg-ink/95 backdrop-blur-md sm:hidden"
+>
+  <a
+    href={site.phone.href}
+    class="flex items-center justify-center gap-2 py-4 text-[0.95rem] font-semibold text-paper"
+  >
+    <svg
+      class="size-4 text-brand-300"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M3 5a2 2 0 0 1 2-2h3.3a1 1 0 0 1 .95.68l1.5 4.5a1 1 0 0 1-.5 1.2l-2.26 1.13a11 11 0 0 0 5.5 5.5l1.13-2.25a1 1 0 0 1 1.2-.5l4.5 1.5a1 1 0 0 1 .68.94V19a2 2 0 0 1-2 2h-1C9.7 21 3 14.3 3 6Z"
+      ></path>
+    </svg>
+    <span class="tnum">{site.phone.display}</span>
+  </a>
+  <a
+    href={site.booking.freeInspection}
+    class="flex items-center justify-center bg-clay-600 py-4 text-[0.95rem] font-semibold text-white"
+  >
+    Book free inspection
+  </a>
+</div>
+
+{/* Keep the bar from covering the last line of every page. */}
+<div class="h-[3.5rem] sm:hidden" aria-hidden="true"></div>

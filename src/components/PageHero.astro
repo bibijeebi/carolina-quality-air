@@ -1,0 +1,30 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  /** Renders the title tighter, for long service/area titles. */
+  narrow?: boolean;
+}
+
+const { eyebrow, title, lede, narrow = false } = Astro.props;
+---
+
+<section class="border-b border-hairline bg-paper-2">
+  <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1
+      class:list={[
+        "mt-6 font-display optical-lg text-ink",
+        narrow ? "max-w-[20ch] text-display" : "max-w-[16ch] text-hero",
+      ]}
+    >
+      {title}
+    </h1>
+    {
+      lede && (
+        <p class="mt-7 max-w-2xl text-lede text-ink-2">{lede}</p>
+      )
+    }
+  </div>
+</section>

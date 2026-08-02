@@ -1,260 +1,235 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import CallToAction from "../components/CallToAction.astro";
+import { site } from "../data/site";
+import nadcaLogo from "../assets/brand/nadca-logo.png";
+
+const credentials = [
+  {
+    code: "ASCS",
+    name: "Air Systems Cleaning Specialist",
+    body: "The core NADCA credential. Held by an individual, not a company — earned by examination and kept current with continuing education. A NADCA member firm has to have one on staff. Both Perry and Jeff hold it.",
+  },
+  {
+    code: "CVI",
+    name: "Certified Ventilation Inspector",
+    body: "Covers assessing and documenting the condition of a system rather than cleaning it. Jeff holds this one, which is why the inspection you get comes with an actual written assessment.",
+  },
+  {
+    code: "ACR",
+    name: "The NADCA Standard",
+    body: "Not a person's credential but the document member companies agree to work to. It defines the method, the equipment specification and the way the result gets verified. The detail is further down this page.",
+  },
+];
 ---
 
-<Layout title="NADCA Certification" description="Learn about NADCA certification and why it matters. Carolina Quality Air's team includes NADCA Regional Coordinators and national trainers.">
-  <Header />
-  
-  <main class="pt-20">
-    <!-- Hero -->
-    <section class="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-      <div class="absolute inset-0 opacity-20">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(26,117,232,0.3),transparent_50%)]"></div>
-      </div>
-      
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl">
-          <span class="text-brand-400 font-semibold text-sm uppercase tracking-wider">Industry Standards</span>
-          <h1 class="text-5xl sm:text-6xl font-bold mt-3 mb-6">
-            What is NADCA?
-          </h1>
-          <p class="text-xl text-slate-300 leading-relaxed">
-            NADCA is the only association recognized by the EPA for establishing proper air duct cleaning 
-            standards. When you hire a NADCA-certified company, you're hiring the best.
+<Layout
+  title="NADCA certification"
+  description="What NADCA certification actually means, what the ACR Standard requires, and how to verify any contractor's credentials yourself."
+>
+  <PageHero
+    eyebrow="Certification"
+    title="What the letters actually mean."
+    lede="Every duct cleaning company says it is certified. Here is what that word is worth, what ours covers, and how to check it yourself in thirty seconds."
+  />
+
+  {/* ── What NADCA is ───────────────────────────────────── */}
+  <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+    <div class="grid gap-14 lg:grid-cols-[1fr_18rem] lg:gap-20">
+      <div class="max-w-2xl">
+        <h2 class="font-display text-title text-ink">
+          NADCA is a trade association, not a government agency
+        </h2>
+        <div class="prose mt-6">
+          <p>
+            The National Air Duct Cleaners Association was formed in 1989 as a
+            non-profit association of companies that clean HVAC systems. Its
+            founding purpose was to promote source removal as the only
+            acceptable cleaning method and to write standards the trade could be
+            held to. It publishes those standards, runs the certification exams,
+            and maintains a public directory of member companies.
+          </p>
+          <p>
+            It is worth being straight about the limits of that.
+            <strong>
+              NADCA membership is a trade credential, not a licence.
+            </strong> No federal or state agency requires it. What it does mean
+            is that a member firm has agreed to a defined standard, keeps a
+            certified specialist on staff, and carries liability insurance on
+            file with the association.
+          </p>
+          <p>
+            You will also see companies advertise themselves as
+            "EPA-certified." There is no such thing. The EPA's own language is
+            unambiguous: it "neither establishes duct cleaning standards nor
+            certifies, endorses, or approves duct cleaning companies." Anyone
+            claiming otherwise is telling you something useful about
+            themselves.
           </p>
         </div>
       </div>
-    </section>
 
-    <!-- What is NADCA -->
-    <section class="py-24 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <img src="/images/general/nadca-logo.png" alt="NADCA Logo" class="h-20 mb-8" />
-            <h2 class="text-4xl font-bold text-slate-900 mb-6">
-              The National Air Duct Cleaners Association
-            </h2>
-            <div class="prose prose-lg text-slate-600">
-              <p>
-                NADCA (The HVAC Inspection, Maintenance and Restoration Association) was formed in 1989 
-                as a non-profit association of companies engaged in the cleaning of HVAC systems.
-              </p>
-              <p>
-                Their mission: promote <strong>source removal</strong> as the only acceptable method of 
-                cleaning and establish industry standards that protect consumers.
-              </p>
-              <p>
-                Today, NADCA standards and certification are specified regularly by building owners, 
-                facility managers, and healthcare systems to ensure HVAC systems are assessed, 
-                cleaned, and restored safely and effectively.
-              </p>
-            </div>
-          </div>
-
-          <div class="bg-slate-50 rounded-3xl p-8">
-            <h3 class="text-xl font-bold text-slate-900 mb-6">Why NADCA Matters</h3>
-            <ul class="space-y-4">
-              {[
-                "Only association recognized by EPA and FDA for air duct cleaning standards",
-                "Requires ongoing education and certification maintenance",
-                "Establishes strict ethical and professional standards",
-                "Provides consumer protection through accountability",
-                "Members must follow ACR (Assessment, Cleaning & Restoration) standard"
-              ].map(item => (
-                <li class="flex items-start gap-3">
-                  <div class="flex-shrink-0 w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mt-0.5">
-                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span class="text-slate-700">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Our Credentials -->
-    <section class="py-24 bg-slate-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Our Credentials</span>
-          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
-            Not just certified. We train the certifiers.
-          </h2>
-          <p class="text-lg text-slate-600">
-            Carolina Quality Air isn't just NADCA-certified. Our leadership helps write the standards 
-            and trains other duct cleaners across the country.
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <div class="border border-hairline bg-paper-2 p-7 text-center">
+          <Image
+            src={nadcaLogo}
+            alt="NADCA — National Air Duct Cleaners Association"
+            widths={[180, 360]}
+            sizes="120px"
+            class="mx-auto h-24 w-auto"
+          />
+          <p class="mt-5 text-[0.85rem] leading-relaxed text-ink-3">
+            Carolina Quality Air has been a NADCA member company since {
+              site.nadcaMemberSince
+            }, with listings for both the Winterville and Cary locations.
           </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <div class="bg-white rounded-2xl p-8 shadow-sm">
-            <div class="text-brand-600 font-bold text-sm uppercase tracking-wider mb-4">Perry Bagley</div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">President & Founder</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                ASCS/VSMR Certified
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                NADCA Regional Coordinator - Southern US
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                NADCA Mentor - Trains new specialists
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Serves on multiple NADCA committees
-              </li>
-            </ul>
-          </div>
-
-          <div class="bg-white rounded-2xl p-8 shadow-sm">
-            <div class="text-brand-600 font-bold text-sm uppercase tracking-wider mb-4">Jeff Bagley</div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4">Project Manager</h3>
-            <ul class="space-y-3 text-slate-600">
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                ASCS/VSMR Certified
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Education and Safety Committee Member
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Helps develop industry training materials
-              </li>
-              <li class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                On-site specialist for every job
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- NADCA Certificate -->
-    <section class="py-24 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-brand-600 rounded-3xl p-8 md:p-12 text-white text-center">
-          <h2 class="text-3xl font-bold mb-4">You'll receive a NADCA certificate</h2>
-          <p class="text-xl text-brand-100 mb-8 max-w-2xl mx-auto">
-            We're the <strong>only company in the area</strong> that provides you with a NADCA certificate 
-            documenting that your ductwork was cleaned and sanitized by a certified specialist.
-          </p>
-          <p class="text-brand-200">
-            Keep it for your records, share it with your landlord, or provide it to buyers when you sell your home.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Videos Section -->
-    <section class="py-24 bg-slate-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-12">
-          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Learn More</span>
-          <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">
-            NADCA Educational Videos
-          </h2>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-          <a href="https://www.youtube.com/watch?v=LOEssctNLZU" target="_blank" class="group">
-            <div class="bg-slate-900 rounded-2xl aspect-video flex items-center justify-center relative overflow-hidden">
-              <div class="absolute inset-0 bg-brand-600/20 group-hover:bg-brand-600/30 transition-colors"></div>
-              <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6 text-brand-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="mt-4 font-semibold text-slate-900 group-hover:text-brand-600 transition-colors">
-              Indoor Air Quality and Your Home
-            </h3>
-          </a>
-
-          <a href="https://www.youtube.com/watch?v=Rh1JspTY2uU" target="_blank" class="group">
-            <div class="bg-slate-900 rounded-2xl aspect-video flex items-center justify-center relative overflow-hidden">
-              <div class="absolute inset-0 bg-brand-600/20 group-hover:bg-brand-600/30 transition-colors"></div>
-              <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6 text-brand-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="mt-4 font-semibold text-slate-900 group-hover:text-brand-600 transition-colors">
-              How HVAC Systems Get Dirty
-            </h3>
-          </a>
-
-          <a href="https://www.youtube.com/watch?v=o8E0F2aS1ec" target="_blank" class="group">
-            <div class="bg-slate-900 rounded-2xl aspect-video flex items-center justify-center relative overflow-hidden">
-              <div class="absolute inset-0 bg-brand-600/20 group-hover:bg-brand-600/30 transition-colors"></div>
-              <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-6 h-6 text-brand-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="mt-4 font-semibold text-slate-900 group-hover:text-brand-600 transition-colors">
-              Guide to Proper HVAC Cleaning
-            </h3>
+          <a
+            href="https://nadca.com/homeowners/find-a-professional/"
+            rel="noopener"
+            class="link-slide mt-5 inline-block text-[0.88rem] font-semibold text-brand-700"
+          >
+            Verify us in NADCA's directory
           </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CTA -->
-    <section class="py-24 bg-slate-900 text-white">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold mb-6">Work with the best in the business</h2>
-        <p class="text-xl text-slate-300 mb-10">
-          Schedule a free inspection with Eastern NC's only NADCA Regional Coordinator team.
+  {/* ── The credentials ─────────────────────────────────── */}
+  <section class="border-y border-hairline bg-paper-2">
+    <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-24">
+      <p class="eyebrow">What our certification covers</p>
+      <h2 class="mt-6 max-w-[20ch] font-display text-display text-ink">
+        Three sets of letters, and what each one covers.
+      </h2>
+
+      <div class="mt-14 grid gap-px border border-hairline bg-hairline lg:grid-cols-3">
+        {
+          credentials.map((c) => (
+            <div class="bg-paper p-8">
+              <p class="font-display text-4xl text-brand-600">{c.code}</p>
+              <h3 class="mt-3 font-display text-lg leading-snug text-ink">
+                {c.name}
+              </h3>
+              <p class="mt-4 text-[0.92rem] leading-relaxed text-ink-3">
+                {c.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 max-w-2xl">
+        <p class="text-[0.95rem] leading-relaxed text-ink-2">
+          Beyond the individual credentials, Perry Bagley serves as one of
+          NADCA's regional coordinators for the U.S. Southeast and teaches
+          training classes nationally. Jeff sits on a NADCA national committee.
+          Part of what this company does is certify other companies' technicians.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="/contact" 
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-600 text-white font-semibold rounded-full hover:bg-brand-700 transition-all"
+      </div>
+    </div>
+  </section>
+
+  {/* ── The ACR standard ────────────────────────────────── */}
+  <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-24">
+    <div class="max-w-2xl">
+      <p class="eyebrow">The standard itself</p>
+      <h2 class="mt-6 font-display text-display text-ink">
+        What ACR actually requires.
+      </h2>
+      <p class="mt-6 text-lede text-ink-2">
+        ACR — Assessment, Cleaning and Restoration of HVAC Systems — is the
+        document a NADCA member agrees to work to. These are the parts that
+        change what happens in your house.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2">
+      {
+        [
+          {
+            t: "Continuously verified negative pressure",
+            b: "The system stays under suction for the whole job, so debris travels to the collection unit rather than into the room. Not 'we hooked up a vacuum' — verified, continuously.",
+          },
+          {
+            t: "Mechanical agitation with simultaneous collection",
+            b: "Brushing and vacuuming happen together. Agitating without collection is how an amateur makes a house measurably worse than before they arrived.",
+          },
+          {
+            t: "HEPA filtration at 99.97% at 0.3 microns",
+            b: "Required where the vacuum exhausts indoors. This is the specification that separates real equipment from a shop vac with a bag in it.",
+          },
+          {
+            t: "The whole system, not just the runs",
+            b: "Supply and return, registers and grilles, the blower, the evaporator coil, the drain pan. Skipping a component recontaminates the ones you paid for.",
+          },
+          {
+            t: "A 'visibly clean' result you can check",
+            b: "Interior surfaces free of non-adhered debris, verified before the system runs again. You are entitled to a walk-through, and you should take it.",
+          },
+          {
+            t: "Objective tests if there is a dispute",
+            b: "The Surface Comparison Test and the NADCA Vacuum Test, the latter with a pass threshold of 0.75 mg per 100 cm². Arguments about quality have a referee.",
+          },
+        ].map((item) => (
+          <div class="bg-paper p-8">
+            <h3 class="font-display text-lg leading-snug text-ink">{item.t}</h3>
+            <p class="mt-3 text-[0.92rem] leading-relaxed text-ink-3">
+              {item.b}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  {/* ── Verify anyone ───────────────────────────────────── */}
+  <section class="relative overflow-hidden bg-ink text-paper grain">
+    <div class="relative z-10 mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <div>
+          <p class="eyebrow text-brand-300">Check anyone, including us</p>
+          <h2 class="mt-6 max-w-[18ch] font-display text-display optical-lg">
+            Do not take a logo on a flyer for it.
+          </h2>
+        </div>
+        <div class="max-w-xl">
+          <p class="text-lede text-paper/75">
+            NADCA warns that misuse of its logo is a known scam, and that a
+            company in "pending" status is not a member. The directory is public
+            and free.
+          </p>
+          <p class="mt-5 text-[0.95rem] leading-relaxed text-mist">
+            Look up any company you are considering — us included. Confirm the
+            membership is current, confirm there is a certified ASCS on staff,
+            and ask for three written estimates before you commit to anything.
+          </p>
+          <a
+            href="https://nadca.com/homeowners/find-a-professional/"
+            rel="noopener"
+            class="mt-7 inline-flex items-center gap-2.5 rounded-xs border border-brand-300/35 px-6 py-4 font-semibold text-paper transition-colors hover:bg-brand-900"
           >
-            Get Free Quote
-          </a>
-          <a 
-            href="tel:+12523217447"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-full hover:bg-white/20 transition-all"
-          >
-            Call 252-321-7447
+            Open the NADCA directory
+            <svg
+              class="size-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14m-6-6 6 6-6 6"></path>
+            </svg>
           </a>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <Footer />
+  <CallToAction />
 </Layout>

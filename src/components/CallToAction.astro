@@ -1,0 +1,60 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  heading?: string;
+  body?: string;
+}
+
+const {
+  heading = "Find out what is actually in your ducts.",
+  body = "The inspection is free and it comes with video. If your system does not need cleaning, we will tell you that.",
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-brand-900 text-paper grain">
+  <div
+    class="relative z-10 mx-auto grid max-w-[80rem] gap-10 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[1.3fr_1fr] lg:items-end"
+  >
+    <div>
+      <p class="eyebrow text-brand-300">Free inspection</p>
+      <h2
+        class="mt-6 max-w-2xl font-display text-display optical-lg text-paper"
+      >
+        {heading}
+      </h2>
+      <p class="mt-6 max-w-xl text-lede text-brand-100/85">{body}</p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <a
+        href={site.booking.freeInspection}
+        class="flex items-center justify-between gap-4 rounded-xs bg-clay-600 px-6 py-5 font-semibold text-white transition-colors hover:bg-clay-700"
+      >
+        Book a free inspection
+        <svg
+          class="size-5 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"
+          ></path>
+        </svg>
+      </a>
+      <a
+        href={site.phone.href}
+        class="flex items-center justify-between gap-4 rounded-xs border border-brand-300/35 px-6 py-5 font-semibold text-paper transition-colors hover:bg-brand-800"
+      >
+        <span>Call the shop</span>
+        <span class="tnum text-brand-200">{site.phone.display}</span>
+      </a>
+      <p class="mt-1 text-[0.8rem] leading-relaxed text-brand-200/70">
+        Greenville, the Triangle and Wilmington. Free written estimates —
+        bonded and insured.
+      </p>
+    </div>
+  </div>
+</section>

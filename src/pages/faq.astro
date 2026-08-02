@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import CallToAction from "../components/CallToAction.astro";
+
+const faqs = (await getCollection("faqs")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const rendered = await Promise.all(
+  faqs.map(async (f) => ({ ...f, Content: (await render(f)).Content })),
+);
+
+const categories = [
+  "Getting started",
+  "The cleaning itself",
+  "Cost",
+  "Health & air quality",
+  "Choosing a company",
+] as const;
+---
+
+<Layout
+  title="Questions"
+  description="Straight answers about duct cleaning: how often, what it costs, whether it helps, and how to tell a real contractor from a blow-and-go outfit."
+>
+  <PageHero
+    eyebrow="Questions"
+    title="Straight answers, including the unflattering ones."
+    lede="This trade has a reputation problem, and it earned it. So where the honest answer is 'probably not' or 'you don't need us', that is what it says below."
+  />
+
+  <div
+    class="mx-auto grid max-w-[80rem] gap-14 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[16rem_1fr] lg:gap-20"
+  >
+    <nav class="lg:sticky lg:top-28 lg:self-start" aria-label="Question topics">
+      <h2 class="eyebrow eyebrow-plain">Jump to</h2>
+      <ul class="mt-5 space-y-2.5">
+        {
+          categories.map((c) => (
+            <li>
+              <a
+                href={`#${c.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+                class="link-slide text-[0.9rem] text-ink-2 hover:text-brand-700"
+              >
+                {c}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="max-w-2xl">
+      {
+        categories.map((cat) => {
+          const items = rendered.filter((f) => f.data.category === cat);
+          if (items.length === 0) return null;
+          return (
+            <section
+              id={cat.toLowerCase().replace(/[^a-z]+/g, "-")}
+              class="mb-16 scroll-mt-28"
+            >
+              <h2 class="eyebrow">{cat}</h2>
+
+              <div class="mt-7">
+                {items.map(({ data, Content }) => (
+                  <details class="group border-t border-hairline py-5 last:border-b">
+                    <summary class="flex cursor-pointer list-none items-start justify-between gap-6 font-display text-xl leading-snug text-ink">
+                      {data.question}
+                      <span class="mt-1.5 shrink-0 text-brand-600 transition-transform duration-300 group-open:rotate-45">
+                        <svg
+                          class="size-5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          aria-hidden="true"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            d="M12 5v14M5 12h14"
+                          />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="prose mt-4 max-w-none text-[1rem]">
+                      <Content />
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+
+      <p class="rule pt-8 text-[0.9rem] leading-relaxed text-ink-3">
+        Something not answered here? Call the shop and ask. We would rather
+        talk you out of a job you do not need than sell you one.
+      </p>
+    </div>
+  </div>
+
+  <CallToAction
+    heading="Still deciding? Start with the free inspection."
+    body="You get to see inside your own ductwork before you spend anything. If it does not need cleaning, that is a perfectly good outcome."
+  />
+</Layout>

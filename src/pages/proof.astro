@@ -1,0 +1,115 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import BeforeAfter from "../components/BeforeAfter.astro";
+import CallToAction from "../components/CallToAction.astro";
+
+import b1 from "../assets/work/duct-1-before.jpg";
+import a1 from "../assets/work/duct-1-after.jpg";
+import b2 from "../assets/work/duct-2-before.jpg";
+import a2 from "../assets/work/duct-2-after.jpg";
+import b3 from "../assets/work/duct-3-before.jpg";
+import a3 from "../assets/work/duct-3-after.jpg";
+import b4 from "../assets/work/duct-4-before.jpg";
+import a4 from "../assets/work/duct-4-after.jpg";
+import b5 from "../assets/work/duct-5-before.jpg";
+import a5 from "../assets/work/duct-5-after.jpg";
+import b6 from "../assets/work/duct-6-before.jpg";
+import a6 from "../assets/work/duct-6-after.jpg";
+
+const pairs = [
+  {
+    before: b4,
+    after: a4,
+    alt: "a residential supply trunk line",
+    caption:
+      "Residential supply trunk. The layer across the floor of the duct is settled household dust, fibreglass and debris — all of it sitting directly in the air path.",
+  },
+  {
+    before: b1,
+    after: a1,
+    alt: "a return plenum before and after cleaning",
+    caption:
+      "Return side. Returns pull hardest and collect fastest, which is why we start every inspection here.",
+  },
+  {
+    before: b3,
+    after: a3,
+    alt: "a branch run serving a bedroom",
+    caption:
+      "Branch run into a bedroom. Debris this far down the system means the trunk it came off was worse.",
+  },
+  {
+    before: b2,
+    after: a2,
+    alt: "a vertical duct riser",
+    caption:
+      "A riser. Vertical sections hide their condition well — you cannot judge a system by what you can see from the register.",
+  },
+  {
+    before: b5,
+    after: a5,
+    alt: "ductwork with heavy surface loading",
+    caption:
+      "Heavy surface loading. Vacuum alone will not lift this; it has to be brushed off the sheet metal while the system is under suction.",
+  },
+  {
+    before: b6,
+    after: a6,
+    alt: "a duct section after several years without cleaning",
+    caption:
+      "Several years of accumulation. Nothing unusual for a house of this age in this climate.",
+  },
+];
+---
+
+<Layout
+  title="Before & after"
+  description="Real before-and-after photographs from Carolina Quality Air jobs across Eastern North Carolina. Our own work, our own camera."
+>
+  <PageHero
+    eyebrow="Our results"
+    title="Our jobs. Our camera. No stock photos."
+    lede="Every photograph on this page was taken by our crew on a real Carolina Quality Air job, before and after, from the same position. Drag any of them."
+  />
+
+  <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+    <div class="grid gap-14 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-16">
+      {
+        pairs.map((p, i) => (
+          <BeforeAfter
+            before={p.before}
+            after={p.after}
+            alt={p.alt}
+            caption={p.caption}
+            start={i % 2 === 0 ? 55 : 48}
+            eager={i === 0}
+          />
+        ))
+      }
+    </div>
+
+    <div class="rule mt-16 max-w-2xl pt-8">
+      <h2 class="font-display text-title text-ink">
+        Why this matters more than it sounds
+      </h2>
+      <p class="mt-5 text-[0.98rem] leading-relaxed text-ink-2">
+        Stock photographs of catastrophic ductwork are everywhere in this
+        industry, and they are used to sell jobs that do not need doing. NADCA
+        names scare tactics as one of the defining marks of a fraudulent
+        operator, and we agree.
+      </p>
+      <p class="mt-4 text-[0.98rem] leading-relaxed text-ink-2">
+        So these are ours. Ordinary houses, ordinary systems, photographed
+        before we started and after we finished. When we inspect your system you
+        will get the same thing — video of your own ductwork, before you decide
+        anything.
+      </p>
+    </div>
+  </section>
+
+  <CallToAction
+    heading="See inside your own ducts first."
+    body="The inspection is free and you watch the footage with us. Then you decide."
+  />
+</Layout>
