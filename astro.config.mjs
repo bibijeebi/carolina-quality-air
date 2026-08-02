@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   // Used for canonical + og:url. Change this when the demo domain is bought.
-  site: "https://carolina-quality-air.pages.dev",
+  site: "https://carolinaqualityair.xyz",
 
   vite: {
     plugins: [tailwindcss()],
