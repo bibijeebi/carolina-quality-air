@@ -52,22 +52,22 @@ const process = [
   description="Family-owned, NADCA-certified air duct cleaning in Greenville, Raleigh and Wilmington. Free video inspection, source-removal cleaning, and a certificate for your records."
 >
   {/* ── Hero ─────────────────────────────────────────────── */}
-  <section class="relative overflow-hidden border-b border-hairline">
+  <section class="grain relative overflow-hidden bg-ink text-white">
     <div
       class="mx-auto grid max-w-[80rem] items-center gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-28 lg:pt-24"
     >
       <div class="rise">
-        <p class="eyebrow">
+        <p class="eyebrow text-brand-300">
           Family owned in Winterville since {site.founded}
         </p>
 
         <h1
-          class="mt-7 max-w-[15ch] font-display text-hero optical-lg text-ink"
+          class="mt-7 max-w-[14ch] font-display text-hero optical-lg text-white"
         >
-          The air in your house has been somewhere.
+          Cleaning up your indoor air pollution
         </h1>
 
-        <p class="mt-7 max-w-lg text-lede text-ink-2">
+        <p class="mt-7 max-w-lg text-lede text-mist">
           Carolina Quality Air has been cleaning ductwork across Eastern North
           Carolina for {site.yearsInBusiness} years — homes, hospitals,
           universities and plants. NADCA-certified, and a certified specialist
@@ -77,16 +77,16 @@ const process = [
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
           <a
             href={site.booking.freeInspection}
-            class="inline-flex items-center justify-center gap-2.5 rounded-xs bg-clay-600 px-7 py-4 font-semibold text-white transition-colors hover:bg-clay-700"
+            class="inline-flex items-center justify-center gap-2.5 rounded-sm bg-brand-600 px-7 py-4 font-semibold text-white transition-colors hover:bg-brand-500"
           >
             Book a free inspection
           </a>
           <a
             href={site.phone.href}
-            class="tnum inline-flex items-center justify-center gap-2.5 rounded-xs border border-ink/20 px-7 py-4 font-semibold text-ink transition-colors hover:border-ink/50 hover:bg-paper-2"
+            class="tnum inline-flex items-center justify-center gap-2.5 rounded-sm border border-white/25 px-7 py-4 font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/5"
           >
             <svg
-              class="size-4 text-brand-600"
+              class="size-4 text-brand-300"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -103,7 +103,7 @@ const process = [
           </a>
         </div>
 
-        <p class="mt-6 text-[0.85rem] text-ink-3">
+        <p class="mt-6 text-[0.85rem] text-mist">
           Free written estimates &middot; Bonded and insured &middot; Greenville,
           the Triangle &amp; Wilmington
         </p>
@@ -115,7 +115,7 @@ const process = [
           alt="Two Carolina Quality Air vans parked at a customer's home with equipment running"
           widths={[560, 800, 1120]}
           sizes="(min-width: 1024px) 34rem, 92vw"
-          class="photo-warm w-full rounded-sm"
+          class="photo-warm w-full rounded-md ring-1 ring-white/15"
           loading="eager"
           fetchpriority="high"
         />
@@ -386,7 +386,19 @@ const process = [
           <div class="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
             <figure class="max-w-4xl">
               <p class="eyebrow">In their words</p>
-              <blockquote class="mt-7 font-display text-title leading-[1.35] text-ink">
+              <div class="mt-6 flex gap-1" role="img" aria-label={`${lead.rating} out of 5 stars`}>
+                {Array.from({ length: lead.rating }).map(() => (
+                  <svg
+                    class="size-5 text-brand-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M10 1.6l2.35 5.1 5.55.62-4.13 3.75 1.13 5.47L10 13.8l-4.9 2.74 1.13-5.47L2.1 7.32l5.55-.62L10 1.6z" />
+                  </svg>
+                ))}
+              </div>
+              <blockquote class="mt-5 font-display text-title leading-[1.35] text-ink">
                 &ldquo;{lead.text}&rdquo;
               </blockquote>
               <figcaption class="mt-7 text-[0.9rem] text-ink-3">

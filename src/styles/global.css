@@ -3,29 +3,19 @@
 /* ============================================================
    CAROLINA QUALITY AIR — DESIGN TOKENS
    ------------------------------------------------------------
-   Direction: editorial-industrial. Warm paper ground, deep
-   cyan-blue drawn from the company's own logo mark, clay accent
-   pulled from the "dirty duct" side of the before/after photos.
-   Deliberately not default-Tailwind: no blue-600, no pure white,
-   no pill-shaped everything, hairline rules instead of card
-   shadows.
+   Direction: bold American trades. The palette is the company's
+   own: true blue #0072bb sampled from the CQA logo, near-black
+   navy like their van wrap and current hero, clean white ground.
+   Display type is Archivo in a condensed cut — highway-gothic
+   DNA, reads "contractor", not "design studio". One variable
+   font file carries the whole site (wght + wdth axes).
    ============================================================ */
 
 @font-face {
-  font-family: "Fraunces";
-  src: url("/fonts/fraunces-latin-var.woff2") format("woff2-variations");
-  font-weight: 300 900;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Public Sans";
-  src: url("/fonts/publicsans-latin-var.woff2") format("woff2-variations");
-  font-weight: 400 700;
+  font-family: "Archivo";
+  src: url("/fonts/archivo-latin-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
   font-style: normal;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
@@ -35,49 +25,42 @@
 
 @theme {
   /* -- Type families -------------------------------------- */
-  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
-  --font-sans: "Public Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Archivo", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* -- Ink & paper ----------------------------------------
-     A warm off-white ground is the single biggest tell that a
-     human picked the colors. Pure white + slate-50 reads AI. */
-  --color-paper: #f7f4ef;
-  --color-paper-2: #efeae1;
-  --color-paper-3: #e4ddd1;
-  --color-ink: #10191f;
-  --color-ink-2: #26333d;
+     Clean white ground, navy ink pulled from the same family
+     as their van wrap and current site's dark hero. */
+  --color-paper: #ffffff;
+  --color-paper-2: #f2f6f9;
+  --color-paper-3: #e4ebf1;
+  --color-ink: #0c1722;
+  --color-ink-2: #24313d;
   /* ink-3 and ink-4 are both verified ≥4.5:1 on --color-paper, so muted
      text still passes AA. Use --color-mist for muted text on dark grounds,
      where the ink tones would fail. */
-  --color-ink-3: #4a5a66;
-  --color-ink-4: #5b6a75;
-  --color-mist: #9aa8b2;
-  --color-hairline: #d8d0c4;
-  --color-hairline-dark: #2c3a45;
+  --color-ink-3: #44576a;
+  --color-ink-4: #536679;
+  --color-mist: #9db0c2;
+  --color-hairline: #dde5ec;
+  --color-hairline-dark: #23313f;
 
   /* -- Brand: deep cyan-blue, sampled from the CQA swirl ---
      Distinct from Tailwind blue-600 (#2563eb): more cyan,
      lower lightness, reads "water/air" not "SaaS button". */
-  --color-brand-50: #eef7fb;
-  --color-brand-100: #d6ecf5;
-  --color-brand-200: #a9d8ea;
-  --color-brand-300: #6fbcd9;
-  --color-brand-400: #329ec5;
-  --color-brand-500: #1281b0;
-  --color-brand-600: #0a6a96;
-  --color-brand-700: #08557a;
-  --color-brand-800: #0a4462;
-  --color-brand-900: #0b3950;
-  --color-brand-950: #072434;
-
-  /* -- Clay: warm counterpoint, from duct-dust brown -------
-     Used for emphasis and the primary CTA. The warm/cool
-     tension is what makes the palette look art-directed. */
-  --color-clay-100: #f6e7dd;
-  --color-clay-300: #e0a781;
-  --color-clay-500: #c26a34;
-  --color-clay-600: #ad5620;
-  --color-clay-700: #8c421a;
+  /* -- Brand: CQA true blue, #0072bb sampled directly from
+     the logo mark. 600 is the logo color and the workhorse. */
+  --color-brand-50: #eff7fd;
+  --color-brand-100: #dbeefb;
+  --color-brand-200: #b3ddf7;
+  --color-brand-300: #7ec4ef;
+  --color-brand-400: #3fa4e3;
+  --color-brand-500: #158bd1;
+  --color-brand-600: #0072bb;
+  --color-brand-700: #005b96;
+  --color-brand-800: #054a79;
+  --color-brand-900: #0a3d63;
+  --color-brand-950: #07273f;
 
   /* -- Verified green, used only for certification proof --- */
   --color-verify-100: #dcefe3;
@@ -89,26 +72,26 @@
   --text-eyebrow--line-height: 1.1;
   --text-eyebrow--letter-spacing: 0.14em;
 
-  --text-hero: clamp(2.75rem, 1.6rem + 5.1vw, 6.5rem);
-  --text-hero--line-height: 0.94;
-  --text-hero--letter-spacing: -0.028em;
+  --text-hero: clamp(2.9rem, 1.7rem + 5.3vw, 6.75rem);
+  --text-hero--line-height: 0.98;
+  --text-hero--letter-spacing: -0.015em;
 
-  --text-display: clamp(2.1rem, 1.35rem + 3.1vw, 4.25rem);
-  --text-display--line-height: 1;
-  --text-display--letter-spacing: -0.022em;
+  --text-display: clamp(2.15rem, 1.4rem + 3.1vw, 4.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.012em;
 
   --text-title: clamp(1.5rem, 1.15rem + 1.5vw, 2.4rem);
-  --text-title--line-height: 1.1;
-  --text-title--letter-spacing: -0.015em;
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.008em;
 
   --text-lede: clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);
   --text-lede--line-height: 1.55;
 
-  /* -- Radii: near-square. Editorial, not bubbly. ---------- */
-  --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
+  /* -- Radii: solid, buttony. A trades site, not a zine. --- */
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
 
   /* -- Motion --------------------------------------------- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -145,26 +128,26 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fraunces carries an optical-size axis. Wiring opsz to the
-   rendered size is the difference between "a serif font" and
-   typography — large sizes get tighter, more dramatic cuts. */
+/* Archivo carries a width axis. Big display sizes tighten
+   toward a condensed cut — the highway-sign look — while
+   smaller headings stay nearer normal width for legibility. */
 .font-display,
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
-  font-weight: 600;
+  font-variation-settings: "wdth" 84;
+  font-weight: 750;
 }
 
 .optical-sm {
-  font-variation-settings: "opsz" 14, "SOFT" 0, "WONK" 0;
+  font-variation-settings: "wdth" 96;
 }
 .optical-md {
-  font-variation-settings: "opsz" 42, "SOFT" 0, "WONK" 0;
+  font-variation-settings: "wdth" 88;
 }
 .optical-lg {
-  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  font-variation-settings: "wdth" 78;
 }
 
 /* Tabular figures for phone numbers, stats, prices. */
@@ -243,7 +226,7 @@ h3 {
 /* Photographic treatment: a subtle warm grade keeps stock and
    phone photography feeling like one shoot. */
 .photo-warm {
-  filter: saturate(0.94) contrast(1.04);
+  filter: saturate(1) contrast(1.05);
 }
 
 /* Grain overlay — breaks up flat color fields so large dark
