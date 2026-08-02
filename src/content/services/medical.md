@@ -17,7 +17,6 @@ bestFor:
   - Nursing homes and assisted living
   - Dental and veterinary practices
   - Any facility with an infection-control policy that names the HVAC system
-bookingUrl: https://cal.com/benjamin-foreman-nmetle/commercial-consultation
 ---
 
 ## Why facilities call a certified firm specifically

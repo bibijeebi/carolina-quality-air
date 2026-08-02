@@ -17,7 +17,6 @@ bestFor:
   - Warehouses and distribution centres
   - Facilities with dust, fibre or particulate loading in the return path
   - Buildings where the ventilation has never been cleaned since construction
-bookingUrl: https://cal.com/benjamin-foreman-nmetle/commercial-consultation
 ---
 
 ## Sized to the building

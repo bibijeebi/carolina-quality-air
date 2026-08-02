@@ -17,7 +17,6 @@ bestFor:
   - Restaurants dealing with grease-laden or odour-carrying returns
   - Offices after a renovation, a roof leak or a change of tenant
   - Schools and churches working inside a tight summer window
-bookingUrl: https://cal.com/benjamin-foreman-nmetle/commercial-consultation
 ---
 
 ## Built for buildings that cannot shut down

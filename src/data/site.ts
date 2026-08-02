@@ -128,10 +128,14 @@ export const site = {
     "Visa, MasterCard, Discover, American Express and check accepted",
   ],
 
+  // Lead capture goes through the quote form + phone. Self-serve
+  // scheduling is deliberately not offered: crew routing and job
+  // duration vary too much for an open calendar. (Cal.com links
+  // from the demo phase are preserved in git history.)
   booking: {
-    freeInspection: "https://cal.com/benjamin-foreman-nmetle/free-inspection",
-    dryerVent: "https://cal.com/benjamin-foreman-nmetle/dryer-vent",
-    commercial: "https://cal.com/benjamin-foreman-nmetle/commercial-consultation",
+    freeInspection: "/contact",
+    dryerVent: "/contact",
+    commercial: "/contact",
   },
 
   api: {

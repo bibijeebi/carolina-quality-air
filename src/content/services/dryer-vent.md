@@ -16,7 +16,6 @@ bestFor:
   - Long or multi-elbow vent runs, especially through an attic or crawlspace
   - Homes where the dryer or the laundry room feels hot during a cycle
   - Landlords and property managers with turnover between tenants
-bookingUrl: https://cal.com/benjamin-foreman-nmetle/dryer-vent
 ---
 
 ## Why this one is genuinely about safety
