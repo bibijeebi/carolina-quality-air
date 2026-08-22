@@ -67,15 +67,15 @@ table.cost td:last-child,table.cost th:last-child{text-align:right;white-space:n
 <header class="masthead"><div class="inner">
 <div class="brand"><a href="https://carolinaqualityair.xyz">Carolina Quality Air</a> · Internal</div>
 <h1>Repair Report <span>WO-001</span></h1>
-<div class="repline">Saturday, August 22, 2026 · <b>4 items</b> · shop compressor, jobsite charger, one van mirror (×2), battery fleet analysis · <b>~$100 in parts covers everything</b></div>
+<div class="repline">Saturday, August 22, 2026 · <b>4 items</b> · shop compressor, jobsite charger, one van mirror (×2), battery fleet analysis · <b>~$75 in parts covers everything</b></div>
 </div></header>
 
 <div class="wrap">
-<p class="bluf"><b>BLUF:</b> Four broken things, none of them need a shop or a dealer. Total parts: <b>$90&ndash;115</b>. Total wrench time: <b>~90 minutes</b>. The compressor valve is the only urgent one, it's a safety device and it's down. Both mirror parts are on the same passenger mirror, one teardown fixes both. The dual charger is dead on the charger side; a used replacement is $35 or the repair is free if it's the fuse.</p>
+<p class="bluf"><b>BLUF:</b> Four broken things, none of them need a shop or a dealer. Total parts: <b>$55&ndash;95</b>. Total wrench time: <b>~90 minutes</b>. The compressor valve is the only urgent one, it's a safety device and it's down. Both mirror parts are on the same passenger mirror, one teardown fixes both. The dual charger is dead on the charger side; a used replacement is $35 or the repair is free if it's the fuse.</p>
 
 <table class="cost">
 <tr><th>Item</th><th>Verdict</th><th>Parts $</th></tr>
-<tr><td>Compressor safety relief valve</td><td>Fix today, safety device</td><td>$34.99 (or $9.71)</td></tr>
+<tr><td>Compressor safety relief valve</td><td>Fix first, safety device</td><td>$9.71</td></tr>
 <tr><td>Mirror lower convex glass</td><td>Fix, trivial snap-in</td><td>$15&ndash;25</td></tr>
 <tr><td>Mirror turn signal lamp</td><td>Fix, same teardown as above</td><td>$20&ndash;30</td></tr>
 <tr><td>DeWalt DCB102 dual charger</td><td>Bench repair or replace used</td><td>$0&ndash;40</td></tr>
@@ -98,12 +98,12 @@ table.cost td:last-child,table.cost th:last-child{text-align:right;white-space:n
 <img class="photo" src="/repairs/img/valve.jpg" alt="Failed safety relief valve on the compressor manifold next to the pressure gauge, pull ring missing">
 <p class="fact"><b>Diagnosis:</b> collapsed spring in the safety pop-off. These are sealed throwaway parts, no rebuild exists. The 175 PSI spec comes straight off the tank's data plate, that number is ground truth. Do not substitute 125, 150, or 200.</p>
 <p class="fact"><b>Why it matters:</b> this valve is the last line between an overpressure event and a burst tank. Running the compressor with a dead pop-off is the one item on this list that isn't optional.</p>
-<a class="buy" href="https://www.tractorsupply.com/tsc/product/dewalt-175-psi-asme-pressure-relief-valve-dxcm136-0077">DEWALT DXCM136-0077 · $34.99 · Tractor Supply Louisburg (in stock today)</a>
-<a class="buy alt" href="https://www.homedepot.com/p/Replacement-175-psi-Safety-Valve-for-Husky-Air-Compressor-E106004/206485064">Backup: Husky E106004 · $9.71 · Home Depot Wake Forest</a>
+<a class="buy" href="https://www.homedepot.com/p/Replacement-175-psi-Safety-Valve-for-Husky-Air-Compressor-E106004/206485064">Husky E106004 · $9.71 · Home Depot (Internet #206485064)</a>
+<a class="buy alt" href="https://www.tractorsupply.com/tsc/product/dewalt-175-psi-asme-pressure-relief-valve-dxcm136-0077">Alternate: DEWALT DXCM136-0077 · $34.99 · Tractor Supply</a>
 <div class="move"><b>Fix</b>
 <ol class="steps">
-<li>Drain tank to zero, unit off. Pull the old valve (9/16 or 11/16 flats) and bring it to the store.</li>
-<li>Match at the shelf: 1/4 NPT male threads measure ~1/2" across the outside, body must say 175.</li>
+<li>Drain tank to zero, unit off. Pull the old valve (9/16 or 11/16 flats).</li>
+<li>Confirm against the old valve before buying: 1/4 NPT male threads measure ~1/2" across the outside, new body must say 175. The $10 Husky does the identical job as the $35 DEWALT, same 1/4 MNPT 175 ASME spec, and the compressor is not a DeWalt anyway.</li>
 <li>2&ndash;3 wraps teflon clockwise, skip the first thread. Hand tight, then 1&ndash;2 wrench turns. Brass into steel, don't gorilla it.</li>
 <li>Pressure up, soap-test the joint, confirm the pilot unloads around 175.</li>
 <li>While drained, crack the bottom drain. Rusty soup means tank crud killed the old valve seat, and the new one eats the same debris unless draining after use becomes habit.</li>
@@ -133,18 +133,19 @@ table.cost td:last-child,table.cost th:last-child{text-align:right;white-space:n
 <div class="stamp green">Fix · 10 Minutes</div>
 <div class="bidno">OEM 68374918AA (PASSENGER) · 68374916AA (DRIVER)</div>
 <h2>Same Mirror: Turn Signal Lamp</h2>
-<p class="sub">Lens shattered, previously mummified in silicone. Bulb and socket alive.</p>
-<img class="photo" src="/repairs/img/mirror-signal.jpg" alt="ProMaster mirror turn signal with shattered lens and old silicone repair, amber bulb exposed">
-<p class="fact"><b>Diagnosis:</b> the silicone patch job has failed and the housing is open to weather. Water in the socket kills the bulb and corrodes the connector next, then it's a wiring job instead of a $25 part swap. Replace the whole signal unit, they're cheap and sold with the bulb.</p>
+<p class="sub">Lens shattered, housing open to weather. Bulb status unknown.</p>
+<img class="photo" src="/repairs/img/mirror-signal.jpg" alt="ProMaster mirror turn signal with shattered lens, amber bulb exposed">
+<p class="fact"><b>Diagnosis:</b> the lens is shattered, so the socket sits open to weather. Whether the bulb still works is unconfirmed, and if the van is throwing a turn-signal complaint (fast-flash or dash warning), this lamp is a suspect but not the only one. Water in an open socket kills bulbs and corrodes the connector next, so the housing gets replaced regardless; the replacement units are cheap and ship as one piece with lens and bulb.</p>
 <p class="fact"><b>Why it matters:</b> an unlit or water-killed turn signal on a company-branded van is an inspection fail and a ticket magnet, on top of just being unsafe on the road.</p>
 <a class="buy" href="https://www.amazon.com/Replacement-Passenger-Mirror-Indicator-Promaster/dp/B0CYPSYSR1">LONGLING passenger signal lamp w/ bulb · $20&ndash;30 · Amazon</a>
 <div class="move"><b>Fix</b> (do together with the glass above, same mirror, one teardown)
 <ol class="steps">
+<li>Free first test: spare bulbs are already in the driver's door pocket. Swap one into this socket and run the blinker. Complaint fixed = circuit and socket are fine, it was just a dead bulb, and the housing swap below becomes weather-proofing instead of urgent. Complaint persists = check the other signal lamps on that side before blaming this one.</li>
 <li>Pop the upper mirror glass off: rotate upward and pull firmly with both hands, it snaps off its clip.</li>
-<li>Two screws hold the signal assembly. Out with the old, scrape the dead silicone off the housing opening.</li>
-<li>Bulb is a twist fit with a rubber gasket; move the old bulb over if the new unit's isn't amber. Screws in, snap both glasses back.</li>
+<li>Two screws hold the signal assembly. Out with the old.</li>
+<li>Bulb is a twist fit with a rubber gasket; use the known-good bulb from the test. Screws in, snap both glasses back.</li>
 </ol></div>
-<p class="conf"><b>Confidence: high.</b> This exact swap is documented on the ProMaster owner forums as a 10-minute job, and eBay units marked "Fiat Ducato" fit too because the ProMaster is a rebadged Ducato. Verify the van's blinker actually works after install before buttoning up.</p>
+<p class="conf"><b>Confidence: high.</b> This exact swap is documented on the ProMaster owner forums as a 10-minute job, and eBay units marked "Fiat Ducato" fit too because the ProMaster is a rebadged Ducato. Run the blinker after install before buttoning up.</p>
 </section>
 
 <section class="card" id="charger">
