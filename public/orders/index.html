@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Crew Orders · Carolina Quality Air</title>
+<meta property="og:title" content="Crew Orders · Carolina Quality Air">
+<meta property="og:description" content="Standing food orders for the CQA crew. Tap to pick who is on the run, copy the whole order in one shot.">
+<meta property="og:url" content="https://carolinaqualityair.xyz/orders/">
+<style>
+@font-face{font-family:"Archivo";src:url("/fonts/archivo-latin-var.woff2") format("woff2-variations");font-weight:100 900;font-stretch:62.5% 125%;font-display:swap}
+:root{--blue:#0072bb;--red:#a8241d;--ink:#1d1a17;--paper:#efece3;--card:#fffdf8;--mute:#6d675e;--line:#d9d3c5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Archivo",-apple-system,sans-serif;padding-bottom:70px}
+.masthead{background:var(--red);color:#fff;padding:24px 18px}
+.masthead .inner{max-width:900px;margin:0 auto}
+.brand{font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#f0c9c6}
+.brand a{color:inherit;text-decoration:none}
+h1{font-stretch:70%;font-weight:800;font-size:clamp(30px,7vw,44px);text-transform:uppercase;margin:6px 0 4px;letter-spacing:.01em}
+.tag{font-size:13px;color:#f6dedc}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+.place{margin-top:28px}
+.placehead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.placehead h2{font-stretch:72%;font-weight:800;font-size:26px;text-transform:uppercase;margin:0}
+.placehead .meta{font-size:12.5px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+button{font:inherit;font-size:13px;font-weight:700;letter-spacing:.03em;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:8px 13px;cursor:pointer;border-radius:2px}
+button.ghost{background:transparent;color:var(--ink)}
+button:active{transform:translateY(1px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);padding:14px 15px 12px;position:relative;cursor:pointer;user-select:none}
+.card.off{opacity:.4;border-top-color:var(--mute)}
+.card .who{font-stretch:75%;font-weight:800;font-size:20px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .who i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--red);border:1px solid var(--red);padding:2px 5px;border-radius:2px}
+.card.off .who i{color:var(--mute);border-color:var(--line)}
+.card ul{list-style:none;margin:9px 0 0;padding:0;font-size:14.5px}
+.card li{padding:3px 0 3px 0;border-bottom:1px dashed var(--line)}
+.card li:last-child{border-bottom:0}
+.card li b{font-weight:700}
+.card .drink{color:var(--blue);font-weight:700}
+.card .note{margin-top:8px;font-size:12.5px;color:var(--mute)}
+.card .copy{margin-top:10px;font-size:12px;padding:5px 9px;background:transparent;color:var(--mute);border-color:var(--line)}
+.table{margin-top:14px;background:var(--card);border:1px dashed var(--line);padding:11px 14px;font-size:14px}
+.table b{font-stretch:75%;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--mute);display:block;margin-bottom:3px}
+.out{margin-top:16px;width:100%;min-height:220px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;padding:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);white-space:pre;display:none}
+.out.show{display:block}
+footer{max-width:900px;margin:40px auto 0;padding:16px 18px 0;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+footer a{color:var(--blue)}
+@media print{.bar,.card .copy,.masthead{display:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="masthead"><div class="inner">
+<div class="brand"><a href="https://carolinaqualityair.xyz">Carolina Quality Air</a> · Internal</div>
+<h1>Crew Orders</h1>
+<div class="tag">Standing orders for the guys. Tap a card to drop somebody off the run, then copy.</div>
+</div></header>
+
+<div class="wrap" id="app"></div>
+
+<footer>
+Updated Aug 23, 2026. New order, new place, or somebody changed their mind: tell Claude and it gets added here.
+<br><a href="https://carolinaqualityair.xyz">carolinaqualityair.xyz</a>
+</footer>
+
+<script>
+const DATA = [
+  {
+    id: "cookout",
+    name: "Cook Out",
+    confirmed: "Aug 22, 2026",
+    note: "Trays come with two sides and a drink.",
+    table: ["BBQ sauce", "Cookout sauce", "Ketchup"],
+    orders: [
+      { who: "Jack",
+        main: "Cheeseburger, cheddar style",
+        sides: ["Cajun fries", "Hush puppies"],
+        drink: "Cheerwine" },
+      { who: "Andrew",
+        main: "Big double cheeseburger, ketchup only",
+        sides: ["Cajun ranch wrap", "Chicken quesadillas"],
+        drink: "Powerade" },
+      { who: "Ben",
+        main: "Big double burger tray, Cookout style",
+        sides: ["Cajun fries", "Hush puppies"],
+        drink: "Cheerwine float" },
+      { who: "Jeff",
+        main: "Big double bacon cheeseburger: ketchup, mustard, chili, pickles, lettuce, onions",
+        sides: ["Double Cajun fries (both sides)"],
+        drink: "Cheerwine" },
+      { who: "Ethan",
+        main: "Cheeseburger tray: ketchup, mustard, lettuce, tomato",
+        sides: ["Chicken nuggets", "Cajun fries"],
+        drink: "Powerade" }
+    ]
+  }
+];
+
+const off = new Set();
+
+function orderText(o) {
+  const lines = [o.who, o.main];
+  if (o.sides && o.sides.length) lines.push(o.sides.join(", "));
+  if (o.drink) lines.push(o.drink);
+  if (o.note) lines.push("(" + o.note + ")");
+  return lines.join("\n");
+}
+
+function runText(p) {
+  const on = p.orders.filter(o => !off.has(p.id + "|" + o.who));
+  let t = p.name.toUpperCase() + " RUN\n\n";
+  t += on.map(orderText).join("\n\n");
+  if (p.table && p.table.length) t += "\n\nTable: " + p.table.join(", ");
+  return t;
+}
+
+function copy(text, btn) {
+  const done = () => { const old = btn.textContent; btn.textContent = "Copied"; setTimeout(() => btn.textContent = old, 1200); };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
+  } else fallback(text, done);
+}
+function fallback(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) {}
+  document.body.removeChild(ta);
+}
+
+function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+  DATA.forEach(p => {
+    const sec = document.createElement("section");
+    sec.className = "place";
+    const onCount = p.orders.filter(o => !off.has(p.id + "|" + o.who)).length;
+
+    const head = document.createElement("div");
+    head.className = "placehead";
+    head.innerHTML = '<h2>' + p.name + '</h2><span class="meta">' + onCount + " of " + p.orders.length +
+      " on the run · last confirmed " + p.confirmed + '</span>';
+    sec.appendChild(head);
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    const bCopy = document.createElement("button");
+    bCopy.textContent = "Copy the run";
+    bCopy.onclick = () => copy(runText(p), bCopy);
+    const bShow = document.createElement("button");
+    bShow.className = "ghost"; bShow.textContent = "Show as text";
+    const bAll = document.createElement("button");
+    bAll.className = "ghost"; bAll.textContent = "Everybody back on";
+    bAll.onclick = () => { p.orders.forEach(o => off.delete(p.id + "|" + o.who)); render(); };
+    bar.append(bCopy, bShow, bAll);
+    sec.appendChild(bar);
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    p.orders.forEach(o => {
+      const key = p.id + "|" + o.who;
+      const c = document.createElement("div");
+      c.className = "card" + (off.has(key) ? " off" : "");
+      const sides = (o.sides || []).map(s => "<li>" + s + "</li>").join("");
+      c.innerHTML = '<div class="who">' + o.who + "<i>" + (off.has(key) ? "off" : "on") + "</i></div>" +
+        "<ul><li><b>" + o.main + "</b></li>" + sides +
+        (o.drink ? '<li class="drink">' + o.drink + "</li>" : "") + "</ul>" +
+        (o.note ? '<div class="note">' + o.note + "</div>" : "");
+      const cb = document.createElement("button");
+      cb.className = "copy"; cb.textContent = "Copy just this";
+      cb.onclick = e => { e.stopPropagation(); copy(orderText(o), cb); };
+      c.appendChild(cb);
+      c.onclick = () => { off.has(key) ? off.delete(key) : off.add(key); render(); };
+      grid.appendChild(c);
+    });
+    sec.appendChild(grid);
+
+    if (p.table && p.table.length) {
+      const t = document.createElement("div");
+      t.className = "table";
+      t.innerHTML = "<b>For the table</b>" + p.table.join(" · ") + (p.note ? " · " + p.note : "");
+      sec.appendChild(t);
+    }
+
+    const out = document.createElement("textarea");
+    out.className = "out"; out.readOnly = true; out.value = runText(p);
+    bShow.onclick = () => { out.value = runText(p); out.classList.toggle("show"); };
+    sec.appendChild(out);
+
+    app.appendChild(sec);
+  });
+}
+render();
+</script>
+</body>
+</html>
