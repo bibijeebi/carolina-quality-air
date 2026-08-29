@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Duct Duct Sales Club!</title>
+<meta property="og:title" content="Duct Duct Sales Club!">
+<meta property="og:description" content="A CQA visual novel. Learn to walk the job, win the customer, and price like Perry.">
+<meta property="og:url" content="https://carolinaqualityair.xyz/learning/perry-sim.html">
+<meta name="twitter:card" content="summary">
+<style>
+:root{--pk:#ffbde1;--pk2:#ff8fcb;--pkd:#b8407e;--cream:#fff6fa;--ink:#4a2b3a;--box:#fff0f7;--line:#f3a8d0;--ok:#2e7d32;--bad:#c62828;--gold:#b26a00}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden;height:100%}
+body{margin:0;font:16px/1.5 "Segoe UI",-apple-system,Roboto,sans-serif;background:#2a1420;color:var(--ink);user-select:none}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden}
+#bg{position:absolute;inset:0;transition:background 1s}
+#bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,transparent 40%,rgba(40,10,30,.25))}
+.bg-menu{background:linear-gradient(160deg,#ffd3ec,#ffb0d8 45%,#f78fc2)}
+.bg-office{background:linear-gradient(#e8f2fb 60%,#cdd9e4 60.5%)}
+.bg-closet{background:linear-gradient(#d8d3cc 65%,#a99f93 65.5%)}
+.bg-cqa{background:linear-gradient(#fdf3e3 60%,#e5cfa8 60.5%)}
+.bg-duct{background:linear-gradient(#b8bfc7 55%,#7d858e 55.5%)}
+.bg-night{background:linear-gradient(#2b2340,#4a3560)}
+#sprite{position:absolute;bottom:24vh;left:50%;transform:translateX(-50%);width:min(52vw,240px);transition:opacity .35s,transform .35s;filter:drop-shadow(0 8px 16px rgba(60,10,40,.25))}
+#sprite.hop{animation:hop .35s}
+@keyframes hop{40%{transform:translateX(-50%) translateY(-14px)}}
+#sprite.hidden{opacity:0}
+#ui{position:absolute;left:0;right:0;bottom:0;padding:10px 10px calc(12px + env(safe-area-inset-bottom))}
+#namep{display:inline-block;background:var(--pk2);color:#fff;font-weight:800;font-size:14px;letter-spacing:.5px;padding:3px 16px;border-radius:10px 10px 0 0;margin-left:14px;text-shadow:0 1px 0 var(--pkd)}
+#tbox{background:var(--box);border:3px solid var(--line);border-radius:14px;min-height:108px;padding:12px 16px 14px;font-size:16.5px;box-shadow:0 6px 20px rgba(60,10,40,.35);position:relative}
+#tbox .arrow{position:absolute;right:14px;bottom:8px;color:var(--pk2);font-size:18px;animation:bob 1s infinite}
+@keyframes bob{50%{transform:translateY(3px)}}
+#choices{position:absolute;left:0;right:0;bottom:0;top:0;display:none;flex-direction:column;justify-content:center;gap:10px;padding:16px;background:rgba(50,15,35,.45);backdrop-filter:blur(2px)}
+#choices button{font:inherit;font-weight:700;background:var(--cream);border:3px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);text-align:left;box-shadow:0 4px 0 var(--line)}
+#choices button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+#hud{position:absolute;top:calc(8px + env(safe-area-inset-top));left:10px;right:10px;display:flex;gap:8px;align-items:center;font-size:12px}
+.meter{flex:1;background:rgba(255,255,255,.75);border:2px solid var(--line);border-radius:10px;padding:3px 8px}
+.meter b{font-size:11px;letter-spacing:.5px}
+.bar{height:7px;background:#f6d7e8;border-radius:5px;overflow:hidden;margin-top:2px}
+.bar i{display:block;height:100%;border-radius:5px;transition:width .4s}
+#trustbar i{background:linear-gradient(90deg,#ff8fcb,#e91e8c)}
+#marginbar i{background:linear-gradient(90deg,#8fd3ff,#1e88e5)}
+#chapcard{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#ffd3ec,#f78fc2);text-align:center;padding:24px;z-index:5}
+#chapcard h2{font-size:15px;letter-spacing:3px;color:var(--pkd);margin:0}
+#chapcard h1{font-size:30px;margin:8px 0 4px;color:#7a2454;letter-spacing:-.5px}
+#chapcard p{color:#8a4a6c;max-width:340px;font-size:14.5px}
+.heart{font-size:34px;animation:spin 3s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+#panel{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(50,15,35,.5);z-index:6;padding:14px}
+#panel .card{background:var(--cream);border:3px solid var(--line);border-radius:16px;padding:16px;max-width:420px;width:100%;max-height:86vh;overflow-y:auto}
+#panel h3{margin:0 0 6px;color:var(--pkd)}
+#panel p{font-size:14.5px;margin:6px 0}
+.wgrid{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.wgrid button{font:inherit;font-size:14.5px;font-weight:700;background:#fff;border:2px solid var(--line);border-radius:9px;padding:7px 12px;color:var(--ink)}
+.wgrid button.sel{background:var(--pk2);color:#fff;border-color:var(--pkd)}
+.est label{display:block;font-size:13.5px;font-weight:700;margin:10px 0 3px;color:var(--pkd)}
+.est input[type=number]{font:inherit;width:100%;padding:8px 10px;border:2px solid var(--line);border-radius:9px;background:#fff}
+.est .row{display:flex;gap:8px;align-items:center;font-size:14.5px;margin:7px 0}
+.est .row input{width:20px;height:20px}
+.go{font:inherit;font-weight:800;width:100%;margin-top:12px;background:var(--pk2);color:#fff;border:0;border-radius:11px;padding:12px;box-shadow:0 4px 0 var(--pkd)}
+.go:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pkd)}
+#menu{position:absolute;inset:0;z-index:7;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#ffd3ec,#ffb0d8 45%,#f78fc2);text-align:center;padding:20px}
+#menu h1{font-size:40px;margin:0;color:#7a2454;letter-spacing:-1px;text-shadow:2px 2px 0 #fff}
+#menu .sub{color:#a04a78;font-weight:700;margin:2px 0 26px}
+#menu button{font:inherit;font-weight:800;font-size:17px;background:#fff;color:var(--pkd);border:3px solid #fff;border-radius:13px;padding:12px 34px;margin:6px;box-shadow:0 5px 0 rgba(184,64,126,.5)}
+#menu button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(184,64,126,.5)}
+#menu .tiny{font-size:11.5px;color:#a04a78;margin-top:22px;max-width:320px}
+.fb{border-left:4px solid var(--gold);background:#fff8ec;border-radius:7px;padding:8px 11px;margin:8px 0;font-size:13.5px}
+.fb.good{border-color:var(--ok);background:#eef7ee}
+.fb.bad{border-color:var(--bad);background:#fdeeee}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:8;transition:opacity .12s}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="bg" class="bg-menu"></div>
+<img id="sprite" class="hidden" alt="">
+<div id="hud" style="display:none">
+<div class="meter"><b>💗 TRUST</b><div class="bar" id="trustbar"><i style="width:50%"></i></div></div>
+<div class="meter"><b>💰 MARGIN</b><div class="bar" id="marginbar"><i style="width:50%"></i></div></div>
+</div>
+<div id="ui" style="display:none">
+<div id="namep">Perry</div>
+<div id="tbox"><span id="ttext"></span><span class="arrow">▼</span></div>
+</div>
+<div id="choices"></div>
+<div id="chapcard"></div>
+<div id="panel"></div>
+<div id="flash"></div>
+<div id="menu">
+<h1>Duct Duct<br>Sales Club!</h1>
+<div class="sub">a Carolina Quality Air visual novel 💗</div>
+<button onclick="startGame()">New Game</button>
+<button id="contBtn" style="display:none" onclick="continueGame()">Continue</button>
+<div class="tiny">You just got handed the keys to Perry's world: the walk, the talk, the number. Every choice moves TRUST (do they like you) and MARGIN (does CQA make money). Built on Pricing Doctrine v0.2.</div>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const S={trust:50,margin:50,ch:0,i:0};
+const SPR={
+perry:sprite('#6b7b8c','#e8d5c0','M30 34 q20 -14 40 0 l0 -8 q-20 -12 -40 0 Z','#3a4a5a','M40 58 q10 6 20 0','gray'),
+angela:sprite('#7a4a8c','#a8785a','M26 30 q24 -20 48 0 q2 22 -6 30 q-18 -8 -36 0 q-8 -8 -6 -30 Z','#2a1a30','M42 58 q8 5 16 0','purple'),
+zach:sprite('#e8a13c','#e0b89a','M28 32 q22 -16 44 0 l0 -6 q-22 -14 -44 0 Z','#7a5a20','M42 58 q8 4 16 0','hivis'),
+doris:sprite('#8c4a4a','#d8b090','M24 34 q26 -22 52 0 q4 26 -8 34 q-18 -10 -36 0 q-12 -8 -8 -34 Z','#4a2a20','M42 60 q8 -4 16 0','red')
+};
+function sprite(shirt,skin,hair,hairFill,mouth){
+return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><path d="M18 150 q2 -46 32 -50 l0 -10 q-12 -10 -12 -28 q0 -26 12 -30 q12 -8 24 4 q10 8 8 26 q0 18 -12 28 l0 10 q30 4 32 50 Z" fill="${shirt}"/><circle cx="50" cy="42" r="24" fill="${skin}"/><path d="${hair}" fill="${hairFill}"/><circle cx="42" cy="44" r="2.6" fill="#2a1a20"/><circle cx="58" cy="44" r="2.6" fill="#2a1a20"/><path d="${mouth}" stroke="#7a4a4a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`);
+}
+function setSprite(who){const s=$('sprite');if(!who){s.classList.add('hidden');return}s.src=SPR[who];s.classList.remove('hidden');s.classList.remove('hop');void s.offsetWidth;s.classList.add('hop')}
+function bump(t,m,note,cls){S.trust=Math.max(0,Math.min(100,S.trust+t));S.margin=Math.max(0,Math.min(100,S.margin+m));
+document.querySelector('#trustbar i').style.width=S.trust+'%';document.querySelector('#marginbar i').style.width=S.margin+'%';
+if(t<0||m<0){const f=$('flash');f.style.background=t<-5||m<-5?'#c62828':'#fff';f.style.opacity=.35;setTimeout(()=>f.style.opacity=0,140)}}
+let script=[],idx=0,typing=null,fullText='';
+function say(n){const node=script[idx];if(!node)return endChapter();
+if(node.card){showCard(node);return}
+if(node.panel){node.panel();return}
+$('ui').style.display='block';$('hud').style.display='flex';
+if(node.bg)$('bg').className=node.bg;
+setSprite(node.sp);
+$('namep').textContent=node.n||'';$('namep').style.display=node.n?'inline-block':'none';
+fullText=node.t;const el=$('ttext');el.textContent='';let i=0;clearInterval(typing);
+typing=setInterval(()=>{el.textContent=fullText.slice(0,++i);if(i>=fullText.length)clearInterval(typing)},14);
+if(node.c){setTimeout(()=>showChoices(node.c),fullText.length*14+180)}}
+function showChoices(cs){const box=$('choices');box.innerHTML='';box.style.display='flex';
+cs.forEach(c=>{const b=document.createElement('button');b.textContent=c.t;b.onclick=()=>{box.style.display='none';bump(c.tr||0,c.mg||0);
+if(c.fb){script.splice(idx+1,0,{n:'Perry',sp:'perry',t:c.fb});}
+idx++;say();save()};box.appendChild(b)})}
+$('stage').addEventListener('click',e=>{
+if($('choices').style.display==='flex'||$('panel').style.display==='flex'||$('chapcard').style.display==='flex'||$('menu').style.display!=='none')return;
+const node=script[idx];if(!node||node.c&&$('ttext').textContent.length>=fullText.length)return;
+if($('ttext').textContent.length<fullText.length){clearInterval(typing);$('ttext').textContent=fullText;if(node.c)showChoices(node.c);return}
+if(node.c)return;idx++;say();save()});
+function showCard(node){const c=$('chapcard');c.style.display='flex';$('ui').style.display='none';setSprite(null);
+c.innerHTML=`<span class="heart">💗</span><h2>${node.card}</h2><h1>${node.h}</h1><p>${node.p||''}</p><button class="go" style="max-width:220px" onclick="dismissCard()">continue</button>`;
+$('bg').className=node.bg||'bg-menu'}
+function dismissCard(){$('chapcard').style.display='none';idx++;say();save()}
+function endChapter(){S.ch++;S.i=0;if(S.ch<CHAPTERS.length){script=CHAPTERS[S.ch]();idx=0;say();save()}else{finale()}}
+function save(){S.i=idx;localStorage.setItem('ddsc',JSON.stringify(S))}
+function startGame(){localStorage.removeItem('ddsc');S.trust=50;S.margin=50;S.ch=0;$('menu').style.display='none';script=CHAPTERS[0]();idx=0;bump(0,0);say()}
+function continueGame(){const d=JSON.parse(localStorage.getItem('ddsc'));Object.assign(S,d);$('menu').style.display='none';script=CHAPTERS[S.ch]();idx=Math.min(S.i,script.length-1);bump(0,0);say()}
+if(localStorage.getItem('ddsc'))$('contBtn').style.display='inline-block';
+
+// ---------- WORD PICKER ----------
+const WORDS=[['photos',3],['trust',3],['schedule',2],['community',3],['honest',2],['kids',2],['clean air',2],['weekday',2],['free',1],['pictures',3],['upsell',-3],['contract',-2],['liability',-3],['mold',-3],['cheap',-2],['corporate',-2],['synergy',-3],['invoice',-1],['warranty',1],['before &amp; after',3]];
+function wordPicker(){const p=$('panel');p.style.display='flex';let picked=[];
+p.innerHTML=`<div class="card"><h3>💗 Build Your Pitch 💗</h3><p>Pick the <b>5 words</b> that belong in a pitch to Angela, a church-network office admin. Perry is watching.</p><div class="wgrid" id="wg"></div><button class="go" id="wgo" disabled>Read it to Perry</button></div>`;
+const g=$('wg');WORDS.sort(()=>Math.random()-.5).forEach(([w,v])=>{const b=document.createElement('button');b.innerHTML=w;
+b.onclick=()=>{if(b.classList.contains('sel')){b.classList.remove('sel');picked=picked.filter(x=>x[0]!==w)}else if(picked.length<5){b.classList.add('sel');picked.push([w,v])}
+$('wgo').disabled=picked.length!==5};g.appendChild(b)});
+$('wgo').onclick=()=>{const sc=picked.reduce((a,x)=>a+x[1],0);p.style.display='none';
+let fb,tr;if(sc>=10){fb="Now THAT'S how you talk to church folks. Pictures, trust, their schedule. You keep that up and they'll be calling us for the main campus.";tr=12}
+else if(sc>=4){fb="Not bad. Couple of those words I wouldn't lead with, but you're finding the register.";tr=5}
+else{fb="Son, you sound like an insurance seminar. Nobody in that office wants to hear 'liability.' Talk pictures, talk trust, talk their schedule.";tr=-8}
+bump(tr,0);script.splice(idx+1,0,{n:'Perry',sp:'perry',t:fb});idx++;say();save()}}
+
+// ---------- ESTIMATE BUILDERS ----------
+function estKoinonia(){const p=$('panel');p.style.display='flex';
+p.innerHTML=`<div class="card est"><h3>📋 Price the Koinonia Job</h3>
+<p>~1,450 sq ft office suite, one split system, clean + sanitize + odor spray. Build the estimate.</p>
+<label>Base cleaning + sanitize/odor (whole job, $)</label><input type="number" id="e1" inputmode="numeric" placeholder="?">
+<div class="row"><input type="checkbox" id="e2"><span>Add ozone treatment line ($250 list)</span></div>
+<div class="row"><input type="checkbox" id="e3"><span>Comp the ozone as goodwill (still SAY the $250 out loud)</span></div>
+<div class="row"><input type="checkbox" id="e4"><span>Apply the $200 church discount</span></div>
+<div class="row"><input type="checkbox" id="e5"><span>Include a free camera inspection to seal it</span></div>
+<button class="go" id="ego">Send it to Vicki</button></div>`;
+$('ego').onclick=()=>{const base=+$('e1').value||0;let notes=[];let tr=0,mg=0;
+const pct=Math.abs(base-1805)/1805;
+if(pct<=.08){notes.push(['good',`$${base} on the base — right in the pocket. Real number was $1,805 list, about $1.25/sq ft.`]);mg+=10}
+else if(pct<=.2){notes.push(['','Close. List was $1,805 (~$1.25/sq ft). Calibrate the anchor.']);mg+=4}
+else{notes.push(['bad',`$${base}? List was $1,805. ${base<1805?"You just left money on the table walking in the door.":"You'd price yourself out before the handshake."}`]);mg-=8}
+if($('e2').checked&&$('e3').checked){notes.push(['good','Ozone comped LOUDLY — the $450 of goodwill only works if the customer knows it exists.']);tr+=8}
+else if($('e2').checked){notes.push(['','Charging the ozone is defensible, but Perry comps it here — this job is a door into the whole church network.']);mg+=2}
+else{notes.push(['bad','No ozone line at all? The building is CLOSED because of the smell. That line is the hero of this estimate.']);tr-=6}
+if($('e4').checked){notes.push(['good','Church discount applied and itemized. Standard practice.']);tr+=5}else{notes.push(['bad','Skipped the church discount. Angela finds out other churches got one, and that phone stops ringing.']);tr-=5}
+if($('e5').checked){notes.push(['bad','Free camera?! Cameras are NEVER in an estimate. Customer requests it, customer pays for it. Doctrine.']);mg-=10}
+else{notes.push(['good','No free camera promised. Estimates are built from the walk: how the duct runs, size, units, parking, how the job will go.']);mg+=5}
+bump(tr,mg);showFeedback('Vicki reads it back…',notes,()=>{idx++;say();save()})}}
+function estZach(){const p=$('panel');p.style.display='flex';
+p.innerHTML=`<div class="card est"><h3>📞 The Sub Call</h3>
+<p>Zach wants a budgetary number for a 20,000 sq ft, 2-story medical office building in Greensboro. ~5 units. Check every line that belongs in CQA's cost stack for this job.</p>
+<div class="row"><input type="checkbox" id="z1"><span>Square footage base</span></div>
+<div class="row"><input type="checkbox" id="z2"><span>Labor cost</span></div>
+<div class="row"><input type="checkbox" id="z3"><span>Driving fee</span></div>
+<div class="row"><input type="checkbox" id="z4"><span>Overnight stay (~$150/person/night)</span></div>
+<div class="row"><input type="checkbox" id="z5"><span>Time-and-a-half for nights/weekends</span></div>
+<div class="row"><input type="checkbox" id="z6"><span>Confirm his "$4,000 per crew per day" guess so he can do the math</span></div>
+<div class="row"><input type="checkbox" id="z7"><span>Free camera survey of all 5 systems</span></div>
+<button class="go" id="zgo">Give Perry your stack</button></div>`;
+$('zgo').onclick=()=>{let notes=[],tr=0,mg=0;
+const want=['z1','z2','z3','z4','z5'];const hit=want.filter(id=>$(id).checked).length;
+if(hit===5){notes.push(['good','Full stack: square footage base + labor + driving fee + overnight + 1.5x nights/weekends. That is the whole doctrine, word for word.']);mg+=12}
+else{notes.push(['bad',`You got ${hit}/5 of the real stack. Missing lines are how out-of-town jobs go underwater.`]);mg-=6}
+if($('z6').checked){notes.push(['bad','Never confirm a number you haven\u2019t built. Zach\u2019s $4k/crew/day was HIS guess — Perry let it hang and said "you tell me what it is" right back.']);mg-=8}
+else{notes.push(['good','You let the $4k guess hang. The quote comes from Jeff and Perry after they see pictures, plans, and access. Capacity fact: 4\u20135 crews, ~12 people, 20k sq ft in 2 days.']);mg+=6}
+if($('z7').checked){notes.push(['bad','Still trying to give away camera work. Never in an estimate.']);mg-=6}
+bump(tr,mg);showFeedback('Perry leans back…',notes,()=>{idx++;say();save()})}}
+function showFeedback(title,notes,done){const p=$('panel');p.style.display='flex';
+p.innerHTML=`<div class="card"><h3>${title}</h3>${notes.map(n=>`<div class="fb ${n[0]}">${n[1]}</div>`).join('')}<button class="go" id="fgo">continue</button></div>`;
+$('fgo').onclick=()=>{p.style.display='none';done()}}
+
+// ---------- SCRIPT ----------
+const CHAPTERS=[
+// CH1: THE WALK
+()=>[
+{card:'CHAPTER ONE',h:'The Walk',p:'A nonprofit office in Winterville. The building is closed. Something smells terrible. Perry brought you along.',bg:'bg-office'},
+{n:'Perry',sp:'perry',bg:'bg-office',t:"Alright. Angela's the office admin — she does all the paperwork. Building's been shut a few weeks over a smell nobody can find. Watch what I look at, not what I say. Mostly."},
+{n:'Angela',sp:'angela',t:"Thank y'all so much for coming. It's been weeks. Folks won't even come in to work."},
+{n:'',sp:'angela',t:"She looks exhausted. The smell is... present. What's your first move?",c:[
+{t:'"Can we walk around and everything? And where\'s your unit set?"',tr:8,mg:5,fb:"That's the cardinal rule. You can't price what you haven't walked. Blueprints and phone calls leave money on the table."},
+{t:'"Sounds like mold. We\'ll get you a remediation quote."',tr:-10,mg:-5,fb:"Whoa. We don't diagnose mold on a sniff. You just scared her AND promised work we haven't scoped. Walk first, talk second."},
+{t:'"For about 1,500 square feet you\'re looking at two grand, give or take."',tr:-6,mg:-10,fb:"Pricing from the doorway? Ceiling height, duct runs, access, parking — you know none of it. That number's a coin flip."}]},
+{n:'Angela',sp:'angela',t:"Of course! The unit's... that's a great question, actually. I think there's a closet in the back."},
+{n:'',sp:null,bg:'bg-closet',t:"The back closet. An air handler hums. On the floor: a small black box with a hole in the side."},
+{n:'',sp:'perry',t:"Perry crouches and taps the black box. What is it?",c:[
+{t:'A rodent bait station — poison inside, pets can\'t reach it.',tr:5,mg:0,fb:"Right. And that tells a story: somebody's already fighting mice out here. Dead mouse in a duct run smells exactly like a closed building."},
+{t:'A junction box for the condensate pump.',tr:-3,mg:0,fb:"That's a bait station, son. Poison in the middle, hole for the mouse. Pest sign on a smell call is a clue, not clutter."}]},
+{n:'Perry',sp:'perry',t:"Split system. Air handler here, condenser outside. And the smell's worse right here in the back — you noticing that?"},
+{n:'',sp:'angela',bg:'bg-office',t:"Back in the office, Angela hovers by the thermostat. Perry asks her to read the fan setting. 'It says auto,' she says. Perry nods, satisfied. Why does he care?",c:[
+{t:'Fan ON blows moist air nonstop after the coil stops — mold grows. AUTO is correct.',tr:8,mg:0,fb:"There it is. I've done three, four hundred jobs since 1999 because somebody flipped that fan to ON. Shoe store, whole police department — shoes and belts molded solid."},
+{t:'AUTO saves electricity, that\'s all.',tr:-4,mg:0,fb:"It's not the light bill. ON keeps pushing damp air through a wet coil all night. That's a mold factory. This one's a set piece — learn it."}]},
+{n:'Angela',sp:'angela',t:"How often do the filters need changing? The builder at my house said get the cheap ones..."},
+{n:'',sp:'angela',t:"An opening. What's the filter doctrine?",c:[
+{t:'"Pleated ones, every 3 months. The see-through 99-cent ones let dust through — dirty unit, dirty ducts, and that dust is what mold eats."',tr:8,mg:0,fb:"Word for word. And notice what you just did — you weren't selling, you were teaching. She'll trust the price because she trusts the teacher."},
+{t:'"Cheap ones are fine, honestly. Filters are mostly marketing."',tr:-8,mg:0,fb:"You just taught her the opposite of the doctrine. Cheap filters feed the exact problem we clean up. Builders say cheap because THEIR unit runs easier, not because her air's better."}]},
+{n:'Angela',sp:'angela',t:"When could y'all do the work? Weekends are easiest for us, honestly."},
+{n:'',sp:'angela',t:"Scheduling fork. Perry glances at you.",c:[
+{t:'"Weekdays are better for everybody — we pay our workers time and a half on weekends, and that lands on the price."',tr:6,mg:8,fb:"Honest AND protects the margin. Tell them WHY weekday, and they pick weekday all on their own."},
+{t:'"Whatever\'s easiest for you! Weekend it is."',tr:2,mg:-8,fb:"Customer's happy, sure — and you just added fifty percent to the labor line without adding a dime to the quote."}]},
+{n:'Perry',sp:'perry',t:"Now watch this part close. She's got a building she can't use TODAY. The job might not happen till Tuesday. What do we do about the gap?"},
+{n:'',sp:'perry',t:"What's the move?",c:[
+{t:'Offer the ozone machine tonight, free — run it overnight, pick it up in the morning.',tr:12,mg:0,fb:"THAT'S the move. I live around the corner. She gets relief before we've earned a dollar, and she will never call another company as long as she lives."},
+{t:'Nothing — relief before payment weakens your close.',tr:-6,mg:2,fb:"Backwards. Goodwill first is the close. The ozone loaner costs us nothing tonight and buys the whole church network."}]},
+{n:'Perry',sp:'perry',t:"One rule with the ozone: NOBODY in the building while it runs. First one in opens both doors and waits fifteen minutes. It'll get you confused, and not the fun kind."},
+{card:'INTERLUDE',h:'Build Your Pitch',p:'Perry hands you a napkin. "Before we price it — show me you know who you\'re talking to."',bg:'bg-menu'},
+{panel:wordPicker},
+{n:'Perry',sp:'perry',t:"Alright. Let's go price this thing.",}
+],
+// CH2: THE NUMBER
+()=>[
+{card:'CHAPTER TWO',h:'The Number',p:'Back at the shop. Vicki has the phone. The estimate is yours to build.',bg:'bg-cqa'},
+{n:'Perry',sp:'perry',bg:'bg-cqa',t:"1,450 square feet, one split system, clean plus sanitize plus odor spray. And remember — every dollar we give away, we give away LOUD."},
+{panel:estKoinonia},
+{n:'Perry',sp:'perry',t:"One more thing on discounts. That $450 wasn't charity — Koinonia sits inside a big church's orbit. We just bought a referral network for the price of a nice dinner."},
+{n:'Doris',sp:'doris',bg:'bg-cqa',t:"(The phone rings. It's the tenant from another job — the one who's never once been satisfied.) 'The maintenance man came ONE time. I want new carpet. I want—'"},
+{n:'',sp:'doris',t:"Vicki covers the receiver and looks at you. The complainer wants a free camera inspection 'to prove what's wrong.' Someone already half-promised it. What do you tell Vicki?",c:[
+{t:'"We don\'t run cameras unless somebody asks and pays for it. The estimate comes from the walk. Hold the line, politely."',tr:2,mg:8,fb:"Correct. The second you camera one job for free, every job wants one. The walk IS the inspection — that's what the estimate's built on."},
+{t:'"Just do the camera, it\'ll calm her down."',tr:3,mg:-10,fb:"It won't, and now it's precedent. Some folks can't be satisfied — you contain that, you don't feed it."}]},
+{n:'Perry',sp:'perry',t:"Good. Now — before we get comfortable, that phone's fixing to ring again."}
+],
+// CH3: THE SUB CALL
+()=>[
+{card:'CHAPTER THREE',h:'The Sub Call',p:'A contractor named Zach. He needs a number. He needs it fast. That combination is a test.',bg:'bg-cqa'},
+{n:'Zach',sp:'zach',bg:'bg-cqa',t:"Hey — quick question. What's your cost per day for a two or three man crew? I got a building in Greensboro, duct cleaning's not in my scope but it needs doing. Just need a budgetary number."},
+{n:'',sp:'zach',t:"He wants a rate card read to him over the phone. First response?",c:[
+{t:'Ask questions first: square footage, how many units, stories, access, timeline.',tr:5,mg:6,fb:"Right. Perry answered a rate question with five questions. 20,000 square feet, 2 stories, ~5 units, storefront glass, decent access. NOW a number means something."},
+{t:'"$4,000 a day per 3-man crew, double it if you want two crews."',tr:0,mg:-10,fb:"You just quoted his guess back to him as fact. That number was never confirmed. Once it's spoken, it's your ceiling forever."}]},
+{n:'Zach',sp:'zach',t:"Roughly 20,000 square feet. Two story, medical office building, bunch of storefront glass. Probably at least 5 units. I'll send pictures and plans."},
+{n:'Perry',sp:'perry',t:"He's five hours out and might not even win the work. So we give a budgetary shape, not a firm quote — and the shape comes from a stack. Build it."},
+{panel:estZach},
+{n:'Perry',sp:'perry',t:"And the retail trick, since he mentioned they close Friday at noon: crew rolls in at close, works Friday afternoon, Saturday, Sunday. Building's back before Monday's first customer. That's how you sell weekend work when it's actually worth 1.5x."},
+{n:'Zach',sp:'zach',t:"Alright, I'll shoot you those pictures. Appreciate you not just throwing a number at me."}
+],
+// CH4: THE LINER
+()=>[
+{card:'CHAPTER FOUR',h:'The Liner',p:'A commercial job, mid-clean. You pull a register cover and shine a light down the supply trunk.',bg:'bg-duct'},
+{n:'',sp:null,bg:'bg-duct',t:"Inside: dark fibrous lining on the duct walls... and patches where dull sheet metal shows through, ragged at the edges."},
+{n:'',sp:'perry',t:"Perry's voice from the hallway: 'Whatcha got?' What are you looking at?",c:[
+{t:'Internally lined duct — and bare metal patches mean the liner\'s eroding. Encapsulation candidate.',tr:5,mg:10,fb:"That's the flag. Bare metal where liner should be means the liner's failing. Jeff would frame that photo."},
+{t:'Bare metal duct that needs paint.',tr:0,mg:-6,fb:"Backwards. Bare sheet metal duct just gets cleaned — nothing to encapsulate. It's the LINED duct with metal showing through that's the candidate. The liner's the patient."}]},
+{n:'Perry',sp:'perry',t:"Now — what do we say to the customer, and when?"},
+{n:'',sp:'perry',t:"Pick the line.",c:[
+{t:'"There might be a chance this needs to be encapsulated — we won\'t know until we get into it." Then photos. Lots of photos.',tr:8,mg:10,fb:"Doctrine, verbatim. Plant it early, prove it with pictures mid-job. It's a lot easier to sell what they can see."},
+{t:'Say nothing until the final invoice — surprise line items close themselves.',tr:-12,mg:-4,fb:"Surprise line items close DOORS. The customer line exists so the upsell was already half-agreed before we found anything."}]},
+{n:'Perry',sp:'perry',t:"Last one, and this is the business half. Failing liner has two fixes. Encapsulate in place: clean it, spray the antimicrobial coating over the liner — about $500 of material, our crew, our sprayer. Or rip the liner out and wrap the duct outside — which we sub to an HVAC outfit that ain't cheap."},
+{n:'',sp:'perry',t:"So why does the company want you spotting liner?",c:[
+{t:'Encapsulation usually bills more than the cleaning side, and it keeps the whole ticket in-house instead of feeding the sub.',tr:3,mg:12,fb:"Both barrels. Crew's already mobilized, no new travel, ~$500 of paint against a line that can outbill the cleaning. Highest-margin work in the company — even 1 in 5 commercial jobs adds real money."},
+{t:'It pads the job hours so the crew stays busy.',tr:0,mg:-5,fb:"It's not busywork, it's the margin engine. Cleaning gets us in the building; encapsulation is what the building was worth."}]},
+{n:'Perry',sp:'perry',t:"Yeah, the sprayer clogs. Everybody knows the sprayer clogs. A three-hundred-dollar sprayer problem is not a reason to leave four-figure lines in the duct."}
+]
+];
+function finale(){const p=$('panel');p.style.display='flex';$('ui').style.display='none';setSprite(null);$('bg').className='bg-night';
+const total=S.trust+S.margin;
+let rank,line;
+if(total>=170){rank='🏆 THE PERRY';line="Walk short, teach long, give it away loud, and never speak an unbuilt number. You could run the truck tomorrow."}
+else if(total>=130){rank='💼 CERTIFIED CLOSER';line="The doctrine's in you. A few more walks and the soft close gets softer."}
+else if(total>=90){rank='📋 REGISTERED TECH';line="You know where the money hides. Now stop giving away cameras."}
+else{rank='🧹 RIDE-ALONG';line="Back in the passenger seat. Watch what Perry looks at, not what he says. Mostly."}
+p.innerHTML=`<div class="card" style="text-align:center"><span class="heart">💗</span><h3>Club Meeting Adjourned</h3>
+<p style="font-size:15px"><b>TRUST ${S.trust}</b> · <b>MARGIN ${S.margin}</b></p>
+<p style="font-size:22px;font-weight:800;color:var(--pkd);margin:10px 0">${rank}</p>
+<p>${line}</p>
+<p style="font-size:12.5px;color:#8a4a6c">Everything in this game traces to Pricing Doctrine v0.2 — Jeff's and Perry's own words, Aug 2026.</p>
+<button class="go" onclick="localStorage.removeItem('ddsc');location.reload()">New Game +</button>
+<a href="pricing-doctrine.html" style="display:block;margin-top:10px;font-size:13.5px;color:var(--pkd);font-weight:700">Read the Doctrine →</a></div>`}
+</script>
+</body>
+</html>
