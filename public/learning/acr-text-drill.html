@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACR 2025 Text Drill — ASCS</title>
+<meta property="og:title" content="ACR 2025 Text Drill — ASCS">
+<meta property="og:description" content="204 questions written straight from the ACR 2025 text: every SHALL, RECOMMEND, and MAY, every number, every definition. Mastery loop, timed sim.">
+<meta property="og:image" content="https://niggerfaggot.club/ascs-drill-og.png">
+<meta property="og:url" content="https://carolinaqualityair.xyz/learning/acr-text-drill.html">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://niggerfaggot.club/ascs-drill-og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0f1317;--panel:#171e25;--panel2:#1c252e;--inset:#10161c;
+--line:#2a3642;--line2:#3d4e5f;
+--tx:#d7e1ea;--tx2:#93a5b6;--mut:#5c7085;
+--cyan:#3ec7ea;--grn:#41d98d;--amb:#f5b83d;--red:#f4726a;--org:#ff8a3d;
+--mono:'JetBrains Mono',ui-monospace,monospace;
+--disp:'Chakra Petch',system-ui,sans-serif;
+--body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{color-scheme:dark}
+body{margin:0;min-height:100vh;font-family:var(--body);color:var(--tx);
+background:
+ linear-gradient(rgba(62,199,234,.030) 1px,transparent 1px) 0 0/100% 28px,
+ linear-gradient(90deg,rgba(62,199,234,.030) 1px,transparent 1px) 0 0/28px 100%,
+ radial-gradient(1100px 480px at 50% -8%,#182430 0%,rgba(24,36,48,0) 70%),
+ var(--bg);}
+.wrap{max-width:780px;margin:0 auto;padding:22px 16px 60px}
+.plate{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line2);border-radius:10px;padding:18px 20px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center;box-shadow:0 6px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04)}
+.plate::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;border-radius:10px 10px 0 0;
+ background:repeating-linear-gradient(-45deg,var(--org) 0 10px,#20262c 10px 20px);opacity:.85}
+h1{font-family:var(--disp);font-weight:700;font-size:26px;letter-spacing:.06em;margin:6px 0 2px;text-transform:uppercase}
+h1 .tag{color:var(--cyan)}
+.sub{font-family:var(--mono);font-size:11px;color:var(--tx2);letter-spacing:.04em}
+.gauges{display:flex;gap:14px;align-items:center;flex-shrink:0}
+.g{width:64px;text-align:center}
+.dial{position:relative;width:64px;height:64px;margin:0 auto}
+.dial svg{display:block;width:100%;height:100%}
+.g .track{fill:none;stroke:var(--inset);stroke-width:7}
+.g .ticks{fill:none;stroke:var(--line2);stroke-width:2;stroke-dasharray:1 10.52}
+.g .val{fill:none;stroke-width:7;stroke-linecap:round;stroke-dasharray:138.23;transition:stroke-dashoffset .5s cubic-bezier(.2,.8,.2,1)}
+.g.seen .val{stroke:var(--cyan);filter:drop-shadow(0 0 4px rgba(62,199,234,.5))}
+.g.apt .val{stroke:var(--grn);filter:drop-shadow(0 0 4px rgba(65,217,141,.5))}
+.g .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;pointer-events:none}
+.g .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--mut);margin-top:2px}
+.hud{display:flex;gap:8px;align-items:center;margin:14px 2px 0;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:12px;font-weight:700;background:var(--inset);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--tx2)}
+#hudStreak.warm{color:var(--amb);border-color:#5a4a22}
+#hudStreak.hot{color:var(--org);border-color:#6b4326;text-shadow:0 0 8px rgba(255,138,61,.5)}
+#hudXP{color:var(--grn)}
+#sessStat{margin-left:auto;color:var(--mut)}
+.rail{display:flex;gap:10px;align-items:center;margin:14px 2px 0;flex-wrap:wrap}
+.seg{display:flex;border:1px solid var(--line2);border-radius:7px;overflow:hidden;background:var(--inset)}
+.seg a{font-family:var(--disp);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;cursor:pointer;color:var(--tx2);user-select:none}
+.seg a.on{background:var(--cyan);color:#08222c}
+.seg a+a{border-left:1px solid var(--line2)}
+select{font-family:var(--mono);font-size:12px;background:var(--inset);border:1px solid var(--line2);color:var(--tx);border-radius:7px;padding:7px 9px;max-width:210px}
+#count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--tx2)}
+.bpWrap{margin:16px 2px 0}
+.bpHead{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+#bpReady{font-size:12px;color:var(--cyan);font-weight:700}
+.bp{display:flex;gap:3px;margin-top:6px;height:30px}
+.bpSeg{position:relative;background:var(--inset);border:1px solid var(--line);border-radius:4px;overflow:hidden;cursor:pointer}
+.bpSeg .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(62,199,234,.32),rgba(62,199,234,.75));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.bpSeg.full .fill{background:linear-gradient(90deg,rgba(65,217,141,.4),rgba(65,217,141,.85))}
+.bpSeg.sel{border-color:var(--cyan)}
+.bpSeg .t{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--tx);text-shadow:0 1px 2px rgba(0,0,0,.7);white-space:nowrap;overflow:hidden}
+.pileRow{display:flex;gap:8px;margin:14px 2px 0;flex-wrap:wrap}
+.pchip{cursor:pointer;user-select:none}
+.pchip.on{border-color:var(--cyan);color:var(--cyan)}
+.card{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line2);border-radius:10px;margin-top:14px;padding:22px 22px 18px;box-shadow:0 8px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);min-height:280px}
+.topic{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px}
+.topic::before{content:"● ";color:var(--org)}
+.q{font-size:18px;line-height:1.5;font-weight:600;margin:0 0 16px}
+.hint{font-family:var(--mono);font-size:11px;color:var(--amb);margin:-8px 0 12px}
+#opts{display:flex;flex-direction:column;gap:8px}
+.ans{display:flex;gap:12px;align-items:center;text-align:left;width:100%;font-family:var(--body);font-size:15px;line-height:1.4;color:var(--tx);background:var(--inset);border:1px solid var(--line);border-radius:8px;padding:11px 13px;cursor:pointer;transition:border-color .12s,background .12s}
+.ans .ltr{flex-shrink:0;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--tx2);background:var(--panel2);border:1px solid var(--line2);border-radius:5px}
+@media(hover:hover){.ans:hover{border-color:var(--cyan);background:#152029}.ans:hover .ltr{color:var(--cyan);border-color:var(--cyan)}}
+.ans:active{background:#152029}
+.ans.sel{border-color:var(--amb)}.ans.sel .ltr{color:var(--amb);border-color:var(--amb)}
+.ans.correct{border-color:var(--grn);background:rgba(65,217,141,.10);box-shadow:0 0 0 1px var(--grn),0 0 14px rgba(65,217,141,.25)}
+.ans.correct .ltr{background:var(--grn);color:#062015;border-color:var(--grn)}
+.ans.wrong{border-color:var(--red);background:rgba(244,114,106,.10)}
+.ans.wrong .ltr{background:var(--red);color:#2a0c0a;border-color:var(--red)}
+.ans.dim{opacity:.42}
+.ans b{color:inherit}
+.chk{margin-top:12px;font-family:var(--disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;background:var(--cyan);color:#08222c;border:0;border-radius:7px;padding:10px 22px;cursor:pointer}
+.chk:disabled{opacity:.35;cursor:default}
+.tri{display:flex;gap:10px;margin-top:14px}
+.tbtn{font-family:var(--mono);font-size:12px;background:none;border:1px dashed var(--line2);color:var(--tx2);border-radius:7px;padding:8px 13px;cursor:pointer}
+@media(hover:hover){.tbtn:hover{border-color:var(--amb);color:var(--amb)}}
+.kb{display:inline-block;font-size:10px;border:1px solid var(--line2);border-radius:3px;padding:0 4px;margin-left:4px;color:var(--mut)}
+.explain{display:none;margin-top:14px;font-size:14px;line-height:1.55;border-left:3px solid var(--line2);background:var(--inset);border-radius:0 7px 7px 0;padding:11px 14px;color:var(--tx2)}
+.explain.show{display:block}
+.explain.ok{border-left-color:var(--grn)}.explain.ok b{color:var(--grn)}
+.explain.no{border-left-color:var(--red)}.explain.no b{color:var(--red)}
+.explain i{color:var(--amb);font-style:normal}
+#noteIn{width:100%;margin-top:8px;font-family:var(--mono);font-size:12px;background:var(--panel2);border:1px solid var(--line2);border-radius:6px;color:var(--tx);padding:7px 9px}
+.cont{display:none;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+.cont.show{display:block;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.done{text-align:center;padding:40px 10px}
+.done h2{font-family:var(--disp);letter-spacing:.06em;text-transform:uppercase;color:var(--grn);font-size:24px;margin:0 0 8px}
+.done p{color:var(--tx2);font-size:14px}
+.btn{font-family:var(--disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;background:var(--cyan);color:#08222c;border:0;border-radius:7px;padding:11px 24px;cursor:pointer;margin-top:10px}
+#weak{margin-top:16px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+#weak summary{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);padding:11px 15px;cursor:pointer;user-select:none}
+#weak[open] summary{border-bottom:1px solid var(--line)}
+.wk{padding:11px 15px;border-bottom:1px solid var(--inset);font-size:13px;line-height:1.5}
+.wk:last-child{border-bottom:0}
+.wk .ws{font-weight:600}
+.wk .wa{color:var(--grn)}
+.wk .we{color:var(--mut);font-size:12px}
+.wk .wt{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+footer{margin-top:20px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--mut)}
+footer a{color:var(--tx2);text-decoration:none;border-bottom:1px dotted var(--line2);cursor:pointer}
+@media(hover:hover){footer a:hover{color:var(--cyan)}}
+@media(max-width:640px){
+ .wrap{padding:12px 10px 50px}
+ .plate{flex-direction:row;padding:14px 14px 12px}
+ h1{font-size:19px}.sub{font-size:9px}.unit{display:none}
+ .g{width:54px}.dial{width:54px;height:54px}
+ .q{font-size:16px}.ans{font-size:14px}
+ #count{width:100%;margin-left:0}
+ .bpSeg .t{font-size:8px}
+}
+
+.exBar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--inset);border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin-bottom:12px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--tx2)}
+.exBar .clk{font-size:17px;color:var(--cyan);letter-spacing:.04em}
+.exBar .clk.warn{color:var(--amb)}.exBar .clk.crit{color:var(--red);animation:exPulse 1s infinite}
+@keyframes exPulse{50%{opacity:.45}}
+.exBar .sp{margin-left:auto;display:flex;gap:8px}
+.exBtn{font-family:var(--disp);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:12px;background:var(--panel2);color:var(--tx2);border:1px solid var(--line2);border-radius:6px;padding:8px 14px;cursor:pointer}
+.exBtn.pri{background:var(--cyan);color:#08222c;border-color:var(--cyan)}
+.exBtn.flag.on{background:var(--amb);color:#2a1d00;border-color:var(--amb)}
+.exBtn:disabled{opacity:.35;cursor:default}
+.exGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:4px;margin-top:12px}
+.exGrid b{font-family:var(--mono);font-size:11px;font-weight:700;text-align:center;padding:5px 0;border-radius:4px;background:var(--inset);border:1px solid var(--line);color:var(--mut);cursor:pointer}
+.exGrid b.ans{background:#1d3a2c;border-color:#2f6a4c;color:var(--grn)}
+.exGrid b.flg{background:#3a2f10;border-color:#7a6220;color:var(--amb)}
+.exGrid b.now{outline:2px solid var(--cyan);outline-offset:1px;color:var(--tx)}
+.exRep h2{font-family:var(--disp);letter-spacing:.05em;text-transform:uppercase;margin:0 0 4px}
+.exVerdict{font-family:var(--disp);font-size:34px;font-weight:700;letter-spacing:.06em;margin:6px 0}
+.exVerdict.pass{color:var(--grn)}.exVerdict.fail{color:var(--red)}
+.exRow{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+.exRow .nm{flex:0 0 165px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tx2)}
+.exRow .track{flex:1;height:14px;background:var(--inset);border:1px solid var(--line);border-radius:4px;position:relative;overflow:hidden}
+.exRow .track i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#2c7f5b,var(--grn));display:block}
+.exRow .track i.low{background:linear-gradient(90deg,#8a3630,var(--red))}
+.exRow .track u{position:absolute;top:0;bottom:0;left:72%;width:2px;background:var(--amb);opacity:.85}
+.exRow .pc{flex:0 0 82px;text-align:right;font-family:var(--mono);font-size:12px;font-weight:700}
+.exMiss{border-top:1px solid var(--line);padding:11px 0;font-size:13.5px;line-height:1.5}
+.exMiss .qq{font-weight:600;margin-bottom:5px}
+.exMiss .yr{color:var(--red)}.exMiss .cr{color:var(--grn)}
+.exMiss .wh{color:var(--tx2);font-size:12.5px;margin-top:4px}
+.exNote{font-size:12.5px;color:var(--mut);line-height:1.55;margin-top:14px}
+
+</style></head><body>
+<div class="wrap">
+<header class="plate">
+  <div>
+    <h1>ACR 2025 <span class="tag">TEXT DRILL</span></h1>
+    <div class="sub">NADCA AIR SYSTEMS CLEANING SPECIALIST · ACR 2025<br>CORE 260 Q · FULL 426 Q<span class="unit"> · UNIT NF-042</span></div>
+  </div>
+  <div class="gauges">
+    <div class="g seen">
+      <div class="dial">
+        <svg viewBox="0 0 60 60">
+          <circle class="ticks" cx="30" cy="30" r="26.5"/>
+          <circle class="track" cx="30" cy="30" r="22"/>
+          <circle id="seenR" class="val" cx="30" cy="30" r="22" stroke-dashoffset="138.23" transform="rotate(-90 30 30)"/>
+        </svg>
+        <div class="num" id="seenN">0%</div>
+      </div>
+      <div class="lbl">SEEN</div>
+    </div>
+    <div class="g apt">
+      <div class="dial">
+        <svg viewBox="0 0 60 60">
+          <circle class="ticks" cx="30" cy="30" r="26.5"/>
+          <circle class="track" cx="30" cy="30" r="22"/>
+          <circle id="aptR" class="val" cx="30" cy="30" r="22" stroke-dashoffset="138.23" transform="rotate(-90 30 30)"/>
+        </svg>
+        <div class="num" id="aptN">0%</div>
+      </div>
+      <div class="lbl">APT</div>
+    </div>
+  </div>
+</header>
+
+<div class="hud">
+  <span class="chip" id="hudStreak">🔥 0</span>
+  <span class="chip" id="hudXP">0 XP</span>
+  <span class="chip" id="hudBest" style="display:none">best 0</span>
+  <span class="chip" id="sessStat">SESSION 0 · —</span>
+</div>
+
+<div class="rail">
+  <div class="seg"><a id="vTriage">Triage</a><a id="vDrill">Drill</a><a id="vExam">Exam</a></div>
+  <div class="seg"><a id="mCore">Core</a><a id="mFull">Full</a></div>
+  <select id="topic"><option value="">All domains</option></select>
+  <span id="count"></span>
+</div>
+
+<div class="bpWrap">
+  <div class="bpHead"><span>EXAM BLUEPRINT · MASTERY BY DOMAIN</span><span id="bpReady">READY 0%</span></div>
+  <div class="bp" id="bp"></div>
+</div>
+
+<div id="piles" class="pileRow"></div>
+<div id="stage" class="card"></div>
+
+<details id="weak"><summary>Weak spots · lowest aptitude first</summary><div id="weakList"></div></details>
+
+<footer>TAP OR PRESS 1–4 / A–D · SPACE TO CONTINUE · <a id="histBtn">‹ BACK</a> · <a id="reset">RESET</a> · <a id="sndBtn"></a></footer>
+</div>
+<script>
+
+const MCQS=[["According to ACR 2025, which item is explicitly outside the Standard's scope?",["Fan-powered terminal boxes","Heat recovery exhaust ducts","Return plenums built to SMACNA","Non-ducted open air plenums"],3,"Scope excludes non-ducted open air plenums, electrical/pneumatic repair, pressure vessels, gas/oil controls, and OEM PM. The other three are inspected components.","Scope & General",1],["Under ACR 2025, having an ASCS or equivalent responsible for project oversight is:",["May be omitted","Recommended","Not addressed","Required"],1,"Qualifications: personnel shall be trained and qualified; ASCS oversight is recommended, not required.","Scope & General",1],["When a local regulation on microbial remediation contradicts ACR, the Standard says:",["The IEP resolves the conflict","The regulation supersedes ACR","ACR supersedes the regulation","The stricter of the two applies"],1,"Disclaimer: codes, laws, and regulations on microbial assessment/remediation supersede contradictory ACR content.","Scope & General",1],["ACR 2025 describes itself as which combination?",["Procedural standard with performance targets","Performance standard with minimum procedures","Guideline with no mandatory content","Code adopted by reference in the IMC"],1,"Foreword: a performance standard that also provides minimum procedural requirements.","Scope & General",1],["Which trigger for cleaning is on the ACR need-to-clean list?",["Microbial contamination at Condition 2 or 3","System age exceeding ten years","Microbial contamination at Condition 3 only","A change of building ownership"],0,"The list includes Condition 2 or Condition 3. Age and ownership are not listed.","Scope & General",1],["If there is a question on the need to clean, ACR says Method 2 or Method 3:",["Is recommended before any quote","Is required for commercial systems","Shall be performed first","May be performed to decide"],3,"Need-to-clean note: Method 2 or Method 3 may be performed. Permissive, not mandatory.","Scope & General",1],["Which is listed by ACR as a reason to recommend cleaning?",["Deterioration of fibrous glass liner","A MERV upgrade at the filter rack","A seasonal changeover from cooling to heating","Replacement of the blower motor assembly"],0,"Deterioration of fibrous glass duct liner, duct board, or other porous components is on the list.","Scope & General",1],["ACR names which maintenance standard as a basis for routine cleaning and inspection programs?",["ASHRAE 62.1","NFPA 90B on warm air heating systems","ANSI/ASHRAE/ACCA Standard 180","ASHRAE/ASHE Standard 170 on healthcare"],2,"Standard 180 is the inspection and maintenance practice for commercial HVAC. 62.1 is ventilation, 170 is healthcare ventilation, 90B is warm-air installation.","Scope & General",1],["Inspections before and after a cleaning project are:",["Required","May be omitted","Advised","Not addressed"],0,"1.1: inspections shall be performed before and after. Routine inspections are the recommended part.","Inspections",1],["The minimum inspector qualification ACR makes mandatory is:",["Working knowledge of HVAC and standards","Licensure as an indoor environmental professional","Current ASCS or CVI certification","Employment by a NADCA member company location"],0,"1.2: ASCS/CVI is recommended; at minimum personnel shall have verifiable working knowledge. Licensing applies to microbial determinations where law requires.","Inspections",1],["Anyone determining Condition 1, 2, or 3 during an inspection shall be:",["A CVI holding a mold assessor endorsement","A certified industrial hygienist with CIH credential","An IEP retained directly by the client","Qualified and licensed where law applies"],3,"1.2: qualified through training and experience, and licensed where applicable by law.","Inspections",1],["Building floor plans and mechanical plans, when available, shall be used during:",["Inspection, cleaning, and restoration","Cleanliness verification and documentation only","The pre-inspection, scope, and plan","Scope development and the work plan only"],0,"1.3: both floor plans and mechanical plans, if available, shall be used during inspection, cleaning, and restoration.","Inspections",1],["During an inspection, appropriate engineering controls to manage the workspace are:",["Prohibited","Optional","Required","Recommended only"],2,"1.4: during an inspection, appropriate engineering controls shall be used.","Inspections",1],["Per Table 1, the recommended inspection interval for a residential supply duct is:",["One year","Five years","Two years","Three years"],2,"Residential and marine ducts: 2 years. AHUs everywhere: 1 year. Commercial, industrial, healthcare ducts: 1 year.","Inspections",1],["Per Table 1, the recommended AHU inspection interval for a marine vessel is:",["Six months","Two years, as for ducts","Every drydock","One year"],3,"AHU interval is one year in every classification, including marine.","Inspections",1],["Per Table 1, which building type has a two-year return duct interval?",["Marine","Healthcare","Residential","Industrial"],0,"Residential and marine share the 2-year duct interval. The other three are annual.","Inspections",1],["Inspecting a system for cleanliness before it operates after a remodel is:",["May be waived","Prohibited","Required","Recommended"],3,"1.6: recommended that new and existing components in construction, retrofit, or remodel be inspected before operation.","Inspections",1],["The minimum share of HVAC system components a cleanliness inspection shall include is:",["One per zone","25 percent","10 percent","20 percent"],2,"1.7: at minimum 10% of components.","Inspections",1],["Which condition changes the inspection requirement from 10% to all components?",["A Category 3 water loss","A healthcare facility under ASHRAE/ASHE 170","A post-fire evaluation under IESO/RIA 6001","A microbial remediation project per S520"],3,"1.7: when the inspection is part of a microbial remediation project under ANSI/IICRC S520, all components shall be inspected.","Inspections",1],["Which component group is listed under the AHU cleanliness inspection?",["Return plenums, return dampers, and grilles","Door gaskets and humidification systems","Reheat coils and VAV boxes","Bathroom, general, and heat recovery exhaust"],1,"1.7.1 AHU list includes door gaskets and humidification systems. Reheat/VAV are supply-side; return plenums are return-side; exhaust is 1.7.5.","Inspections",1],["Reheat coils are inspected as part of which inspection?",["Return air duct inspection","Exhaust air duct inspection","Supply air duct inspection","Air-handling unit inspection"],2,"1.7.2 lists reheat coils under supply duct inspection.","Inspections",1],["How does ACR treat open air plenum inspections?",["Required in full under S520 and may not be sampled","Required at the 10 percent minimum sample","Excluded from any inspection under the Standard","May or may not be in the contractual scope"],3,"1.7.4: open air plenum inspections may or may not be part of the contractual scope; refer to the NADCA white paper.","Inspections",1],["General exhaust, bathroom exhaust, and heat recovery exhaust are:",["Part of the overall inspection","Inspected only when contracted","Inspected only under IKECA C10","Outside the Standard's scope"],0,"1.7.5: considered part of the ventilation system and part of the overall inspection.","Inspections",1],["Damaged or unsafe components observed during inspection shall be:",["Tagged out of service","Replaced before cleaning","Documented","Repaired before cleaning"],2,"1.7.6: shall be documented. Repair of malfunctioning devices is outside the Standard (4.24.1).","Inspections",1],["If suspect mold is found in the AHU during inspection, the supply and return ducts:",["Shall be inspected at that same time","Are inspected on the Table 1 interval","Shall be inspected within 30 days","Shall be sampled by an IEP"],0,"1.9.1: inspected during that same inspection rather than per Table 1 intervals.","Inspections",1],["Suspect mold on furnishings or building products is handled by:",["S520 and applicable regulations","ACR Section 4.13","The IEP under Section 1.8 and Table 1","S500 water categories and this Standard"],0,"1.9.2: not within ACR's scope; refer to ANSI/IICRC S520 and applicable law.","Inspections",1],["Noting a preliminary Condition 1, 2, or 3 when suspect mold is observed is:",["May be deferred","Not addressed","Required","Recommended"],3,"1.9: recommended that a preliminary determination be noted; further assessment by an IEP is also recommended.","Inspections",1],["Which is NOT one of the five items the system component assessment shall include?",["A recommendation on the need to clean","A cost estimate for the work","A clearly defined scope of work","The cleaning techniques"],1,"1.10: need to clean, scope, techniques, engineering controls, unique requirements. Cost is not listed.","Inspections",1],["Consulting an IEP when inspectors may be exposed to hazardous materials is:",["Required","May be omitted","Not addressed","Recommended"],3,"1.8: consultation with a qualified IEP or other health and safety professional is recommended.","Inspections",1],["Before cleaning begins, a written work plan from the contractor is:",["May be omitted","Not addressed","Advised","Required"],3,"2.0: the contractor shall provide a written work plan prior to commencement.","Work Plans",1],["Which element shall appear in the work plan?",["The scope of work","The means and methods","The project schedule","The site contacts"],0,"2.2 scope is shall; 2.3 means/methods, 2.5 schedule, 2.6 communication plan are recommended.","Work Plans",1],["Listing the specific means and methods of cleaning in the work plan is:",["Required","Recommended","Prohibited","May be waived"],1,"2.3: it is recommended that the written work plan identify means and methods.","Work Plans",1],["Safety Data Sheets for project chemicals shall be:",["Filed with the AHJ before the first opening is cut","In the plan and kept on site for the project","Posted at the containment","Submitted to the client for signature before work"],1,"2.7.1: SDS shall be in the work plan and maintained on site for the duration. Client submittal proof can be included.","Work Plans",1],["Manufacturer's instructions for chemical products shall be:",["Attached to the invoice and the work plan","Available at all times to workers and others","Approved in writing by the IEP before use","Read aloud at the daily safety briefing"],1,"2.7: the manufacturer's instructions for use and application shall be available at all times.","Work Plans",1],["When duct smoke detectors must be taken off line, the work plan shall:",["Notify the fire marshal","Address life safety concerns","Schedule a fire watch","Require a Level 3 containment"],1,"2.8: the plan shall address life safety concerns, which will likely require input from others.","Work Plans",1],["Naming each organization's designated representative in the work plan is:",["Not addressed","Required","May be deferred","Recommended"],3,"2.8: recommended that the plan define responsibilities of each organization's designated representative.","Work Plans",1],["Where applicable, the work plan shall describe engineering controls for:",["Combustion emissions from generators","Waste water capture and disposal","Chemical vapors and odors","Noise and vibration"],2,"2.7.2: a description of engineering controls to control worker and occupant exposure to chemical vapors and odors.","Work Plans",1],["Before equipment is brought onto the work site, it shall be:",["Tagged with an SDS","Cleaned and inspected","Tested per NADCA Standard 03","Verified for airflow on site"],1,"3.1.1: cleaned and inspected so it does not introduce contaminants. On-site verification (3.1.4) is recommended.","Engineering Controls",1],["On-site maintenance verification of vacuum collection equipment before work starts is:",["Required","Not addressed","Recommended","May be omitted"],2,"3.1.4: recommended.","Engineering Controls",1],["Servicing or changing filters on contaminated vacuum equipment during a project shall occur:",["Only after the shift ends","In the mechanical room with the door closed and sealed","Under a Level 3 containment with a decon chamber","In a containment area or outside the building"],3,"3.1.2.1: in an appropriate containment area or outside of the building.","Engineering Controls",1],["Before relocating collection devices to another area of the building, they shall be:",["Cleaned or sealed","HEPA vacuumed inside and out","Re-verified for airflow","Bagged and labeled"],0,"3.1.3: cleaned or sealed before relocating and before removal from the building.","Engineering Controls",1],["Vacuum equipment exhausting within the building envelope shall have HEPA filtration rated at:",["99.97% at 0.3 micron","99.9% at 0.3 micron","99.99% at 0.3 micron","99.97% at 0.1 micron"],0,"3.3 and the HEPA definition: 99.97% collection efficiency at 0.3 micron.","Engineering Controls",1],["Negative pressure in the portion of the system being cleaned shall be:",["Logged every fifteen minutes on a recording manometer","Measured at the collection device inlet only","Continuous and verifiable at representative points","Held at 0.02 inches water column relative to the corridor"],2,"3.4: continuous, and verifiable at representative locations during cleaning. ACR gives no numeric value.","Engineering Controls",1],["Ambient air cleaning with HEPA scrubbers during and after work is, in general:",["Prohibited","Required","May be waived","Recommended"],3,"3.6: recommended as a supplemental control. It becomes a shall inside Level 2 containment (3.10.7).","Engineering Controls",1],["Redundant equipment on site in case of negative pressure failure is:",["May be deferred","Required","Recommended","Not addressed"],2,"3.8: recommended.","Engineering Controls",1],["Fuel-powered equipment such as generators and vacuum trucks shall be:",["Located at least 25 feet from any outside air intake","Fitted with catalytic exhaust scrubbers and monitored","Positioned to keep emissions out of occupied space","Shut down whenever building occupants are present"],2,"3.2: positioned to prevent combustion and exhaust emissions from entering occupied space, and monitored during the project.","Engineering Controls",1],["The minimum containment level that shall be used on every cleaning project is:",["Level 2","Level 3","Level set by the IEP","Level 1"],3,"3.9: Level 1 is the minimum on all projects.","Engineering Controls",1],["Which is one of the three Level 1 containment requirements?",["Protective coverings beyond the work area","A manometer validating negative pressure","HEPA scrubbing at four air changes per hour","Temporary barriers isolating the work area"],0,"Level 1 = negative pressure, protective coverings, cross-contamination control. Barriers, manometer, and 4 ACH are Level 2.","Engineering Controls",1],["Under Level 2, constructing temporary barriers to isolate the work area is:",["Recommended only","Optional","Prohibited","Required"],3,"3.10.2: barriers shall be constructed. Their material, height, and sealing are the recommended parts.","Engineering Controls",1],["Under Level 2, building the barriers from 6-mil fire retardant polyethylene is:",["May be omitted","Not addressed","Required","Recommended"],3,"3.10.2.3: recommended. The floor (3.10.3) is where 6-mil FR poly is mandatory.","Engineering Controls",1],["Under Level 2, the containment floor shall be:",["Two layers of 4-mil poly with sealed seams","One layer of 6-mil fire retardant poly taped","Ram board under one layer of 6-mil poly","Two layers of 6-mil fire retardant poly"],3,"3.10.3: two-layer floor of 6-mil fire retardant polyethylene or equivalent.","Engineering Controls",1],["Under Level 2, the floor material shall extend up the side walls at least:",["6 inches","12 inches","To the ceiling","18 inches"],0,"3.10.3: at least 6 inches (15.2 cm) and be sealed to the walls.","Engineering Controls",1],["When a zipper is not practical, a vertical cut in the containment wall shall be:",["Limited to 36 inches tall","Covered by a single weighted flap on the outside","Covered by two flaps, one on each side","Sealed with tape after entry, and after exit"],2,"3.10.4.1: the vertical cut shall be entirely covered by two flaps, one on each side.","Engineering Controls",1],["Under Level 2, validating negative pressurization shall be done with:",["A manometer or airflow measuring device","A smoke pencil at the flap","A particle counter at the barrier perimeter","Visual observation of the poly bowing inward"],0,"3.10.6: a manometer or airflow measuring/monitoring device shall be used.","Engineering Controls",1],["Under Level 2, ambient air cleaning shall maintain at minimum:",["Twelve air changes per hour","Six air changes per hour","Two air changes per hour","Four air changes per hour"],3,"3.10.7: HEPA-filtered scrubbing at minimum four (4) air changes per hour.","Engineering Controls",1],["Before dismantling a Level 2 containment, its interior surfaces shall be:",["Fogged with an antimicrobial","Sampled with the NADCA Vacuum Test","Wet-wiped and/or HEPA vacuumed","Inspected by the IEP"],2,"3.10.8: wet-wiped and/or HEPA vacuumed before moving or dismantling.","Engineering Controls",1],["In a healthcare setting, before a Level 2 containment comes down:",["A post-remediation verification shall be performed","Infection control shall sign off on the work plan","The AHJ shall inspect the enclosure and decon","Air sampling shall demonstrate Condition 1 status"],0,"3.10.8: in the healthcare environment an appropriate post-remediation verification shall be performed prior to dismantling.","Engineering Controls",1],["Level 3 containment differs from Level 2 by adding:",["A single-chamber decontamination unit","A two-chamber decontamination unit","Full-time IEP oversight","A recording pressure monitor with alarm"],0,"3.11: single chamber decon unit. Level 4 has two chambers plus the recording monitor and alarm.","Engineering Controls",1],["Under Level 3, background total particulate monitoring before containment setup is:",["Not addressed","Required","May be omitted","Advised"],1,"3.11.3: background monitoring shall be performed prior to set-up. Monitoring during set-up is recommended.","Engineering Controls",1],["Under Level 3, if airborne particulate exceeds background during the work:",["The client shall be notified within 24 hours in writing","Scrubber capacity shall be doubled and logged","The containment shall be upgraded to Level 4","Work shall cease until levels return to background"],3,"3.11.3: work shall cease until levels are reduced to background and the cause is corrected.","Engineering Controls",1],["Which requirement is unique to Level 4 containment?",["Constant recording pressure monitor with alarm","Single flap zipper access into the decon chamber","Continuous negative pressure monitoring by instrument","Real-time particulate monitoring"],0,"3.12.3: Level 4 adds a constant recording pressure monitor with an appropriate alarm. The others exist at Level 3.","Engineering Controls",1],["Contaminated materials removed from the system shall be properly contained:",["Prior to removal from the building","Before the end of each shift and each day","Within the containment area and decon only","Prior to off-site transport"],0,"3.5: properly contained prior to removal from the building.","Engineering Controls",1],["Any application of cleaning agents or chemicals shall follow:",["Manufacturer's procedures and instructions","The NADCA position paper on chemical products","The IEP's written protocol for the project","The client's written product approval and SDS"],0,"3.7: in strict accordance with manufacturer's recommended procedures and product application instructions, including exhaust ventilation.","Engineering Controls",1],["All cleaning and restoration procedures shall achieve at minimum:",["A passing Surface Comparison Test on porous surfaces","Condition 1 fungal ecology on all airside surfaces","A passing NADCA Vacuum Test on every component","Visibly clean or the contracted verification level"],3,"4.0: the minimum level of visibly clean or the specified verification level in the contract documents.","Cleaning Procedures",1],["Verifying the negative pressure differential during the project is required:",["At Level 2 and above","Under all circumstances","When exhausting indoors","When a manometer is available"],1,"4.1.1: under all circumstances, you shall verify pressurization differential during the project.","Cleaning Procedures",1],["Negative pressure equipment without HEPA filtration shall:",["Not be used on occupied projects","Be exhausted outdoors","Discharge to the return","Be fitted with a MERV 16 final filter"],1,"4.1.3: all equipment used to create negative duct pressurization that lacks HEPA shall be exhausted outdoors.","Cleaning Procedures",1],["Service openings in the system shall not:",["Hinder, restrict, or alter airflow","Exceed 12 inches, 300 mm, in any dimension","Be made in duct board of any kind","Be placed within 3 feet of a damper"],0,"4.2.3: shall not hinder, restrict, or alter airflow. No size limit is given; fibrous glass openings are allowed with proper closure.","Cleaning Procedures",1],["Service panels shall be mechanically fastened at minimum every:",["6 inches on center","4 inches on center","8 inches on center","2 inches on center"],1,"4.2.5.2: screwed or riveted at minimum every 4 inches on center.","Cleaning Procedures",1],["Service panels shall overlap the ductwork on all sides by at least:",["3 inches or 1/4 of the span","2 inches","1 inch","1/2 inch"],2,"4.2.5.2: minimum 1 inch overlap on all sides.","Cleaning Procedures",1],["Service panels shall be of what gauge relative to the duct?",["Equivalent or heavier","One gauge lighter","Per the pressure class table in SMACNA","Any gauge if mechanically fastened"],0,"4.2.5.1: equivalent gauge or heavier so as not to compromise the duct. Pressure class governs prefab access doors (4.2.6).","Cleaning Procedures",1],["Tapes and mastics used to close service openings shall meet:",["UL 181","UL 723","UL 181A/B","ASTM E84 only"],2,"4.2.5.4: UL 181A/B. UL 181 governs surface treatments (4.15.1). UL 723 governs flame spread of door materials.","Cleaning Procedures",1],["The gauge of a prefabricated duct access door shall be based on:",["The gauge of the surrounding duct wall","The size of the opening being closed","The SMACNA seal class of the duct run","The pressure class of the duct system"],3,"4.2.6: based on the pressure class of the duct system and installed per the manufacturer.","Cleaning Procedures",1],["Access door materials exposed to the airstream shall have a flame-spread rating not over:",["50","75","25","10"],2,"4.2.7: flame spread not over 25, smoke developed not over 50, per UL 723.","Cleaning Procedures",1],["Access door materials exposed to the airstream shall have a smoke-developed rating not over:",["50","450","25","100"],0,"4.2.7: smoke-developed not over 50. Flame spread is the 25.","Cleaning Procedures",1],["Fibrous glass removed to create a service opening shall be:",["Repaired or replaced with like material of the same thickness","Sealed with a UL 181 listed coating over the exposed edges","Covered by a rigid duct board patch of any available thickness","Discarded and the opening lined with sheet metal of any gauge"],0,"4.2.8.2: repaired or replaced with like material of the same thickness so R-value, service rating, and vapor barrier are not degraded.","Cleaning Procedures",1],["Service openings in flexible ductwork are:",["Prohibited","Not addressed","Permitted at the collar only","Permitted with a listed closure"],0,"4.2.9: service openings shall not be made in flexible ductwork.","Cleaning Procedures",1],["Following the manufacturer's instructions when disconnecting and reattaching flex duct is:",["Prohibited","Recommended","Required","May be waived"],1,"4.2.9.1: recommended.","Cleaning Procedures",1],["HVAC systems shall be cleaned by:",["Agitation followed by a UL 181 surface treatment","Wet process cleaning with full waste water capture","Agitation to dislodge, then vacuum collection","Vacuum collection alone, at velocity"],2,"4.3: a suitable agitation device to dislodge non-adhered substances, then capture with a vacuum collection device.","Cleaning Procedures",1],["Cleaning agents or water shall never be applied to:",["Galvanized sheet metal older than twenty years","Any coil section without a condensate drain pan","Electrical, fibrous glass, or porous components","Dampers, turning vanes, and air-directional devices"],2,"4.4: never on electrical, fibrous glass, or other porous HVAC components.","Cleaning Procedures",1],["During cleaning, vacuum collection equipment shall be operated:",["During agitation","Whenever occupants are present","Continuously","In alternating cycles with agitation"],2,"4.5: operated continuously during cleaning.","Cleaning Procedures",1],["Table 2 duct design velocities are, in obligation terms:",["Not addressed","Required","Recommended","May be deferred"],2,"4.5.1: Table 2 defines recommended velocities. Sufficient velocity is the shall.","Cleaning Procedures",1],["Table 2 velocity for average industrial dust such as grinding dust or silica flour is:",["3,000 to 3,500 fpm","3,500 to 4,000 fpm","4,000 to 4,500 fpm","2,500 to 3,000 fpm"],1,"Average industrial dust 3,500-4,000. Dry dusts/powders 3,000-3,500. Heavy dusts 4,000-4,500. Fine light dust 2,500-3,000.","Cleaning Procedures",0],["Table 2 velocity for heavy or moist dusts such as quick-lime dust is:",["4,500 fpm and up","4,000 to 4,500","3,500 to 4,000 fpm","2,000 to 2,500 fpm"],0,"Heavy or moist dusts: 4,500 fpm and up. Heavy dusts: 4,000-4,500. Welding fumes: 2,000-2,500.","Cleaning Procedures",0],["Table 2 is reprinted from which source?",["ACGIH Industrial Ventilation manual","SMACNA HVAC Duct Construction Standards","NADCA Standard 03","ASHRAE Fundamentals Handbook"],0,"Table 2 is reprinted from ACGIH Industrial Ventilation: A Manual of Recommended Practice.","Cleaning Procedures",0],["Wet cleaning coils, fans, condensate pans, and drains together with mechanical methods is:",["Required","Recommended","May be omitted","Not addressed"],1,"4.6: recommended that these non-porous AHU surfaces be wet cleaned in conjunction with mechanical methods.","Cleaning Procedures",1],["Waste water from wet cleaning shall be captured and disposed of per:",["The client's permit, and site rules","NIOSH Method 0500","Local, state, and federal regulations","The IEP's written protocol for the project"],2,"4.6.2: in accordance with applicable local, regional, state, and federal regulations.","Cleaning Procedures",1],["Air ducts shall be accessed through service openings large enough to:",["Pass a 2.5-inch nylon brush head on a 1.5-inch hose","Admit a robotic camera and its tether","Allow mechanical cleaning and verification","Insert the 100 cm2 NADCA Vacuum Test template"],2,"4.7.1: large enough to accommodate mechanical cleaning procedures and allow for cleanliness verification.","Cleaning Procedures",1],["Dampers and air-directional devices shall have their position:",["Set to full open for the duration of cleaning","Marked before cleaning and restored after","Verified by the test and balance contractor","Recorded in the report"],1,"4.8: marked prior to cleaning and restored to the marked position after.","Cleaning Procedures",1],["For registers, grilles, and diffusers, ACR makes which action mandatory?",["Replacing any that show damage or corrosion","Cleaning them off site in a wash station","Restoring them to their previous position","Removing them from the duct for cleaning"],2,"4.9: removal and cleaning is recommended if possible; restoration to previous position is shall.","Cleaning Procedures",1],["Cleaning activities and smoke or fire detection equipment:",["May disable the equipment with client consent","Shall bypass the equipment during agitation only","Shall not impair, alter, or damage the equipment","Shall be scheduled, tested, and logged with the alarm company"],2,"4.10: cleaning shall not impair, alter, or damage smoke and fire detection equipment. Off-line handling is a work plan item (2.8).","Cleaning Procedures",1],["All products used for odor control shall comply with:",["The EPA label only","The IEP's approved product list for the site","Local, state, and federal regulations","The NADCA position paper, and its SDS"],2,"4.12: comply with any local, regional, state, and federal regulations and other laws regulating such agents.","Cleaning Procedures",1],["When coil cleaning is performed, which sides shall be accessed?",["The leaving-air side of each coil section","Whichever side is nearest the drain pan","Both upstream and downstream of each section","The entering-air side of each coil section"],2,"4.11: both upstream and downstream sides of each coil section shall be accessed.","Coils",1],["If both sides of a coil cannot be accessed for cleaning:",["Pressure washing from the accessible side is required","Type 2 cleaning shall be performed from one side","Removal and/or replacement may be required","Documented as adhered, and may be left"],2,"4.11: removal and/or replacement may be required.","Coils",1],["Before cleaning a coil, a visual inspection of the coil and pan shall determine:",["Whether fin straightening is needed","Whether Type 1 or Type 2 is required","Whether the coil is Condition 1, 2, or 3","The static pressure drop baseline"],1,"4.11.1: to determine whether Type 1 (Dry) or Type 2 (Wet) cleaning is required.","Coils",1],["Suspect microbial contamination on any portion of the coil or drain pan requires:",["Removal and replacement of the coil","Sampling by an IEP before cleaning","Type 1 plus antimicrobial","Type 2 (Wet Cleaning)"],3,"4.11.1.2: Type 2 (Wet Cleaning) shall be performed.","Coils",1],["If cleaning a coil with damaged, corroded fins will cause further damage, replacement is:",["At the client's option","Required","May be necessary","Recommended"],3,"4.11.1.3: replacement may be necessary; if cleaning will cause further damage, replacement is recommended.","Coils",1],["During Type 1 (Dry) coil cleaning, the coil shall be:",["Cleaned from the leaving-air side","Dry for at least 24 hours prior","Isolated from the duct system","Under a Level 2 containment"],2,"4.11.2: isolated from the duct system so disrupted particulate does not migrate or redeposit; negative air machines run continuously.","Coils",1],["Which is listed as a Type 1 (Dry Cleaning) method?",["Coil cleaning products per label","Water washing at line pressure","Compressed air","Steam cleaning"],2,"4.11.2 lists HEPA contact vacuuming, fin brushes, compressed air, and fin straightening tools. The others are Type 2 methods.","Coils",1],["After Type 1 cleaning, if debris remains or the coil is impacted:",["Type 1 shall be repeated once and re-inspected","A static pressure drop test shall be taken","The coil shall be replaced","Type 2 (Wet Cleaning) shall be performed"],3,"4.11.3: Type 2 (Wet Cleaning) shall be performed.","Coils",1],["Which is listed as a Type 2 (Wet Cleaning) method?",["Pressure washing equipment","Brushes between coil fins","Fin straightening tools","HEPA-filtered contact vacuuming"],0,"4.11.4 lists coil products, water at line pressure, pressure washing equipment, hot water or steam. The others are Type 1.","Coils",1],["During Type 2 coil cleaning, the condensate drain pan shall be:",["Treated with an EPA-registered condensate pan tablet","Replaced if biofilm is present","Inspected and drainage tested before and after","Tested for drainage after cleaning is complete only"],2,"4.11.4.1: pan and line cleaned and flushed; pan inspected and tested to verify drainage before and after.","Coils",1],["Coil cleaning solutions as close to pH neutral as possible are:",["Required","Recommended","May be waived","Prohibited"],1,"4.11.4.2: recommended. Non-corrosive detergents are the shall for electric resistance coils (4.11.8).","Coils",1],["If debris remains on a coil after Type 2 (Wet Cleaning):",["The coil shall be replaced","A surface treatment may be applied","The coil is documented as adhered","The process shall be repeated"],3,"4.11.5: the process shall be repeated. Replacement may be necessary only when Type 2 cannot remove it.","Coils",1],["ACR's recommended way to demonstrate coil cleaning effectiveness is:",["Static pressure drop measured before and after","The NADCA Vacuum Test on the fin face","Supply air temperature split before and after","Visual inspection with a light behind the coil"],0,"4.11.6: visual observation can be misleading; a static pressure drop measurement before and after is recommended.","Coils",1],["When wet cleaning a duct-mounted inline coil without a drain pan, precautions shall be taken to:",["Bypass the coil with a temporary duct","Capture rinse water","Use Type 1 only","Isolate the coil electrically"],1,"4.11.7: precautions shall be taken to capture rinse water when wet cleaning duct-mounted coils without drain pans.","Coils",1],["Before cleaning electric resistance coils, the power source shall be:",["Switched off at the thermostat and disconnect","Reduced to control voltage","Verified dead with a non-contact voltage tester","De-energized and locked out/tagged out"],3,"4.11.8: de-energized and locked out/tagged out.","Coils",1],["If electric resistance coils are wet cleaned, the detergent shall be:",["Non-corrosive","Alkaline degreaser","pH neutral","EPA registered"],0,"4.11.8: only non-corrosive detergents shall be used; rinse free and dry thoroughly before re-energizing. pH neutral is the general REC.","Coils",1],["Remediating microbial contamination shall be performed in accordance with:",["ANSI/IICRC S520 and this Standard","ANSI/IICRC S500 and this Standard","ANSI/IICRC S590 alone","EPA mold remediation guidance"],0,"4.13: ANSI/IICRC S520 plus the ACR cleaning/restoration provisions.","Restoration",1],["Restoration procedures shall be performed:",["After cleanliness verification and client sign-off","Only after mechanical cleaning","Before mechanical cleaning to stabilize surfaces","During mechanical cleaning"],1,"4.14: restoration shall only be performed after mechanical cleaning.","Restoration",1],["Replacing components that cannot reach ACR cleanliness levels by cleaning and restoration is:",["Required","Not addressed","May be deferred","Recommended"],3,"4.14.3: recommended.","Restoration",1],["Surfaces unable to withstand proper mechanical cleaning shall be:",["Coated with a UL 181 surface treatment","Excluded from the scope of work in writing","Documented and brought to the customer","Replaced before the project may be closed out"],2,"4.14.4: documented, brought to the attention of the customer, and recommended for repair or replacement.","Restoration",1],["Surface treatments used to restore material surfaces shall be applied:",["Only to non-porous components in the AHU","Only after cleaning, before verification begins","Only after cleaning and passing verification","Only under Level 2 containment or higher"],2,"4.15: shall only be applied after confirming the system has been cleaned and passed the specified cleanliness verification.","Restoration",1],["Surface treatments shall meet the requirements of:",["UL 181A/B","ASTM C1071","UL 181","UL 723"],2,"4.15.1: UL 181. 181A/B is for closure tapes and mastics.","Restoration",1],["Removing and replacing porous materials with Condition 3 growth is:",["Not addressed","Recommended","May be omitted","Required"],1,"4.16: recommended. The mechanical surface cleaning that follows the removal is the shall.","Restoration",1],["After removal of microbially contaminated porous material, the task shall be followed by:",["Application of a labeled antimicrobial product","Air sampling to Condition 1","Surface cleaning by mechanical methods","A NADCA Vacuum Test on the exposed base metal"],2,"4.16: this task shall be followed by surface cleaning using mechanical cleaning methods.","Restoration",1],["Mechanical cleaning of fibrous glass liner or duct board shall not create:",["Abrasions, breaks, or tears","Any change in color, sheen, or texture","Visible surface fuzzing","Loss of the facing adhesive"],0,"4.17.1: shall not create abrasions, breaks, or tears.","Restoration",1],["Resurfacing or coating friable or abraded fibrous glass is:",["Required","Recommended","May be considered","Prohibited"],2,"4.18: resurfacing/coating may be considered when components are friable or show abrasion or degradation.","Restoration",1],["Before coating fibrous glass, an assessment shall determine:",["Whether the R-value will be maintained after coating","Whether the surface will provide a strong bond","Whether the coating is EPA registered for HVAC","Whether the liner has returned to Condition 1"],1,"4.18.1: whether the surface will provide a strong, bondable surface after proper mechanical cleaning.","Restoration",1],["If fibrous glass cannot support a surfacing product or provide a long-term bond, coating:",["May be performed with client acceptance","Is recommended against","Shall not be performed","Shall be limited to two coats"],2,"4.18.2: resurfacing/coating shall not be performed.","Restoration",1],["When damage or friability means neither cleaning nor coating can restore fibrous glass, replacement is:",["Required within 30 days","Required","Recommended","May be considered"],2,"4.19: replacement is recommended.","Restoration",1],["Metal surfaces that had degraded liner removed shall, before new insulation:",["Be sampled and confirmed at Condition 1 status","Pass the NADCA Vacuum Test at 0.75 mg/100 cm2","Be primed with a UL 181 coating before insulation","Be scraped clean and free of loose visible debris"],3,"4.20: base surface scraped clean and free of loose, visible debris. Condition 1 applies when the removal was for mold (4.20.1).","Restoration",1],["When liner was removed because of microbial contamination, the base surface shall be cleaned to:",["Condition 1 status","Visibly clean","Condition 2 status","A passing Method 3 result"],0,"4.20.1: cleaned to a Condition 1 status prior to reapplying fibrous glass.","Restoration",1],["Installation of new thermal-acoustic insulation in the airstream shall comply with:",["SMACNA, NAIMA, and applicable codes","UL 181A/B, and NFPA 90A","ASHRAE 62.1 and the International Mechanical Code","ASTM C1071 only"],0,"4.20.3: current SMACNA, NAIMA, and other applicable codes and standards.","Restoration",1],["Restoration of a non-porous surface that keeps shedding particulate after cleaning is:",["Required","May be considered","Required before verification","Recommended"],3,"4.21: restoration is recommended.","Restoration",1],["Flood-damaged HVAC components shall be categorized using:",["ANSI/IICRC S520","IESO/RIA 6001","ANSI/IICRC S590","ANSI/IICRC S500"],3,"4.22: industry recognized methods such as ANSI/IICRC S500. S520 is mold, S590 is HVAC assessment after events, 6001 is fire particulate.","Restoration",1],["Porous surfaces after fire or smoke damage shall be evaluated for:",["Condition 2 or Condition 3 growth","Water category per S500","Static pressure drop across the surface","Friability and odor retention"],3,"4.23.1: evaluated following mechanical cleaning for friability and odor retention.","Restoration",1],["Fire-damaged porous areas found friable or retaining odor shall be:",["Sealed with an odor encapsulant","Documented and left in service","Cleaned a second time","Resurfaced or replaced"],3,"4.23.2: shall be resurfaced or replaced.","Restoration",1],["Sampling to determine whether a component holds soot or smoke per IESO/RIA 6001 is:",["Prohibited","Recommended","Required","May be waived"],1,"4.23.4: recommended when there is a question.","Restoration",1],["Pre-existing damage found during cleaning shall be:",["Repaired before cleaning may continue in that section","Reported to the AHJ within the project timeframe","Photographed, sealed, and noted in the work plan","Documented and brought to the client's attention"],3,"4.24: documented and brought to the attention of the client. Repair of malfunctioning devices is outside scope (4.24.1).","Restoration",1],["Which is explicitly excluded from ACR restoration?",["Replacing thermal-acoustic insulation","Sealing air leaks within duct systems","Scraping base metal clean","Resurfacing fibrous glass"],1,"4.24.1: restoration does not include sealing air leaks; repair of malfunctioning mechanical devices is also out.","Restoration",1],["Cleanliness verification is designed to determine:",["The presence of microbial contamination","The presence of particulate","Compliance with Condition 1","The presence of hazardous materials"],1,"5.0: it determines the presence of particulate; it does not determine microbial contamination or hazardous materials.","Verification",1],["Cleanliness verification shall be performed:",["Immediately after cleaning, before operation","Within 48 hours, after one cycle","After the system has run for one full cycle","Before and after cleaning on each component"],0,"5.1: immediately after cleaning and prior to system operation.","Verification",1],["Method 1, visual inspection, applies to:",["Non-porous components only","Both porous and non-porous components","Sheet metal ducts and prefabricated access doors only","Porous components and fibrous glass liner only"],1,"5.2: visual inspection of porous and non-porous components shall be conducted.","Verification",1],["If a component is visibly clean under Method 1:",["No further verification is necessary","Method 3 is recommended","Documentation shall include photographs","Method 2 shall confirm it"],0,"5.2: if visibly clean, no further cleanliness verification methods are necessary.","Verification",1],["If Method 1 is inconclusive or disputed, using Method 2 or Method 3 is:",["Required","Not addressed","Recommended","May be deferred"],2,"5.2.1: recommended.","Verification",1],["Method 2, the Surface Comparison Test, may be used on:",["Porous surfaces such as fibrous glass liner only","Non-porous surfaces only","Coil, drain pan, and drain line surfaces only","Both porous and non-porous surfaces"],3,"5.3: may be used on both porous and non-porous surfaces. Method 3 is non-porous only.","Verification",1],["In Method 2, the brush shall be passed over the test area:",["Six times","Once in each direction","Two times","Four times"],3,"5.3.1: four (4) times with light to moderate pressure.","Verification",1],["The Method 2 contact vacuum shall be HEPA filtered and capable of at least:",["80 inches of static lift","120 inches of static lift","60 inches of static lift","100 inches of static lift"],0,"5.3.1: minimum 80 inches of static lift (WC).","Verification",1],["The Method 2 contact vacuum shall be fitted with:",["A 2-inch bristle brush on a 2-inch hose","A 1.5-inch nylon brush on a 2.5-inch hose","A 3-inch nylon brush on a 1.25-inch hose","A 2.5-inch nylon brush on a 1.5-inch hose"],3,"5.3.1: 2.5 inch round nylon brush attached to a 1.5 inch diameter vacuum hose.","Verification",1],["Under Method 2, a surface is considered clean when:",["Four passes produce no visible dust cloud in the light","No significant visible difference before and after","The collected debris weighs 0.75 mg or less","The brush shows no visible loading after four passes"],1,"5.3.2: clean when there is no significant visible difference in the surface characteristics.","Verification",1],["If Method 2 is inconclusive, using Method 3 for a final determination is:",["Shall","Recommended","Prohibited","May"],3,"5.3.3: Method 3 may be used. Method 1 to 2/3 is recommended; 2 to 3 is may.","Verification",1],["The NADCA Vacuum Test does not apply to:",["Flexible duct inner liner","Galvanized sheet metal","Porous system components","Aluminum foil surfaces"],2,"5.3.3 and 5.4: non-porous only. Foil and polymeric flex liner are defined as non-porous.","Verification",1],["In Method 3, the vacuum cassette:",["Shall contact the surface on the return pass","May contact the surface if calibrated","Shall be pressed lightly against the surface","Shall never contact the surface being tested"],3,"5.4: at no time can the cassette contact the component surface; the template holds it above.","Verification",1],["The Method 3 air sampling pump shall be capable of drawing at least:",["20 liters per minute","15 liters per minute","10 liters per minute","17 liters per minute"],1,"5.4.1: capable of a minimum of 15 L/min. The flow is then adjusted to 17 ±2 during sampling.","Verification",1],["In Method 3, airflow shall be adjusted to:",["15 liters per minute exactly","15 liters per minute, plus or minus 2","17 liters per minute, plus or minus 5","17 liters per minute, plus or minus 2"],3,"5.4.2: 17 L/min ±2. The ±5 figure is the calibration device accuracy (5%).","Verification",1],["The Method 3 calibration device shall be accurate to:",["±5% at 17 liters per minute","±5% at 15 liters per minute","±2 liters per minute","±2% at 15 liters per minute"],1,"5.4.1: accurate to ±5% at 15 L/min.","Verification",1],["Method 3 filter media shall be:",["25 mm PVC pre-weighed filters in series","37 mm PTFE filters","47 mm glass fiber filters in a two-piece cassette","37 mm MCE matched-weight filters"],3,"5.4.1: 37 mm mixed cellulose ester matched weight filters, 0.8 or 0.45 micrometer pore, in a three-piece cassette.","Verification",1],["The NADCA Vacuum Test template provides a sampling area of:",["200 square centimeters","100 square centimeters","50 square centimeters","25 square centimeters"],1,"5.4.1: 100 cm2 from two 2 cm x 25 cm slots at least 2.5 cm apart.","Verification",1],["The standard NADCA Vacuum Test template slots measure:",["5 cm by 10 cm","1 cm by 50 cm","2 cm by 25 cm","2.5 cm by 20 cm"],2,"5.4.1.1: 2 centimeters wide by 25 centimeters long.","Verification",1],["The NADCA Vacuum Test template shall be how thick?",["15 mil","20 mil","10 mil","6 mil"],0,"5.4.1: 15 mil (0.381 mm). 6 mil is containment poly.","Verification",1],["If an alternate template shape is used, the maximum slot width is:",["3.7 cm","2.0 cm","2.5 cm","5.0 cm"],0,"5.4.1.2: max width 3.7 cm so the cassette cannot touch; minimum width 2.0 cm; total area 100 cm2.","Verification",1],["During Method 3 sampling, the air handler shall be:",["Running at design airflow","Cycled off for 30 minutes first","Not running","Running with the supply blocked"],2,"5.4.2: the air-handler shall not be running; the surface shall be dry; the template shall lay flat.","Verification",1],["In Method 3, the cassette shall move across each slot at no more than:",["2.5 cm per second","5 cm per second","10 cm per second","1 cm per second"],1,"5.4.2: not greater than 5 cm/s, 5 seconds per slot each direction, each slot vacuumed twice.","Verification",1],["Each Method 3 template slot shall be vacuumed:",["Four times, alternating direction","Twice, once in each direction","Until no visible debris remains","Once, end to end"],1,"5.4.2: twice (once in each direction).","Verification",1],["Method 3 analysis shall be based on:",["EPA Method 5","NIOSH Method 0500","NIOSH Method 7400","ASTM D5755"],1,"5.4.2: NIOSH Method 0500, total nuisance dust.","Verification",1],["Method 3 scale sensitivity shall be equal to or greater than:",["1.0 milligram","0.1 milligram","0.7 milligram","0.75 milligram"],2,"5.4.2: 0.7 mg. Do not confuse with the 0.75 mg/100 cm2 pass criterion.","Verification",1],["The NADCA Vacuum Test passing criterion is a net debris weight not exceeding:",["0.50 mg per 100 cm2","0.70 mg per 100 cm2","1.00 mg per 100 cm2","0.75 mg per 100 cm2"],3,"5.5: shall not exceed 0.75 mg/100 cm2.","Verification",1],["Having Method 3 samples collected by the client's designated qualified person and analyzed by an accredited lab is:",["May be omitted","Recommended","Not addressed","Required"],1,"5.4.2: recommended.","Verification",1],["Providing post-project documentation showing compliance is:",["Prohibited","Required","Recommended","May be waived"],2,"5.6: recommended. What becomes shall inside it: lab results when the vacuum test was used, and chain of custody when an outside lab was used.","Verification",1],["If the NADCA Vacuum Test was used for verification, post-project documentation shall include:",["A copy of the lab results","The IEP's interpretation","The calibration certificate for the pump","Photographs of each template location"],0,"5.6.1: a copy of the lab results shall be included.","Verification",1],["If an outside laboratory was used, post-project documentation shall add:",["The sampling technician's credentials","A second confirmatory sample","The lab's accreditation certificate","Chain of custody documentation"],3,"5.6.2: chain of custody documentation shall be added.","Verification",1],["Including photos, HVAC plans, and submittal forms in post-project documentation is:",["Not addressed","May be deferred","Recommended","Required"],2,"5.6.3: recommended.","Verification",1],["Per ACR definitions, 'SHALL' denotes:",["A practice advised but not required by the Standard","A possibility open to the user","A mandatory requirement with no deviation","Permission expressed within the Standard's limits"],2,"SHALL is mandatory. RECOMMEND is advised. MAY is permission. CAN is possibility.","Definitions",1],["Per ACR definitions, 'MAY' signifies:",["A possibility or ability open to a document user","Permission, not a standard-of-care requirement","Advice that is not a requirement of the Standard","A mandatory, no-deviation practice for conformance"],1,"MAY = permission expressed by the document but not a requirement. CAN = possibility. RECOMMEND = advised.","Definitions",1],["An 'adhered substance' per ACR is:",["Debris remaining after a passing vacuum test","Material not removed by Section 4 procedures","Growth that is dormant, hidden, or inactive","Any contaminant bonded to the surface by moisture"],1,"Adhered substance: not removed by Section 4 cleaning and restoration procedures, e.g. paint, mastic, sealant, stains.","Definitions",1],["ACR defines 'cleaning' as:",["Restoration to original condition","The removal of non-adhered substances","The removal of all contaminants","Source removal plus surface treatment"],1,"Cleaning: the removal of non-adhered substances. Restoration is bringing back to a former state.","Definitions",1],["Which is defined as a non-porous HVAC component?",["Sound attenuated duct sections in the return","Concrete plenum walls below grade","Polymeric film lining flexible duct","Fibrous glass duct board with foil facing"],2,"Non-porous examples: sheet metal, aluminum foil, polymeric flex liner. Porous: liner, board, sound attenuated duct, wood, concrete.","Definitions",1],["Which is defined as a porous HVAC component?",["Galvanized sheet metal","Polymeric flex duct liner","Sound attenuated duct","Aluminum foil facing"],2,"Porous: fibrous glass liner and board, sound attenuated duct, wood, concrete.","Definitions",1],["An air filtration device that filters and recirculates air within a space is called:",["A negative air machine","An air scrubber","A collection device","A contact vacuum"],1,"AFD definition: filters and recirculates = air scrubber; filters and creates negative pressure = negative air machine.","Definitions",1],["Per ACR, a negative air machine is:",["Any device, HEPA or not, exhausting outdoors","Non-HEPA and always ducted outside the envelope","A scrubber fitted with a discharge duct to outside","HEPA filtered, ducted outside or not"],3,"Negative Air Machine: a HEPA-filtered AFD for collecting particulate and controlling pressure; may or may not be ducted outside.","Definitions",1],["Per the ACR definition, a 'collection device' exhausting inside the building is:",["Fan driven, any filtration","Ducted to the return","HEPA-filtered","MERV 13 or better"],2,"Collection device: a HEPA machine discharging indoors, or a fan-driven non-HEPA machine discharging outside the envelope.","Definitions",1],["Condition 2 per ACR is an environment primarily contaminated with:",["Hidden growth behind finishes and within cavities","Spores reflective of normal fungal ecology only","Settled spores dispersed from a Condition 3 area","Actual growth, active or dormant, visible or hidden"],2,"Condition 2: settled spores or fragments dispersed directly or indirectly from a Condition 3 area, possibly with traces of growth.","Definitions",1],["Condition 3 per ACR includes growth that is:",["Active or dormant, visible or hidden","Present on porous materials such as liner only","Visible and active only","Confirmed by culture, PCR, or microscopy"],0,"Condition 3: actual growth, active or dormant, visible or hidden, with its spores and fragments.","Definitions",1],["Condition 1 per ACR may include:",["Traces of growth dispersed from a Condition 3 area","No spores or fungal fragments of any kind","Settled spores reflective of a normal ecology","Dormant growth confined to non-porous surfaces"],2,"Condition 1: may have settled spores, fragments, or traces of growth whose identity, location, and quantity reflect normal fungal ecology.","Definitions",1],["Which task is part of the ACR definition of an IEP?",["Certifying ASCS candidates for NADCA","Verifying return of fungal ecology to Condition 1","Performing Type 2 wet cleaning of coils and pans","Running the NADCA Vacuum Test on every project"],1,"IEP: assess fungal ecology, create sampling strategy, sample, interpret lab data, determine Conditions, verify return to Condition 1.","Definitions",1],["Per ACR, 'airside surface' does not include:",["Turning vanes, reheat coils, and filter housings","Fan blades and housings","Return grilles, return ducts, and supply diffusers","Open air plenums or interstitial cavities"],3,"Airside surface excludes open air plenums and interstitial cavities. The others are listed as HVAC components.","Definitions",1],["Per ACR, 'permanent' means:",["Mechanically fastened rather than taped","The life of the system","Until the next scheduled cleaning","Ten years or more"],1,"Permanent: the life of the system.","Definitions",1],["Per ACR, to 'mechanically fasten' means to use:",["Any UL 181A/B listed closure system","Rivets or welds only","Mastic, tape, gaskets, or duct sealant","Screws, clamps, locks, or straps"],3,"Mechanically fasten: screws, clamps, locks, or straps, contrasted with mastic or tape.","Definitions",1],["A 'sandwich' duct access door is:",["A round door frame spun into a round opening","A door and doorframe attached together by a hinge","Two parts fastened together through the duct wall","A door and frame flush with the outside duct wall"],2,"Sandwich: two-part closure fastened together on both sides of the duct wall. Flush mount, spin door, hinged are the others.","Definitions",1],["Per ACR, 'surface treatment (non-antimicrobial)' is:",["A coating to repair or modify a surface","A mastic used at duct joints","An agent that kills or suppresses microbial growth","A sealant used to close a service opening airtight"],0,"Surface Treatment (non-antimicrobial): coating or treatment designed to repair surface defects or modify surface characteristics.","Definitions",1],["Per ACR, 'source removal' is:",["Chemical neutralization of contaminants in place","Encapsulation of adhered substances with a coating","Replacement of contaminated system components","Mechanical dislodging and vacuum removal at origin"],3,"Source Removal: contaminants physically dislodged and removed with vacuum collection, eliminating them at their point of origin.","Definitions",1],["Per ACR, a 'contact vacuum' uses:",["A HEPA filter cassette on a calibrated pump","A nylon brush nozzle on the inlet hose","A compressed-air skipper head","A rotary steel brush on a flexible drive shaft"],1,"Contact Vacuum: portable collection device with a nylon brush nozzle applied directly to the surface.","Definitions",1],["Per ACR, an 'open air plenum' is:",["Intended non-ducted air pathways in building cavities","A lined plenum attached directly to the AHU","Any return plenum not built to SMACNA standards","A mixing box with an outside air intake damper"],0,"Open Air Plenum: intended non-ducted air pathways formed in building cavities, voids, and spaces outside the occupied zone.","Definitions",1],["Per ACR's HVAC component definition, non-ducted open air plenums are:",["Considered supply-side components of the system","Part of the system when lined","Not considered part of the HVAC system","Considered return-side components of the system"],2,"HVAC System/Components: for purposes of this Standard, non-ducted open air plenums of all types are not part of the HVAC system.","Definitions",1],["Which unit type does ACR list under 'cooling-heating unit'?",["Make-up air unit with direct gas-fired heater","Ventilating unit with means for ventilation","Packaged terminal air conditioner (PTAC)","Central-station air-handling unit (AHU)"],2,"Cooling-Heating Unit examples: mini-splits, PTAC, window units, fan coil units, split systems.","Definitions",0],["Per ACR, 'standard of care' means:",["The manufacturer's published maintenance practice","The scope of work agreed in the written work plan","Practices common to prudent, recognized trade members","The minimum, code-adopted requirements"],2,"Standard of Care: practices common to reasonably prudent members of the trade recognized as qualified and competent.","Definitions",1],["Per ACR, 'chain of custody documentation' records:",["Seizure, custody, control, transfer, analysis, disposition","Calibration, sampling, shipping, weighing, and reporting","The technician, the pump, the template, and the laboratory","Client approval of each location, sample, and result"],0,"Chain of Custody: the chronological paper trail of seizure, custody, control, transfer, analysis, and disposition of evidence.","Definitions",1],["Per ACR, 'ambient air cleaning' is:",["Filtering return air through a MERV 13 or better filter","Cleaning the airside surfaces of the air-handling unit","Exhausting the work area to outdoors through a duct","Removing particulate from indoor air outside the system"],3,"Ambient Air Cleaning: removing particulate from indoor air outside of the HVAC system.","Definitions",1],["Per ACR, 'appropriate negative pressure' is:",["A 10 percent differential to the adjacent corridor","Enough to keep debris out of occupied space","Verified by a recording manometer","At least 0.02 inches of water column to the corridor"],1,"Appropriate Negative Pressure: enough to prevent debris from entering the occupied space or leaving the contained area. No number.","Definitions",1],["Which document governs professional water damage restoration?",["ANSI/IICRC S500","ANSI/IICRC S520","IESO/RIA 6001","ANSI/IICRC S590"],0,"S500 water, S520 mold, S590 assessing HVAC after water/fire/mold, 6001 fire particulate on HVAC surfaces.","References",1],["Which document is for assessing HVAC systems after a water, fire, or mold event?",["ANSI/IICRC S500","ASHRAE/ACCA 180","ANSI/IICRC S520","ANSI/IICRC S590"],3,"S590: Standard for Assessing HVAC Systems Following a Water, Fire, or Mold Damage Event.","References",1],["Which document covers the methodology for cleaning commercial kitchen exhaust?",["ASHRAE 62.1","NFPA 90A installation standard","NFPA 96 commercial cooking","ANSI/IKECA C10"],3,"IKECA C10 is the cleaning methodology. NFPA 96 is ventilation control and fire protection of commercial cooking.","References",1],["NFPA 96 covers:",["Standard test method for surface burning of building materials","Installation of air-conditioning and ventilating systems in buildings","Ventilation control and fire protection of commercial cooking","Installation of warm air heating and air conditioning systems"],2,"NFPA 96 = commercial cooking. 90A = A/C and ventilating installation. 90B = warm air heating. 255 = surface burning.","References",1],["UL 181 covers:",["Factory-made air ducts and air connectors","Closure systems for use with flexible air ducts","Closure systems for rigid ducts","Surface burning characteristics of building materials"],0,"UL 181 factory-made ducts (and ACR surface treatments). 181A rigid closures. 181B flexible closures. 723 surface burning.","References",1],["UL 181B covers closure systems for:",["Rigid air ducts and air connectors","Fibrous glass duct board","Flexible air ducts and connectors","Sheet metal service panels and access doors"],2,"181B is flexible; 181A is rigid.","References",1],["ASHRAE/ASHE Standard 170 covers:",["Ventilation and acceptable IAQ in commercial buildings","Ventilation of health care facilities","Inspection and maintenance of commercial HVAC","Ventilation and IAQ in residences"],1,"170 healthcare ventilation. 62.1 commercial IAQ. 62.2 residential IAQ. 180 inspection and maintenance.","References",1],["NAIMA AH 122 covers:",["Fiberglass HVAC insulation and indoor environmental quality","Fibrous glass duct liner specification","Cleaning fibrous glass insulated air duct systems","Fibrous glass duct construction standards"],2,"AH 122 cleaning. AH 116 construction. AH 110 IEQ. ASTM C1071 is the liner specification.","References",1],["NADCA Standard 05 covers:",["Using chemical products in HVAC systems safely","Installation of service openings in HVAC systems","Requirements for testing vacuum collection equipment","Inspection and cleaning of open air plenums in HVAC"],1,"Standard 05 service openings. Standard 03 vacuum equipment. Plenums and chemicals are position papers.","References",1],["NADCA Standard 03 covers:",["Installation of service openings in HVAC systems","General specifications on microbial contamination","The NADCA Safety Manual","Testing vacuum collection equipment"],3,"Standard 03: Requirements for Testing Vacuum Collection Equipment.","References",1],["Which document is a NADCA position paper listed in ACR 2025?",["Evaluation of HVAC Surfaces for Fire-Related Particulate","Cleaning Fibrous Glass Insulated Air Duct Systems","Installation of Service Openings","Using Chemical Products in HVAC Systems"],3,"Position papers: open air plenums, and chemical products. The others are NADCA Standard 05, NAIMA AH 122, and IESO/RIA 6001.","References",1],["ASTM E84 is a test method for:",["Surface burning characteristics of materials","Air leakage testing of duct systems under pressure","Fibrous glass duct lining insulation specification","Total nuisance dust by gravimetric analysis"],0,"E84 surface burning (like UL 723 and NFPA 255). C1071 is the liner spec. NIOSH 0500 is nuisance dust.","References",1],["The NIOSH publication referenced for Method 3 analysis is the:",["Manual of Analytical Methods, Fifth Edition","Criteria Document for Particulates Not Otherwise Regulated","Industrial Ventilation, A Manual of Recommended Practice","Pocket Guide to Chemical Hazards"],0,"NIOSH Manual of Analytical Methods, 5th edition, contains Method 0500. The Industrial Ventilation manual is ACGIH.","References",0],["ASHRAE Standard 62.2 covers ventilation and acceptable IAQ in:",["Health care facilities","Residential buildings","Marine vessels","Commercial buildings"],1,"62.2 residential. 62.1 commercial. 170 healthcare.","References",1],["The mold guidance from a city health department listed in ACR references is from:",["New York City","City of Houston","Chicago","Los Angeles County"],0,"NYC Department of Health and Mental Hygiene Guidelines on Assessment and Remediation of Fungi in Indoor Environments.","References",0]];
+const LS = "acrtext_v1";
+const C=22*2*Math.PI;
+let queue=[], cur=0, curOpts=[], waiting=false, picked=new Set(), filter="", waitAt=0;
+let hist=[],histPos=-1;
+let mode=localStorage.getItem("acrtext_mode")||"core";
+const $=s=>document.getElementById(s);
+let state=load();
+
+function load(){try{const s=JSON.parse(localStorage.getItem(LS));if(Array.isArray(s)){while(s.length<MCQS.length)s.push({c:0,seen:false,lta:[],t:0,n:"",tg:false});const t=s.slice(0,MCQS.length);t.forEach(p=>{if(!Array.isArray(p.lta))p.lta=[];if(typeof p.t!=="number")p.t=(p.c>=2?1:(p.seen?2:0));if(typeof p.n!=="string")p.n="";if(typeof p.tg!=="boolean")p.tg=false});return t;}}catch(e){}return MCQS.map(()=>({c:0,seen:false,lta:[],t:0,n:"",tg:false}));}
+function save(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}}
+function isMulti(i){return Array.isArray(MCQS[i][2])}
+function corrSet(i){return new Set(isMulti(i)?MCQS[i][2]:[MCQS[i][2]])}
+
+const APTW=[.5,.25,.15,.1];
+function qApt(i){const l=state[i].lta||[];let a=0;for(let k=0;k<4;k++)a+=APTW[k]*(l[k]===undefined?.25:l[k]);return a}
+function idxs(){return MCQS.map((_,i)=>i).filter(i=>(mode==="full"||MCQS[i][5]===1)&&(!filter||MCQS[i][4]===filter))}
+const TIERS=["untriaged","known","review","learn"];
+let view="drill",pileF="",tq=[];
+function pileCounts(){const p=idxs();const c=[0,0,0,0];p.forEach(i=>c[state[i].t]++);return c}
+function drawPiles(){const c=pileCounts(),lbl=["Untriaged","Known","Review","Learn"];
+  $("piles").innerHTML=lbl.map((L,t)=>'<span class="chip pchip'+(pileF===TIERS[t]?" on":"")+'" data-p="'+TIERS[t]+'">'+L+" "+c[t]+'</span>').join("");
+  [...document.querySelectorAll(".pchip")].forEach(el=>el.onclick=()=>{pileF=(pileF===el.dataset.p?"":el.dataset.p);refresh()});}
+function drillIdxs(){const p=idxs();if(pileF)return p.filter(i=>TIERS[state[i].t]===pileF);return p.filter(i=>state[i].t!==1)}
+function refresh(){if(view==="exam"){drawPiles();if(typeof examRender==="function")examRender();return}drawPiles();if(view==="triage"){buildTriage();renderTriage()}else{rebuild();render()}}
+function setView(v){view=v;localStorage.setItem("acrtext_view",v);$("vTriage").classList.toggle("on",v==="triage");$("vDrill").classList.toggle("on",v==="drill");$("vExam").classList.toggle("on",v==="exam");document.querySelector(".hud").style.display=v==="exam"?"none":"";document.querySelector(".bpWrap").style.display=v==="exam"?"none":"";$("piles").style.display=v==="exam"?"none":"";$("weak").style.display=v==="exam"?"none":"";refresh()}
+function buildTriage(){tq=idxs().filter(i=>state[i].t===0)}
+function renderTriage(){
+  histPos=-1;rings();drawPiles();
+  if(!tq.length){const c=pileCounts();
+    $("stage").innerHTML='<div class="done"><h2>Triage complete</h2><p>Known '+c[1]+' \u00b7 Review '+c[2]+' \u00b7 Learn '+c[3]+'. Drill works the Review and Learn piles.</p><button class="btn" id="goDrill">Start drilling</button></div>';
+    $("goDrill").onclick=()=>setView("drill");return;}
+  cur=tq[0];waiting=false;picked=new Set();
+  const m=MCQS[cur],multi=isMulti(cur);
+  curOpts=m[1].map((t,oi)=>({oi,text:t}));shuffle(curOpts);
+  let h='<div class="topic">'+m[4]+' \u00b7 triage '+(idxs().filter(i=>state[i].t===0).length)+' left</div><p class="q">'+esc(m[0])+'</p>';
+  if(multi)h+='<p class="hint">Select all that apply ('+m[2].length+'), then Check.</p>';
+  h+='<div id="opts">';
+  curOpts.forEach((o,d)=>{h+='<button class="ans" data-disp="'+d+'"><span class="ltr">'+"ABCDEF"[d]+'</span><span>'+esc(o.text)+'</span></button>'});
+  h+='</div>';
+  if(multi)h+='<button class="chk" id="chk" disabled>Check</button>';
+  h+='<div class="tri"><button class="tbtn" id="tStar">\u2605 review later <span class="kb">S</span></button><button class="tbtn" id="tNo">no idea <span class="kb">N</span></button></div>';
+  h+='<div class="explain" id="exp"></div><div class="cont" id="cont">tap or press space to continue</div>';
+  $("stage").innerHTML=h;
+  [...document.querySelectorAll("#opts .ans")].forEach(b=>b.onclick=()=>pick(+b.dataset.disp));
+  if(multi)$("chk").onclick=submit;
+  $("tStar").onclick=triStar;$("tNo").onclick=triNo;
+}
+function triStar(){if(waiting||view!=="triage")return;state[cur].t=2;save();tq.shift();renderTriage()}
+function triNo(){if(waiting||view!=="triage")return;
+  waiting=true;waitAt=Date.now();state[cur].t=3;save();
+  const cs=corrSet(cur);
+  document.querySelectorAll("#opts .ans").forEach(b=>{const oi=curOpts[+b.dataset.disp].oi;b.style.pointerEvents="none";if(cs.has(oi))b.classList.add("correct");else b.classList.add("dim")});
+  const ch=$("chk");if(ch)ch.style.display="none";
+  const e=$("exp");e.className="explain show no";
+  e.innerHTML="<b>Learn:</b> "+esc(MCQS[cur][3])+'<br><input id="noteIn" placeholder="note to self (optional)" maxlength="140">';
+  $("cont").classList.add("show");
+  const ni=$("noteIn");ni.onclick=ev=>ev.stopPropagation();setTimeout(()=>ni.focus(),30);
+}
+function rebuild(){queue=drillIdxs().filter(i=>state[i].c<2);if(queue.length){shuffle(queue);queue.sort((a,b)=>(state[a].seen?1:0)-(state[b].seen?1:0));}}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function rings(){
+  const pool=idxs();const seen=pool.filter(i=>state[i].seen).length;
+  const apt=pool.reduce((s,i)=>s+(state[i].seen?qApt(i):0),0)/(pool.length||1);
+  const sp=pool.length?seen/pool.length:0;
+  $("seenR").style.strokeDashoffset=C*(1-sp);$("seenN").textContent=Math.round(sp*100)+"%";
+  $("aptR").style.strokeDashoffset=C*(1-apt);$("aptN").textContent=Math.round(apt*100)+"%";
+  const mastered=pool.filter(i=>state[i].c>=2).length;
+  $("count").textContent=mastered+" / "+pool.length+" mastered";
+}
+
+function render(){
+  histPos=-1;
+  rings();
+  if(!queue.length){
+    const pool=idxs();
+    $("stage").innerHTML='<div class="done"><h2>'+(pool.every(i=>state[i].c>=2)?"Pool mastered ✓":"Nothing left in queue")+'</h2><p>Every question answered correctly twice.</p><button class="btn" id="again">Study again</button></div>';
+    SND.win();GAME.win();
+    $("again").onclick=()=>{drillIdxs().forEach(i=>state[i].c=0);save();rebuild();render()};return;
+  }
+  cur=queue[0];waiting=false;picked=new Set();
+  const st0=state[cur];
+  if(st0.t===3&&!st0.tg){
+    st0.tg=true;save();
+    const m0=MCQS[cur],cs0=corrSet(cur);
+    curOpts=m0[1].map((t,oi)=>({oi,text:t}));shuffle(curOpts);
+    let g='<div class="topic">'+m0[4]+' \u00b7 study card</div><p class="q">'+esc(m0[0])+'</p><div id="opts">';
+    curOpts.forEach((o,d)=>{let cls=cs0.has(o.oi)?"ans correct":"ans dim";g+='<button class="'+cls+'" style="pointer-events:none"><span class="ltr">'+"ABCDEF"[d]+'</span><span>'+esc(o.text)+'</span></button>'});
+    g+='</div><div class="explain show no"><b>Learn:</b> '+esc(m0[3])+(st0.n?'<br><i>note: '+esc(st0.n)+'</i>':'')+'</div><div class="cont show">study it \u00b7 it comes back as a question in a few cards</div>';
+    $("stage").innerHTML=g;
+    waiting=true;waitAt=Date.now();
+    queue.shift();queue.splice(Math.min(4,queue.length),0,cur);
+    return;
+  }
+  const m=MCQS[cur],multi=isMulti(cur);
+  curOpts=m[1].map((t,oi)=>({oi,text:t}));shuffle(curOpts);
+  let h='<div class="topic">'+m[4]+'</div><p class="q">'+esc(m[0])+'</p>';
+  if(multi)h+='<p class="hint">Select all that apply ('+m[2].length+'), then Check.</p>';
+  h+='<div id="opts">';
+  curOpts.forEach((o,d)=>{h+='<button class="ans" data-disp="'+d+'"><span class="ltr">'+"ABCDEF"[d]+'</span><span>'+esc(o.text)+'</span></button>'});
+  h+='</div>';
+  if(multi)h+='<button class="chk" id="chk" disabled>Check</button>';
+  h+='<div class="explain" id="exp"></div><div class="cont" id="cont">tap or press space to continue</div>';
+  $("stage").innerHTML=h;
+  [...document.querySelectorAll("#opts .ans")].forEach(b=>b.onclick=()=>pick(+b.dataset.disp));
+  if(multi)$("chk").onclick=submit;
+}
+
+// --- gamification layer ---
+var GAME=(function(){
+var xp=0,streak=0,best=+(localStorage.getItem(LS+"_bestStreak")||0),rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var st=document.createElement("style");st.textContent="@keyframes gPop{0%{opacity:0;transform:translate(-50%,0) scale(.7)}15%{opacity:1;transform:translate(-50%,-14px) scale(1.05)}100%{opacity:0;transform:translate(-50%,-52px) scale(1)}}.gPop{position:fixed;left:50%;top:38%;z-index:99;font-family:'Nunito',-apple-system,sans-serif;font-size:21px;font-weight:800;color:#37b06f;animation:gPop .9s ease-out forwards;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.18)}@keyframes gFall{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}.gCf{position:fixed;z-index:98;width:8px;height:12px;border-radius:2px;animation:gFall var(--t) ease-out forwards;pointer-events:none}@keyframes gTick{0%{transform:scale(1)}40%{transform:scale(1.16)}100%{transform:scale(1)}}.chip.tick{animation:gTick .3s ease-out}";
+document.head.appendChild(st);
+var elS=document.getElementById("hudStreak"),elX=document.getElementById("hudXP"),elB=document.getElementById("hudBest");
+function hud(t){
+if(elS){elS.textContent="\uD83D\uDD25 "+streak;elS.classList.toggle("warm",streak>=3&&streak<6);elS.classList.toggle("hot",streak>=6);
+if(t&&!rm){elS.classList.remove("tick");void elS.offsetWidth;elS.classList.add("tick")}}
+if(elX){elX.textContent=xp+" XP";if(t&&!rm){elX.classList.remove("tick");void elX.offsetWidth;elX.classList.add("tick")}}
+if(elB){elB.textContent="best "+best;elB.style.display=best>1?"":"none"}}
+function pop(txt,color){var d=document.createElement("div");d.className="gPop";if(color)d.style.color=color;d.textContent=txt;document.body.appendChild(d);setTimeout(function(){d.remove()},950)}
+function burst(n,fromTop){if(rm)return;var cols=["#1f93cc","#a3ddc6","#f4d79a","#f6a8a0","#c4b4e6"];for(var i=0;i<n;i++){var c=document.createElement("div");c.className="gCf";c.style.background=cols[i%5];c.style.left=(fromTop?Math.random()*100:45+Math.random()*10)+"%";c.style.top=fromTop?"-16px":"36%";c.style.setProperty("--dx",(Math.random()*260-130)+"px");c.style.setProperty("--dy",(fromTop?300+Math.random()*500:120+Math.random()*260)+"px");c.style.setProperty("--rot",(Math.random()*720-360)+"deg");c.style.setProperty("--t",(0.7+Math.random()*0.8)+"s");document.body.appendChild(c);setTimeout(function(e){return function(){e.remove()}}(c),1600)}}
+function ok(mastered){streak++;if(streak>best){best=streak;try{localStorage.setItem(LS+"_bestStreak",best)}catch(e){}}
+var pts=10*Math.min(streak,5)+(mastered?25:0);xp+=pts;pop("+"+pts+" XP"+(mastered?" \u2605":""),mastered?"#e8b23a":"#37b06f");if(mastered)burst(14);else if(streak%5===0)burst(10);hud(true)}
+function no(){streak=0;hud(false)}
+function win(){burst(90,true);pop("POOL MASTERED","#e8b23a")}
+hud(false);
+return{ok:ok,no:no,win:win}
+})();
+// --- audio feedback (Web Audio synth, no assets) ---
+var SND=(function(){
+var ctx=null,muted=(localStorage.getItem("drillSnd")==="0"),streak=0;
+function ac(){if(!ctx){try{ctx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(ctx&&ctx.state==="suspended")ctx.resume();return ctx}
+function tone(f,t0,dur,type,vol){var c=ac();if(!c)return;var o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type||"sine";o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.12,t+0.012);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+0.02)}
+function ok(mastered){streak++;if(muted)return;var s=Math.min(streak,12),b=660*Math.pow(2,(s-1)/24);tone(b,0,.09);tone(b*1.5,.07,.12);if(mastered){tone(1318.5,.16,.1,"triangle",.09);tone(1760,.24,.14,"triangle",.09)}if(streak%5===0){tone(b*2,.2,.18,"sine",.08)}}
+function no(){streak=0;if(muted)return;tone(196,0,.16,"triangle",.08);tone(147,.09,.2,"triangle",.08)}
+function win(){if(muted||!ctx)return;[523.25,659.25,783.99,1046.5].forEach(function(f,i){tone(f,i*.11,.22,"sine",.1)});tone(1318.5,.5,.4,"triangle",.08)}
+function toggle(){muted=!muted;localStorage.setItem("drillSnd",muted?"0":"1");return muted}
+return{ok:ok,no:no,win:win,toggle:toggle,muted:function(){return muted}}
+})();
+(function(){var a=document.getElementById("sndBtn");if(!a)return;function r(){a.textContent=SND.muted()?"\uD83D\uDD07 sound":"\uD83D\uDD0A sound"}a.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();SND.toggle();r()});r()})();
+
+function showHist(p){
+  histPos=p;waiting=false;
+  const h=hist[p],m=MCQS[h.i];
+  const cs=corrSet(h.i),ch=new Set(h.ch.map(d=>h.opts[d].oi));
+  let out='<div class="topic">'+m[4]+' \u00b7 review '+(p+1)+' of '+hist.length+'</div><p class="q">'+esc(m[0])+'</p><div id="opts">';
+  h.opts.forEach((o,d)=>{let cls="ans dim";if(cs.has(o.oi))cls="ans correct";else if(ch.has(o.oi))cls="ans wrong";out+='<button class="'+cls+'" style="pointer-events:none"><span class="ltr">'+"ABCDEF"[d]+'</span><span>'+esc(o.text)+'</span></button>'});
+  out+='</div><div class="explain show '+(h.ok?"ok":"no")+'"><b>'+(h.ok?"Correct.":"Missed.")+'</b> '+esc(m[3])+'</div><div class="cont show">'+(p>0?"\u2039 older \u00b7 ":"")+'tap / \u2192 to return</div>';
+  $("stage").innerHTML=out;
+}
+function histNav(d){
+  if(d<0){const t=(histPos<0?hist.length:histPos)-1;if(t>=0)showHist(t);return}
+  if(histPos<0)return;
+  if(histPos+1<hist.length)showHist(histPos+1);else{histPos=-1;view==="triage"?renderTriage():render()}
+}
+function pick(d){
+  if(histPos>=0)return;
+  if(waiting)return;
+  if(isMulti(cur)){
+    const b=document.querySelector('#opts .ans[data-disp="'+d+'"]');
+    if(picked.has(d)){picked.delete(d);b.classList.remove("sel")}else{picked.add(d);b.classList.add("sel")}
+    $("chk").disabled=picked.size===0;return;
+  }
+  picked=new Set([d]);submit();
+}
+
+function submit(){
+  if(waiting)return;waiting=true;waitAt=Date.now();
+  const m=MCQS[cur],cs=corrSet(cur);
+  const chosen=new Set([...picked].map(d=>curOpts[d].oi));
+  const ok=chosen.size===cs.size&&[...chosen].every(x=>cs.has(x));
+  document.querySelectorAll("#opts .ans").forEach(b=>{
+    const oi=curOpts[+b.dataset.disp].oi;b.style.pointerEvents="none";
+    if(cs.has(oi))b.classList.add("correct");
+    else if(chosen.has(oi))b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  if(isMulti(cur))$("chk").style.display="none";
+  state[cur].seen=true;
+  if(ok)state[cur].c++;else state[cur].c=0;
+  state[cur].lta=[ok?1:0].concat(state[cur].lta||[]).slice(0,4);
+  if(ok)SND.ok(state[cur].c>=2);else SND.no();
+  if(ok)GAME.ok(state[cur].c>=2);else GAME.no();
+  save();
+  hist.push({i:cur,opts:curOpts.slice(),ch:[...picked],ok:ok});if(hist.length>10)hist.shift();
+  const e=$("exp");e.className="explain show "+(ok?"ok":"no");
+  e.innerHTML="<b>"+(ok?"Correct.":"Not quite.")+"</b> "+esc(m[3])+((view!=="triage"&&state[cur].n)?"<br><i>note: "+esc(state[cur].n)+"</i>":"");
+  if(view==="triage"){state[cur].t=ok?1:2;}
+  // requeue
+  else{
+  queue.shift();
+  if(ok&&state[cur].c>=2){/* retire */}
+  else{const uns=queue.reduce((n,i)=>n+(state[i].seen?0:1),0);const off=ok?Math.min(uns+8,queue.length):Math.min(3,queue.length);queue.splice(off,0,cur)}
+  }
+  rings();drawPiles();
+  if(ok){$("cont").classList.remove("show");setTimeout(()=>{if(waiting)next()},460)}
+  else $("cont").classList.add("show");
+}
+
+function next(){if(!waiting)return;waiting=false;
+  if(view==="triage"){const ni=$("noteIn");if(ni&&ni.value.trim()){state[cur].n=ni.value.trim();save()}tq.shift();renderTriage()}
+  else render()}
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+document.addEventListener("keydown",e=>{
+  if(view==="exam")return examKey(e);
+  if(e.target&&e.target.tagName==="INPUT"){if(e.key==="Enter"||e.key==="Escape"){e.preventDefault();next()}return}
+  if(view==="triage"&&!waiting){const k=(e.key||"").toLowerCase();if(k==="s"){e.preventDefault();triStar();return}if(k==="n"){e.preventDefault();triNo();return}}
+  if(e.key==="ArrowLeft"){e.preventDefault();histNav(-1);return}
+  if(e.key==="ArrowRight"){if(histPos>=0){e.preventDefault();histNav(1)}return}
+  if(e.key===" "||e.key==="Enter"){if(histPos>=0){e.preventDefault();histNav(1);return}if(waiting){e.preventDefault();next()}return}
+  const n="1234".indexOf(e.key),a="abcd".indexOf(e.key.toLowerCase());
+  const d=n>=0?n:a;if(d>=0){const b=document.querySelector('#opts .ans[data-disp="'+d+'"]');if(b)pick(d)}
+});
+$("stage").addEventListener("click",e=>{if(view==="exam")return;if(e.target.closest&&e.target.closest("input,.tbtn"))return;if(histPos>=0)return;if(waiting&&Date.now()-waitAt>250)next()});
+
+// topic dropdown
+[...new Set(MCQS.map(m=>m[4]))].forEach(t=>{const o=document.createElement("option");o.value=o.textContent=t;$("topic").appendChild(o)});
+$("topic").onchange=()=>{filter=$("topic").value;refresh()};
+$("histBtn").onclick=e=>{e.preventDefault();e.stopPropagation();histNav(-1)};
+$("reset").onclick=()=>{if(confirm("Wipe all drill progress?")){state=MCQS.map(()=>({c:0,seen:false,lta:[],t:0,n:"",tg:false}));save();refresh()}};
+
+function setMode(m){mode=m;localStorage.setItem("acrtext_mode",m);$("mCore").classList.toggle("on",m==="core");$("mFull").classList.toggle("on",m==="full");refresh()}
+$("mCore").onclick=()=>setMode("core");$("mFull").onclick=()=>setMode("full");
+$("vTriage").onclick=()=>setView("triage");$("vDrill").onclick=()=>setView("drill");
+view=localStorage.getItem("acrtext_view")||"";
+setMode(mode);
+if(!view)view=idxs().some(i=>state[i].t===0)?"triage":"drill";
+setView(view);
+
+document.addEventListener("click", function(e){
+  var t=e.target;
+  if(t.closest && t.closest("select,a,#themeBtn,.seg,.reset,input,.tbtn,.pchip")) return;
+  if(histPos>=0){ histNav(1); return; }
+  if(!waiting) return;
+  if(Date.now()-waitAt<250) return;
+  next();
+});
+
+</script>
+<script>
+// ---- reimagined shell extensions (additive; engine untouched) ----
+const BPW=[["Scope & General", 4], ["Inspections", 10], ["Work Plans", 4], ["Engineering Controls", 13], ["Cleaning Procedures", 14], ["Coils", 8], ["Restoration", 11], ["Verification", 16], ["Definitions", 13], ["References", 7]];
+const SHORT={"Scope & General": "SCOPE", "Inspections": "INSPECT", "Work Plans": "PLAN", "Engineering Controls": "CONTROLS", "Cleaning Procedures": "CLEAN", "Coils": "COILS", "Restoration": "RESTORE", "Verification": "VERIFY", "Definitions": "DEFS", "References": "REFS"};
+(function initBP(){
+  const bp=$("bp");
+  BPW.forEach(([t,w])=>{
+    const d=document.createElement("div");
+    d.className="bpSeg";d.style.flex=w;d.dataset.t=t;
+    d.innerHTML='<div class="fill" style="width:0%"></div><div class="t">'+SHORT[t]+'</div>';
+    d.title=t+" — "+w+"% of exam";
+    d.onclick=()=>{const cur=$("topic").value===t?"":t;$("topic").value=cur;filter=cur;refresh()};
+    bp.appendChild(d);
+  });
+})();
+function drawBP(){
+  let ready=0,tw=0;
+  document.querySelectorAll(".bpSeg").forEach(seg=>{
+    const t=seg.dataset.t,w=BPW.find(x=>x[0]===t)[1];
+    const pool=MCQS.map((_,i)=>i).filter(i=>(mode==="full"||MCQS[i][5]===1)&&MCQS[i][4]===t);
+    const m=pool.filter(i=>state[i].c>=2).length,n=pool.length||1;
+    const f=m/n;ready+=w*f;tw+=w;
+    seg.querySelector(".fill").style.width=(f*100)+"%";
+    seg.classList.toggle("full",m===pool.length&&pool.length>0);
+    seg.classList.toggle("sel",filter===t);
+    seg.title=t+" — "+w+"% of exam · "+m+"/"+pool.length+" mastered";
+  });
+  $("bpReady").textContent="READY "+Math.round(ready/tw*100)+"%";
+}
+var sess={n:0,ok:0};
+function drawSess(){$("sessStat").textContent="SESSION "+sess.n+" · "+(sess.n?Math.round(sess.ok/sess.n*100)+"%":"—")}
+(function(){const _o=SND.ok,_n=SND.no;
+  SND.ok=function(m){sess.n++;sess.ok++;drawSess();return _o(m)};
+  SND.no=function(){sess.n++;drawSess();return _n()};
+})();
+function drawWeak(){
+  if(!$("weak").open)return;
+  const pool=idxs().filter(i=>state[i].seen&&state[i].c<2);
+  pool.sort((a,b)=>qApt(a)-qApt(b));
+  const top=pool.slice(0,10);
+  $("weakList").innerHTML=top.length?top.map(i=>{
+    const m=MCQS[i],ans=Array.isArray(m[2])?m[2].map(x=>m[1][x]).join(" / "):m[1][m[2]];
+    return '<div class="wk"><div class="wt">'+m[4]+' · apt '+Math.round(qApt(i)*100)+'%</div><div class="ws">'+esc(m[0])+'</div><div class="wa">'+esc(ans)+'</div><div class="we">'+esc(m[3])+'</div></div>';
+  }).join(""):'<div class="wk we">Nothing seen and unmastered in this pool. Get drilling.</div>';
+}
+
+// ===================== EXAM SIMULATION =====================
+const EX_LS="acrtext_exam_v1";
+const EX_BP={"Scope & General": 6, "Inspections": 15, "Work Plans": 6, "Engineering Controls": 19, "Cleaning Procedures": 20, "Coils": 12, "Restoration": 17, "Verification": 24, "Definitions": 20, "References": 11};
+const EX_MIN=210, EX_CUT=72;
+let ex=null, exTick=null;
+
+function exLoad(){try{const o=JSON.parse(localStorage.getItem(EX_LS));if(o&&Array.isArray(o.form))return o}catch(e){}return null}
+function exSave(){try{localStorage.setItem(EX_LS,JSON.stringify(ex))}catch(e){}}
+function exNew(){
+  const pool={};MCQS.forEach((m,i)=>{(pool[m[4]]=pool[m[4]]||[]).push(i)});
+  let form=[];
+  Object.keys(EX_BP).forEach(d=>{
+    const p=(pool[d]||[]).slice();shuffle(p);
+    form=form.concat(p.slice(0,Math.min(EX_BP[d],p.length)));
+  });
+  shuffle(form);
+  const opts={};form.forEach(i=>{const o=MCQS[i][1].map((t,oi)=>oi);shuffle(o);opts[i]=o});
+  ex={form:form,opts:opts,ans:{},flag:{},pos:0,ends:Date.now()+EX_MIN*60000,done:false};
+  exSave();
+}
+function exLeft(){return Math.max(0,Math.floor((ex.ends-Date.now())/1000))}
+function exClock(){const s=exLeft();const h=String(Math.floor(s/3600)).padStart(2,"0"),m=String(Math.floor(s%3600/60)).padStart(2,"0"),x=String(s%60).padStart(2,"0");return h+":"+m+":"+x}
+function exStopTick(){if(exTick){clearInterval(exTick);exTick=null}}
+function exStartTick(){exStopTick();exTick=setInterval(()=>{
+  const el=$("exClk");if(!el||!ex||ex.done){exStopTick();return}
+  const s=exLeft();el.textContent=exClock();
+  el.className="clk"+(s<300?" crit":(s<1800?" warn":""));
+  if(s<=0){exStopTick();exGrade()}
+},1000)}
+
+function exRender(){
+  if(!ex){exIntro();return}
+  if(ex.done){exReport();return}
+  exStartTick();
+  const i=ex.form[ex.pos],m=MCQS[i],order=ex.opts[i],sel=ex.ans[i];
+  const answered=Object.keys(ex.ans).length;
+  let h='<div class="exBar"><span id="exClk" class="clk">'+exClock()+'</span>'
+    +'<span>Q '+(ex.pos+1)+' / '+ex.form.length+'</span><span>'+answered+' answered</span>'
+    +'<span class="sp"><button class="exBtn flag'+(ex.flag[i]?" on":"")+'" id="exFlag">\u2691 Flag</button>'
+    +'<button class="exBtn" id="exQuit">End</button></span></div>';
+  h+='<p class="q">'+esc(m[0])+'</p><div id="exOpts">';
+  order.forEach((oi,d)=>{
+    h+='<button class="ans'+(sel===oi?" correct":"")+'" data-oi="'+oi+'"><span class="ltr">'+"ABCD"[d]+'</span><span>'+esc(m[1][oi])+'</span></button>';
+  });
+  h+='</div><div class="exBar" style="margin:14px 0 0">'
+    +'<button class="exBtn" id="exPrev"'+(ex.pos===0?" disabled":"")+'>\u2039 Prev</button>'
+    +'<button class="exBtn pri" id="exNext">'+(ex.pos===ex.form.length-1?"Next \u203a":"Next \u203a")+'</button>'
+    +'<span class="sp"><button class="exBtn" id="exUnans">Next unanswered</button>'
+    +'<button class="exBtn pri" id="exSubmit">Submit</button></span></div>';
+  h+='<div class="exGrid" id="exGrid"></div>';
+  $("stage").innerHTML=h;
+  const g=$("exGrid");
+  g.innerHTML=ex.form.map((qi,n)=>'<b class="'+(ex.ans[qi]!==undefined?"ans ":"")+(ex.flag[qi]?"flg ":"")+(n===ex.pos?"now":"")+'" data-n="'+n+'">'+(n+1)+'</b>').join("");
+  [...g.children].forEach(b=>b.onclick=()=>{ex.pos=+b.dataset.n;exSave();exRender()});
+  [...document.querySelectorAll("#exOpts .ans")].forEach(b=>b.onclick=()=>{ex.ans[i]=+b.dataset.oi;exSave();exAdvance()});
+  $("exFlag").onclick=()=>{ex.flag[i]=!ex.flag[i];exSave();exRender()};
+  $("exPrev").onclick=()=>{if(ex.pos>0){ex.pos--;exSave();exRender()}};
+  $("exNext").onclick=exAdvance;
+  $("exUnans").onclick=()=>{const n=ex.form.findIndex(q=>ex.ans[q]===undefined);if(n>=0){ex.pos=n;exSave();exRender()}else alert("All 150 answered.")};
+  $("exSubmit").onclick=()=>{const un=ex.form.filter(q=>ex.ans[q]===undefined).length;
+    if(confirm(un?("Submit with "+un+" unanswered? They count as wrong."):"Submit the exam?"))exGrade()};
+  $("exQuit").onclick=()=>{if(confirm("Abandon this form and discard it?")){ex=null;localStorage.removeItem(EX_LS);exStopTick();exRender()}};
+}
+function exAdvance(){if(ex.pos<ex.form.length-1)ex.pos++;exSave();exRender()}
+function exKey(e){
+  if(!ex||ex.done)return;
+  if(e.key==="ArrowLeft"){e.preventDefault();if(ex.pos>0){ex.pos--;exSave();exRender()}return}
+  if(e.key==="ArrowRight"){e.preventDefault();exAdvance();return}
+  const k=e.key.toLowerCase(),d="1234".indexOf(e.key)>=0?"1234".indexOf(e.key):"abcd".indexOf(k);
+  if(d>=0){e.preventDefault();const b=document.querySelector('#exOpts .ans[data-oi]');if(!b)return;
+    const btns=document.querySelectorAll("#exOpts .ans");if(btns[d])btns[d].click();return}
+  if(k==="f"){e.preventDefault();const el=$("exFlag");if(el)el.click()}
+}
+function exGrade(){
+  exStopTick();
+  const per={},res=[];
+  ex.form.forEach(i=>{
+    const m=MCQS[i],ok=ex.ans[i]===m[2];
+    per[m[4]]=per[m[4]]||[0,0];per[m[4]][1]++;if(ok)per[m[4]][0]++;
+    res.push([i,ex.ans[i],ok]);
+  });
+  ex.done=true;ex.per=per;ex.res=res;ex.at=Date.now();
+  ex.used=Math.round((EX_MIN*60-exLeft())/60);
+  exSave();exReport();
+}
+function exReport(){
+  const tot=ex.res.length,right=ex.res.filter(r=>r[2]).length,pc=Math.round(right/tot*1000)/10;
+  const pass=pc>=EX_CUT;
+  let h='<div class="exRep"><h2>Score report</h2>';
+  h+='<div class="exVerdict '+(pass?"pass":"fail")+'">'+pc+'% \u00b7 '+(pass?"PASS":"BELOW CUT")+'</div>';
+  h+='<div style="font-family:var(--mono);font-size:12px;color:var(--tx2);margin-bottom:14px">'+right+' / '+tot+' correct \u00b7 '+ex.used+' min used of '+EX_MIN+' \u00b7 working cut line '+EX_CUT+'%</div>';
+  Object.keys(EX_BP).forEach(d=>{
+    const p=ex.per[d]||[0,0];if(!p[1])return;
+    const v=Math.round(p[0]/p[1]*100);
+    h+='<div class="exRow"><span class="nm">'+d.toUpperCase()+'</span><span class="track"><i class="'+(v<EX_CUT?"low":"")+'" style="width:'+v+'%"></i><u></u></span><span class="pc">'+v+'% ('+p[0]+'/'+p[1]+')</span></div>';
+  });
+  const miss=ex.res.filter(r=>!r[2]);
+  h+='<div class="exBar" style="margin:18px 0 6px"><button class="exBtn pri" id="exToLearn">Send '+miss.length+' misses to Learn pile</button><button class="exBtn" id="exAgain">New form</button></div>';
+  h+='<h2 style="margin-top:16px;font-size:15px">Missed items ('+miss.length+')</h2>';
+  miss.forEach(([i,a])=>{
+    const m=MCQS[i];
+    h+='<div class="exMiss"><div class="qq">'+esc(m[0])+'</div>';
+    h+='<div class="yr">Your answer: '+(a===undefined?"\u2014 blank":esc(m[1][a]))+'</div>';
+    h+='<div class="cr">Correct: '+esc(m[1][m[2]])+'</div>';
+    h+='<div class="wh">'+esc(m[3])+' <span style="color:var(--mut)">['+m[4]+']</span></div></div>';
+  });
+  h+='<div class="exNote">NADCA does not publish its cut score; it is set by a criterion-referenced study and can move between forms. 72% is the last figure NADCA published, so treat it as a floor, not a target. Domains are also point-weighted on the real exam, so a raw percentage here is an approximation of standing, not a prediction.</div></div>';
+  $("stage").innerHTML=h;
+  $("exAgain").onclick=()=>{if(confirm("Start a fresh 150-question form?")){exNew();exRender()}};
+  $("exToLearn").onclick=()=>{
+    miss.forEach(([i])=>{state[i].t=3;state[i].c=0;state[i].tg=false});
+    save();alert(miss.length+" items moved to the Learn pile. Switch to Drill to work them.");
+  };
+}
+function exIntro(){
+  const n=MCQS.length;
+  let h='<div class="exRep"><h2>Full-form exam simulation</h2>';
+  h+='<p style="font-size:14px;line-height:1.6;color:var(--tx2);margin:8px 0 14px">150 questions drawn to the published 2026 ASCS blueprint, 3.5 hours on the clock, no feedback until you submit. Flag items, jump around, and finish with a per-domain score report in the same shape NADCA gives you at the testing center.</p>';
+  h+='<div class="exBar" style="display:block;line-height:1.9"><div>FORM &nbsp; 150 items from a '+n+'-question pool</div>';
+  Object.keys(EX_BP).forEach(d=>{h+='<div>'+d.toUpperCase()+' &nbsp; '+EX_BP[d]+' items</div>'});
+  h+='<div>CLOCK &nbsp; 210 min \u00b7 84 sec per item</div></div>';
+  h+='<div class="exBar" style="margin-top:14px"><button class="exBtn pri" id="exStart">Start the form</button></div>';
+  h+='<div class="exNote">Sit it cold, in one block, no notes. The value is pacing and stamina, not the score. If you finish with more than 40 minutes left you rushed.</div></div>';
+  $("stage").innerHTML=h;
+  $("exStart").onclick=()=>{exNew();exRender()};
+}
+function examRender(){if(ex===null)ex=exLoad();exRender()}
+function examKey(e){exKey(e)}
+$("vExam").onclick=()=>setView("exam");
+if(view==="exam")setView("exam");
+
+$("weak").addEventListener("toggle",drawWeak);
+const __rings=rings;
+rings=function(){__rings();drawBP();drawWeak()};
+drawBP();drawSess();
+</script>
+</body></html>
