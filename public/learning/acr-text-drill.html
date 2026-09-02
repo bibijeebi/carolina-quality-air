@@ -513,8 +513,8 @@ const EX_LS="acrtext_exam_v1";
 const EX_BP={"Scope & General": 6, "Inspections": 15, "Work Plans": 6, "Engineering Controls": 19, "Cleaning Procedures": 20, "Coils": 12, "Restoration": 17, "Verification": 24, "Definitions": 20, "References": 11};
 const EX_CUT=72;
 let exLen=+(localStorage.getItem("acrtext_exlen")||50);
-function exMin(){return exLen===50?70:210}
-function exBP(){if(exLen===150)return EX_BP;const o={};let t=0;Object.keys(EX_BP).forEach(d=>{o[d]=Math.round(EX_BP[d]/3);t+=o[d]});o["Cleaning Procedures"]+=50-t;return o}
+function exMin(){return Math.round(exLen*84/60)}
+function exBP(){if(exLen===150)return EX_BP;const o={};let t=0;Object.keys(EX_BP).forEach(d=>{o[d]=Math.max(1,Math.round(EX_BP[d]*exLen/150));t+=o[d]});o["Cleaning Procedures"]+=exLen-t;return o}
 let ex=null, exTick=null;
 
 function exLoad(){try{const o=JSON.parse(localStorage.getItem(EX_LS));if(o&&Array.isArray(o.form))return o}catch(e){}return null}
@@ -627,15 +627,16 @@ function exReport(){
 }
 function exIntro(){
   const n=MCQS.length,bp=exBP(),tot=Object.values(bp).reduce((a,b)=>a+b,0),mins=exMin();
-  let h='<div class="exRep"><h2>'+(exLen===50?'Short-form':'Full-form')+' exam simulation</h2>';
-  h+='<div class="seg" style="display:inline-flex;margin:4px 0 12px"><a id="exL50" class="'+(exLen===50?'on':'')+'">50 Q \u00b7 70 min</a><a id="exL150" class="'+(exLen===150?'on':'')+'">150 Q \u00b7 210 min</a></div>';
+  let h='<div class="exRep"><h2>'+(exLen===150?'Full-form':exLen===50?'Short-form':'Quick-form')+' exam simulation</h2>';
+  h+='<div class="seg" style="display:inline-flex;margin:4px 0 12px"><a id="exL30" class="'+(exLen===30?'on':'')+'">30 Q \u00b7 42 min</a><a id="exL50" class="'+(exLen===50?'on':'')+'">50 Q \u00b7 70 min</a><a id="exL150" class="'+(exLen===150?'on':'')+'">150 Q \u00b7 210 min</a></div>';
   h+='<p style="font-size:14px;line-height:1.6;color:var(--tx2);margin:8px 0 14px">'+tot+' questions drawn proportionally across the ten ACR 2025 sections, '+mins+' minutes on the clock at the real 84 seconds per item, no feedback until you submit. Flag items, jump around, finish with a per-domain score report.</p>';
   h+='<div class="exBar" style="display:block;line-height:1.9"><div>FORM &nbsp; '+tot+' items from a '+n+'-question pool</div>';
   Object.keys(bp).forEach(d=>{h+='<div>'+d.toUpperCase()+' &nbsp; '+bp[d]+' items</div>'});
   h+='<div>CLOCK &nbsp; '+mins+' min \u00b7 84 sec per item</div></div>';
   h+='<div class="exBar" style="margin-top:14px"><button class="exBtn pri" id="exStart">Start the form</button></div>';
-  h+='<div class="exNote">'+(exLen===50?'A pacing check. Cold, one block, no notes. Cut line is the same 72 percent.':'Sit it cold, in one block, no notes. The value is pacing and stamina, not the score. If you finish with more than 40 minutes left you rushed.')+'</div></div>';
+  h+='<div class="exNote">'+(exLen!==150?'A fresh random draw every time. Cold, one block, no notes. Cut line is the same 72 percent.':'Sit it cold, in one block, no notes. The value is pacing and stamina, not the score. If you finish with more than 40 minutes left you rushed.')+'</div></div>';
   $("stage").innerHTML=h;
+  $("exL30").onclick=()=>{exLen=30;localStorage.setItem("acrtext_exlen","30");exIntro()};
   $("exL50").onclick=()=>{exLen=50;localStorage.setItem("acrtext_exlen","50");exIntro()};
   $("exL150").onclick=()=>{exLen=150;localStorage.setItem("acrtext_exlen","150");exIntro()};
   $("exStart").onclick=()=>{exNew();exRender()};
