@@ -3,7 +3,7 @@ title: Air duct cleaning in Greenville & Pitt County
 city: Greenville
 order: 1
 officeSlug: greenville
-summary: Our home shop is in Winterville. Most of the work we do is within half an hour of it.
+summary: Serving Greenville, Winterville and surrounding Pitt County communities.
 towns:
   - Greenville
   - Winterville
@@ -27,13 +27,12 @@ localAngle: Vented crawlspaces plus eastern NC humidity is the combination that 
 
 ## This is where we started
 
-Carolina Quality Air has operated out of Winterville since 1999. The shop is on
-Essex Drive, a few minutes from Pitt Community College, and Greenville is
-still where most of our work happens — houses off Fire Tower Road, rentals
+Carolina Quality Air has served eastern North Carolina since 1999.
+Our Greenville-area work includes houses off Fire Tower Road, rentals
 around ECU, subdivisions coming up the NC-11 corridor, and the commercial and
 healthcare buildings in between.
 
-If you call the Greenville number, you are calling the shop.
+Call the Greenville number to discuss your property and arrange service.
 
 ## Why ducts here have a harder life
 

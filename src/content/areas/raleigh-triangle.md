@@ -3,7 +3,7 @@ title: Air duct cleaning in Raleigh, Cary & the Triangle
 city: Raleigh & the Triangle
 order: 2
 officeSlug: raleigh-triangle
-summary: A second office on Towerview Court in Cary covers Wake County and most of the Triangle.
+summary: Duct and dryer vent cleaning across Wake County and the greater Triangle.
 towns:
   - Cary
   - Apex
@@ -25,11 +25,11 @@ towns:
 localAngle: Two very different housing stocks — brand-new tight envelopes full of construction dust, and older homes on crawlspaces with ageing duct board.
 ---
 
-## Two offices, one crew standard
+## One crew standard across the Triangle
 
-Our Cary office on Towerview Court is a NADCA-listed location, and it covers
-Wake County and out into Durham, Orange, Chatham and Johnston. Same crews,
-same method, same certificate at the end.
+We serve Wake County and communities in Durham, Orange, Chatham and Johnston.
+Call our Triangle number to discuss your property, scope and scheduling.
+Same crew standard, same method, same certificate at the end.
 
 ## The Triangle has two duct problems, not one
 

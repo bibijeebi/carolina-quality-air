@@ -63,8 +63,8 @@ const canonical = new URL(
     <meta property="og:url" content={canonical.href} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    {/* Structured data: one HVACBusiness entity, HQ address, all offices
-        as contact points. Facts limited to what the company publishes. */}
+    {/* Structured data: one HVACBusiness entity with regional contact points.
+        A directory contact address does not establish a customer-facing office. */}
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -78,14 +78,6 @@ const canonical = new URL(
         foundingDate: "1999",
         description:
           "Family-owned, NADCA-certified air duct and dryer vent cleaning serving Eastern North Carolina since 1999.",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "111 Essex Dr",
-          addressLocality: "Winterville",
-          addressRegion: "NC",
-          postalCode: "28590",
-          addressCountry: "US",
-        },
         contactPoint: site.offices.map((o) => ({
           "@type": "ContactPoint",
           contactType: "customer service",

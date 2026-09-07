@@ -22,7 +22,7 @@ dryer-fire statistics, and ACR — The NADCA Standard. Verified July 2026.
 
 | Old claim | Problem | What the site says now |
 |---|---|---|
-| "NADCA certified since 2000" | NADCA's directory lists the Winterville entity as a member since **11/14/2001**. The Cary entity dates from 07/09/2020. | "NADCA member since 2001" |
+| "NADCA certified since 2000" | Historical records date to **11/14/2001** and **07/09/2020**. Benny clarified September 7 that these are Perry’s and Jeff’s records for the same company; the 2020 record is associated with Greenville, not evidence of a Cary office. | "NADCA member since 2001" |
 | "22 years of experience" (frozen since ~2021) | Stale. | Computed from the 1999 founding date in `site.ts` — it can never go stale again |
 | "Eastern North Carolina's first National Association of Air Duct Cleaning Experts" | Garbles NADCA's name. There is no organisation by that name. NADCA = National Air Duct Cleaners **Association**. | Dropped. The defensible superlative — being the only company in the area that issues a NADCA certificate — is used instead |
 | "NADCA is the ONLY association recognized by the FDA and EPA" | The EPA does not recognise, certify or endorse duct cleaning companies **or** associations. Repeating this is actively harmful — the EPA specifically warns consumers about companies that claim EPA credentials. | Replaced with an explicit explanation on `/nadca` that NADCA is a trade credential, not a licence |
@@ -55,8 +55,7 @@ dryer-fire statistics, and ACR — The NADCA Standard. Verified July 2026.
 ### Confirmed and safe to use
 
 - Family owned and operated since 1999 (BBB records a start date of 4/22/1999)
-- NADCA member, two listed locations: 111 Essex Dr, Winterville and 140
-  Towerview Ct, Cary
+- NADCA company membership; historical record dates must not be used as proof of separate offices. See the September 7 correction below.
 - Perry Bagley — president/founder, ASCS/VSMR, NADCA Regional Coordinator for
   the U.S. Southeast, NADCA Mentor, teaches training classes nationally
 - Jeff Bagley — son, co-owner and project manager, ASCS **and CVI** (Certified
@@ -172,3 +171,24 @@ particular system — warm paper ground, clay action colour, hairline rules — 
 because the pairing is carrying the pages well. If a future pass wants to
 re-approach the type, Archivo Expanded + Literata is the considered alternative,
 not a random swap.
+
+
+## September 7, 2026 — company-record correction
+
+Benny reports that the 2001 company record is Perry’s contact record and the
+2020 record is Jeff’s, for the same company. The newer record was associated
+with Bessemer Drive in Greenville; a Cary telephone number does not establish
+a Cary office. His individual NADCA account association was fixed per his
+report. A company-record merge, address correction, or separate branch
+membership has not been established.
+
+Remove residential street addresses and inferred office claims from marketing
+copy and structured data until the owners confirm the public-facing business
+address. Preserve regional phone numbers pending verification; do not invent
+a replacement number. Keep private addresses and recovery details out of the
+publicly retrievable operations checklist. The 2001 historical membership
+year is distinct from founding in 1999 and individual certification dates.
+
+The /operations pages are noindex planning records, not authenticated private
+records. They contain no personal-address table, credentials or account recovery
+information. Existing noindex and robots behavior remains intentional.

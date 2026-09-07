@@ -74,6 +74,5 @@ moisture source still feeding it is a waste of your money.
 
 ## Scheduling on the coast
 
-The Wilmington number reaches our coastal side. There is no walk-in office
-here — crews run out of Winterville and Cary — so beach-week and holiday
-weeks book up early. The further out you call, the better the slot.
+The Wilmington number reaches our coastal side. Service is arranged by appointment; call ahead for beach-week and holiday
+scheduling. The further out you call, the better the slot.

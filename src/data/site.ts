@@ -25,10 +25,10 @@ export const site = {
   founded: FOUNDED,
 
   /**
-   * NADCA's directory lists the Winterville entity as a member since
-   * 11/14/2001 and the Cary entity since 07/09/2020. The old site claimed
-   * "certified since 2000", which NADCA's own records do not support, so
-   * the site says 2001 or simply "for over twenty years".
+   * The historical company record dates to 2001. Benny clarified on
+   * September 7, 2026 that the 2001 and 2020 entries are Perry's and
+   * Jeff's records for the same company, not proof of separate offices.
+   * Company-record reconciliation remains open; see docs/CONTENT-NOTES.md.
    */
   nadcaMemberSince: 2001,
 
@@ -39,7 +39,7 @@ export const site = {
 
   email: "carolinaqualityair@yahoo.com",
 
-  /** Primary number — the Winterville shop. */
+  /** Primary company contact number. */
   phone: {
     display: "252-321-7447",
     href: "tel:+12523217447",
@@ -50,23 +50,23 @@ export const site = {
       slug: "greenville",
       name: "Greenville / Winterville",
       shortName: "Greenville",
-      street: "111 Essex Dr",
-      city: "Winterville, NC 28590",
+      street: "Serving Greenville, Winterville and Pitt County",
+      city: "Greenville / Winterville, NC",
       phone: "252-321-7447",
       phoneHref: "tel:+12523217447",
-      mapUrl: "https://goo.gl/maps/arg4sqCekj4WjdP77",
-      role: "Headquarters",
+      mapUrl: null,
+      role: "Greenville service area",
     },
     {
       slug: "raleigh-triangle",
       name: "Raleigh / Cary",
       shortName: "Cary",
-      street: "140 Towerview Ct",
-      city: "Cary, NC 27513",
+      street: "Serving Raleigh, Cary and the Triangle",
+      city: "Raleigh / Cary, NC",
       phone: "919-907-9742",
       phoneHref: "tel:+19199079742",
-      mapUrl: "https://goo.gl/maps/uxLTf7gKZSTJfqiK8",
-      role: "Triangle office",
+      mapUrl: null,
+      role: "Triangle service area",
     },
     {
       /* No published street address exists for Wilmington. Do not invent one. */
