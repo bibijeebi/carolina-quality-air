@@ -12,133 +12,53 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://carolinaqualityair.xyz/estimates/og/green-road.jpg">
 <style>
-@font-face{font-family:"Archivo";src:url("/fonts/archivo-latin-var.woff2") format("woff2-variations");font-weight:100 900;font-stretch:62.5% 125%;font-display:swap}
-:root{--blue:#0072bb;--navy:#0b2237;--ink:#17222c;--paper:#f4f7fa;--mute:#5f6b76;--line:#d8dfe6;--green:#1a7f4e;--red:#b3261e;--amber:#b7791f}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 "Archivo",-apple-system,sans-serif;padding:0 0 80px}
-.masthead{background:var(--navy);color:#fff;padding:26px 18px 30px}
-.masthead .inner{max-width:760px;margin:0 auto}
-.brand{font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#9fc9e8}
-.brand a{color:inherit;text-decoration:none}
-h1{font-stretch:70%;font-weight:800;font-size:clamp(30px,6.5vw,44px);text-transform:uppercase;margin:8px 0 4px}
-.sub{font-size:14px;color:#b9c7d3}
-.wrap{max-width:760px;margin:0 auto;padding:26px 18px}
-h2{font-stretch:75%;font-weight:800;font-size:22px;color:var(--navy);text-transform:uppercase;margin:34px 0 10px;border-bottom:3px solid var(--blue);padding-bottom:6px}
-h3{font-stretch:80%;font-weight:800;font-size:16px;color:var(--navy);text-transform:uppercase;margin:22px 0 6px}
-.bl{background:#fff;border:1px solid var(--line);border-left:5px solid var(--green);padding:16px 18px;margin:18px 0;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-.bl b.k{color:var(--green);text-transform:uppercase;font-size:13px;letter-spacing:.08em;display:block;margin-bottom:6px}
-.card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);padding:16px 18px;margin:14px 0;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-.card.warn{border-left-color:var(--red)}
-.card.ask{border-left-color:var(--amber)}
-.big{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
-.big>div{flex:1 1 150px;background:#fff;border:1px solid var(--line);padding:14px 16px;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-.big .n{font-stretch:75%;font-weight:800;font-size:28px;color:var(--navy);line-height:1.1}
-.big .l{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0;background:#fff}
-th{text-align:left;color:var(--mute);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:8px;border-bottom:2px solid var(--navy)}
-td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
-td.r,th.r{text-align:right;white-space:nowrap}
-tr.us td{background:#eaf3fa;font-weight:700}
-.note{font-size:13px;color:var(--mute)}
-a{color:var(--blue)}
-.tag{display:inline-block;background:var(--navy);color:#9fc9e8;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;margin-right:6px}
-.tag.hot{background:var(--red);color:#fff}
-.tag.est{background:var(--amber);color:#fff}
-ol.steps{padding-left:0;list-style:none;counter-reset:s}
-ol.steps li{counter-increment:s;background:#fff;border:1px solid var(--line);padding:14px 16px 14px 56px;margin:10px 0;position:relative;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-ol.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:28px;height:28px;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px}
-ol.steps b{color:var(--navy)}
-figure{margin:14px 0;background:#fff;border:1px solid var(--line);padding:10px;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-figure img{width:100%;height:auto;display:block}
-figcaption{font-size:13px;color:var(--mute);padding:10px 4px 2px;line-height:1.5}
-.legend{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;margin-top:8px}
-.legend .sw{font-weight:800;padding:2px 8px;color:#111;white-space:nowrap}
-.sw.y{background:#ffd400}.sw.m{background:#ff4dd2}.sw.g{background:#7CFC00}
-.twrap{overflow-x:auto}
-@media(max-width:640px){
-table.raw thead{display:none}
-table.raw,table.raw tbody,table.raw tr,table.raw td{display:block;width:100%}
-table.raw tr{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);margin:10px 0;padding:6px 0;box-shadow:0 1px 3px rgba(11,34,55,.06)}
-table.raw td{border:none;padding:4px 12px;display:block;text-align:left}
-table.raw td.r{text-align:left;white-space:normal}
-table.raw td::before{content:attr(data-l);display:block;color:var(--mute);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px}
-table.raw td:first-child{font-weight:800;color:var(--navy);display:block;text-align:left;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:4px}
-table.raw td:first-child::before{display:none}
-table.raw td:empty{display:none}
-table.raw tr.us{border-left-color:var(--green)}
-}
-.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
-.gal figure{margin:0}
-.gal img{aspect-ratio:4/3;object-fit:cover}
-.gal figcaption{padding:8px 4px 4px}
-.rev{background:#fff;border:1px solid var(--line);border-left:5px solid var(--amber);padding:12px 16px;margin:14px 0;font-size:14px}
-@media(max-width:520px){.gal{grid-template-columns:1fr}}
-.footer{max-width:760px;margin:40px auto 0;padding:0 18px;font-size:13px;color:var(--mute)}
-html,body{overflow-x:hidden}h3{font-size:20px;margin-top:30px}li{margin:8px 0}summary{cursor:pointer;font-weight:700;color:var(--navy);padding:16px 0}details{border-top:1px solid var(--line);margin-top:28px}.twrap{-webkit-overflow-scrolling:touch}.twrap table{min-width:460px}.wrap>p:first-child{color:var(--mute)}@media print{body{padding:0;background:#fff}.masthead{background:#fff;color:var(--ink);padding:12px 18px}.brand,.sub{color:var(--ink)}details{display:none}.wrap{padding-top:8px}h3{break-after:avoid}tr,li{break-inside:avoid}.footer{margin-top:12px}}
-</style>
-</head>
-<body>
-<header class="masthead"><div class="inner"><div class="brand"><a href="/">Carolina Quality Air</a> · Pre-bid estimates</div><h1>Green Road Community Center</h1><div class="sub">Duct-cleaning estimate for Jeff · IMEG 25007326.01</div></div></header>
-<main class="wrap"><p><span class="tag est">Proposed · Awaiting Jeff’s decision</span><span class="tag">Two email answers pending</span></p>
-<p><strong>4201 Green Road, Raleigh · September 7, 2026</strong><br>
-<strong>Proposed price: $24,000 · For your review before we quote the mechanical bidders</strong></p>
-<p>Jeff,</p>
+@font-face{font-family:Archivo;src:url('/fonts/archivo-latin-var.woff2') format('woff2-variations');font-weight:100 900;font-stretch:62.5% 125%;font-display:swap}
+:root{--navy:#0b2237;--blue:#0072bb;--ink:#172b3c;--muted:#526575;--line:#dbe3e9;--paper:#f3f6f8;--amber:#87520b}
+*{box-sizing:border-box}html,body{overflow-x:hidden}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Archivo,Arial,sans-serif}a{color:var(--blue);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}a:focus-visible,summary:focus-visible{outline:3px solid #0072bb;outline-offset:5px}.shell{max-width:1160px;margin:auto;padding:0 32px}.topbar{background:var(--navy);color:white}.topbar .shell{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:20px;padding-bottom:20px}.brand{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:white;text-decoration:none}.topnote{font-size:12px;color:#b9cedd}.hero{background:var(--navy);color:white;padding:34px 0 52px}.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:center}.eyebrow{font-size:11px;font-weight:750;letter-spacing:.14em;text-transform:uppercase}.hero .eyebrow{color:#8fd1ff}h1{font-stretch:70%;font-size:clamp(40px,5.5vw,66px);line-height:.99;letter-spacing:-.025em;text-transform:uppercase;margin:16px 0 22px;font-weight:850}.hero p{color:#c2d4e1;font-size:14px;margin:8px 0}.hero-photo{margin:0;position:relative}.hero-photo img{width:100%;height:285px;object-fit:cover;border-radius:4px;display:block}.hero-photo figcaption{color:#b9cedd;font-size:11px;line-height:1.5;margin-top:10px}.badge{display:inline-block;border:1px solid #66849b;padding:5px 10px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.summary-bar{display:grid;grid-template-columns:1.15fr 1fr 1fr;background:white;border:1px solid var(--line);border-top:4px solid var(--blue);margin-top:-20px;position:relative}.stat{padding:23px 28px}.stat+.stat{border-left:1px solid var(--line)}.stat small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:750}.stat strong{display:block;font-size:26px;font-weight:800;line-height:1.3;color:var(--navy);margin:6px 0}.stat:first-child strong{font-size:42px;letter-spacing:-.035em}.stat span{display:block;font-size:12px;color:var(--muted)}.jumpnav{display:flex;flex-wrap:wrap;gap:8px 24px;padding:20px 0 30px}.jumpnav a{font-size:12px;font-weight:700;color:var(--muted);text-decoration:none}.jumpnav a:hover{color:var(--blue)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:32px;align-items:start}.article{background:white;border:1px solid var(--line);padding:36px 40px}.intro p:first-child{font-weight:750;margin-top:0}.intro{padding-bottom:10px}.section{border-top:1px solid var(--line);padding-top:25px;margin-top:27px}.section h2{font-size:25px;line-height:1.2;font-stretch:80%;margin:9px 0 18px;font-weight:800;letter-spacing:-.015em}.section .eyebrow{color:var(--blue)}p{margin:0 0 16px}ul,ol{padding-left:21px;margin:0 0 16px}li{padding-left:3px;margin:0 0 12px}li::marker{color:var(--blue)}.excluded{background:#f5f7f9;padding:22px;margin-top:24px;border-left:3px solid #9eafbc}.excluded h3{font-size:16px;margin:0 0 12px}.excluded p:last-child{margin-bottom:0}.pending{background:#fff9ed;border:1px solid #eddbb9;padding:22px;margin-top:26px}.pending .eyebrow{color:var(--amber)}.pending h2{font-size:22px;margin:8px 0 18px}.pending li::marker{color:var(--amber)}.pending p:last-child{font-size:13px;color:#6e552f;margin-bottom:0}.side{position:sticky;top:24px}.decision-box{background:var(--navy);color:white;padding:27px}.decision-box .eyebrow{color:#8fd1ff}.decision-box h2{font-size:28px;line-height:1.1;font-stretch:80%;margin:10px 0 24px}.decision{padding:18px 0;border-top:1px solid #375064}.decision span{display:block;color:#8fd1ff;font-size:11px;letter-spacing:.08em;font-weight:750;margin-bottom:6px}.decision h3{font-size:15px;margin:0 0 7px}.decision p{font-size:13px;line-height:1.6;color:#c2d4e1;margin:0}.answer{display:block;border-bottom:1px solid #6a8194;height:27px;margin-top:8px}.side-note{font-size:12px;color:var(--muted);padding:18px 4px;line-height:1.65}.sources{margin-top:30px;padding:26px 0 40px}.sources h2{font-size:24px;font-stretch:80%;margin:0 0 6px}.sources>p{font-size:13px;color:var(--muted)}.source-links{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.source-links a{background:white;border:1px solid var(--line);padding:12px 16px;font-size:13px;font-weight:700;text-decoration:none}.source-links a:hover{border-color:var(--blue)}details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 2px}summary{padding:18px 0;cursor:pointer;font-size:14px;font-weight:700}details p{font-size:13px;color:var(--muted)}.twrap{overflow-x:auto;-webkit-overflow-scrolling:touch}table{width:100%;border-collapse:collapse;background:white;font-size:13px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:11px;text-transform:uppercase;color:var(--muted)}footer{padding:25px 0;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.footerline{display:flex;justify-content:space-between;gap:16px}.skip{position:absolute;left:16px;top:-100px;z-index:10;background:white;padding:10px}.skip:focus{top:10px}
+@media(max-width:850px){.hero-grid{gap:25px}.layout{grid-template-columns:minmax(0,1fr) 250px;gap:20px}.article{padding:26px}.decision-box{padding:22px}.shell{padding:0 24px}}
+@media(max-width:680px){.shell{padding:0 20px}.topbar .shell{padding-top:16px;padding-bottom:16px}.topnote{display:none}.hero{padding:20px 0 40px}.hero-grid{grid-template-columns:1fr;gap:24px}h1{font-size:45px;max-width:430px;margin-top:13px}.hero-photo img{height:205px;object-position:center 45%}.summary-bar{grid-template-columns:1fr 1fr}.stat{padding:18px}.stat:first-child{grid-column:1/-1;border-bottom:1px solid var(--line)}.stat:nth-child(2){border-left:0}.stat strong{font-size:23px}.stat:first-child strong{font-size:44px}.layout{display:flex;flex-direction:column;gap:24px}.article{padding:25px 21px;width:100%}.side{position:static;width:100%}.decision-box{padding:26px}.jumpnav{gap:10px 20px;padding-bottom:24px}.source-links{display:grid;grid-template-columns:1fr}.sources{margin-top:24px}.footerline{display:block}.footerline span{display:block;margin-top:5px}table thead{display:none}table,tbody,tr,td{display:block;width:100%}tr{padding:10px 0;border-bottom:1px solid var(--line)}td{border:0;padding:4px 12px}td:first-child{font-weight:750}.pending,.excluded{padding:18px}body{font-size:15px}.section h2{font-size:24px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;font-size:10pt}.topbar,.jumpnav,.hero-photo,.sources,.skip{display:none}.hero{background:white;color:var(--ink);padding:0}.hero-grid{display:block}.hero p,.hero .eyebrow{color:var(--ink)}h1{font-size:30pt}.shell{max-width:none;padding:0}.summary-bar{margin:18px 0;display:flex}.stat{flex:1;padding:10px}.stat strong,.stat:first-child strong{font-size:22pt}.layout{display:block}.article{border:0;padding:0}.side{position:static}.decision-box{background:white;color:var(--ink);border:1px solid #999;margin-top:20px}.decision-box p,.decision-box .eyebrow,.decision span{color:var(--ink)}.decision-box{break-inside:avoid}h2,h3{break-after:avoid}.section{margin-top:18px;padding-top:12px}.pending,.excluded{background:white}.footerline{display:block}}
+</style></head><body><a class="skip" href="#brief">Skip to estimate</a>
+<div class="topbar"><div class="shell"><a class="brand" href="/">Carolina Quality Air</a><span class="topnote">Project estimates / Raleigh, NC</span></div></div>
+<header class="hero"><div class="shell hero-grid"><div><div class="eyebrow">Pre-bid brief · September 7, 2026</div><h1>Green Road<br>Community Center</h1><p>Duct-cleaning estimate for Jeff<br>4201 Green Road, Raleigh · IMEG 25007326.01</p><span class="badge">Proposed · For internal review</span></div><figure class="hero-photo"><img src="/estimates/green-road-gym-fabric-duct.jpg" alt="Existing fabric duct suspended above the Green Road gym floor" width="900" height="675"><figcaption>From the walkthrough · Both existing fabric runs are included in the proposed scope.</figcaption></figure></div></header>
+<div class="shell"><div class="summary-bar" aria-label="Estimate at a glance"><div class="stat"><small>Proposed base price</small><strong>$24,000</strong><span>Retained ducts, fabric cleaning + lift</span></div><div class="stat"><small>Working schedule</small><strong>2 site days</strong><span>Target · Access and turnaround to confirm</span></div><div class="stat"><small>City bid opening</small><strong>Sept 22</strong><span>1 PM · Quote target September 14–15</span></div></div>
+<nav class="jumpnav" aria-label="On this page"><a href="#scope">Scope</a><a href="#basis">Price basis</a><a href="#pending">Pending answers</a><a href="#decisions">Jeff’s decisions</a><a href="#documents">Documents</a></nav>
+<main class="layout" id="brief"><article class="article"><div class="intro"><p>Jeff,</p>
 <p>Following our call and the walkthrough, I’m proposing <strong>$24,000 for the retained ductwork and both gym fabric ducts, including lift rental and fabric cleaning</strong>. The working plan is me, Devin and Marcus, with you helping, targeting two site days. We still need to confirm that the fabric turnaround and access allow that schedule.</p>
 <p>This fits the $20,000–$25,000 range you described as good money for a two-day commercial job. Before we send it, I want to settle the scope below, make sure the crew and equipment plan work, and get your final number.</p>
-<h3>What we would cover</h3>
+</div>
+<section class="section" id="scope"><div class="eyebrow">01 / The work</div><h2>What we would cover</h2>
 <ul>
 <li>Clean the retained supply and return ductwork serving RTU-1, RTU-2, RTU-3, AC-5, AC-6, AC-7 and AHU-8, following NADCA ACR.</li>
 <li>Remove, identify, clean and reinstall <strong>both gym fabric ducts</strong> using the manufacturer’s instructions. Include handling, transport, drying and reconnection in the work plan.</li>
 <li>Clean associated retained grilles and registers, close cleaning access openings, and provide before-and-after documentation.</li>
 <li>Include the lift and appropriate floor protection for the fabric work.</li>
 </ul>
-<h3>What comes out of our scope</h3>
+<div class="excluded"><h3>Excluded &amp; alternate work</h3>
 <p><strong>The retained gym’s ductwork is excluded by Addendum 1.</strong> The base bid also replaces flex, diffusers and balancing dampers for RTU-1, RTU-2, RTU-3 and AC-5; we would clean the retained distribution, not charge to clean components being discarded.</p>
 <p>Equipment replacement, new duct installation, controls, and testing and balancing remain with the mechanical contractor and its other trades. Coating or repairs would be separately assessed and approved if needed.</p>
 <p>If <strong>Alternate 1</strong> is accepted, RTU-1 distribution is replaced. We need a cleaning deduct for the work that actually disappears.</p>
-<h3>What changed since our call</h3>
+</div></section>
+<section class="section" id="basis"><div class="eyebrow">02 / Price basis</div><h2>What changed since our call</h2>
 <p>The 30,000-square-foot figure I gave you was a rough whole-building estimate. M-1 includes room areas, and the retained gym is outside our duct-cleaning scope. The ventilation-schedule entries suggest roughly <strong>16,100–17,400 square feet serving the remaining systems</strong>, depending on how the RTU-2/3 room entry is counted. That is a cross-check, not a completed takeoff.</p>
 <p>I’m therefore proposing $24,000 as a <strong>job price for the scope and crew plan</strong>, rather than presenting it as a verified square-foot calculation. We should check that it carries our labor, lift, fabric handling, travel and risk without counting the same work twice.</p>
-<h3>Two answers pending from Brad</h3>
+</section>
+<section class="pending" id="pending"><div class="eyebrow">Awaiting clarification · 2 questions</div><h2>Two answers pending from Brad</h2>
 <ol>
 <li><strong>Fabric ducts:</strong> manufacturer and care information so we can confirm the cleaning process and turnaround.</li>
 <li><strong>Retained unit:</strong> confirmation that X-RTU-4 is X-AC-4 on the drawings and that its coil cleaning and new filters remain required. The drawings call for this even though its ducts are excluded. The proposed base above does not include that equipment work; once confirmed, we can price it separately or clearly leave it with the prime.</li>
 </ol>
 <p>Neither answer prevents us from settling the rest of the estimate now.</p>
-<h3>What I need from you</h3>
-<div class="twrap"><table>
-<thead>
-<tr>
-<th>Decision</th>
-<th>Your call</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Final selling price</strong> for the scope above</td>
-<td>Keep $24,000 or revise to $________</td>
-</tr>
-<tr>
-<td><strong>Crew and execution</strong></td>
-<td>Can our proposed team deliver it in two site days? Confirm lift source, fabric-cleaning arrangements and whether a separate return visit is needed.</td>
-</tr>
-<tr>
-<td><strong>Alternate 1 deduct</strong></td>
-<td>$________ for the RTU-1 cleaning work eliminated</td>
-</tr>
-</tbody>
-</table></div>
-<p>We should confirm the lift’s delivered cost and the fabric-cleaning arrangements before releasing the number. Any payment, insurance and additional-visit terms will use the company’s approved terms for this quote.</p>
-<h3>Timing and release</h3>
+</section>
+<section class="section" id="timing"><div class="eyebrow">03 / Next steps</div><h2>Timing and release</h2>
 <p>The minutes schedule the final addendum by <strong>September 11</strong>. Once we review it, resolve the two pending answers and have your price, the target is to get the quote to confirmed mechanical bidders <strong>September 14–15</strong>, or earlier if they need it. Their City bids are due <strong>September 22 at 1 PM</strong>.</p>
 <p>Our cleaning needs to fit the prime’s sequence before the <strong>30-day air-moving milestone</strong>; the 60-day milestone is for controls. The building is expected to be vacant, with access to be coordinated.</p>
 <p>Once approved, we can prepare one consistent quote for Becky to issue through the usual process.</p>
 <p>— Ben</p>
-<hr>
-<p><strong>Reference documents:</strong> <a href="https://carolinaqualityair.xyz/estimates/docs/2026-08-13_Drawings.pdf">Drawings: M-1 areas, M-3 scope, M-4 retained unit</a> · <a href="https://carolinaqualityair.xyz/estimates/docs/2026-09-03_Addendum-1.pdf">Addendum 1</a> · <a href="https://carolinaqualityair.xyz/estimates/docs/2026-09-03_Pre-Bid-Agenda-and-Minutes.pdf">Pre-bid minutes</a></p>
-<p><em>Internal estimate for Jeff’s decision. Final subcontract quote not yet issued.</em></p>
-<details><summary>Walkthrough photos</summary><div class="gal"><figure><img src="/estimates/green-road-gym-fabric-duct.jpg" alt="Existing gym fabric duct suspended above the court" loading="lazy"><figcaption>Both fabric runs are included. Manufacturer instructions and cleaning turnaround remain pending.</figcaption></figure><figure><img src="/estimates/green-road-fabric-transition.jpg" alt="Existing metal-to-fabric duct connection" loading="lazy"><figcaption>Connection detail for planning removal and reinstallation.</figcaption></figure></div></details>
-<details><summary>Open the bid documents</summary><h2>Bid documents</h2>
+</section></article>
+<aside class="side" id="decisions"><div class="decision-box"><div class="eyebrow">For Jeff</div><h2>Three decisions.<br>Then we can quote.</h2><div class="decision"><span>01 / PRICE</span><h3>Final selling price</h3><p>Keep $24,000 or set the revised base for the scope shown.</p><span class="answer" aria-label="Space for approved price"></span></div><div class="decision"><span>02 / EXECUTION</span><h3>Crew, lift &amp; fabric</h3><p>Ben, Devin and Marcus, with Jeff helping. Confirm the two-day target, lift source, cleaning arrangements and any return visit.</p></div><div class="decision"><span>03 / ALTERNATE 1</span><h3>RTU-1 cleaning deduct</h3><p>Set the deduct for cleaning work eliminated if the distribution is replaced.</p><span class="answer" aria-label="Space for alternate deduct"></span></div></div><p class="side-note">Confirm delivered lift cost and fabric-cleaning arrangements before release. Payment, insurance and additional visits use the company’s approved terms for this quote.</p></aside></main>
+<section class="sources" id="documents"><h2>The supporting documents</h2><p>Reference set through Addendum 1. Check subsequent addenda before issuing the quote.</p><div class="source-links"><a href="/estimates/docs/2026-08-13_Drawings.pdf">Drawings · Scope &amp; room areas ↗</a><a href="/estimates/docs/2026-09-03_Addendum-1.pdf">Addendum 1 · Scope changes ↗</a><a href="/estimates/docs/2026-09-03_Pre-Bid-Agenda-and-Minutes.pdf">Pre-bid minutes · Dates &amp; access ↗</a></div><details><summary>All 8 bid documents</summary>
 <p>Reference set through Addendum 1, September 3. Check for subsequent addenda before issuing the quote.</p>
 <div class="twrap"><table class="raw">
 <thead><tr><th>Document</th><th>What it is</th></tr></thead>
@@ -153,4 +73,5 @@ html,body{overflow-x:hidden}h3{font-size:20px;margin-top:30px}li{margin:8px 0}su
 <tr><td data-l="Document"><a href="/estimates/docs/2026-08-13_Advertisement-for-Bids.pdf">Advertisement for bids</a></td><td data-l="What">Aug 13. The public notice.</td></tr>
 </tbody></table></div>
 </details>
-</main><footer class="footer">Carolina Quality Air · Updated September 7, 2026 · Internal estimate for review, not an issued subcontract quote.</footer></body></html>
+</section>
+</div><footer><div class="shell footerline"><strong>Carolina Quality Air</strong><span>Prepared by Ben · September 7, 2026 · Not an issued subcontract quote</span></div></footer></body></html>
