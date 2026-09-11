@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Read the Print — mechanical plan takeoff trainer</title>
+<meta property="og:title" content="Read the Print — turn a mechanical sheet into a crew takeoff">
+<meta property="og:description" content="Training game for duct cleaning crews: every round draws a fresh HVAC plan sheet, you pull the counts, CFM, sizes, elevations, return path, materials and access plan off it, then compare against the crew brief.">
+<meta property="og:url" content="https://carolinaqualityair.xyz/learning/read-the-print.html">
+<meta name="twitter:card" content="summary">
+<style>
+:root{--bg:#f4f2ee;--card:#fff;--ink:#1c2024;--mut:#6a7480;--acc:#0d6d8e;--red:#c62828;--amb:#b26a00;--ok:#2e7d32;--line:#dfe3e8;--paper:#fbfaf7}
+*{box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{margin:0;font:16px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:720px;margin:0 auto;padding:14px 14px 80px}
+.back{color:var(--acc);font-size:13.5px;text-decoration:none;font-weight:700}
+h1{font-size:24px;letter-spacing:-.5px;margin:6px 0 0}
+.sub{color:var(--mut);font-size:14px;margin:0 0 12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1;background:#fff;color:var(--mut);border:1.5px solid var(--line);border-radius:9px;padding:9px 6px;font-weight:700;font-size:14px}
+.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+button{background:var(--acc);color:#fff;border:0;border-radius:9px;padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer}
+button.ghost{background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
+button.small{padding:7px 12px;font-size:13.5px}
+button:disabled{opacity:.4;cursor:default}
+.mut{color:var(--mut)}.small{font-size:13.5px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sheet{background:var(--paper);border:1px solid #cfd4d9;border-radius:6px;padding:8px 8px 6px;margin:12px 0 0;box-shadow:inset 0 0 0 1px #fff}
+.zoombar{display:flex;gap:6px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.zoombar span{font-size:12.5px;color:var(--mut)}
+.zoombar button{padding:4px 10px;font-size:12.5px;background:#fff;color:var(--acc);border:1.5px solid var(--line)}
+.zoombar button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.plan{overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid #d7dbe0;background:#fff}
+.plan svg{display:block;width:100%;height:auto}
+.plan.z2 svg{width:200%}.plan.z3 svg{width:320%}
+svg text{font-family:"Helvetica Neue",Arial,sans-serif;font-size:8.6px;fill:#1c2024;letter-spacing:.2px}
+svg text.s{font-size:7.4px;fill:#3b444c}
+svg text.rm{font-size:8px;fill:#5a636c;font-weight:700}
+svg .wall{stroke:#7d8790;stroke-width:.9;fill:none}
+svg .rated{stroke:#1c2024;stroke-width:3;fill:none}
+svg .grid{stroke:#98a2ac;stroke-width:.8;stroke-dasharray:9 3 2 3;fill:none}
+svg .dim{stroke:#5a636c;stroke-width:.7;fill:none}
+svg .ex{stroke:#5a636c;stroke-width:1;stroke-dasharray:4 3;fill:none}
+svg .ink{stroke:#1c2024;fill:none}
+svg .ld{stroke:#1c2024;stroke-width:.6;fill:none}
+svg .hex{fill:#fff;stroke:#1c2024;stroke-width:.9}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+@media(max-width:560px){.panels{grid-template-columns:1fr}.tb{grid-template-columns:1fr 1fr}.tb div:first-child{grid-column:1/-1}}
+.pn{background:#fff;border:1px solid #d7dbe0;padding:8px 10px;font-size:11.5px;line-height:1.35;font-family:"Helvetica Neue",Arial,sans-serif}
+.pn h4{margin:0 0 5px;font-size:11px;letter-spacing:1px;border-bottom:1px solid #d7dbe0;padding-bottom:3px}
+.pn ol{margin:0;padding-left:16px}
+.pn table{border-collapse:collapse;width:100%}
+.pn td,.pn th{border:1px solid #d7dbe0;padding:2px 5px;font-weight:400;text-align:left;font-size:11px;white-space:nowrap}
+.pn th{background:#f2f4f6;font-size:10px;letter-spacing:.5px}
+.tb{grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr 1fr;gap:0}
+.tb div{border:1px solid #d7dbe0;padding:6px 10px}
+.tb .tt{font-weight:700;font-size:12px;letter-spacing:.6px}
+.tb .k{font-size:9px;letter-spacing:1px;color:#6a7480;display:block}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.q{font-size:17px;font-weight:600;margin:4px 0 12px;line-height:1.4}
+.prog{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-bottom:6px}
+.skill{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:1px 9px;background:#eef6f9;color:var(--acc)}
+.opts button{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;margin:7px 0;font-weight:500;font-size:15px;line-height:1.35}
+.opts button.ok{border-color:var(--ok);background:#e9f4ea}
+.opts button.bad{border-color:var(--red);background:#fbeaea}
+.num{display:flex;gap:8px;align-items:center}
+.num input{flex:1;font-size:20px;padding:9px 12px;border:1.5px solid var(--line);border-radius:9px;width:100%;min-width:0}
+.num input:focus{outline:2px solid var(--acc);border-color:var(--acc)}
+.fb{border-radius:10px;padding:12px 14px;margin-top:12px;font-size:15px;line-height:1.5}
+.fb.ok{background:#e9f4ea;border:1px solid #bfdcc3}
+.fb.bad{background:#fbeaea;border:1px solid #efc4c4}
+.fb b.h{display:block;margin-bottom:4px}
+.bar{height:8px;background:#e6e9ec;border-radius:4px;overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.brief p{margin:0 0 10px;font-size:14.5px;line-height:1.55}
+.brief b{color:var(--acc)}
+.flag{color:var(--amb);font-weight:700}
+.score{font-size:34px;font-weight:800;letter-spacing:-1px}
+.sym{background:#fff;border:1px solid #d7dbe0;border-radius:8px;padding:10px;margin-bottom:10px;display:flex;justify-content:center}
+.sym svg{width:min(100%,360px);height:auto}
+details summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:14px;margin-top:8px}
+kbd{background:#eef1f4;border-radius:4px;padding:0 5px;font-size:13px}
+footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="/learning/">← CQA Learning</a>
+<h1>Read the Print</h1>
+<p class="sub">Every round draws a fresh mechanical sheet. Pull the takeoff off it, then check it against the crew brief.</p>
+<nav class="tabs"><button data-tab="takeoff" class="on">Takeoff</button><button data-tab="symbols">Symbols</button><button data-tab="stats">Stats</button></nav>
+<main id="app"></main>
+<footer>Carolina Quality Air, Inc. · training tool · sheets are generated, not real projects</footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const fi=n=>`${Math.floor(n/12)}'-${n%12}"`;
+const LS='rtp_v1';
+const SKILLS={sheet:'Sheet basics',count:'Counting',air:'Airflow math',size:'Sizes & elevations',branch:'Branches & terminals',ret:'Return path',notes:'Notes & materials',scope:'Scope & access'};
+let ST=JSON.parse(localStorage.getItem(LS)||'null')||{skills:{},sheets:0,best:0,sym:{}};
+const save=()=>localStorage.setItem(LS,JSON.stringify(ST));
+
+// ---------- sheet generator ----------
+const ROOMS=['OFFICE','CONF. RM.','TECH. ENG.','SECRETARY','ANALYTICAL LAB','RECORDS','BREAK RM.','RECEPTION','TRAINING','MANAGER','COPY RM.','PROJ. ENG.','ESTIMATING','DRAFTING'];
+const CFMR={default:[150,420],'CONF. RM.':[450,800],'ANALYTICAL LAB':[600,900],'TRAINING':[450,750],'BREAK RM.':[200,400],'RECEPTION':[250,500]};
+const TERMS=[
+ {key:'std',name:'Titus TDC 24x24 lay-in square cone diffusers, each w/ opposed blade damper',ceil:'lay-in'},
+ {key:'tf',name:'Acutherm Therma-Fuser thermally powered VAV diffusers, 24x24 lay-in, cooling and heating changeover',ceil:'lay-in'},
+ {key:'perf',name:'Metalaire 5000A perforated face lay-in diffusers, 24x24 w/ auxiliary panel',ceil:'lay-in'},
+ {key:'slot',name:'Titus ML-39 linear slot diffusers w/ insulated plenum boxes, in lay-in ceiling',ceil:'lay-in'},
+ {key:'hard',name:'Round surface-mount step-down diffusers, gypsum board ceiling',ceil:'hard'}];
+const neck=c=>c<=150?6:c<=300?8:c<=480?10:12;
+const duct=(cfm,vel,h)=>[Math.max(h,Math.ceil(cfm*144/vel/h/2)*2),h];
+
+function genSheet(full){
+  const bays=[pick([20,25]),pick([20,25]),pick([20,25])];
+  const cols=[0];bays.forEach(b=>cols.push(cols[cols.length-1]+b));
+  const W=cols[3],H=40,rows=[0,20,40];
+  const ty=19.2,ry=22.4;
+  const names=shuffle(ROOMS);
+  const exhaust=full&&Math.random()<.55;
+  const rooms=[];
+  for(let i=0;i<3;i++)rooms.push({name:names[i],x:cols[i],y:0,w:bays[i],h:17,side:'n'});
+  rooms.push({name:'MECH.',x:cols[0],y:24,w:bays[0],h:16,side:'s',mech:true});
+  for(let i=1;i<3;i++)rooms.push({name:names[2+i],x:cols[i],y:24,w:bays[i],h:16,side:'s'});
+  if(exhaust){rooms[2].name=pick(["WOMEN'S TOILET","MEN'S TOILET"]);rooms[2].toilet=true}
+  const tags='ABCDEFGHJK';let t=0;const diffs=[];
+  rooms.filter(r=>!r.mech).forEach(r=>{
+    const n=(r.w>=25&&!r.toilet&&Math.random()<.65)?2:1;
+    const rg=r.toilet?[60,100]:(CFMR[r.name]||CFMR.default);
+    for(let k=0;k<n;k++){
+      const cfm=Math.round((n==2?rnd(rg[0],Math.round(rg[1]*.7)):rnd(rg[0],rg[1]))/5)*5;
+      const x=n==1?r.x+r.w/2:r.x+r.w*(k==0?.3:.7);
+      const y=r.side=='n'?rnd(6,10):rnd(30,34);
+      diffs.push({tag:tags[t++],room:r.name,cfm,neck:neck(cfm),x,y,flex:Math.random()<.7,side:r.side});
+    }
+  });
+  const byX=diffs.slice().sort((a,b)=>a.x-b.x);
+  const total=sum(diffs.map(d=>d.cfm));
+  const jog=full&&Math.random()<.5;
+  const rx=4,legx=jog?7:4;
+  const path=jog?[[rx,33],[rx,28],[legx,28],[legx,ty]]:[[rx,33],[rx,ty]];
+  const xend=byX[byX.length-1].x+3;path.push([xend,ty]);
+  const h=pick([12,14]);
+  const main=duct(total,rnd(950,1150),h);
+  const segs=[];let curW=main[0],segStart=legx,down=total;const reducers=[];
+  byX.forEach((d,i)=>{
+    down-=d.cfm;
+    if(i==byX.length-1)return;
+    const nx=byX[i+1].x;
+    if(nx-d.x<5||reducers.length>=2)return;
+    const cand=duct(down,rnd(850,1000),h)[0];
+    if(cand<=curW-4){const at=d.x+1.5;segs.push({x1:segStart,x2:at,size:[curW,h]});reducers.push({at,from:[curW,h],to:[cand,h]});curW=cand;segStart=at+1.5}
+  });
+  segs.push({x1:segStart,x2:xend,size:[curW,h]});
+  const elbows=path.length-2;
+  const trunkLen=Math.round(path.slice(1).reduce((s,p,i)=>s+Math.abs(p[0]-path[i][0])+Math.abs(p[1]-path[i][1]),0));
+  const floor=pick([1200,1320,1440,2274,2400,2640]);
+  const ceil=floor+pick([102,108,114,120]);
+  const bod=ceil+pick([4,6,8,10,12,18]);
+  const term=full?pick(TERMS):pick(TERMS.slice(0,3));
+  const retMode=Math.random()<.5?'plenum':'ducted';
+  const retNote=retMode=='plenum'&&Math.random()<.5;
+  const gr=[];let grNo=0;
+  const cand=rooms.filter(r=>!r.mech&&!r.toilet&&(retMode=='plenum'||r.side=='s'));
+  shuffle(cand).slice(0,retMode=='plenum'?rnd(2,4):cand.length).forEach(r=>{const two=diffs.filter(d=>d.room==r.name).length==2;gr.push({x:r.x+r.w*(two?.5:.78),y:r.side=='n'?13.5:27.5,room:r.name})});
+  if(retMode=='ducted'&&gr.length<2)gr.push({x:rooms[5].x+rooms[5].w*.25,y:27.5,room:rooms[5].name});
+  const ret={mode:retMode,note:retNote,grilles:gr};
+  if(retMode=='ducted'){const rrx=11;ret.size=duct(Math.round(total*.9),rnd(900,1100),h);ret.rx=rrx;ret.path=[[rrx,33],[rrx,ry],[Math.max(...gr.map(g=>g.x))+1,ry]]}
+  const fdOn=full&&Math.random()<.45;
+  const fd=fdOn?{x:pick([cols[1],cols[2]])}:null;
+  const vav=full&&Math.random()<.35?{x:rx,y:jog?30.5:25.5,tag:'VAV-1'}:null;
+  const dampers=Math.random()<.8;
+  const ex=exhaust?{room:rooms[2],x:rooms[2].x+rooms[2].w-6,y:4.5,cfm:pick([50,60,65,75]),tie:Math.random()<.7?'existing':'ef',ux:rooms[2].x+rooms[2].w-2.4,uy:2}:null;
+  const mat=Math.random()<.7?'galv':'alum';
+  const ins=Math.random()<.6?'wrap':'liner';
+  const year=rnd(1974,2019);
+  const unitTag=pick(['RTU-1','RTU-2','AHU-1','AHU-3']);
+  return {full,bays,cols,W,H,rows,ty,ry,rooms,diffs,byX,total,path,segs,reducers,elbows,trunkLen,main,rx,legx,xend,floor,ceil,bod,term,ret,fd,vav,dampers,ex,mat,ins,year,age:2026-year,
+    unit:{tag:unitTag,loc:unitTag[0]=='R'?'ROOF':'MECH. RM. ABOVE',oa:Math.round(total*.12/25)*25},
+    level:pick(['BASEMENT','FIRST FLOOR','SECOND FLOOR','THIRD FLOOR','MEZZANINE']),
+    sheetNo:pick(['M','V'])+'-'+rnd(101,104),
+    project:pick(['SHOPS AND STORES ENGINEERING OFFICES ADDITION','ADMIN BUILDING RENOVATION','LAB WING ADDITION','CLINIC TENANT UPFIT','DISTRICT OFFICE RENOVATION','TRAINING ANNEX ADDITION']),
+    firm:pick(['CRS SIRRINE','RMF ENGINEERING','DEWBERRY','STANLEY CONSULTANTS','BLACK & VEATCH'])};
+}
+
+// ---------- svg renderer ----------
+function svgPlan(S){
+  const k=10,ox=15,oy=13;
+  const X=x=>((x+ox)*k).toFixed(1),Y=y=>((y+oy)*k).toFixed(1);
+  const P=[];
+  const line=(x1,y1,x2,y2,c)=>P.push(`<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}" class="${c}"/>`);
+  const txt=(x,y,s,c='',ex='')=>P.push(`<text x="${X(x)}" y="${Y(y)}" class="${c}" ${ex}>${s}</text>`);
+  const hex=(x,y,l)=>{const r=1.15;const pts=[0,1,2,3,4,5].map(i=>{const a=Math.PI/3*i;return `${((x+r*Math.cos(a)+ox)*k).toFixed(1)},${((y+r*Math.sin(a)+oy)*k).toFixed(1)}`}).join(' ');P.push(`<polygon points="${pts}" class="hex"/>`);txt(x,y+.36,l,'',`text-anchor="middle" font-weight="700"`)};
+  const rect=(x,y,w,h,c)=>P.push(`<rect x="${X(x)}" y="${Y(y)}" width="${(w*k).toFixed(1)}" height="${(h*k).toFixed(1)}" class="${c}"/>`);
+  const rduct=(pts,wIn,dashed)=>{const d=pts.map((p,i)=>(i?'L':'M')+X(p[0])+' '+Y(p[1])).join(' ');const w=(wIn/12*k).toFixed(1);P.push(`<path d="${d}" stroke="#1c2024" stroke-width="${w}" fill="none" stroke-linejoin="miter" stroke-linecap="butt"${dashed?' stroke-dasharray="6 3"':''}/><path d="${d}" stroke="#fff" stroke-width="${(w-1.6).toFixed(1)}" fill="none" stroke-linejoin="miter" stroke-linecap="butt"/>`)};
+  const round=(x1,y1,x2,y2,dIn,flex)=>{const r=dIn/24;const vert=x1==x2;P.push(`<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}" stroke="#fff" stroke-width="${(dIn/12*k+3).toFixed(1)}"/>`);
+    if(vert){line(x1-r,y1,x2-r,y2,'ink');line(x1+r,y1,x2+r,y2,'ink');if(flex){const s=Math.sign(y2-y1);for(let y=y1+.5*s;Math.abs(y-y1)<Math.abs(y2-y1)-.3;y+=.7*s)line(x1-r,y,x1+r,y+.45*s,'ink')}}
+    else{line(x1,y1-r,x2,y2-r,'ink');line(x1,y1+r,x2,y2+r,'ink');if(flex){const s=Math.sign(x2-x1);for(let x=x1+.5*s;Math.abs(x-x1)<Math.abs(x2-x1)-.3;x+=.7*s)line(x,y1-r,x+.45*s,y1+r,'ink')}}};
+  // grid
+  S.cols.forEach((c,i)=>{line(c,-7,c,S.H+2,'grid');P.push(`<circle cx="${X(c)}" cy="${Y(-9)}" r="${1.4*k}" class="ink" stroke-width=".8"/>`);txt(c,-8.6,i+1,'',`text-anchor="middle"`)});
+  S.rows.forEach((r,i)=>{line(-7,r,S.W+2,r,'grid');P.push(`<circle cx="${X(-9)}" cy="${Y(r)}" r="${1.4*k}" class="ink" stroke-width=".8"/>`);txt(-9,r+.4,'ABC'[i],'',`text-anchor="middle"`)});
+  S.bays.forEach((b,i)=>{const x1=S.cols[i],x2=S.cols[i+1];line(x1,-5.5,x2,-5.5,'dim');line(x1,-6.2,x1,-4.8,'dim');line(x2,-6.2,x2,-4.8,'dim');txt((x1+x2)/2,-6.1,`${b}'-0"`,'s',`text-anchor="middle"`)});
+  line(-5.5,0,-5.5,S.H,'dim');[0,20,40].forEach(y=>line(-6.2,y,-4.8,y,'dim'));txt(-6.2,10,`20'-0"`,'s',`text-anchor="middle" transform="rotate(-90 ${X(-6.2)} ${Y(10)})"`);txt(-6.2,30,`20'-0"`,'s',`text-anchor="middle" transform="rotate(-90 ${X(-6.2)} ${Y(30)})"`);
+  // rooms
+  rect(0,0,S.W,S.H,'wall');line(0,17,S.W,17,'wall');line(0,24,S.W,24,'wall');
+  S.cols.slice(1,3).forEach(c=>{line(c,0,c,17,'wall');line(c,24,c,S.H,'wall')});
+  S.rooms.forEach(r=>txt(r.x+1,r.y+(r.side=='n'?2.6:r.h-1.2),r.name,'rm'));
+  txt(S.W/2,21.9,'CORRIDOR','rm',`text-anchor="middle"`);
+  if(S.fd){line(S.fd.x,0,S.fd.x,S.H,'rated');txt(S.fd.x,S.H+1.4,'1-HR RATED WALL','s',`text-anchor="middle"`)}
+  // return duct
+  if(S.ret.mode=='ducted'){rduct(S.ret.path,S.ret.size[0]);S.ret.grilles.forEach(g=>round(g.x,S.ry+S.ret.size[0]/24,g.x,g.y-1,10,false));
+    txt(S.ret.rx+2.5,S.ry+S.ret.size[0]/24+1.2,`${S.ret.size[0]}x${S.ret.size[1]} RA`,'s');
+    rect(S.ret.rx-1,33,2,S.ret.size[0]/12,'ink');line(S.ret.rx-1,33,S.ret.rx+1,33+S.ret.size[0]/12,'ink');line(S.ret.rx+1,33,S.ret.rx-1,33+S.ret.size[0]/12,'ink');
+    txt(S.ret.rx+1.8,34.2,`RA UP ${S.ret.size[0]}x${S.ret.size[1]}`,'s');txt(S.ret.rx+1.8,35.3,`TO ${S.unit.tag}`,'s');
+    if(S.fd&&S.fd.x<S.ret.path[2][0]){rect(S.fd.x-.6,S.ry-S.ret.size[0]/24-.2,1.2,S.ret.size[0]/12+.4,'ink');line(S.fd.x-.6,S.ry-S.ret.size[0]/24-.2,S.fd.x+.6,S.ry+S.ret.size[0]/24+.2,'ink');txt(S.fd.x+1,S.ry+2.6,'FD','s')}}
+  // supply trunk
+  const legPts=S.path.slice(0,-1).concat([[S.segs[0].x2,S.ty]]);
+  rduct(legPts,S.main[0]);
+  S.segs.slice(1).forEach(s=>rduct([[s.x1,S.ty],[s.x2,S.ty]],s.size[0]));
+  S.reducers.forEach(r=>{const a=r.from[0]/24,b=r.to[0]/24;line(r.at,S.ty-a,r.at+1.5,S.ty-b,'ink');line(r.at,S.ty+a,r.at+1.5,S.ty+b,'ink')});
+  line(S.xend,S.ty-S.segs[S.segs.length-1].size[0]/24,S.xend,S.ty+S.segs[S.segs.length-1].size[0]/24,'ink');
+  txt(S.xend+.6,S.ty-.3,'END','s');txt(S.xend+.6,S.ty+.8,'CAP','s');
+  S.segs.forEach(s=>{const taps=S.diffs.map(d=>d.x).concat(S.fd?[S.fd.x]:[]);const c=[s.x1+2.5,(s.x1+s.x2)/2,s.x2-2.5].filter(x=>x>s.x1+1&&x<s.x2-1);const lx=(c.length?c:[(s.x1+s.x2)/2]).sort((a,b)=>Math.min(...taps.map(t=>Math.abs(t-b)))-Math.min(...taps.map(t=>Math.abs(t-a))))[0];txt(lx,S.ty-s.size[0]/24-.7,`${s.size[0]}x${s.size[1]}`,'',`text-anchor="middle"`)});
+  {const lx=S.legx+S.main[0]/24+1.3,ly=S.path.length>3?23.6:30.5;txt(lx,ly,`${S.main[0]}x${S.main[1]}`,'',`text-anchor="middle" transform="rotate(-90 ${X(lx)} ${Y(ly)})"`)}
+  // riser
+  rect(S.rx-1,33,2,S.main[0]/12,'ink');line(S.rx-1,33,S.rx+1,33+S.main[0]/12,'ink');line(S.rx+1,33,S.rx-1,33+S.main[0]/12,'ink');
+  txt(S.rx-2.6,36.4,`SA UP ${S.main[0]}x${S.main[1]}`,'s');txt(S.rx-2.6,37.5,`FROM ${S.unit.tag} (${S.unit.loc})`,'s');
+  {const hw=S.main[0]/24;line(S.legx+hw+1.2,S.ty+hw,S.legx+hw+1.8,S.ty+hw+.7,'ld');txt(S.legx+hw+2,S.ty+hw+1.1,`B.O.D. EL. ${fi(S.bod)}`,'s')}
+  if(S.vav){rect(S.vav.x-1.6,S.vav.y-1.5,3.2,3,'ink');P[P.length-1]=P[P.length-1].replace('class="ink"','class="ink" fill="#fff"');txt(S.vav.x+2.1,S.vav.y-.3,S.vav.tag,'s');txt(S.vav.x+2.1,S.vav.y+.8,'W/ REHEAT','s')}
+  if(S.fd){const s=S.segs.find(g=>g.x1<=S.fd.x&&g.x2>=S.fd.x)||S.segs[S.segs.length-1];const hw=s.size[0]/24;rect(S.fd.x-.6,S.ty-hw-.2,1.2,hw*2+.4,'ink');line(S.fd.x-.6,S.ty-hw-.2,S.fd.x+.6,S.ty+hw+.2,'ink');txt(S.fd.x+1,S.ty-hw-1.2,'FD','s')}
+  // branches + diffusers
+  S.diffs.forEach(d=>{const hw=(S.segs.find(g=>g.x1<=d.x&&g.x2>=d.x)||S.segs[S.segs.length-1]).size[0]/24;const y0=d.side=='n'?S.ty-hw:S.ty+hw;const y1=d.side=='n'?d.y+1:d.y-1;
+    round(d.x,y0,d.x,y1,d.neck,d.flex);
+    if(S.term.key=='hard'){P.push(`<circle cx="${X(d.x)}" cy="${Y(d.y)}" r="${.7*k}" class="ink" stroke-width=".9"/>`);P.push(`<circle cx="${X(d.x)}" cy="${Y(d.y)}" r="${.3*k}" class="ink" stroke-width=".7"/>`)}
+    else if(S.term.key=='slot'){rect(d.x-2,d.y-.25,4,.5,'ink');rect(d.x-1,d.y-1.1,2,.85,'ink')}
+    else{rect(d.x-1,d.y-1,2,2,'ink');rect(d.x-.55,d.y-.55,1.1,1.1,'ink');if(S.term.key=='perf'){line(d.x-1,d.y-1,d.x+1,d.y+1,'ld');line(d.x+1,d.y-1,d.x-1,d.y+1,'ld')}}
+    hex(d.x+2.4,d.y-1.1,d.tag);
+    const ym=(y0+y1)/2;txt(d.x+d.neck/24+.4,ym+.3,`${d.neck}"ø`,'s');
+    if(d.side=='n'&&d.cfm<=100){}
+  });
+  if(S.dampers){const d=S.byX[S.byX.length-1];const hw=S.segs[S.segs.length-1].size[0]/24;const ym=d.side=='n'?S.ty-hw-1.5:S.ty+hw+1.5;line(d.x+d.neck/24,ym,S.W-10,S.H+1.4,'ld');txt(S.W-1,S.H+2.3,'MANUAL DAMPER W/ LOCKING','s',`text-anchor="end"`);txt(S.W-1,S.H+3.4,'QUADRANT IN BRANCH TAKE-OFF','s',`text-anchor="end"`);txt(S.W-1,S.H+4.5,'TO DIFFUSER, TYP. ALL BRANCHES','s',`text-anchor="end"`)}
+  // return grilles
+  S.ret.grilles.forEach((g,i)=>{rect(g.x-1,g.y-1,2,2,'ink');line(g.x-1,g.y-1,g.x+1,g.y+1,'ld');line(g.x+1,g.y-1,g.x-1,g.y+1,'ld');hex(g.x-2.4,g.y-1.1,'R')});
+  // exhaust
+  if(S.ex){const e=S.ex;rect(e.x-.5,e.y-.5,1,1,'ink');line(e.x-.5,e.y-.5,e.x+.5,e.y+.5,'ink');round(e.x+.5,e.y,e.ux-.5,e.y,6,false);line(e.ux,e.y-.25,e.ux,e.uy+.5,'ink');line(e.ux,e.y+.25,e.ux+.5,e.uy+.5,'ink');
+    if(e.tie=='existing'){rect(e.ux-.5,e.uy-.5,1,1,'ex');line(e.ux-.5,e.uy-.5,e.ux+.5,e.uy+.5,'ex');line(e.ux+.5,e.uy-.5,e.ux-.5,e.uy+.5,'ex');line(e.ux,e.uy-.5,e.ux,-2,'ex');line(e.ux-.35,e.uy-.5,e.ux-.35,-2,'ex');line(e.ux+.35,e.uy-.5,e.ux+.35,-2,'ex');txt(e.ux-13,-1.2,'CONNECT TO EXIST. 10x10','s');txt(e.ux-13,-.2,'TOILET EXHAUST DUCT','s')}
+    else{rect(e.ux-.5,e.uy-.5,1,1,'ink');line(e.ux-.5,e.uy-.5,e.ux+.5,e.uy+.5,'ink');txt(e.ux-9,-1.2,'6"ø UP TO EF-1','s');txt(e.ux-9,-.2,'ON ROOF','s')}
+    line(e.x+.5,e.y+.5,e.x+1.3,e.y+1.9,'ld');txt(e.x+1.4,e.y+2.6,`6"x6" EXH. REG.`,'s');txt(e.x+1.4,e.y+3.6,`${e.cfm} CFM`,'s');txt(e.x+2.2,e.y-.8,'6"ø','s');}
+  // north + scale
+  const nx=S.W+4,ny=S.H-3;P.push(`<polygon points="${X(nx)},${Y(ny-4)} ${X(nx-.9)},${Y(ny)} ${X(nx+.9)},${Y(ny)}" fill="#1c2024"/>`);txt(nx,ny+1.6,'N','',`text-anchor="middle"`);
+  line(-2,S.H+4,14,S.H+4,'ink');[-2,6,14].forEach(x=>line(x,S.H+3.4,x,S.H+4.6,'ink'));txt(-2,S.H+6,"0",'s',`text-anchor="middle"`);txt(6,S.H+6,"8'",'s',`text-anchor="middle"`);txt(14,S.H+6,"16'",'s',`text-anchor="middle"`);txt(16,S.H+4.4,`SCALE 1/8" = 1'-0"`,'s');
+  txt(S.W/2,S.H+5.2,`${S.level} HVAC PLAN  EL. ${fi(S.floor)}`,'',`text-anchor="middle" font-weight="700" text-decoration="underline"`);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${(S.W+ox+8)*k} ${(S.H+oy+8)*k}">${P.join('')}</svg>`;
+}
+
+function sheetPanels(S){
+  const notes=[`INSULATE ALL SUPPLY AND RETURN DUCTWORK PER SPECIFICATIONS. ${S.ins=='wrap'?'1-1/2" EXTERNAL WRAP W/ VAPOR BARRIER.':'1" INTERNAL ACOUSTIC LINER, SUPPLY AND RETURN.'}`,
+    S.mat=='alum'?'ALL DUCTWORK TO BE ALUMINUM PER SPECIFICATIONS.':'ALL DUCTWORK GALVANIZED STEEL PER SMACNA, 2" W.G. CLASS.',
+    `O/A INTAKE AT ${S.unit.tag}: SET DAMPER FOR ${S.unit.oa} CFM.`];
+  if(S.ret.note)notes.push('RETURN AIR VIA CEILING PLENUM. RETURN GRILLES MARKED (R) TO BE 24x24 PERFORATED LAY-IN.');
+  else notes.push('RETURN GRILLES MARKED (R) TO BE 24x24 PERFORATED LAY-IN.');
+  if(S.fd)notes.push('PROVIDE UL-LISTED FIRE DAMPERS (FD) WHERE DUCTS PENETRATE RATED WALLS.');
+  const rows=S.diffs.map(d=>`<tr><td>${d.tag}</td><td>${d.room}</td><td>${d.cfm}</td><td>${d.neck}"</td><td>${fi(S.ceil)}</td></tr>`).join('');
+  return `<div class="panels">
+  <div class="pn"><h4>GENERAL NOTES</h4><div class="small mut" style="font-size:10.5px;margin-bottom:4px">─── NEW &nbsp;&nbsp; - - - EXISTING</div><ol>${notes.map(n=>`<li>${n}</li>`).join('')}</ol></div>
+  <div class="pn"><h4>DIFFUSER SCHEDULE</h4><div class="tw"><table><tr><th>SYM</th><th>LOCATION</th><th>CFM</th><th>NECK</th><th>CLG. EL.</th></tr>${rows}</table></div>
+  <div style="margin-top:5px">NOTE 1: ALL SUPPLY DIFFUSERS LISTED ABOVE TO BE ${S.term.name.toUpperCase()}.</div></div>
+  <div class="tb"><div><span class="k">DRAWING TITLE</span><span class="tt">${S.project}<br>HVAC PLAN, ${S.level}<br>EL. ${fi(S.floor)}</span></div><div><span class="k">SHEET</span><span class="tt">${S.sheetNo}</span><span class="k" style="margin-top:6px">SCALE</span>1/8" = 1'-0"</div><div><span class="k">DATE</span>${rnd(1,12)}-${rnd(1,28)}-${String(S.year).slice(2)}<span class="k" style="margin-top:6px">ENGINEER</span>${S.firm}</div></div>
+  </div>`;
+}
+
+// ---------- questions ----------
+function mc(q,opts,ci,skill,teach){return {q,type:'mc',opts,ci,skill,teach}}
+function num(q,ans,tol,skill,teach,unit=''){return {q,type:'num',ans,tol,skill,teach,unit}}
+function buildQs(S){
+  const Q=[];const big=S.diffs.slice().sort((a,b)=>b.cfm-a.cfm)[0];
+  const clr=S.bod-S.ceil;const area=S.main[0]*S.main[1]/144;const fpm=Math.round(S.total/area);
+  const nflex=S.diffs.filter(d=>d.flex).length;
+  const openings=1+S.elbows+S.reducers.length+1;
+  const elevOpts=shuffle([fi(S.ceil),fi(S.floor),fi(S.bod),fi(S.ceil+24)]);
+  Q.push(mc(`What ceiling elevation does the diffuser schedule give for this level?`,elevOpts,elevOpts.indexOf(fi(S.ceil)),'sheet',`Read it straight off the schedule's CLG. EL. column: ${fi(S.ceil)}. Floor is ${fi(S.floor)} (title block), so the ceiling is ${(S.ceil-S.floor)/12}' AFF. Elevations on a plan are building datum, not height above the floor.`));
+  Q.push(num(`Title block date is ${S.year}. How old is this ductwork in 2026?`,S.age,0,'sheet',`${S.age} years. ${S.year<1981?'Pre-1981: duct sealant, tape and insulation can be asbestos-containing. Ask for the asbestos survey before you cut anything.':'Post-1980 so asbestos is unlikely in the duct system, but confirm with the owner.'} ${S.age>=25?'Flex this old gets replaced.':''}`,'yrs'));
+  Q.push(num(`How many supply diffusers are on this sheet?`,S.diffs.length,0,'count',`Count the lettered hexagon tags on the plan (${S.diffs.length}) and cross-check the schedule rows for this level. Tags, not squares: a return grille is a square too.`));
+  Q.push(num(`Total supply CFM on this sheet?`,S.total,0,'air',`Sum the schedule: ${S.diffs.map(d=>d.cfm).join(' + ')} = ${S.total} CFM. That's what ${S.unit.tag} pushes to this level. Use it for the velocity check and to size negative air.`));
+  const srt=S.diffs.slice().sort((a,b)=>b.cfm-a.cfm);if(srt[0].cfm!=srt[1].cfm&&Math.random()<.7){const opts=shuffle(S.diffs.map(d=>d.tag)).slice(0,4);if(!opts.includes(big.tag))opts[0]=big.tag;const o=shuffle(opts);Q.push(mc(`Which diffuser moves the most air?`,o.map(t=>`${t} (${S.diffs.find(d=>d.tag==t).room})`),o.indexOf(big.tag),'air',`${big.tag} in ${big.room} at ${big.cfm} CFM on a ${big.neck}" neck. Biggest branch carries the biggest debris load and is the first one to open and look at.`))}
+  Q.push(num(`The trunk leaves the riser labeled ${S.main[0]}x${S.main[1]}. How tall is that duct in inches?`,S.main[1],0,'size',`First number is the face you see in plan (width, ${S.main[0]}"), second is height (${S.main[1]}"). When the same duct turns a corner the callout flips to ${S.main[1]}x${S.main[0]}: same duct on its side.`,'in'));
+  Q.push(num(`Trunk B.O.D. is ${fi(S.bod)} and the ceiling is ${fi(S.ceil)}. How many inches between the duct bottom and the ceiling?`,clr,0,'size',`B.O.D. = bottom of duct. ${fi(S.bod)} minus ${fi(S.ceil)} = ${clr}". ${clr<=8?'That is tight: openings go on the side or bottom, panels come out, no top access.':'Workable, but top of duct is another '+S.main[1]+'" up, so check structure above before planning top openings.'}`,'in'));
+  if(Math.random()<.75)Q.push(num(`The ${S.main[0]}x${S.main[1]} trunk carries all ${S.total} CFM at the riser. Velocity in FPM (within 10%)?`,fpm,fpm*.1,'air',`Area = ${S.main[0]} x ${S.main[1]} / 144 = ${area.toFixed(2)} ft². ${S.total} / ${area.toFixed(2)} = ${fpm} FPM. Under about 1,200 FPM dust drops out and beds on the bottom. That bed is what you are pricing.`,'FPM'));
+  Q.push(num(`How many diffuser branches are flex?`,nflex,0,'branch',`Hatched round = flex, plain double line = rigid. ${nflex} of ${S.diffs.length} are flex here. ${S.age>=25?`Sheet is ${S.age} years old: that flex is a replace call, not a clean call.`:'Under 25 years, contact vac plus low-pressure whip, replace any that fail.'}`));
+  const TH={std:['Drop the face, mark the opposed blade damper position, clean, restore the damper','Cut a new opening beside every diffuser','Leave them in place and clean through the face','Replace every diffuser'],
+    tf:['Pull the whole unit; the wax thermostat actuators and linkage do not take compressed air or wet agents','Leave them in place; they are just diffusers','Blow them out with the air whip from below','Disconnect the control wiring first'],
+    perf:['Drop the perforated face and auxiliary panel; the perforations load with dust, clean both','Leave in place, perforated faces self-clean','Cut the diffuser out and replace with a cone diffuser','Only clean the neck'],
+    slot:['Access is through the slot plenum box, usually no other opening on that branch; delicate, hand-clean','Same as a square lay-in diffuser','Cut the slot out of the ceiling','Skip them, slots cannot be cleaned'],
+    hard:['Gypsum ceiling: no lay-in access, every access opening is a drywall cut and patch, price it','Same as lay-in, pop the tile','Round diffusers mean rigid branches only','Exhaust only, not in scope']};
+  const th=TH[S.term.key];const ths=shuffle([0,1,2,3]);
+  Q.push(mc(`Schedule note 1 makes every diffuser: "${S.term.name}". What does that mean for the crew?`,ths.map(i=>th[i]),ths.indexOf(0),'branch',th[0]+'.'));
+  if(S.dampers){const o=shuffle([0,1,2,3]);const a=['Photograph and mark every damper position before touching it, restore it after','Open every damper fully and leave it open for better airflow','Close them so debris cannot travel to the diffuser','Remove them, they block the brush'];Q.push(mc(`The plan calls out a manual damper with locking quadrant in every branch take-off. What is the rule?`,o.map(i=>a[i]),o.indexOf(0),'branch',`Balancing dampers are set positions. You restore what you found. Photo, mark, clean, restore, note it in the report.`))}
+  {const o=shuffle([0,1,2,3]);const a=S.ret.mode=='ducted'?[`Ducted: a ${S.ret.size[0]}x${S.ret.size[1]} return duct connects the grilles back to the return riser`,'Ceiling plenum return, no return ductwork','No return on this level','Return is through the corridor door undercuts']:['Ceiling plenum return: grilles dump into the ceiling cavity, no return duct drawn','Ducted return through a return trunk in the corridor','No return on this level','Return is through the supply diffusers at night'];
+    Q.push(mc(`How is return air handled on this level?`,o.map(i=>a[i]),o.indexOf(0),'ret',S.ret.mode=='ducted'?`Return duct is drawn (${S.ret.size[0]}x${S.ret.size[1]} RA) with branches to ${S.ret.grilles.length} grilles and a return riser. All of it is ducted and in scope.`:`${S.ret.grilles.length} return grilles and no return ductwork anywhere on the sheet${S.ret.note?', and the notes say it outright':''}. The ceiling cavity is the return path.`))}
+  if(S.ret.mode=='plenum'){Q.push(num(`How many return grilles are on this sheet?`,S.ret.grilles.length,0,'count',`Count the R tags: ${S.ret.grilles.length}. Faces to clean, and the only return-side item on this level besides the riser.`));const o=shuffle([0,1,2,3]);const a=['The open plenum is not ducted, so it sits outside the ducted cleaning scope; grilles and the return riser are in; raise the plenum with the client as its own item','Plenum is part of the return duct, clean the whole ceiling cavity as duct','Skip the return side entirely','Seal the grilles and convert to ducted return'];Q.push(mc(`What does plenum return mean for scope?`,o.map(i=>a[i]),o.indexOf(0),'ret',a[0]+'. A ' +S.age+'-year-old return plenum is usually where the contamination actually is, which is exactly why it needs its own conversation and its own price.'))}
+  else Q.push(num(`How many return grilles are on the ${S.ret.size[0]}x${S.ret.size[1]} return duct?`,S.ret.grilles.length,0,'count',`Count the R tags: ${S.ret.grilles.length}. Each is a face to clean and a branch to open.`));
+  if(S.mat=='alum'){const o=shuffle([0,1,2,3]);const a=['No magnets (no magnetic doors or tool mounts), nylon brushes, lower whip pressure, aluminum or stainless fasteners on access doors','Nothing changes, aluminum cleans like galvanized','Use wire brushes, aluminum is harder than steel','Aluminum cannot be cleaned, quote replacement'];Q.push(mc(`General note says all ductwork is aluminum. What changes?`,o.map(i=>a[i]),o.indexOf(0),'notes',a[0]+'. Aluminum is soft and thin, and steel screws into it corrode. It also will not hold a magnetic access door.'))}
+  {const o=shuffle([0,1,2,3]);const a=S.ins=='liner'?['No water or chemical agents on the liner, soft bristle only, inspect liner condition and report damage','Pressure wash the liner, it is designed for it','Strip the liner out as part of cleaning','Liner is only on return duct, supply is bare'] :['Cut and reseal the wrap and vapor barrier at every opening, use insulated access doors','External wrap means the inside is lined too','Remove all the wrap to find the duct','Wrap does not affect access openings'];
+    Q.push(mc(S.ins=='liner'?`General note 1: 1" internal acoustic liner on supply and return. What is off the table?`:`General note 1: 1-1/2" external wrap with vapor barrier. What does that do to your access openings?`,o.map(i=>a[i]),o.indexOf(0),'notes',a[0]+'.'))}
+  if(S.ex){const o=shuffle([0,1,2,3]);const a=S.ex.tie=='existing'?['Dashed = existing. Different system, different fan, not on this sheet. Separate line item or a written exclusion','It is new work, include it in the supply cleaning','Dashed means demolished, ignore it','It is the return riser'] :['A separate exhaust system with its own fan on the roof, not part of the supply. Separate line item or a written exclusion','Exhaust registers are return grilles, count them as return','EF-1 is the supply unit','Ignore anything under 100 CFM'];
+    Q.push(mc(S.ex.tie=='existing'?`The 6"ø toilet exhaust ties into a dashed 10x10 duct. What does that tell you?`:`The toilet exhaust register runs to EF-1 on the roof. How do you scope it?`,o.map(i=>a[i]),o.indexOf(0),'scope',a[0]+'.'))}
+  if(S.fd){const o=shuffle([0,1,2,3]);const a=['Access opening on each side of the damper, no brushes or whips driven through it, inspect it and report the condition, never modify it','Remove the damper blade to get the brush through','Fire dampers are decorative in offices, ignore','Cut a bigger opening through the rated wall'];Q.push(mc(`The trunk crosses a 1-hour rated wall with an FD symbol. Crew rule?`,o.map(i=>a[i]),o.indexOf(0),'scope',a[0]+'. A fire damper is a life-safety device inside your duct. You work up to it from both sides.'))}
+  if(S.vav){const o=shuffle([0,1,2,3]);const a=['Coordinate with controls to drive it open before cleaning, do not push tools through the box, check the reheat coil, note it in the report','Set it to closed so debris stays upstream','VAV boxes are self-cleaning','Cut it out and replace with straight duct'];Q.push(mc(`${S.vav.tag} with reheat sits on the trunk leg. What do you do with it?`,o.map(i=>a[i]),o.indexOf(0),'scope',a[0]+'. The damper blade and reheat coil are the two things a whip will wreck.'))}
+  Q.push(num(`Crew rule for access openings on the supply trunk: one at the riser drop, one at every elbow, one at every reducer, one at the end cap. How many openings?`,openings,0,'scope',`Riser drop (1) + ${S.elbows} elbow${S.elbows==1?'':'s'} + ${S.reducers.length} reducer${S.reducers.length==1?'':'s'} + end cap (1) = ${openings}. Every change of direction and size is a debris trap and a tool-reach limit.`));
+  if(Math.random()<.7)Q.push(num(`Scale off the bays (${S.bays.join("', ")}'). About how many feet of rectangular supply trunk on this sheet (within 15%)?`,S.trunkLen,S.trunkLen*.15,'size',`Riser to end cap along the path is about ${S.trunkLen} ft. Column bays are your ruler: ${S.bays.join("', ")}'. Linear feet drives the price.`,'ft'));
+  if(S.term.key=='hard'){const o=shuffle([0,1,2,3]);const a=['Hard ceiling: no lay-in access, every access opening is a drywall cut and patch. Price it and put it in writing','Same as lay-in, pop the tile','Hard ceilings mean the duct is exposed','Round diffusers are always on rigid duct'];Q.push(mc(`The schedule says surface-mount diffusers in a gypsum board ceiling. Cost driver?`,o.map(i=>a[i]),o.indexOf(0),'scope',a[0]+'.'))}
+  {const o=shuffle([0,1,2,3]);const a=[`${S.unit.tag} make, model and tonnage (that lives on the equipment schedule)`,'Diffuser CFM per room','Trunk duct sizes','Ceiling elevation'];Q.push(mc(`Which of these is NOT on this sheet and has to come from somewhere else?`,o.map(i=>a[i]),o.indexOf(0),'sheet',`The unit is only a tag here (${S.unit.tag} on the ${S.unit.loc.toLowerCase()}). Coil, blower, filter and drain pan scope come from the equipment schedule and a site look. Also missing: the spec sections, the other levels, and any balancing report.`))}
+  const P2=/How old|most air|Velocity|locking quadrant|feet of rectangular|return grilles are on/;
+  Q.forEach(q=>q.pri=P2.test(q.q)?2:0);
+  const P1=/external wrap|internal acoustic|What ceiling elevation|NOT on this sheet/;
+  [2,1].forEach(pr=>{while(Q.length>14){const idx=Q.map((q,i)=>(pr==2?q.pri==2:P1.test(q.q))?i:-1).filter(i=>i>=0);if(!idx.length)break;Q.splice(pick(idx),1)}});
+  return Q;
+}
+
+// ---------- crew brief ----------
+function brief(S){
+  const clr=S.bod-S.ceil,big=S.diffs.slice().sort((a,b)=>b.cfm-a.cfm)[0],nflex=S.diffs.filter(d=>d.flex).length;
+  const sizes=S.segs.map(s=>`${s.size[0]}x${s.size[1]}`).join(' → ');
+  const openings=1+S.elbows+S.reducers.length+1;
+  const p=[];
+  p.push(`<p><b>Sheet.</b> ${S.sheetNo}, ${S.project}, ${S.level} at ${fi(S.floor)}, ceiling ${fi(S.ceil)}. Dated ${S.year}, so ${S.age} years old. ${S.year<1981?'<span class="flag">Pre-1981: ask for the asbestos survey before cutting anything.</span>':''}</p>`);
+  p.push(`<p><b>System.</b> ${S.unit.tag} on the ${S.unit.loc.toLowerCase()}, O/A ${S.unit.oa} CFM. Supply riser ${S.main[0]}x${S.main[1]} drops to B.O.D. ${fi(S.bod)}, ${clr}" above the ceiling. Trunk ${sizes}, ${S.elbows} elbow${S.elbows==1?'':'s'}, ${S.reducers.length} reducer${S.reducers.length==1?'':'s'}, about ${S.trunkLen} ft. Access plan: ${openings} openings (riser drop, each elbow, each reducer, end cap). ${clr<=8?'<span class="flag">Tight clearance: side or bottom openings only.</span>':''} ${S.term.key=='hard'?'<span class="flag">Gypsum ceiling: every opening is a drywall cut and patch. Price it.</span>':''}</p>`);
+  const TH={std:'Drop faces, mark and restore the OBDs.',tf:'Therma-Fusers come out whole; wax actuators, no compressed air, no wet agents.',perf:'Perforated faces and aux panels come down and get cleaned.',slot:'Slots: access through the plenum box, hand-clean, delicate.',hard:'Surface-mount rounds, no lay-in access.'};
+  p.push(`<p><b>Terminals.</b> ${S.diffs.length} supply diffusers, ${S.total} CFM total, biggest is ${big.tag} (${big.room}) at ${big.cfm}. ${nflex} flex branches: ${S.age>=25?'replace, not clean.':'contact vac and low-pressure whip, replace what fails.'} ${TH[S.term.key]} ${S.dampers?'Locking-quadrant dampers at every takeoff: photograph, mark, restore.':''}</p>`);
+  p.push(`<p><b>Return.</b> ${S.ret.mode=='ducted'?`${S.ret.grilles.length} grilles on a ${S.ret.size[0]}x${S.ret.size[1]} return duct back to the riser, all ducted, all in scope.`:`${S.ret.grilles.length} perforated grilles and no return duct drawn: ceiling plenum return. Plenum is outside ducted scope. Clean grilles and the return riser; <span class="flag">raise the plenum with the client as its own item.</span>`}</p>`);
+  p.push(`<p><b>Materials.</b> ${S.mat=='alum'?'<span class="flag">Aluminum duct:</span> no magnets, nylon brushes, lower whip pressure, aluminum or stainless fasteners on doors. ':'Galvanized, standard tooling. '}${S.ins=='liner'?'<span class="flag">Internal liner:</span> no water or agents, soft bristle, inspect and report liner condition.':'External wrap: cut and reseal the vapor barrier at every opening, insulated doors.'}</p>`);
+  const also=[];if(S.fd)also.push('Fire damper at the rated wall: opening each side, no tools through it, inspect and report.');if(S.vav)also.push(`${S.vav.tag} on the trunk: controls drive it open, no tools through the box, check the reheat coil.`);if(S.ex)also.push(S.ex.tie=='existing'?'Toilet exhaust ties into an existing system not on this sheet: separate line item or written exclusion.':'Toilet exhaust runs to EF-1 on the roof, its own fan: separate line item or written exclusion.');
+  if(also.length)p.push(`<p><b>Also.</b> ${also.join(' ')}</p>`);
+  p.push(`<p><b>Not on this sheet.</b> ${S.unit.tag} make/model/tonnage (equipment schedule), sealing and insulation details (spec), the other levels (sibling sheets), any balancing report.</p>`);
+  return p.join('');
+}
+
+// ---------- symbols ----------
+const SYM=[
+ ['flex','Flexible duct','<line x1="20" y1="30" x2="180" y2="30" class="ink"/><line x1="20" y1="42" x2="180" y2="42" class="ink"/>'+Array.from({length:22},(_,i)=>`<line x1="${24+i*7}" y1="30" x2="${29+i*7}" y2="42" class="ink"/>`).join(''),'Hatched round duct is flex. Old flex is a replace call, not a clean call.'],
+ ['rigidrd','Rigid round duct','<line x1="20" y1="30" x2="180" y2="30" class="ink"/><line x1="20" y1="42" x2="180" y2="42" class="ink"/><text x="100" y="24" text-anchor="middle">10"ø</text>','Plain double line with a ø size is rigid round. Spiral or longitudinal seam, brushes fine.'],
+ ['rect','Rectangular duct, 20" wide (plan) x 14" high','<line x1="20" y1="22" x2="180" y2="22" class="ink"/><line x1="20" y1="50" x2="180" y2="50" class="ink"/><text x="100" y="40" text-anchor="middle">20x14</text>','First number is the face you see in plan, second is height. Flips when the duct turns a corner.'],
+ ['updown','Duct rising or dropping (vertical run)','<rect x="70" y="16" width="60" height="40" class="ink"/><line x1="70" y1="16" x2="130" y2="56" class="ink"/><line x1="130" y1="16" x2="70" y2="56" class="ink"/><text x="140" y="40">SA UP</text>','Box with an X is a duct going up or down through the floor or roof. Every one is an elevation change and an access point.'],
+ ['tag','Diffuser tag keyed to the schedule','<polygon points="100,14 122,26 122,50 100,62 78,50 78,26" class="hex"/><text x="100" y="42" text-anchor="middle" font-weight="700">C</text>','Lettered hexagon: look it up in the diffuser schedule for CFM, neck size and ceiling elevation.'],
+ ['supply','Supply diffuser, 24x24 lay-in','<rect x="75" y="12" width="50" height="50" class="ink"/><rect x="88" y="25" width="24" height="24" class="ink"/>','Square with an inner square (cone) on a branch from the supply trunk. Drop the face for access.'],
+ ['return','Return grille','<rect x="75" y="12" width="50" height="50" class="ink"/><line x1="75" y1="12" x2="125" y2="62" class="ink"/><line x1="125" y1="12" x2="75" y2="62" class="ink"/>','Square with diagonals, usually no branch duct: plenum return. With a duct attached it is ducted return.'],
+ ['fd','Fire damper','<line x1="20" y1="22" x2="180" y2="22" class="ink"/><line x1="20" y1="50" x2="180" y2="50" class="ink"/><rect x="94" y="18" width="12" height="36" class="ink"/><line x1="94" y1="18" x2="106" y2="54" class="ink"/><text x="112" y="16">FD</text>','FD on the duct at a rated wall. Access each side, nothing driven through it, inspect and report.'],
+ ['vd','Manual volume damper','<line x1="20" y1="22" x2="180" y2="22" class="ink"/><line x1="20" y1="50" x2="180" y2="50" class="ink"/><line x1="92" y1="52" x2="108" y2="20" class="ink" stroke-width="1.6"/><circle cx="108" cy="20" r="3.5" class="ink"/><text x="114" y="16">VD</text>','Slash across the duct with a handle: balancing damper. Photograph the position, restore it after.'],
+ ['vav','VAV terminal box','<line x1="20" y1="36" x2="70" y2="36" class="ink"/><line x1="130" y1="36" x2="180" y2="36" class="ink"/><rect x="70" y="18" width="60" height="36" class="ink" fill="#fff"/><text x="100" y="41" text-anchor="middle">VAV-3</text>','Box on the trunk or branch with a VAV tag: damper and often a reheat coil inside. Controls drive it open, no tools through it.'],
+ ['exist','Existing to remain','<line x1="20" y1="22" x2="180" y2="22" class="ex"/><line x1="20" y1="50" x2="180" y2="50" class="ex"/><text x="100" y="40" text-anchor="middle">EXIST. 12x12</text>','Dashed lines are existing. Different age, often a different system, not this contractor\'s work. Scope it separately.'],
+ ['bod','Bottom of duct elevation','<text x="100" y="40" text-anchor="middle" font-size="12">B.O.D. EL. 198\'-0"</text>','Bottom of duct, given as a building elevation. Subtract the ceiling elevation to get your clearance.'],
+ ['ef','Exhaust fan','<circle cx="100" cy="37" r="22" class="ink"/><line x1="100" y1="15" x2="100" y2="59" class="ink"/><line x1="78" y1="37" x2="122" y2="37" class="ink"/><text x="128" y="41">EF-1</text>','Exhaust fan tag. Its own system: exhaust registers, exhaust duct, roof fan. Separate line item.'],
+ ['grid','Column line','<line x1="100" y1="30" x2="100" y2="70" class="grid"/><circle cx="100" cy="18" r="12" class="ink"/><text x="100" y="22" text-anchor="middle">4.8</text>','Column grid bubble with dash-dot line. Bays are dimensioned, so the grid is your ruler for scaling duct length.'],
+ ['stat','Thermostat','<circle cx="100" cy="37" r="14" class="ink"/><text x="100" y="41" text-anchor="middle" font-weight="700">T</text><line x1="100" y1="51" x2="100" y2="66" class="ink"/>','Circle T on a wall: thermostat. Tells you which zone a VAV box or unit serves.'],
+ ['detail','Detail or section reference','<circle cx="100" cy="37" r="18" class="ink"/><line x1="82" y1="37" x2="118" y2="37" class="ink"/><text x="100" y="34" text-anchor="middle">3</text><text x="100" y="48" text-anchor="middle">M-501</text>','Detail bubble: top number is the detail, bottom is the sheet it lives on. That is where the riser or curb transition is actually drawn.'],
+ ['sd','Smoke damper / combination fire-smoke damper','<line x1="20" y1="22" x2="180" y2="22" class="ink"/><line x1="20" y1="50" x2="180" y2="50" class="ink"/><rect x="94" y="18" width="12" height="36" class="ink"/><line x1="94" y1="18" x2="106" y2="54" class="ink"/><line x1="106" y1="18" x2="94" y2="54" class="ink"/><text x="112" y="16">FSD</text>','Motorized, tied to the fire alarm. Same rule as FD plus do not disturb the actuator or wiring, and report any that look stuck.'],
+ ['endcap','End cap','<line x1="20" y1="22" x2="140" y2="22" class="ink"/><line x1="20" y1="50" x2="140" y2="50" class="ink"/><line x1="140" y1="22" x2="140" y2="50" class="ink" stroke-width="1.6"/><text x="146" y="40">END CAP</text>','Closed end of a trunk. Debris piles up here. Always an access opening.']];
+let symQ=[],symState={};
+function symStart(){symState={};symQ=shuffle(SYM.map((s,i)=>i));SYM.forEach((s,i)=>symState[i]=0)}
+
+// ---------- app state ----------
+let tab='takeoff',S=null,Q=[],qi=0,answered=false,sheetScore=0,zoom=window.innerWidth<560?2:1,lastNumAnswer=null;
+const app=$('#app');
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x==b));render()});
+
+function render(){if(tab=='takeoff')renderTakeoff();else if(tab=='symbols')renderSymbols();else renderStats()}
+
+function renderTakeoff(){
+  if(!S){app.innerHTML=`<div class="card"><h2 style="margin:0 0 6px;font-size:19px">Draw a sheet</h2>
+  <p class="small mut" style="margin:0 0 12px">You get a generated HVAC plan with a diffuser schedule, notes and a title block, the same things you find on a real set. Then 11 to 14 takeoff questions, one skill each, with the answer taught every time. At the end you get the crew brief a good print reader would have written, so you can see what you missed.</p>
+  <div class="row"><button id="basic">Basic sheet</button><button id="fullb" class="ghost">Full sheet</button></div>
+  <p class="small mut" style="margin:10px 0 0">Basic: one trunk, diffusers, return, notes. Full adds fire dampers, VAV boxes, exhaust tie-ins, hard ceilings, doglegs.</p></div>
+  <div class="card small"><b>How to read one, in order:</b> title block (what level, what year) → general notes (material, insulation, plenum) → schedule (count, CFM, elevation) → plan (riser, trunk sizes, elbows, reducers, branches, return path) → what is missing (unit data, spec, other levels).</div>`;
+    $('#basic').onclick=()=>startSheet(false);$('#fullb').onclick=()=>startSheet(true);return}
+  const q=Q[qi];const done=qi>=Q.length;
+  app.innerHTML=`<div class="card" style="padding:12px">
+  <div class="zoombar"><span>${S.sheetNo} · ${S.level} · ${S.full?'full':'basic'} sheet</span><div><button class="${zoom==1?'on':''}" data-z="1">1x</button><button class="${zoom==2?'on':''}" data-z="2">2x</button><button class="${zoom==3?'on':''}" data-z="3">3x</button></div></div>
+  <div class="sheet"><div class="plan z${zoom}">${svgPlan(S)}</div>${sheetPanels(S)}</div>
+  <div class="small mut" style="margin-top:6px">Scroll the sheet sideways when zoomed. Pinch works too.</div></div>
+  <div class="card" id="qcard">${done?finishCard():qCard(q)}</div>`;
+  document.querySelectorAll('.zoombar button').forEach(b=>b.onclick=()=>{zoom=+b.dataset.z;document.querySelectorAll('.zoombar button').forEach(x=>x.classList.toggle('on',x==b));$('.plan').className='plan z'+zoom});
+  if(!done)wireQ(q);else{$('#again').onclick=()=>startSheet(S.full);$('#other').onclick=()=>startSheet(!S.full)}
+}
+function startSheet(full){S=genSheet(full);Q=buildQs(S);qi=0;answered=false;sheetScore=0;render();window.scrollTo(0,0)}
+function qCard(q){
+  return `<div class="prog"><span>Question ${qi+1} of ${Q.length}</span><span class="skill">${SKILLS[q.skill]}</span></div>
+  <div class="q">${q.q}</div>
+  ${q.type=='mc'?`<div class="opts">${q.opts.map((o,i)=>`<button data-i="${i}">${o}</button>`).join('')}</div>`:`<div class="num"><input id="ni" type="number" inputmode="decimal" step="any" placeholder="${q.unit||'number'}"><button id="chk">Check</button></div>`}
+  <div id="fb"></div>`;
+}
+function wireQ(q){
+  if(q.type=='mc'){document.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{if(answered)return;answered=true;const i=+b.dataset.i;const ok=i==q.ci;document.querySelectorAll('.opts button').forEach((x,j)=>{if(j==q.ci)x.classList.add('ok');else if(j==i)x.classList.add('bad')});grade(q,ok,null)})}
+  else{const inp=$('#ni');inp.focus();const go=()=>{if(answered)return;const v=parseFloat(inp.value);if(isNaN(v))return;answered=true;inp.disabled=true;$('#chk').disabled=true;grade(q,Math.abs(v-q.ans)<=q.tol+1e-9,v)};$('#chk').onclick=go;inp.onkeydown=e=>{if(e.key=='Enter')go()}}
+}
+function grade(q,ok,v){
+  const s=ST.skills[q.skill]||(ST.skills[q.skill]={c:0,a:0});s.a++;if(ok)s.c++;save();if(ok)sheetScore++;
+  const exp=q.type=='num'?` Answer: <b>${q.ans}${q.unit?' '+q.unit:''}</b>${q.tol?` (±${Math.round(q.tol)})`:''}.`:'';
+  $('#fb').innerHTML=`<div class="fb ${ok?'ok':'bad'}"><b class="h">${ok?'Right.':'Not quite.'}${ok?'':exp}</b>${q.teach}<div style="margin-top:10px"><button id="nx">${qi+1<Q.length?'Next':'See the crew brief'}</button></div></div>`;
+  $('#nx').onclick=()=>{qi++;answered=false;renderQ()};$('#nx').focus();
+}
+function renderQ(){const c=$('#qcard');if(qi>=Q.length){ST.sheets++;const pct=Math.round(sheetScore/Q.length*100);if(pct>ST.best)ST.best=pct;save();c.innerHTML=finishCard();$('#again').onclick=()=>startSheet(S.full);$('#other').onclick=()=>startSheet(!S.full)}else{c.innerHTML=qCard(Q[qi]);wireQ(Q[qi])}c.scrollIntoView({behavior:'smooth',block:'start'})}
+function finishCard(){const pct=Math.round(sheetScore/Q.length*100);return `<div class="score">${sheetScore}/${Q.length} <span class="mut" style="font-size:16px;font-weight:600">${pct}%</span></div>
+  <p class="small mut" style="margin:0 0 12px">${pct==100?'Clean takeoff.':pct>=75?'Solid. Check the brief for what you missed.':'Read the brief below, then draw another sheet.'}</p>
+  <h3 style="font-size:16px;margin:0 0 8px">Crew brief for ${S.sheetNo}</h3><div class="brief">${brief(S)}</div>
+  <div class="row" style="margin-top:8px"><button id="again">Another ${S.full?'full':'basic'} sheet</button><button id="other" class="ghost">${S.full?'Basic':'Full'} sheet</button></div>`}
+
+function renderSymbols(){
+  if(!symQ.length&&!Object.keys(symState).length)symStart();
+  const left=symQ.length;
+  if(!left){app.innerHTML=`<div class="card"><div class="score">All ${SYM.length} symbols</div><p class="small mut">Every symbol answered right twice.</p><button id="sre">Run it again</button></div>`;$('#sre').onclick=()=>{symStart();render()};return}
+  const i=symQ[0],s=SYM[i];
+  const others=shuffle(SYM.filter((x,j)=>j!=i).map(x=>x[1])).slice(0,3);const opts=shuffle([s[1],...others]);
+  app.innerHTML=`<div class="card"><div class="prog"><span>${left} left · mastered ${Object.values(symState).filter(v=>v>=2).length}/${SYM.length}</span><span class="skill">Symbols</span></div>
+  <div class="sym"><svg viewBox="0 0 200 76" xmlns="http://www.w3.org/2000/svg">${s[2]}</svg></div>
+  <div class="q">What is this?</div><div class="opts">${opts.map((o,k)=>`<button data-k="${k}">${o}</button>`).join('')}</div><div id="fb"></div></div>`;
+  document.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{if(answered)return;answered=true;const ok=opts[+b.dataset.k]==s[1];document.querySelectorAll('.opts button').forEach((x,j)=>{if(opts[j]==s[1])x.classList.add('ok');else if(j==+b.dataset.k)x.classList.add('bad')});
+    symQ.shift();if(ok){symState[i]++;if(symState[i]<2)symQ.splice(Math.min(6,symQ.length),0,i)}else{symState[i]=0;symQ.splice(Math.min(2,symQ.length),0,i)}
+    ST.sym[s[0]]=(ST.sym[s[0]]||0)+(ok?1:0);save();
+    $('#fb').innerHTML=`<div class="fb ${ok?'ok':'bad'}"><b class="h">${ok?'Right.':'Not quite: '+s[1]+'.'}</b>${s[3]}<div style="margin-top:10px"><button id="nx">Next</button></div></div>`;$('#nx').onclick=()=>{answered=false;render()};$('#nx').focus()});
+  answered=false;
+}
+function renderStats(){
+  const rows=Object.keys(SKILLS).map(k=>{const s=ST.skills[k]||{c:0,a:0};const p=s.a?Math.round(s.c/s.a*100):0;return `<div class="small"><b>${SKILLS[k]}</b> <span class="mut">${s.c}/${s.a}</span></div><div class="bar"><i style="width:${p}%"></i></div>`}).join('');
+  app.innerHTML=`<div class="card"><div class="row" style="justify-content:space-between"><div><div class="score">${ST.sheets}</div><div class="small mut">sheets finished</div></div><div><div class="score">${ST.best}%</div><div class="small mut">best sheet</div></div><div><div class="score">${Object.values(ST.sym).filter(v=>v>0).length}/${SYM.length}</div><div class="small mut">symbols hit</div></div></div></div>
+  <div class="card"><h3 style="margin:0 0 10px;font-size:16px">Accuracy by skill</h3>${rows}<div class="small mut" style="margin-top:6px">Anything under 80% is where to draw more sheets. Notes & materials and Scope & access are the two that change what goes in the truck.</div></div>
+  <div class="card small"><button class="small ghost" id="reset">Reset all progress</button></div>`;
+  $('#reset').onclick=()=>{if(confirm('Wipe all progress?')){ST={skills:{},sheets:0,best:0,sym:{}};save();symStart();render()}};
+}
+render();
+</script>
+</body>
+</html>
