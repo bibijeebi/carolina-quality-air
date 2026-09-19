@@ -289,7 +289,7 @@ function renderFlash(){
   t0=performance.now();
   const answer=a=>{clearTimeout(timer);const ms=a?performance.now()-t0:sec*1000;const ok=a===ans;record(c.id,ok,ms);
     app.querySelectorAll('.ans button').forEach(b=>{b.disabled=true;if(b.dataset.a===ans)b.classList.add('right');else if(b.dataset.a===a)b.classList.add('wrong')});
-    $('#fb').innerHTML=fb(ok,a?`${STREAM[ans]}`:`Timed out, ${STREAM[ans]}`,c.tell,a?ms:0)+`<div class="row" style="margin-top:10px"><button id="next">Next <kbd style="background:#fff3;color:#fff">space</kbd></button></div>`;
+    $('#fb').innerHTML=fb(ok,a?`${STREAM[ans]}`:`Timed out, ${STREAM[ans]}`,c.t,a?ms:0)+`<div class="row" style="margin-top:10px"><button id="next">Next <kbd style="background:#fff3;color:#fff">space</kbd></button></div>`;
     $('#next').onclick=render;$('#next').focus()};
   app.querySelectorAll('.ans button').forEach(b=>b.onclick=()=>answer(b.dataset.a));
   startTimer(sec,()=>answer(null));
