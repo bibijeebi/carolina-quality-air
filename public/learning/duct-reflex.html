@@ -43,6 +43,12 @@ svg .face{fill:#fff;stroke:#1c2024;stroke-width:1}
 svg .sky{fill:#eaf2f7}
 svg .tap{cursor:pointer}
 svg .sel{fill:#ffe082}
+.viewer{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#fff;border:1px solid #cfd4d9;border-radius:8px;margin:8px 0;touch-action:none}
+.viewer .pan{position:absolute;left:0;top:0;transform-origin:0 0;transition:transform .35s ease}
+.viewer img{display:block;pointer-events:none;user-select:none}
+.viewer .hb{position:absolute;border:2.5px solid #ffb300;background:rgba(255,179,0,.14);border-radius:3px;box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.viewer .zb{position:absolute;right:8px;bottom:8px;padding:6px 10px;font-size:12.5px;background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
+.viewer .sn{position:absolute;left:8px;top:6px;font-size:11px;color:#6a7480;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px}
 .timer{height:6px;background:#e6e9ec;border-radius:3px;overflow:hidden;margin:6px 0 10px}
 .timer i{display:block;height:100%;background:var(--acc);width:100%;transform-origin:left;transition:none}
 .timer i.run{transition:transform linear}
@@ -76,10 +82,10 @@ footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
 <div class="wrap">
 <a class="back" href="/learning/">← CQA Learning</a>
 <h1>Duct Reflex</h1>
-<p class="sub">Look, call it, next. Supply or return, which way it flows, what's upstream, what the move is. Rep each cue until it's boring.</p>
-<nav class="tabs"><button data-tab="flash" class="on">Flash</button><button data-tab="trace">Trace</button><button data-tab="call">Call</button><button data-tab="board">Board</button></nav>
+<p class="sub">Look, call it, next. Real mechanical sheets, field scenes, flow tracing, the move. Rep each cue until it's boring.</p>
+<nav class="tabs"><button data-tab="sheet" class="on">Sheet</button><button data-tab="flash">Flash</button><button data-tab="trace">Trace</button><button data-tab="call">Call</button><button data-tab="board">Board</button></nav>
 <main id="app"></main>
-<footer>Carolina Quality Air, Inc. · training tool · scenes are generated, not real projects</footer>
+<footer>Carolina Quality Air, Inc. · training tool · Sheet mode uses public bid drawings (City of Reading PA, 3rd &amp; Spruce Rec Center, Arora Engineers, 2022); field scenes are generated</footer>
 </div>
 <script>
 const $=s=>document.querySelector(s);
@@ -259,6 +265,68 @@ const CALLS=[
 ];
 const ACTIONS=CALLS.map(c=>c.ans);
 
+// Real sheet: City of Reading PA, 3rd & Spruce Recreation Center, Arora Engineers sheet M200 (Mechanical New Work), public bid set May 2022.
+// Coordinates are fractions of each crop image. s = stream, up = immediate upstream, act = the move, tell = why.
+const SHEETS=[
+{id:'m200u',name:'Reading Rec Center M200, upper level',img:'https://claude-deploy.bennyforeman1.workers.dev/r2/file/sheet-m200-upper.webp',w:1806,h:1500,
+ ups:['AHU-3 on the roof','AHU-4 on the roof','EF-3 on the roof','VAV 3-1','VAV 3-2','VAV 3-5','VAV 3-8','VAV 4-1','VAV 4-2','the ceiling plenum'],
+ hs:[
+ {x:.155,y:.455,w:.12,h:.11,s:null,up:'AHU-3 on the roof',n:'24x20 SA riser up to AHU-3',tell:'"24X20 SA AND 26X18 RA UP TO AHU-3": two risers side by side, both going up to the same rooftop unit. SA leaves it, RA goes back to it. The dashed box is the shaft.'},
+ {x:.075,y:.62,w:.065,h:.06,s:'RA',n:'RR 14x14 700 (laundry)',act:'Return first. Pull this grille, it is your vac point.',tell:'RR = return register on this engineer\'s legend. Face 14x14, 700 CFM. The biggest RR on the level, near the AHU-3 riser.'},
+ {x:.115,y:.415,w:.055,h:.045,s:'SA',n:'SD 6"ø 150 (laundry)',tell:'SD = supply diffuser. 6" round neck, 150 CFM. Boxed tag: type / neck / CFM, that is this engineer\'s convention.'},
+ {x:.12,y:.655,w:.06,h:.045,s:'SA',up:'AHU-3 on the roof',n:'VAV 3-1',act:'Open the box, clean inlet and outlet, hands off the actuator and the flow sensor.',tell:'Hex tag VAV 3-1: the 3 says it hangs off AHU-3, the 1 is just the count. VAV boxes are always supply side, right after the trunk.'},
+ {x:.235,y:.625,w:.08,h:.04,s:'SA',up:'AHU-3 on the roof',n:'(N) 26x16 trunk',tell:'26x16 coming straight off the AHU-3 riser. Biggest supply duct on the floor, it gets smaller every box it feeds.'},
+ {x:.375,y:.625,w:.075,h:.04,s:'SA',up:'AHU-3 on the roof',n:'(N) 24x14 trunk',tell:'Same trunk, one step smaller: 26x16 became 24x14 after feeding VAV 3-1, 3-2, 3-3. Shrinking away from the unit means supply.'},
+ {x:.28,y:.59,w:.06,h:.05,s:'SA',up:'AHU-3 on the roof',n:'VAV 3-2',tell:'VAV 3-2 off the 26x16 trunk, feeding office 209 and the corridor diffusers with 8x8 and 10x8 branches.'},
+ {x:.545,y:.60,w:.055,h:.045,s:'EA',n:'ER 10x10 50 (women\'s)',act:'Its own system. Own vac hookup, own count, ends at the fan not the unit.',tell:'ER = exhaust register. Toilet room, 10x10 face, 50 CFM, 8x6 EA duct off it. This air never comes back to an AHU.'},
+ {x:.505,y:.635,w:.075,h:.03,s:'EA',up:'EF-3 on the roof',n:'(N) 8x6 EA',tell:'Tagged EA on the duct itself. It collects the toilet exhaust registers and runs to the 12" riser up to EF-3.'},
+ {x:.585,y:.72,w:.09,h:.06,s:'EA',up:'EF-3 on the roof',n:'(E) 12"ø up to (E) EF-3 on roof',act:'Its own system. Own vac hookup, own count, ends at the fan not the unit.',tell:'Existing 12" round riser to an existing roof fan. Exhaust riser. The (E) means it was already there, so expect it dirty.'},
+ {x:.545,y:.69,w:.03,h:.09,s:'EA',up:'EF-3 on the roof',n:'(N) 6x6 EA',tell:'6x6 EA running to the janitor closet register, joining the exhaust riser.'},
+ {x:.165,y:.875,w:.09,h:.065,s:'RA',up:'the ceiling plenum',n:'Open end duct with wire mesh screen above ceiling',act:'No return duct to clean. Grilles, the unit\'s return inlet, and note the plenum condition.',tell:'The return duct just ends open above the ceiling with a screen on it. That is a plenum return: the ceiling cavity is the return path, and this is where it enters the duct.'},
+ {x:.615,y:.585,w:.06,h:.05,s:'SA',up:'AHU-4 on the roof',n:'VAV 4-2',tell:'VAV 4-2 hangs off AHU-4\'s 24x20 SA riser, right next to it.'},
+ {x:.63,y:.485,w:.09,h:.065,s:'SA',up:'AHU-4 on the roof',n:'(R) 24x20 SA and 28x18 RA up to AHU-4',tell:'(R) = relocated. Same pattern as AHU-3: SA down, RA up, sharing a shaft to the roof.'},
+ {x:.74,y:.475,w:.06,h:.05,s:'RA',n:'RR 22x22 1000 (near AHU-4 riser)',act:'Return first. Pull this grille, it is your vac point.',tell:'22x22 return register at 1000 CFM, two of them on this side. Big face, big CFM, next to the RA riser: that is where you hook the vac for AHU-4.'},
+ {x:.65,y:.815,w:.06,h:.05,s:'SA',up:'VAV 4-1',n:'SD 10"ø 340',tell:'10" round neck, 340 CFM, on the 12x10 branch that comes off VAV 4-1. Three of these on one box.'},
+ {x:.845,y:.75,w:.05,h:.045,s:'SA',up:'AHU-4 on the roof',n:'VAV 4-1',tell:'VAV 4-1 off the 24x16 trunk from the AHU-4 riser, feeds the activities room diffusers.'},
+ {x:.905,y:.47,w:.055,h:.045,s:'SA',n:'SD 6"ø 150 (supply room)',tell:'Small round-neck diffuser in the supply closet, 6x6 branch. SD = supply.'},
+ {x:.86,y:.83,w:.06,h:.05,s:'RA',n:'RR 22x22 1000 (activities)',tell:'Second 22x22 at 1000 CFM. Big return faces feed the RA riser to AHU-4.'},
+ {x:.23,y:.755,w:.055,h:.045,s:'SA',up:'AHU-3 on the roof',n:'VAV 3-5',tell:'VAV 3-5 off the 16x10 branch, serving the classroom / conference room.'},
+ {x:.27,y:.735,w:.055,h:.045,s:'RA',n:'RR 10x10 120 (office)',tell:'Small return register in an office, 10x10, 120 CFM. Office returns are small because the corridor grilles do the heavy lifting.'},
+ {x:.435,y:.775,w:.05,h:.045,s:'SA',n:'SD 8"ø 180',tell:'8" neck, 180 CFM supply diffuser in the office.'},
+ {x:.505,y:.695,w:.055,h:.045,s:'SA',up:'AHU-3 on the roof',n:'VAV 3-8',tell:'VAV 3-8 off the 14x12 trunk continuation, feeding reception and the office diffusers.'},
+ {x:.50,y:.795,w:.05,h:.04,s:'EA',n:'ER 10x10 25 (janitor)',tell:'Exhaust register at 25 CFM in the janitor closet, on the 6x6 EA.'},
+ ]},
+{id:'m200l',name:'Reading Rec Center M200, lower level',img:'https://claude-deploy.bennyforeman1.workers.dev/r2/file/sheet-m200-lower.webp',w:1680,h:1440,
+ ups:['AHU-5','AHU-6','EF-1','EF-3 on the roof','VAV 5-1','VAV 5-2','VAV 5-4','VAV 6-1','VAV 6-2','VAV 6-3','the outdoor air louver'],
+ hs:[
+ {x:.005,y:.73,w:.075,h:.12,s:'EA',up:'EF-1',n:'(E) exterior exhaust louver with (N) BDD',act:'Its own system. Own vac hookup, own count, ends at the fan not the unit.',tell:'Louver on the outside wall with a backdraft damper (BDD) and EF-1 right behind it. Exhaust discharging outside. A louver with a BDD is exhaust; a louver with a motorized damper (MOD) is intake.'},
+ {x:.075,y:.725,w:.045,h:.045,s:'EA',n:'EF-1',tell:'Inline exhaust fan EF-1 pushing out the exterior louver. Own system.'},
+ {x:.07,y:.645,w:.055,h:.045,s:'SA',up:'AHU-5',n:'VAV 5-4',tell:'VAV 5-4, the 5 means AHU-5. Fed by the 12x12 riser off the AHU-5 trunk.'},
+ {x:.07,y:.815,w:.055,h:.045,s:'SA',up:'AHU-5',n:'VAV 5-1',tell:'VAV 5-1 off the 18x14 / 18x16 supply main from AHU-5 in the mechanical room.'},
+ {x:.245,y:.625,w:.055,h:.045,s:'EA',n:'ER 10x10 125 (men\'s)',tell:'Exhaust register, 125 CFM, men\'s restroom. Runs on the 10x4 and 10x8 EA to the 12" riser up to EF-3.'},
+ {x:.30,y:.70,w:.075,h:.03,s:'EA',up:'EF-3 on the roof',n:'(N) 10x8 EA',tell:'Restroom exhaust main, 10x8, tagged EA, collecting both restrooms and heading to the EF-3 riser.'},
+ {x:.335,y:.875,w:.075,h:.035,s:'OA',up:'the outdoor air louver',n:'(N) 12x10 OA',act:'Not in the loop. Check screen and damper, note it, do not rig a vac here.',tell:'12x10 tagged OA, from the existing 48x36 intake louver through MOD 1A into AHU-5. Outside air only exists to feed the unit.'},
+ {x:.43,y:.955,w:.13,h:.04,s:'OA',n:'(E) 48x36 outdoor air intake louver to remain',act:'Not in the loop. Check screen and damper, note it, do not rig a vac here.',tell:'The big intake louver on the exterior wall. Feeds OA to both AHU-5 and AHU-6. Bird screen and damper condition are the only things you care about.'},
+ {x:.65,y:.855,w:.07,h:.035,s:'OA',up:'the outdoor air louver',n:'(N) 8x8 OA',tell:'8x8 OA into AHU-6 through MOD 2A. Same louver, other unit.'},
+ {x:.235,y:.81,w:.06,h:.06,s:'RA',n:'(N) 24x8 RA',tell:'24x8 tagged RA dropping into AHU-5. Wide and flat because it is a return, low velocity, into the bottom of the unit.'},
+ {x:.73,y:.925,w:.08,h:.03,s:'RA',n:'(N) 14x12 RA',tell:'14x12 RA into AHU-6. Every unit has one: find the RA tag and you found the vac point.'},
+ {x:.125,y:.86,w:.075,h:.03,s:'SA',up:'AHU-5',n:'(N) 18x16 supply main',tell:'18x16 leaving AHU-5, biggest duct in the room, feeding the 12x12 riser to VAV 5-4, 5-3, 5-1. Supply.'},
+ {x:.20,y:.765,w:.075,h:.03,s:'SA',up:'AHU-5',n:'(N) 14x12 to VAV 5-2',tell:'14x12 branch feeding VAV 5-2 in the storage / mechanical room.'},
+ {x:.245,y:.735,w:.055,h:.045,s:'SA',up:'AHU-5',n:'VAV 5-2',tell:'VAV 5-2, serves the vending / tables area diffusers on 10x10 branches.'},
+ {x:.255,y:.48,w:.055,h:.045,s:'SA',n:'SD 6"ø 200 (corridor)',tell:'Corridor supply diffuser, 6" neck, 200 CFM, on the 8x8 down the corridor.'},
+ {x:.515,y:.645,w:.06,h:.045,s:'SA',up:'VAV 6-1',n:'SD 10"ø 350 (kitchen)',tell:'10" neck, 350 CFM, in the kitchen, fed off VAV 6-1 on the 10x10 riser.'},
+ {x:.485,y:.755,w:.06,h:.045,s:'SA',up:'AHU-6',n:'VAV 6-1',tell:'VAV 6-1 off the 24x12 supply main from AHU-6.'},
+ {x:.615,y:.80,w:.06,h:.045,s:'SA',up:'AHU-6',n:'VAV 6-2',tell:'VAV 6-2 on the same 24x12 main, feeds food storage.'},
+ {x:.79,y:.845,w:.06,h:.045,s:'SA',up:'AHU-6',n:'VAV 6-3',tell:'VAV 6-3 at the end of the AHU-6 main, feeds the electrical / walk-in freezer room diffusers.'},
+ {x:.625,y:.775,w:.07,h:.03,s:'SA',up:'AHU-6',n:'(N) 24x12 supply main',tell:'24x12 leaving AHU-6 feeding three VAVs. Keyed note 4 hangs on it.'},
+ {x:.46,y:.70,w:.10,h:.06,s:'EA',up:'EF-3 on the roof',n:'(E) 12"ø up to EF-3 on roof',tell:'The same 12" exhaust riser you saw upstairs, it starts down here. Restroom exhaust, both levels, one roof fan.'},
+ {x:.375,y:.94,w:.05,h:.045,s:'OA',n:'MOD 1A',tell:'Motorized damper on the OA duct into AHU-5. MOD on an intake = outside air.'},
+ {x:.595,y:.575,w:.065,h:.03,s:'SA',n:'(N) 6x6 corridor branch',tell:'6x6 down the corridor to the SD 6" 50 CFM at the far end. Small branch, supply.'},
+ ]},
+];
+
+const ALLHS=SHEETS.flatMap(s=>s.hs.map((hh,i)=>Object.assign({id:"sh_"+s.id+"_"+i,sheet:s},hh)));
+
 // ---------- mastery ----------
 const hist=id=>ST.h[id]||(ST.h[id]=[]);
 const level=id=>{const h=hist(id);if(!h.length)return 0;const last=h.slice(-5);const ok=last.filter(x=>x.ok).length;const med=last.map(x=>x.ms).sort((a,b)=>a-b)[Math.floor(last.length/2)];if(last.length>=5&&ok===5&&med<1500)return 3;if(ok>=Math.ceil(last.length*.6))return 2;return 1};
@@ -269,7 +337,7 @@ function record(id,ok,ms){hist(id).push({ok,ms});if(hist(id).length>12)ST.h[id]=
 const masteredCount=pool=>pool.filter(c=>level(c.id)===3).length;
 
 // ---------- UI ----------
-let tab='flash',t0=0,timer=null,filterKind='all';
+let tab='sheet',t0=0,timer=null,filterKind='field';
 const app=$('#app');
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));tab=b.dataset.tab;clearTimeout(timer);render()});
 const stat=pool=>`<div class="stat"><span>reps <b>${ST.reps}</b></span><span>streak <b>${ST.streak}</b></span><span>best <b>${ST.best}</b></span>${pool?`<span>boring <b>${masteredCount(pool)}/${pool.length}</b></span>`:''}</div>`;
@@ -277,7 +345,30 @@ const streamBtns=()=>`<div class="ans">${['SA','RA','EA','OA'].map((s,i)=>`<butt
 function startTimer(sec,onEnd){const bar=$('#tbar i');if(!bar)return;bar.classList.remove('run');bar.style.transform='scaleX(1)';void bar.offsetWidth;bar.classList.add('run');bar.style.transitionDuration=sec+'s';bar.style.transform='scaleX(0)';clearTimeout(timer);timer=setTimeout(onEnd,sec*1000)}
 function fb(ok,head,tell,ms){return `<div class="fb ${ok?'ok':'bad'}"><b class="h">${ok?'Yes':'No'} · ${head}${ms?` · ${(ms/1000).toFixed(1)}s`:''}</b>${tell}</div>`}
 
-function render(){clearTimeout(timer);({flash:renderFlash,trace:renderTrace,call:renderCall,board:renderBoard})[tab]()}
+function render(){clearTimeout(timer);({sheet:renderSheet,flash:renderFlash,trace:renderTrace,call:renderCall,board:renderBoard})[tab]()}
+
+function renderSheet(){
+  const c=choose(ALLHS);lastId=c.id;const sh=c.sheet;
+  const kinds=[];if(c.s)kinds.push('s');if(c.up)kinds.push('up');if(c.act)kinds.push('act');
+  const kind=pick(kinds);
+  let q,opts,ans;
+  if(kind==='s'){q='Which stream is boxed?';ans=c.s}
+  else if(kind==='up'){q='What is immediately upstream of the boxed item?';ans=c.up;opts=shuffle([ans,...shuffle(sh.ups.filter(u=>u!==ans)).slice(0,3)])}
+  else{q='What is the move for the boxed item?';ans=c.act;opts=shuffle([ans,...shuffle(ACTIONS.filter(a=>a!==ans)).slice(0,3)])}
+  app.innerHTML=`<div class="card">${stat(ALLHS)}<div class="small mut">Real sheet · ${sh.name}</div>
+  <div class="viewer" id="vw"><div class="pan" id="pan"><img src="${sh.img}" width="${sh.w}" height="${sh.h}" alt=""><div class="hb" style="left:${c.x*sh.w}px;top:${c.y*sh.h}px;width:${c.w*sh.w}px;height:${c.h*sh.h}px"></div></div><button class="zb" id="zoom">Whole sheet</button></div>
+  <div class="q">${q}</div>${kind==='s'?streamBtns():`<div class="ans one">${opts.map(o=>`<button class="opt" data-a="${o}">${o}</button>`).join('')}</div>`}<div id="fb"></div></div>`;
+  const vw=$('#vw'),pan=$('#pan');let zoomed=true;
+  const fit=()=>{const VW=vw.clientWidth,VH=vw.clientHeight;let k,tx,ty;
+    if(zoomed){k=VW/(sh.w*.34);const cx=(c.x+c.w/2)*sh.w,cy=(c.y+c.h/2)*sh.h;tx=VW/2-k*cx;ty=VH/2-k*cy;tx=Math.min(0,Math.max(VW-k*sh.w,tx));ty=Math.min(0,Math.max(VH-k*sh.h,ty))}
+    else{k=Math.min(VW/sh.w,VH/sh.h);tx=(VW-k*sh.w)/2;ty=(VH-k*sh.h)/2}
+    pan.style.transform=`translate(${tx}px,${ty}px) scale(${k})`};
+  fit();window.onresize=fit;
+  $('#zoom').onclick=()=>{zoomed=!zoomed;$('#zoom').textContent=zoomed?'Whole sheet':'Zoom in';fit()};
+  t0=performance.now();
+  app.querySelectorAll('.ans button').forEach(b=>b.onclick=()=>{const a=b.dataset.a;const ok=a===ans;const ms=performance.now()-t0;record(c.id,ok,ms);app.querySelectorAll('.ans button').forEach(x=>{x.disabled=true;if(x.dataset.a===ans)x.classList.add('right');else if(x.dataset.a===a)x.classList.add('wrong')});$('#fb').innerHTML=fb(ok,kind==='s'?STREAM[ans]:c.n,c.tell,ms)+`<div class="row" style="margin-top:10px"><button id="next">Next <kbd style="background:#fff3;color:#fff">space</kbd></button></div>`;$('#next').onclick=render;$('#next').focus()});
+  window.onkeydown=e=>{const i='1234'.indexOf(e.key);const bs=app.querySelectorAll('.ans button');if(i>=0&&bs[i]&&!bs[i].disabled)bs[i].click();if(e.key===' '&&$('#next')){e.preventDefault();render()}};
+}
 
 function renderFlash(){
   const pool=CUES.filter(c=>filterKind==='all'||c.k===filterKind);
@@ -326,14 +417,15 @@ function renderCall(){
 function renderBoard(){
   const cell=(c,label)=>{const l=level(c.id);const h=hist(c.id);const acc=h.length?Math.round(100*h.filter(x=>x.ok).length/h.length):null;const med=h.length?(h.map(x=>x.ms).sort((a,b)=>a-b)[Math.floor(h.length/2)]/1000).toFixed(1)+'s':'';return `<div class="cell m${l}">${c.n||label}<small>${h.length?`${acc}% · ${med} · ${['new','shaky','getting there','boring'][l]}`:'not seen yet'}</small></div>`};
   const tr=[{id:'tr_dir',n:'Flow direction'},{id:'tr_up',n:'What is upstream'},{id:'tr_dead',n:'What goes dead'},{id:'tr_stream',n:'Stream on a plan'}];
-  const all=[...CUES,...tr,...CALLS];
+  const all=[...ALLHS,...CUES,...tr,...CALLS];
   app.innerHTML=`<div class="card"><div class="score">${masteredCount(all)}<span class="mut" style="font-size:16px;font-weight:600"> / ${all.length} boring</span></div>${stat(null)}
   <div class="legend"><span><i style="background:#fff"></i>new</span><span><i style="background:#fbeaea"></i>shaky</span><span><i style="background:#fff5e0"></i>getting there</span><span><i style="background:#e3f2e6"></i>boring: last 5 right, under 1.5s</span></div>
-  <b>Print cues</b><div class="grid" style="margin:6px 0 14px">${CUES.filter(c=>c.k==='print').map(c=>cell(c)).join('')}</div>
+  <b>Real sheets</b><div class="grid" style="margin:6px 0 14px">${ALLHS.map(c=>cell(c)).join('')}</div>
+  <b>Print cues (synthetic)</b><div class="grid" style="margin:6px 0 14px">${CUES.filter(c=>c.k==='print').map(c=>cell(c)).join('')}</div>
   <b>Field cues</b><div class="grid" style="margin:6px 0 14px">${CUES.filter(c=>c.k==='field').map(c=>cell(c)).join('')}</div>
   <b>Trace</b><div class="grid" style="margin:6px 0 14px">${tr.map(c=>cell(c)).join('')}</div>
   <b>Calls</b><div class="grid" style="margin:6px 0 14px">${CALLS.map(c=>cell(c)).join('')}</div>
-  <details><summary>How the drill works</summary><p class="small">Every cue is weighted by how you did on it last. Misses come back fast, boring ones drift out. Flash gives you 3 seconds (2 once it is boring); no answer counts as a miss. Trace draws a fresh little system each time so you are reading the drawing, not remembering the picture. Board is per device, nothing leaves the phone.</p></details>
+  <details><summary>How the drill works</summary><p class="small">Every cue is weighted by how you did on it last. Misses come back fast, boring ones drift out. Sheet mode boxes one item on a real mechanical drawing (public bid sets) and asks the stream, what feeds it, or the move. Flash gives you 3 seconds (2 once it is boring); no answer counts as a miss. Trace draws a fresh little system each time so you are reading the drawing, not remembering the picture. Board is per device, nothing leaves the phone.</p></details>
   <div class="row"><button class="ghost small" id="reset">Reset progress</button></div></div>`;
   $('#reset').onclick=e=>{if(e.target.dataset.arm){ST={h:{},reps:0,streak:0,best:0};save();render()}else{e.target.dataset.arm=1;e.target.textContent='Tap again to wipe'}};
 }
