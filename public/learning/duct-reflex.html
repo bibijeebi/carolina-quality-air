@@ -27,8 +27,8 @@ button.small{padding:7px 12px;font-size:13.5px}
 button:disabled{opacity:.45;cursor:default}
 .mut{color:var(--mut)}.small{font-size:13.5px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.scene{background:var(--paper);border:1px solid #cfd4d9;border-radius:8px;margin:8px 0;overflow:hidden}
-.scene svg{display:block;width:100%;height:auto}
+.scene{background:var(--paper);border:1px solid #cfd4d9;border-radius:8px;margin:8px 0;overflow:hidden;display:flex;justify-content:center}
+.scene svg{display:block;width:100%;max-width:440px;height:auto}
 svg text{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;fill:#1c2024}
 svg .ink{fill:none;stroke:#1c2024;stroke-width:1.1}
 svg .thin{fill:none;stroke:#1c2024;stroke-width:.6}
@@ -116,7 +116,7 @@ const sz=()=>pick(['20x14','18x12','16x12','14x12','12x10','10x10','8x8']);
 const rd=()=>pick(['6"ø','8"ø','10"ø','12"ø']);
 
 // ---------- field scene helpers (section view) ----------
-const attic=(body)=>{let s=`<rect x="0" y="0" width="240" height="130" class="sky"/><polygon points="0,60 120,6 240,60" fill="#fff" class="ink"/><line x1="0" y1="60" x2="240" y2="60" class="ink"/>`;for(let i=20;i<240;i+=40)s+=`<line x1="${i}" y1="${60}" x2="${i}" y2="${(120-Math.abs(120-i))*0.45+6}" class="hair"/>`;s+=`<rect x="0" y="60" width="240" height="70" fill="#fff"/><line x1="0" y1="72" x2="240" y2="72" class="ink"/><text x="6" y="82" font-size="7.5" fill="#3b444c">CEILING / ROOMS BELOW</text>`;return svg(240,130,s+body)};
+const attic=(body)=>{let s=`<rect x="0" y="0" width="240" height="130" class="sky"/><polygon points="0,60 120,6 240,60" fill="#fff" class="ink"/><line x1="0" y1="60" x2="240" y2="60" class="ink"/>`;for(let i=20;i<240;i+=40)s+=`<line x1="${i}" y1="${60}" x2="${i}" y2="${(120-Math.abs(120-i))*0.45+6}" class="hair"/>`;s+=`<rect x="0" y="60" width="240" height="70" fill="#fff"/><line x1="0" y1="72" x2="240" y2="72" class="ink"/><text x="6" y="82" font-size="6.5" fill="#8a939c">CEILING / ROOMS BELOW</text>`;return svg(240,130,s+body)};
 const basement=(body)=>{let s=`<rect x="0" y="0" width="240" height="130" fill="#fff"/>`;for(let i=0;i<240;i+=16)s+=`<rect x="${i}" y="14" width="10" height="14" class="wood"/>`;s+=`<line x1="0" y1="14" x2="240" y2="14" class="ink"/><line x1="0" y1="118" x2="240" y2="118" class="wall"/><text x="6" y="128" font-size="7.5" fill="#3b444c">BASEMENT SLAB</text>`;return svg(240,130,s+body)};
 const roof=(body)=>svg(240,130,`<rect x="0" y="0" width="240" height="130" class="sky"/><rect x="0" y="78" width="240" height="52" fill="#fff" class="ink"/><text x="6" y="124" font-size="7.5" fill="#3b444c">ROOF / TOP FLOOR CEILING BELOW</text>${body}`);
 const furnace=(x,y)=>`<rect x="${x}" y="${y}" width="34" height="46" class="metal"/><text x="${x+17}" y="${y+20}" text-anchor="middle" font-size="7">FURN</text><text x="${x+17}" y="${y+30}" text-anchor="middle" font-size="7">AHU</text><polygon points="${x+8},${y+40} ${x+26},${y+40} ${x+17},${y+34}" class="fill"/>`;
@@ -136,7 +136,7 @@ const CUES=[
  {id:'p_vav',s:'SA',k:'print',n:'VAV box inline',d:()=>svg(240,110,duct(10,40,80,40,14,pick(['16x12','14x12']),'r')+`<rect x="80" y="28" width="44" height="24" class="ink" fill="#fff"/><text x="102" y="43" text-anchor="middle" font-size="8" font-weight="700">VAV-${rnd(1,12)}</text>`+duct(124,40,175,40,10,pick(['10x8','8x8']),'r')+flex(175,40,210,75)+diff(215,82,14)+`<text x="102" y="66" text-anchor="middle" font-size="7.5">PRIMARY AIR</text>`),t:'A VAV box lives on the supply side, between the medium-pressure trunk and the diffusers it feeds. You will never find one on a return.'},
  {id:'p_eaup',s:'EA',k:'print',n:'EA UP to roof fan',d:()=>svg(240,110,room(20,10,100,90,pick(['TOILET','LOCKER','JAN.']))+egrille(60,60,16,'EG')+duct(60,52,60,30,8,null,'u')+updn(60,20,'EA UP TO EF-'+rnd(1,4))+`<text x="130" y="60" font-size="8">EF-${rnd(1,4)} ON ROOF</text><text x="130" y="72" font-size="7.5">${pick(['600 CFM','450 CFM','300 CFM'])}, BDD</text>`),t:'EA UP with a fan tag means it climbs to a roof exhaust fan. Its own system, its own count, no tie to the air handler.'},
  {id:'p_flexcd',s:'SA',k:'print',n:'Flex from branch to tagged diffuser',d:()=>svg(240,110,duct(10,30,140,30,10,pick(['10x8','8x8']),'r')+flex(100,35,150,80)+diff(158,86,16)+hexTag(185,70,pick('ABCD'))+`<text x="100" y="20" font-size="7.5">${rd()} FLEX W/ VD</text>`),t:'Hatched round run off a branch ending at a cone diffuser with a schedule tag. Supply branch, flex, damper at the takeoff.'},
- {id:'p_raup',s:'RA',k:'print',n:'RA UP to RTU',d:()=>svg(240,110,room(20,10,200,90,'CORRIDOR')+grille(70,60,18,'RG')+duct(78,60,140,60,18,pick(['24x18','20x14']),'r')+updn(155,60,'RA UP TO RTU-'+rnd(1,3))),t:'Return grille, big duct, RA UP to the rooftop unit. Return riser. On a two-story you will find this one in a shaft.'},
+ {id:'p_raup',s:'RA',k:'print',n:'RA UP to RTU',d:()=>svg(240,110,room(20,10,200,90,'CORRIDOR')+grille(70,60,18,'RG')+duct(78,60,140,60,18,pick(['24x18','20x14']),'r')+updn(150,60,'RA UP RTU-'+rnd(1,3))),t:'Return grille, big duct, RA UP to the rooftop unit. Return riser. On a two-story you will find this one in a shaft.'},
  {id:'p_tag',s:null,k:'print',n:'Bare duct tag',d:(c)=>{c._s=pick(['SA','RA','EA','OA']);return svg(240,110,duct(20,55,220,55,pick([12,16,20]),`${sz()} ${c._s}`,pick(['r','l'])))},t:'Read the tag. SA supply, RA return, EA exhaust, OA outside air. This is the one you should never miss.'},
  {id:'p_tg',s:'RA',k:'print',n:'Transfer grille between rooms',d:()=>svg(240,110,room(20,10,100,90,pick(RM))+room(120,10,100,90,'CORRIDOR')+`<rect x="112" y="48" width="16" height="14" class="ink"/><line x1="112" y1="62" x2="128" y2="48" class="ink"/><text x="120" y="76" text-anchor="middle" font-size="8">TG</text><text x="120" y="88" text-anchor="middle" font-size="7">12x12 TRANSFER</text>`+grille(170,30,14,'RG')+`<text x="150" y="98" font-size="7">RA VIA CLG PLENUM</text>`),t:'TG in a wall or above a door, no duct on it. It only exists so air can get back to the return. Return path, not supply.'},
  {id:'p_plenum',s:'RA',k:'print',n:'Ceiling plenum return note',d:()=>svg(240,110,room(20,10,200,90,pick(RM))+`<rect x="110" y="50" width="20" height="20" class="ink"/>`+Array.from({length:4},(_,i)=>`<line x1="${112+i*5}" y1="50" x2="${112+i*5}" y2="70" class="thin"/>`).join('')+`<text x="120" y="82" text-anchor="middle" font-size="8">EGG CRATE RG</text><text x="120" y="96" text-anchor="middle" font-size="7.5">RETURN AIR VIA CEILING PLENUM, NO DUCT</text>`),t:'An egg-crate grille with no duct drawn to it and a plenum note: the whole ceiling cavity is the return. Return side, and it is open to everything above the tile.'},
@@ -144,7 +144,7 @@ const CUES=[
  {id:'p_sr',s:'SA',k:'print',n:'Sidewall register',d:()=>svg(240,110,room(20,10,200,90,pick(RM))+`<rect x="20" y="45" width="6" height="22" class="ink" fill="#fff"/>`+arrow(36,50,'r',3)+arrow(36,56,'r',3)+arrow(36,62,'r',3)+`<text x="44" y="58" font-size="8">SR ${pick(['12x6','14x6','10x6'])}</text>`+duct(6,56,20,56,8,null,null)),t:'Register in the wall with arrows throwing into the room. SR = sidewall register = supply.'},
  {id:'p_lsd',s:'SA',k:'print',n:'Linear slot diffuser',d:()=>svg(240,110,room(20,10,200,90,pick(RM))+`<rect x="40" y="30" width="120" height="6" class="ink" fill="#fff"/><line x1="40" y1="33" x2="160" y2="33" class="thin"/><text x="100" y="26" text-anchor="middle" font-size="8">LSD-${rnd(1,4)} 48" 2-SLOT</text>`+flex(100,40,130,80)+duct(130,80,200,80,8,null,'l')),t:'Long thin bar at the window line, fed by flex from a plenum box. Linear slot diffusers are supply, usually the perimeter zone.'},
  {id:'p_mod',s:'OA',k:'print',n:'OA into mixing box',d:()=>svg(240,110,unit(90,40,60,50,'AHU-1')+`<text x="120" y="82" text-anchor="middle" font-size="7">MIXING</text>`+duct(120,10,120,40,12,'OA','d')+`<line x1="110" y1="24" x2="130" y2="30" class="ink"/><text x="134" y="28" font-size="7.5">MOD</text>`+duct(20,65,90,65,16,'RA','r')+duct(150,65,230,65,16,'SA','r')),t:'OA drops into the mixing section with a motorized damper. It meets the return there, then everything leaves as supply.'},
- {id:'p_kef',s:'EA',k:'print',n:'Kitchen hood exhaust',d:()=>svg(240,110,room(20,10,200,90,'KITCHEN')+`<rect x="60" y="60" width="80" height="20" class="ink"/><text x="100" y="73" text-anchor="middle" font-size="8">TYPE I HOOD</text>`+duct(100,60,100,30,14,null,'u')+updn(100,22,'GREASE EA UP TO KEF-1')),t:'Hood, welded grease duct, KEF on the roof. Exhaust, and a different trade (IKECA) unless CQA takes that work.'},
+ {id:'p_kef',s:'EA',k:'print',n:'Kitchen hood exhaust',d:()=>svg(240,110,room(20,10,200,90,'KITCHEN')+`<rect x="60" y="60" width="80" height="20" class="ink"/><text x="100" y="73" text-anchor="middle" font-size="8">TYPE I HOOD</text>`+duct(100,60,100,30,14,null,'u')+updn(100,22,'EA UP, KEF-1')),t:'Hood, welded grease duct, KEF on the roof. Exhaust, and a different trade (IKECA) unless CQA takes that work.'},
  {id:'p_sadn',s:'SA',k:'print',n:'SA DN box',d:()=>svg(240,110,updn(60,40,'SA DN')+duct(72,40,150,40,16,sz(),'r')+flex(150,40,190,75)+diff(196,82,14)),t:'Supply coming down from the floor above and running out to a diffuser. Box with an X plus SA DN.'},
  // field
  {id:'f_filt',s:'RA',k:'field',n:'Filter behind the grille',d:()=>svg(240,130,`<rect x="0" y="0" width="240" height="130" fill="#fff"/><line x1="0" y1="20" x2="240" y2="20" class="ink"/><text x="6" y="14" font-size="7.5" fill="#3b444c">HALLWAY CEILING</text>`+gr(70,22,100,30,5)+filter(74,26,92,8)+`<text x="120" y="70" text-anchor="middle" font-size="8">30x20 GRILLE, HINGED, 1" FILTER INSIDE</text>`+duct(120,52,120,110,26,null,'u')+`<text x="140" y="100" font-size="7.5">TO UNIT</text>`),t:'Big hinged grille with a filter in it, usually in a hall ceiling or wall. That is the filter grille, the return. Air is pulled in here.'},
@@ -173,12 +173,12 @@ function genNet(){
   const n={unit:unitName,segs:[],terms:[],vav:[]};
   const nb=rnd(2,3);
   const uy=92;
-  const tx=[70,120,170,215];
+  const tx=[100,150,198];
   const sizes=['20x14','16x12','12x10','10x8'];
   let prev='unit';
   for(let i=0;i<nb;i++){
     const id='T'+(i+1);
-    n.segs.push({id,name:`trunk ${sizes[i]}`,x1:i?tx[i-1]:60,x2:tx[i],y:uy,w:22-i*5,size:sizes[i],up:prev,type:'trunk'});
+    n.segs.push({id,name:`trunk ${sizes[i]}`,x1:i?tx[i-1]:54,x2:tx[i],y:uy,w:22-i*5,size:sizes[i],up:prev,type:'trunk'});
     const hasVav=Math.random()<.4;
     let up=id;
     if(hasVav){const v='VAV-'+(i+1);n.vav.push({id:v,x:tx[i],y:uy-40,up:id});up=v}
@@ -193,7 +193,7 @@ function genNet(){
   return n;
 }
 function drawNet(n,hi,tapable){
-  let s=unit(10,72,50,40,n.unit);
+  let s=unit(10,72,44,40,n.unit);
   n.segs.forEach(g=>{s+=duct(g.x1,g.y,g.x2,g.y,g.w,g.size,'r');if(hi===g.id)s+=`<line x1="${g.x1}" y1="${g.y}" x2="${g.x2}" y2="${g.y}" class="hi"/>`});
   n.vav.forEach(v=>{s+=duct(v.x,n.segs[0].y-11,v.x,v.y+10,8,null,'u')+`<rect x="${v.x-18}" y="${v.y-10}" width="36" height="20" class="ink" fill="#fff"/><text x="${v.x}" y="${v.y+3}" text-anchor="middle" font-size="7.5" font-weight="700">${v.id}</text>`;if(hi===v.id)s+=`<rect x="${v.x-18}" y="${v.y-10}" width="36" height="20" class="hi"/>`});
   n.terms.forEach(t=>{
@@ -207,11 +207,12 @@ function drawNet(n,hi,tapable){
   });
   // return
   const rx=n.ret.x,ry=n.ret.y;
-  s+=duct(35,112,35,ry,16,null,'u')+duct(35,ry,rx+30,ry,16,'RA 24x14','l');
+  s+=duct(30,112,30,ry,16,null,'u')+duct(30,ry,rx+30,ry,16,'RA 24x14','l');
   n.ret.grilles.forEach((g,i)=>{s+=grille(rx+30+i*40,ry,12,g);if(i)s+=duct(rx+30,ry,rx+30+i*40,ry,12,null,'l')});
-  if(hi==='RA')s+=`<line x1="35" y1="112" x2="35" y2="${ry}" class="hi"/><line x1="35" y1="${ry}" x2="${rx+30}" y2="${ry}" class="hi"/>`;
+  if(hi==='RA')s+=`<line x1="30" y1="112" x2="30" y2="${ry}" class="hi"/><line x1="30" y1="${ry}" x2="${rx+30}" y2="${ry}" class="hi"/>`;
   s+=`<text x="236" y="188" text-anchor="end" font-size="7" fill="#6a7480">PLAN, NTS</text>`;
-  return svg(240,192,s);
+  const top=n.vav.length?0:62;
+  return `<svg viewBox="0 ${top} 240 ${192-top}" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
 }
 function traceQ(n){
   const kind=pick(['dir','dir','up','up','dead','dead','stream']);
@@ -249,11 +250,11 @@ const CALLS=[
  {id:'c_vav',n:'VAV box',d:()=>svg(240,90,duct(10,45,80,45,14,'14x12','r')+`<rect x="80" y="30" width="50" height="30" class="ink" fill="#fff"/><text x="105" y="48" text-anchor="middle" font-size="9" font-weight="700">VAV-4</text>`+duct(130,45,200,45,10,'8x8','r')),ans:'Open the box, clean inlet and outlet, hands off the actuator and the flow sensor.',tell:'The controls are the expensive part. Inlet ring, damper blade, outlet, then close it up the way you found it.'},
  {id:'c_lined',n:'Lined duct',d:()=>svg(240,90,duct(10,45,230,45,20,'24x14 LINED','r')+Array.from({length:22},(_,i)=>`<line x1="${14+i*10}" y1="36" x2="${20+i*10}" y2="54" class="thin"/>`).join('')),ans:'Soft brush, low pressure, no whip. Note the liner condition.',tell:'Whips shred fiberglass liner and then you have made it worse. Soft bristle, gentle air, and write down if it is already coming apart.'},
  {id:'c_ahu',n:'The unit',d:()=>svg(240,90,unit(60,15,120,60,'RTU-1')+`<text x="120" y="60" text-anchor="middle" font-size="7.5">BLOWER · COIL · FILTERS</text>`),ans:'Blower wheel, coil, plenum, pan. New filter goes in last.',tell:'The unit is the root of everything. Clean it after the ductwork so it does not get re-dirtied, and the filter is the very last thing to touch.'},
- {id:'c_ea',n:'Exhaust duct to a roof fan',d:()=>svg(240,90,egrille(40,45,16,'EG')+duct(48,45,150,45,10,'10"ø EA','r')+updn(170,45,'EA UP TO EF-2')),ans:'Its own system. Own vac hookup, own count, ends at the fan not the unit.',tell:'Exhaust never comes back to the air handler, so a vac on the return does nothing for it. Hook at the fan or the grille and price it separately.'},
+ {id:'c_ea',n:'Exhaust duct to a roof fan',d:()=>svg(240,90,egrille(40,45,16,'EG')+duct(48,45,150,45,10,'10"ø EA','r')+updn(165,45,'EA UP EF-2')),ans:'Its own system. Own vac hookup, own count, ends at the fan not the unit.',tell:'Exhaust never comes back to the air handler, so a vac on the return does nothing for it. Hook at the fan or the grille and price it separately.'},
  {id:'c_oa',n:'Outside air louver',d:()=>svg(240,90,`<line x1="20" y1="20" x2="220" y2="20" class="wall"/>`+louver(90,16,60,'OA LOUVER W/ MOD')+duct(120,28,120,80,14,'OA',null)),ans:'Not in the loop. Check screen and damper, note it, do not rig a vac here.',tell:'The intake only matters as a dirt source. Clogged bird screen and a stuck damper get written up, then move on.'},
  {id:'c_alum',n:'Aluminum duct note',d:()=>svg(240,90,duct(10,45,230,45,18,'20x14','r')+`<text x="120" y="72" text-anchor="middle" font-size="8">NOTE: ALL DUCTWORK ALUMINUM, EXTERNALLY INSULATED</text>`),ans:'No magnets. Nylon brushes, back the whip pressure off.',tell:'Aluminum is soft and non-magnetic. Steel brushes gouge it, magnetic mounts do nothing, and heavy whips dent it.'},
  {id:'c_bath',n:'Bath fan',d:()=>attic(`<rect x="90" y="60" width="30" height="16" class="metal"/>`+gr(92,72,26,6,2)+flex(105,60,150,30)+`<rect x="146" y="14" width="14" height="16" class="metal"/>`),ans:'Not on the unit. Grille off, clean the fan housing, run the duct to the roof jack.',tell:'Bath fans are their own little exhaust systems. Housing, wheel, then the flex all the way to daylight.'},
- {id:'c_oldflex',n:'Crushed old flex in an attic',d:()=>attic(flex(40,40,120,66)+`<path d="M120 66 q 20 -30 40 -8 q 10 6 30 -4" class="ink" stroke-width="7" stroke="#1c2024" stroke-opacity=".15" fill="none"/><text x="120" y="100" text-anchor="middle" font-size="7.5">KINKED, LINER SEPARATING, 1990s</text>`),ans:'Replace call, not a clean call. Flag it, quote it.',tell:'Old flex with the inner liner letting go will not survive cleaning. Whipping it makes the problem yours. Write it up as a replacement.'},
+ {id:'c_oldflex',n:'Crushed old flex in an attic',d:()=>attic(`<rect x="14" y="40" width="30" height="24" class="metal"/><text x="29" y="54" text-anchor="middle" font-size="6.5">AHU</text>`+flex(44,50,104,66)+flex(104,66,126,46)+`<line x1="98" y1="60" x2="112" y2="72" class="ink" stroke-width="2"/>`+flex(126,46,198,66)+`<path d="M150 50 q 10 12 22 6" class="ink" stroke-dasharray="2 1.5" stroke="#b26a00"/><text x="176" y="56" text-anchor="middle" font-size="6.5" fill="#b26a00">LINER TORN</text><text x="104" y="36" text-anchor="middle" font-size="6.5" fill="#b26a00">KINKED AT THE TRUSS</text><rect x="196" y="64" width="12" height="7" class="metal"/><text x="120" y="100" text-anchor="middle" font-size="7.5">OLD GREY FLEX, 1990s INSTALL</text>`),ans:'Replace call, not a clean call. Flag it, quote it.',tell:'Old flex with the inner liner letting go will not survive cleaning. Whipping it makes the problem yours. Write it up as a replacement.'},
  {id:'c_plenumret',n:'Ceiling plenum return',d:()=>roof(`<line x1="0" y1="78" x2="240" y2="78" class="ink"/>`+gr(100,74,40,4,1)+`<text x="120" y="60" text-anchor="middle" font-size="7.5">NO DUCT, OPEN PLENUM RETURN</text>`),ans:'No return duct to clean. Grilles, the unit\'s return inlet, and note the plenum condition.',tell:'You cannot clean a whole ceiling cavity. Scope is the grilles and where the plenum enters the unit, and a note on what is living above the tile.'},
 ];
 const ACTIONS=CALLS.map(c=>c.ans);
