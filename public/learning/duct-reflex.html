@@ -49,6 +49,17 @@ svg .sel{fill:#ffe082}
 .viewer .hb{position:absolute;border:2.5px solid #ffb300;background:rgba(255,179,0,.14);border-radius:3px;box-shadow:0 0 0 2px rgba(255,255,255,.7)}
 .viewer .zb{position:absolute;right:8px;bottom:8px;padding:6px 10px;font-size:12.5px;background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
 .viewer .sn{position:absolute;left:8px;top:6px;font-size:11px;color:#6a7480;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px}
+.lesson{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff}
+.lesson summary{padding:12px 14px;font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.lesson summary::after{content:'+';color:var(--acc)}
+.lesson[open] summary::after{content:'–'}
+.lesson .body{padding:0 14px 14px;font-size:15px;line-height:1.55}
+.lesson .body p{margin:0 0 10px}
+.fig{margin:10px 0}.fig img{display:block;width:100%;max-width:520px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.fig .cap,.spot .cap{font-size:13px;color:var(--mut);margin-top:4px}
+.spots{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.spots button{padding:7px 10px;font-size:13px;background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
+.spots button.on{background:var(--acc);color:#fff}
 .timer{height:6px;background:#e6e9ec;border-radius:3px;overflow:hidden;margin:6px 0 10px}
 .timer i{display:block;height:100%;background:var(--acc);width:100%;transform-origin:left;transition:none}
 .timer i.run{transition:transform linear}
@@ -83,7 +94,7 @@ footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
 <a class="back" href="/learning/">← CQA Learning</a>
 <h1>Duct Reflex</h1>
 <p class="sub">Look, call it, next. Real mechanical sheets, field scenes, flow tracing, the move. Rep each cue until it's boring.</p>
-<nav class="tabs"><button data-tab="sheet" class="on">Sheet</button><button data-tab="flash">Flash</button><button data-tab="trace">Trace</button><button data-tab="call">Call</button><button data-tab="board">Board</button></nav>
+<nav class="tabs"><button data-tab="learn" class="on">Learn</button><button data-tab="sheet">Sheet</button><button data-tab="flash">Flash</button><button data-tab="trace">Trace</button><button data-tab="call">Call</button><button data-tab="board">Board</button></nav>
 <main id="app"></main>
 <footer>Carolina Quality Air, Inc. · training tool · Sheet mode uses public bid drawings (City of Reading PA, 3rd &amp; Spruce Rec Center, Arora Engineers, 2022); field scenes are generated</footer>
 </div>
@@ -325,6 +336,70 @@ const SHEETS=[
  ]},
 ];
 
+const R2='https://claude-deploy.bennyforeman1.workers.dev/r2/file/';
+// spots: {s:sheetId, x,y,w,h, c:caption}. Fractions of that sheet image.
+const LESSONS=[
+{t:'1. What a mechanical set is',
+ p:[`A commercial job's drawings come as sheets, each with a letter and number in the title block. A = architectural, S = structural, P = plumbing, E = electrical, M = mechanical. M is the HVAC. On most sets: M000 or M001 is notes, symbols and abbreviations; M100s are demolition or existing conditions; M200s are the new work floor plans; a roof plan sits in either; M300s are the schedules (every unit and terminal in a table) and M400s or M301 the details. Numbering varies by engineer, the sheet name in the title block is what counts.`,
+ `Read the legend sheet first, every time. The symbols are close to universal but not identical from one engineer to the next, and the abbreviations list is the decoder ring for every tag on the plan.`,
+ `Three prefixes you will see on everything: (E) existing, stays; (N) new; (R) relocated or removed, the notes say which. For cleaning, (E) is the dirty stuff and (N) is what someone else is about to install.`,
+ `Keyed notes are the numbered circles or squares on the plan pointing at things. They match a numbered list at the side of the sheet. NTS means not to scale, so measure nothing off it.`],
+ figs:[{i:'lg-abbr.webp',c:'M000 abbreviation list from the Reading rec center set. The ones that matter for you: OA, EA, EF, EG, ER, RG, SG, VAV, VD, BDD, OED, WMS, AFF, BOD, TYP, UON.'}],
+ spots:[]},
+{t:'2. The four streams and the loop',
+ p:[`Every air system is one loop plus two side doors. The unit (AHU, RTU, FCU, furnace) pushes <b>supply air (SA)</b> out through ducts to diffusers in the rooms. The rooms leak it back through grilles into <b>return air (RA)</b> ducts, or into an open ceiling plenum, back to the unit. That's the loop.`,
+ `Side door in: <b>outside air (OA)</b> comes through a louver on the outside wall, past a motorized damper, into the unit's mixing box where it meets the return. Side door out: <b>exhaust air (EA)</b> leaves toilets, janitor closets, kitchens and labs through its own ducts to its own fan and dumps outside. Exhaust never touches the unit. Some legends also show MA, mixed air, which is just OA + RA inside the unit.`,
+ `Why you care: the return side is where the vac goes and gets cleaned first. Supply gets whipped toward the vac. Exhaust is a separate system with its own hookup and its own line item. OA is a note on the report, not a cleaning target.`,
+ `Fast rule for direction on a plan: supply arrows point away from the unit and the duct shrinks as it goes. Return arrows point at the unit and the duct grows as it goes. If you lose the arrows, follow the sizes.`],
+ figs:[{i:'lg-flow.webp',c:'Flow arrows on this legend. Supply airflow is a plain arrow; return, exhaust or transfer airflow gets a little break in the shaft. Ø means round duct.'}],
+ spots:[{s:'m200u',x:.20,y:.58,w:.28,h:.12,c:'26x16 leaves the AHU-3 riser and steps to 24x14. Shrinking away from the unit: supply.'},{s:'m200l',x:.31,y:.85,w:.26,h:.13,c:'12x10 tagged OA from the outdoor louver, through MOD 1A, into AHU-5.'},{s:'m200l',x:.0,y:.70,w:.14,h:.18,c:'EF-1 blowing out an exterior louver with a backdraft damper. Exhaust, its own system.'}]},
+{t:'3. The boxes: diffusers, grilles, registers',
+ p:[`The terminals are the little squares on the plan. On this legend, and on most: a square with an <b>X</b> through it is a <b>ceiling supply diffuser</b>. A square with <b>one diagonal slash</b> is a <b>ceiling return, exhaust or transfer register</b>. Which of the three, you read off the tag next to it or off where its duct goes: back toward a unit is return, to a fan is exhaust, nowhere at all (just a hole in a wall) is transfer.`,
+ `The tag is a small stacked box: type on top, neck size in the middle, CFM at the bottom. SD = supply diffuser, RR = return register, ER = exhaust register, SG / RG / EG = supply / return / exhaust grille, TG = transfer grille. Some engineers use a lettered hexagon instead and key it to a schedule; same idea.`,
+ `Neck size is the duct into the back of it, not the face. A 6"ø neck on a 24x24 lay-in diffuser is normal. CFM tells you how much air moves there: a 1000 CFM 22x22 return is a hallway workhorse and a vac point; a 25 CFM exhaust register in a janitor closet is one small cleanout.`,
+ `Vocabulary: diffuser spreads supply air (ceiling). Register has an adjustable damper or vanes (supply or return, wall or floor). Grille is a plain face, no damper (usually return or exhaust). People mix these up constantly, the tag letters are what matter.`],
+ figs:[{i:'lg-terminals.webp',c:'From M000: slash = return, exhaust or transfer register. X = supply diffuser. Both drawn three ways (lay-in, surface, plan symbol).'}],
+ spots:[{s:'m200u',x:.10,y:.40,w:.10,h:.08,c:'SD 6"ø 150 in the laundry: X box, supply.'},{s:'m200u',x:.06,y:.60,w:.12,h:.10,c:'RR 14x14 700 next to it: slash box, return, the biggest one on this end.'},{s:'m200u',x:.52,y:.58,w:.12,h:.09,c:'ER 10x10 50 in the women\'s room: slash box again, but its 8x6 duct is tagged EA and runs to the exhaust riser.'}]},
+{t:'4. The lines: reading duct',
+ p:[`Rectangular duct is drawn as two parallel lines with a size like <b>24x14</b> written along it. The first number is the dimension you see in plan (the width from above), the second is the height. It flips when the duct turns down a wall. Round duct gets a diameter with the Ø sign: 10"Ø. Flex is a wavy line, often short, from a branch to a diffuser.`,
+ `Sizes step. A supply trunk starts big at the unit and drops a size after each branch or box it feeds: 26x16, 24x14, 18x12, 10x8. A return does the reverse, collecting and growing on the way home. That stepping is the most reliable stream tell on a sheet with no labels.`,
+ `Transitions are the small trapezoids where a size changes. Turning vanes show as a hatched corner in a square elbow. Flexible connector (the short hatched band) sits at a unit or fan to kill vibration; it's a joint, not flex duct.`,
+ `Duct tagged SA / RA / EA / OA right on the line settles it instantly. When the tag is there, trust it over everything else.`],
+ figs:[{i:'lg-fittings.webp',c:'From M000: flex connector, flex duct, fire damper (the black triangle), volume balancing damper, motorized damper (M box with a hatch).'}],
+ spots:[{s:'m200u',x:.22,y:.60,w:.26,h:.08,c:'26x16 then 24x14 on the same run. Supply trunk stepping down.'},{s:'m200l',x:.22,y:.78,w:.10,h:.10,c:'24x8 RA into the bottom of AHU-5. Wide and flat, return.'},{s:'m200l',x:.29,y:.68,w:.12,h:.06,c:'10x8 EA collecting the restrooms.'}]},
+{t:'5. Risers, and where the unit went',
+ p:[`When a duct leaves the floor you're looking at, it gets a riser symbol: a box with an X and a heavier border, plus a note like <b>SA UP</b>, <b>RA DN</b>, <b>EA UP TO EF-3</b>. On this legend supply, return and exhaust risers are each drawn slightly differently, but the note is what you read.`,
+ `If there's no AHU drawn on the sheet, the risers tell you where it is. "24x20 SA AND 26x18 RA UP TO AHU-3" means a rooftop unit above this spot: supply comes down one riser, return goes up the other, side by side in a shaft (the dashed rectangle). Go to the roof plan to find the unit itself, and to the equipment schedule (M300 here) for its CFM and what it serves.`,
+ `On a multi-story building the same pair of risers appears on every floor at the same spot. That shaft is your vertical path and often has fire dampers at every floor.`,
+ `No risers, no unit, just diffusers and slash boxes with no duct on them: that's a plenum return with the unit above the ceiling or in a nearby mech room. Look for "RA VIA CEILING PLENUM" or an open-end duct with a wire mesh screen (OED, WMS).`],
+ figs:[{i:'lg-risers.webp',c:'From M000: supply, return and exhaust duct turning up or down. Round and rectangular versions.'}],
+ spots:[{s:'m200u',x:.14,y:.44,w:.16,h:.14,c:'The AHU-3 riser pair. No unit on this floor; it is on the roof, straight up from here.'},{s:'m200u',x:.62,y:.47,w:.14,h:.12,c:'Same thing for AHU-4, marked (R) relocated.'},{s:'m200u',x:.15,y:.86,w:.13,h:.10,c:'Open end duct with wire mesh screen above the ceiling: the plenum is the return.'}]},
+{t:'6. Things in the line: boxes, dampers, sensors',
+ p:[`<b>VAV</b> box: a rectangle inline on a supply branch with a hex tag like VAV 3-2. First number is usually the unit it hangs off (AHU-3), second is the count. VAV boxes are always supply side. Inside: a damper, an actuator, a flow sensor, sometimes a reheat coil. Open it, clean it, leave the controls alone.`,
+ `<b>FD</b> fire damper: a black triangle on the duct on this legend, or FD in a box on others, always where the duct crosses a rated wall or floor. Nothing goes through it: no rod, no whip, no hose. Access each side. <b>FSD</b> is fire/smoke, same rule. SD here means supply diffuser; other engineers use SD for smoke damper and DSD for duct smoke detector, so check the legend.`,
+ `<b>VD / BD</b> volume or balancing damper: a short tick on the duct with a handle. Manual. Sits at nearly every branch takeoff. You'll run into the blade; note if it's closed. <b>MOD</b> motorized damper: M in a box. Lives on OA intakes and some returns. <b>BDD</b> backdraft damper: a one-way flap on exhaust discharges.`,
+ `Circles with a letter are sensors on the wall: <b>T</b> thermostat, <b>CO2</b> sensor, <b>SP</b> static pressure sensor in the duct. Not obstacles, but the SP tube is fragile. Diffusers noted (TYP 4) or (TYP 6) means "this tag applies to 4 or 6 of them", count the boxes.`],
+ figs:[],
+ spots:[{s:'m200u',x:.10,y:.63,w:.10,h:.08,c:'VAV 3-1 hex tag: box on AHU-3\'s supply.'},{s:'m200l',x:.05,y:.62,w:.10,h:.08,c:'VAV 5-4: AHU-5, fourth box.'},{s:'m200l',x:.36,y:.92,w:.08,h:.07,c:'MOD 1A on the OA duct into AHU-5.'},{s:'m200l',x:.0,y:.72,w:.09,h:.14,c:'BDD on the EF-1 discharge louver.'}]},
+{t:'7. Exhaust and outside air are not the loop',
+ p:[`Exhaust: an <b>EF</b> tag is a fan. Ceiling or inline in the ductwork, or on the roof on a curb. The registers feeding it are ER / EG in toilets, locker rooms, janitor closets, copy rooms. Duct tagged EA. Kitchen hoods have their own welded grease duct and a KEF, that's a different trade (kitchen exhaust cleaning) unless CQA takes it. Dryer exhaust is another separate line.`,
+ `Cleaning an exhaust run means your own vac hookup at the fan or the far register, and your own count. Nothing you do on the AHU return moves any air in an exhaust duct.`,
+ `Outside air: a louver on the exterior wall (LV tag or "OA LOUVER"), a bird screen, a motorized damper, a duct tagged OA into the unit. On a rooftop unit it's a hood on the unit itself. You note screen and damper condition and move on; it's a dirt source, not a cleaning target.`,
+ `Tell them apart on the wall: a louver with a <b>BDD</b> and a fan behind it is exhaust discharging. A louver with a <b>MOD</b> and a duct into a unit is intake.`],
+ figs:[],
+ spots:[{s:'m200l',x:.42,y:.94,w:.16,h:.06,c:'(E) 48x36 OA intake louver to remain. Feeds both AHU-5 and AHU-6.'},{s:'m200l',x:.44,y:.69,w:.14,h:.10,c:'(E) 12"Ø up to EF-3 on the roof: the restroom exhaust riser, both floors.'},{s:'m200u',x:.48,y:.60,w:.20,h:.20,c:'Upstairs: 8x6 EA and 6x6 EA collecting ER registers into that same riser.'}]},
+{t:'8. Reading a sheet in five minutes',
+ p:[`1. Title block: which sheet, which level, (E) or (N) work. Then the legend sheet for that engineer's symbols.`,
+ `2. Find the units. Drawn on this sheet, or risers with UP TO / DN TO notes. Count them. Check the schedule for CFM and what each one serves.`,
+ `3. From each unit, trace the supply. Follow the arrows away and the sizes down through every VAV box to every X diffuser. Count terminals per unit. That's your supply count.`,
+ `4. Find the returns for that unit. Slash boxes with RR / RG tags and a duct back, or a plenum note. The biggest return face nearest the unit is your vac point. That's return first.`,
+ `5. Find every EF and its registers. Separate count, separate hookup, separate line.`,
+ `6. Flag obstacles: FD at rated walls, lined duct, aluminum or other material notes in the general notes, VAV boxes, flex runs, (E) duct in bad shape per the demo sheet.`,
+ `7. Write it down per unit: unit, supply terminals, return points, exhaust runs, obstacles, access. Then go drill it.`],
+ figs:[],
+ spots:[{s:'m200u',x:.0,y:.38,w:1,h:.62,c:'Whole upper level. Two rooftop units (AHU-3, AHU-4), nine VAVs on 3, two on 4, one exhaust riser to EF-3.'},{s:'m200l',x:.0,y:.55,w:1,h:.45,c:'Whole lower level. AHU-5 and AHU-6 in the mech room, EF-1 out the wall, OA from the big louver.'}]},
+];
+
 const ALLHS=SHEETS.flatMap(s=>s.hs.map((hh,i)=>Object.assign({id:"sh_"+s.id+"_"+i,sheet:s},hh)));
 
 // ---------- mastery ----------
@@ -337,7 +412,7 @@ function record(id,ok,ms){hist(id).push({ok,ms});if(hist(id).length>12)ST.h[id]=
 const masteredCount=pool=>pool.filter(c=>level(c.id)===3).length;
 
 // ---------- UI ----------
-let tab='sheet',t0=0,timer=null,filterKind='field';
+let tab='learn',t0=0,timer=null,filterKind='field';
 const app=$('#app');
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));tab=b.dataset.tab;clearTimeout(timer);render()});
 const stat=pool=>`<div class="stat"><span>reps <b>${ST.reps}</b></span><span>streak <b>${ST.streak}</b></span><span>best <b>${ST.best}</b></span>${pool?`<span>boring <b>${masteredCount(pool)}/${pool.length}</b></span>`:''}</div>`;
@@ -345,7 +420,28 @@ const streamBtns=()=>`<div class="ans">${['SA','RA','EA','OA'].map((s,i)=>`<butt
 function startTimer(sec,onEnd){const bar=$('#tbar i');if(!bar)return;bar.classList.remove('run');bar.style.transform='scaleX(1)';void bar.offsetWidth;bar.classList.add('run');bar.style.transitionDuration=sec+'s';bar.style.transform='scaleX(0)';clearTimeout(timer);timer=setTimeout(onEnd,sec*1000)}
 function fb(ok,head,tell,ms){return `<div class="fb ${ok?'ok':'bad'}"><b class="h">${ok?'Yes':'No'} · ${head}${ms?` · ${(ms/1000).toFixed(1)}s`:''}</b>${tell}</div>`}
 
-function render(){clearTimeout(timer);({sheet:renderSheet,flash:renderFlash,trace:renderTrace,call:renderCall,board:renderBoard})[tab]()}
+function render(){clearTimeout(timer);({learn:renderLearn,sheet:renderSheet,flash:renderFlash,trace:renderTrace,call:renderCall,board:renderBoard})[tab]()}
+
+function viewerHtml(sh,r,id){return `<div class="viewer" id="${id}"><div class="pan"><img src="${sh.img}" width="${sh.w}" height="${sh.h}" alt=""><div class="hb" style="left:${r.x*sh.w}px;top:${r.y*sh.h}px;width:${r.w*sh.w}px;height:${r.h*sh.h}px"></div></div><button class="zb">Whole sheet</button></div>`}
+function fitViewer(vw,sh,r,zoomed){const pan=vw.querySelector('.pan');const VW=vw.clientWidth,VH=vw.clientHeight;let k,tx,ty;
+  if(zoomed){k=Math.min(VW/(r.w*sh.w*1.25),VW/(sh.w*.3));k=Math.max(k,Math.min(VW/sh.w,VH/sh.h));const cx=(r.x+r.w/2)*sh.w,cy=(r.y+r.h/2)*sh.h;tx=VW/2-k*cx;ty=VH/2-k*cy;tx=Math.min(0,Math.max(VW-k*sh.w,tx));ty=Math.min(0,Math.max(VH-k*sh.h,ty))}
+  else{k=Math.min(VW/sh.w,VH/sh.h);tx=(VW-k*sh.w)/2;ty=(VH-k*sh.h)/2}
+  pan.style.transform=`translate(${tx}px,${ty}px) scale(${k})`}
+function wireViewer(vw,sh,r){let z=true;fitViewer(vw,sh,r,z);vw.querySelector('.zb').onclick=e=>{z=!z;e.target.textContent=z?'Whole sheet':'Zoom in';fitViewer(vw,sh,r,z)};return()=>fitViewer(vw,sh,r,z)}
+let openLesson=+(localStorage.getItem('dreflex_lesson')||0);
+function renderLearn(){
+  app.innerHTML=`<div class="card"><p class="small mut" style="margin:0 0 6px">Eight short lessons, every example points at a real sheet (Reading PA rec center, Arora Engineers M000 / M200). Open one, tap the spots, then drill it.</p>
+  ${LESSONS.map((L,i)=>`<details class="lesson" data-i="${i}" ${i===openLesson?'open':''}><summary>${L.t}</summary><div class="body">${L.p.map(x=>`<p>${x}</p>`).join('')}
+  ${L.figs.map(f=>`<div class="fig"><img src="${R2+f.i}" alt="" loading="lazy"><div class="cap">${f.c}</div></div>`).join('')}
+  ${L.spots.length?`<b class="small">See it on the sheet</b><div class="spots">${L.spots.map((s,j)=>`<button data-l="${i}" data-j="${j}">${j+1}</button>`).join('')}</div><div class="spot" id="spot${i}"></div>`:''}
+  <div class="row" style="margin-top:10px"><button class="small" data-drill="${i}">Drill it</button>${i<LESSONS.length-1?`<button class="small ghost" data-nextl="${i+1}">Next lesson</button>`:''}</div></div></details>`).join('')}</div>`;
+  app.querySelectorAll('details.lesson').forEach(d=>d.addEventListener('toggle',()=>{if(d.open){openLesson=+d.dataset.i;localStorage.setItem('dreflex_lesson',openLesson)}}));
+  let refit=null;window.onresize=()=>refit&&refit();
+  app.querySelectorAll('.spots button').forEach(b=>b.onclick=()=>{const L=LESSONS[+b.dataset.l],s=L.spots[+b.dataset.j],sh=SHEETS.find(x=>x.id===s.s);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));const box=$('#spot'+b.dataset.l);box.innerHTML=viewerHtml(sh,s,'v'+b.dataset.l)+`<div class="cap">${s.c}</div>`;refit=wireViewer(box.querySelector('.viewer'),sh,s)});
+  app.querySelectorAll('[data-drill]').forEach(b=>b.onclick=()=>document.querySelector('.tabs button[data-tab=sheet]').click());
+  app.querySelectorAll('[data-nextl]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.nextl;localStorage.setItem('dreflex_lesson',openLesson);render();app.querySelector(`details[data-i="${openLesson}"]`).scrollIntoView({behavior:'smooth'})});
+  window.onkeydown=null;
+}
 
 function renderSheet(){
   const c=choose(ALLHS);lastId=c.id;const sh=c.sheet;
@@ -356,15 +452,9 @@ function renderSheet(){
   else if(kind==='up'){q='What is immediately upstream of the boxed item?';ans=c.up;opts=shuffle([ans,...shuffle(sh.ups.filter(u=>u!==ans)).slice(0,3)])}
   else{q='What is the move for the boxed item?';ans=c.act;opts=shuffle([ans,...shuffle(ACTIONS.filter(a=>a!==ans)).slice(0,3)])}
   app.innerHTML=`<div class="card">${stat(ALLHS)}<div class="small mut">Real sheet · ${sh.name}</div>
-  <div class="viewer" id="vw"><div class="pan" id="pan"><img src="${sh.img}" width="${sh.w}" height="${sh.h}" alt=""><div class="hb" style="left:${c.x*sh.w}px;top:${c.y*sh.h}px;width:${c.w*sh.w}px;height:${c.h*sh.h}px"></div></div><button class="zb" id="zoom">Whole sheet</button></div>
+  ${viewerHtml(sh,c,'vw')}
   <div class="q">${q}</div>${kind==='s'?streamBtns():`<div class="ans one">${opts.map(o=>`<button class="opt" data-a="${o}">${o}</button>`).join('')}</div>`}<div id="fb"></div></div>`;
-  const vw=$('#vw'),pan=$('#pan');let zoomed=true;
-  const fit=()=>{const VW=vw.clientWidth,VH=vw.clientHeight;let k,tx,ty;
-    if(zoomed){k=VW/(sh.w*.34);const cx=(c.x+c.w/2)*sh.w,cy=(c.y+c.h/2)*sh.h;tx=VW/2-k*cx;ty=VH/2-k*cy;tx=Math.min(0,Math.max(VW-k*sh.w,tx));ty=Math.min(0,Math.max(VH-k*sh.h,ty))}
-    else{k=Math.min(VW/sh.w,VH/sh.h);tx=(VW-k*sh.w)/2;ty=(VH-k*sh.h)/2}
-    pan.style.transform=`translate(${tx}px,${ty}px) scale(${k})`};
-  fit();window.onresize=fit;
-  $('#zoom').onclick=()=>{zoomed=!zoomed;$('#zoom').textContent=zoomed?'Whole sheet':'Zoom in';fit()};
+  const refit=wireViewer($('#vw'),sh,{x:c.x,y:c.y,w:Math.max(c.w,.25),h:c.h});window.onresize=refit;
   t0=performance.now();
   app.querySelectorAll('.ans button').forEach(b=>b.onclick=()=>{const a=b.dataset.a;const ok=a===ans;const ms=performance.now()-t0;record(c.id,ok,ms);app.querySelectorAll('.ans button').forEach(x=>{x.disabled=true;if(x.dataset.a===ans)x.classList.add('right');else if(x.dataset.a===a)x.classList.add('wrong')});$('#fb').innerHTML=fb(ok,kind==='s'?STREAM[ans]:c.n,c.tell,ms)+`<div class="row" style="margin-top:10px"><button id="next">Next <kbd style="background:#fff3;color:#fff">space</kbd></button></div>`;$('#next').onclick=render;$('#next').focus()});
   window.onkeydown=e=>{const i='1234'.indexOf(e.key);const bs=app.querySelectorAll('.ans button');if(i>=0&&bs[i]&&!bs[i].disabled)bs[i].click();if(e.key===' '&&$('#next')){e.preventDefault();render()}};
@@ -426,7 +516,7 @@ function renderBoard(){
   <b>Trace</b><div class="grid" style="margin:6px 0 14px">${tr.map(c=>cell(c)).join('')}</div>
   <b>Calls</b><div class="grid" style="margin:6px 0 14px">${CALLS.map(c=>cell(c)).join('')}</div>
   <details><summary>How the drill works</summary><p class="small">Every cue is weighted by how you did on it last. Misses come back fast, boring ones drift out. Sheet mode boxes one item on a real mechanical drawing (public bid sets) and asks the stream, what feeds it, or the move. Flash gives you 3 seconds (2 once it is boring); no answer counts as a miss. Trace draws a fresh little system each time so you are reading the drawing, not remembering the picture. Board is per device, nothing leaves the phone.</p></details>
-  <div class="row"><button class="ghost small" id="reset">Reset progress</button></div></div>`;
+  <div class="row"><a class="back" href="/learning/read-the-print.html">Next up: Read the Print, the takeoff trainer →</a></div><div class="row" style="margin-top:8px"><button class="ghost small" id="reset">Reset progress</button></div></div>`;
   $('#reset').onclick=e=>{if(e.target.dataset.arm){ST={h:{},reps:0,streak:0,best:0};save();render()}else{e.target.dataset.arm=1;e.target.textContent='Tap again to wipe'}};
 }
 render();
