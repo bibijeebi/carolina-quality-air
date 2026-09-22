@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vent Call: dryer vent casework</title>
+<meta name="description" content="Five dryer vent jobs. Inspect the run, make the code calls, clean, figure developed length, run the DEDP test, and make the pass or fail call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+:root{--ink:#1c2b36;--muted:#5d7282;--paper:#f3f7fa;--sheet:#fff;--line:#d3dee6;--blue:#007cba;--blue-soft:#dcedf7;--rust:#b5452f;--gold:#e8a917;--gold-soft:#fff3cf;--green:#2e8b57;--green-soft:#e1f2e8;--red:#c0392b;--red-soft:#fbe4e1}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-size:15px;line-height:1.42}
+button,input,select{font:inherit;color:inherit}
+#app{max-width:1180px;margin:0 auto;padding:10px 12px 18px;display:grid;gap:10px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.bar h1{font-family:'Hind Madurai',Jost,sans-serif;font-size:1.25rem;margin:0;letter-spacing:.02em;text-transform:uppercase;color:var(--blue)}
+.spacer{flex:1}
+.btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:3px;padding:7px 12px;min-height:40px;font-weight:600;cursor:pointer}
+.btn.alt{background:#fff;color:var(--blue);border-color:#b7cad7}
+.btn:disabled{opacity:.45;cursor:default}
+.cases{display:flex;flex-wrap:wrap;gap:6px}
+.case{border:1px solid var(--line);background:#fff;border-radius:3px;padding:5px 10px;font-size:.82rem;cursor:pointer;min-height:36px;text-align:left}
+.case b{display:block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.case.on{border-color:var(--blue);background:var(--blue-soft)}
+.case.done b::after{content:" · best " attr(data-best);color:var(--green)}
+.board{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(310px,1fr);gap:10px;align-items:start}
+.plan{background:var(--sheet);border:1px solid var(--line);border-radius:3px}
+.plan svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:3px;padding:12px 14px;min-width:0}
+.card h2{font-size:1.02rem;margin:0 0 4px;font-family:'Hind Madurai',Jost,sans-serif}
+.eyebrow{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 4px}
+.steps{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:-4px -4px 10px}
+.step{border:0;background:none;padding:8px 10px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;min-height:40px}
+.step.on{color:var(--blue);border-bottom-color:var(--blue)}
+.step .d{font-size:.72rem;color:var(--green);margin-left:3px}
+.memo{background:#fffdf5;border:1px solid #efe3bf;border-radius:3px;padding:10px 12px;font-size:.92rem}.memo p{margin:.3em 0}
+.find{border-left:4px solid var(--line);padding:6px 10px;margin:6px 0;font-size:.88rem;background:#fbfcfd}
+.find.issue{border-left-color:var(--rust);background:#fdf6f4}
+.find b{display:block;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+h3{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:14px;padding:5px 10px;font-size:.8rem;cursor:pointer;min-height:34px;text-align:left}
+.chip.on{border-color:var(--blue);background:var(--blue);color:#fff}
+.opt{display:block;width:100%;text-align:left;border:1px solid #b7cad7;background:#fff;border-radius:3px;padding:8px 10px;min-height:44px;margin:5px 0;cursor:pointer}
+.opt.on{border-color:var(--blue);background:var(--blue-soft);font-weight:600}
+.opt small{display:block;color:var(--muted);font-weight:400}
+.gauge{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.dial{font-family:'Hind Madurai',Jost,sans-serif;font-size:1.8rem;font-weight:700;background:#1c2b36;color:#7ee0a1;padding:4px 14px;border-radius:4px;min-width:130px;text-align:center;font-variant-numeric:tabular-nums}
+.dial small{font-size:.8rem;color:#9fb3c3;margin-left:4px}
+.num{width:110px;padding:8px;border:1px solid #b7cad7;border-radius:3px;min-height:42px}
+.tbl{border-collapse:collapse;font-size:.82rem;margin-top:6px;width:100%}
+.tbl th,.tbl td{border:1px solid var(--line);padding:4px 6px;text-align:center}
+.tbl th{background:#f3f7fa}
+.msg{font-size:.9rem;min-height:2.4em}.msg span{display:block;color:var(--muted);font-size:.83rem}
+#over{position:fixed;inset:0;background:#1c2b36cc;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px;z-index:5}
+#over .card{max-width:760px;width:100%}
+.big{font-family:'Hind Madurai',Jost,sans-serif;font-size:3rem;font-weight:700;color:var(--blue);line-height:1}
+.rep{list-style:none;padding:0;margin:10px 0}.rep li{padding:6px 10px;margin:4px 0;border-left:4px solid var(--green);background:var(--green-soft);font-size:.88rem}
+.rep li.bad{border-left-color:var(--red);background:var(--red-soft)}.rep li span{display:block;color:var(--muted);font-size:.8rem}
+.lbl{font-size:12px;fill:var(--muted);pointer-events:none}
+.hit{fill:transparent;stroke:transparent;cursor:pointer}
+@media (max-width:860px){.board{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bar"><h1>Vent Call</h1><span class="spacer"></span><button type="button" class="btn" id="submit">Submit the call</button></div>
+  <div class="cases" id="cases"></div>
+  <div class="board">
+    <div class="plan"><svg id="svg" viewBox="0 0 800 460" role="img" aria-label="Cutaway of the house showing the dryer exhaust run"></svg></div>
+    <div class="card">
+      <div class="steps" id="steps"></div>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      <div id="pane"></div>
+    </div>
+  </div>
+</div>
+<div id="over"><div class="card" id="report"></div></div>
+<script>
+'use strict';
+// Sources: NADCA DEDP 2014 (sections cited inline) and IRC 2024 M1501-M1502.
+const CODE={
+  vinyl:['Transition not listed and labeled to UL 2158A','IRC M1502.4.3'],
+  screen:['Screen at the termination','IRC M1502.3'],
+  attic:['Exhaust ends in the attic, not outdoors','IRC M1501.1, M1502.3'],
+  clear3:['Terminal within 3 ft of an opening into the building','IRC M1502.3'],
+  label:['Over 35 ft equivalent with no length label','IRC M1502.4.7'],
+  screws:['Fasteners stick into the duct more than 1/8 in','IRC M1502.4.2'],
+  trans8:['Transition longer than 8 ft','IRC M1502.4.3']
+};
+const RECS={
+  r_trans:'Reconnect with a single UL 2158A listed transition, 8 ft max, left exposed',
+  r_screen:'Take the screen out of the termination',
+  r_route:'Reroute the duct to terminate outdoors through a hood with a backdraft damper',
+  r_clear:'Move the terminal at least 3 ft from any opening',
+  r_label:'Put a length label within 6 ft of the duct connection',
+  r_screws:'Replace the fasteners so none stick in more than 1/8 in',
+  r_design:'Design change: shorten the route; cleaning will not fix this'
+};
+const T49=[[10,.30,1700],[20,.55,1600],[30,.65,1500],[40,.75,1300],[50,.80,1200]], T410=[[10,.50,1700],[20,.75,1600],[30,.85,1500],[40,.95,1300],[50,1.00,1200]];
+const D='Rigid 4 in metal, smooth inside, sealed and fastened at the joints.';
+const CASES=[
+ {id:1,title:'Side wall, two elbows',term:'side',straight:10,elbows:2,
+  order:['<b>Call:</b> Clothes take two cycles to dry.','<b>House:</b> Single story, laundry on an interior wall, vents out the side of the house.'],
+  path:[[200,380],[320,380],[320,300],[560,300]],segs:['3 ft','2 ft','5 ft'],
+  obs:{trans:{t:'White plastic transition, about 5 ft, kinked behind the dryer. No UL 2158A label on it.',code:['vinyl']},hood:{t:'Louvered side-wall hood. The flaps move, but the barrier is furred over with lint.',lint:true}},
+  gauge:.48,vel:[1580,1640,1610],recs:['r_trans']},
+ {id:2,title:'Roof cap',term:'roof',straight:20,elbows:2,
+  order:['<b>Call:</b> Burning smell when the dryer runs. Birds heard on the roof.','<b>House:</b> Two story. The run goes up through the attic to a roof cap.'],
+  path:[[200,390],[200,150],[380,150],[380,106]],segs:['8 ft','7 ft','5 ft'],
+  obs:{hood:{t:'Roof cap with a wire mesh screen behind the flap. The screen is packed with lint and a bird nest.',code:['screen'],lint:true},trans:{t:'Semi-rigid aluminum transition, 4 ft, UL 2158A label on it.'}},
+  gauge:.80,vel:[1470,1520,1495],recs:['r_screen']},
+ {id:3,title:'Nobody knows where it ends',term:'none',straight:14,elbows:1,
+  order:['<b>Call:</b> Owner wants the dryer vent cleaned. "Nobody has ever found where it comes out."','<b>House:</b> Ranch with a walk-in attic. No cap visible on the roof or the walls.'],
+  path:[[200,390],[200,200],[360,200]],segs:['8 ft','6 ft'],noHood:true,
+  obs:{d2:{t:'The rigid run ends open in the attic. No termination, just a drift of lint across the insulation.',code:['attic']},trans:{t:'Foil transition with a UL 2158A label, 3 ft, exposed.'}},
+  gauge:null,vel:null,recs:['r_route']},
+ {id:4,title:'The long way around',term:'side',straight:35,elbows:3,
+  order:['<b>Call:</b> Dryer shuts off on high heat. Owner already had the vent cleaned last year.','<b>House:</b> Laundry in the middle of the house. The run goes up, across the attic, and back down to a side wall.'],
+  path:[[200,390],[200,170],[430,170],[430,300],[560,300]],segs:['8 ft','10 ft','5 ft','12 ft'],window:true,
+  obs:{hood:{t:'Side-wall hood with a damper that swings free. A bedroom window opens 2 ft above it.',code:['clear3']},port:{t:'Collar tight to the drywall. No length label anywhere near the dryer connection.',code:['label']},trans:{t:'Semi-rigid aluminum transition, 4 ft, UL 2158A label.'}},
+  gauge:.85,vel:[1250,1230,1210],recs:['r_design','r_label','r_clear']},
+ {id:5,title:'Booster fan on the roof run',term:'roof',straight:30,elbows:2,booster:true,trap:true,
+  order:['<b>Call:</b> Annual service. The house has a dryer booster fan and a secondary lint trap.','<b>House:</b> Two story, laundry upstairs, long attic run to a roof cap.'],
+  path:[[200,390],[200,185],[400,185],[400,120]],segs:['10 ft','14 ft','6 ft'],
+  obs:{d2:{t:'Joints in the attic run fastened with long sheet metal screws. About 1/2 in pokes into the airstream, and lint hangs on every one.',code:['screws']},port:{t:'Length label at the connection reads "Equivalent length 40 ft", mounted 3 ft from it.'},booster:{t:'Inline dryer exhaust duct power ventilator in the attic run, labeled UL 705 for dryer duct service. The pressure switch clicks on when air moves. It runs.'},trap:{t:'Secondary lint trap next to the dryer. The screen is packed full.',lint:true},trans:{t:'Semi-rigid aluminum transition, 5 ft, UL 2158A label.'}},
+  gauge:.90,vel:[1280,1330,1310],recs:['r_screws']}
+];
+const parts=C=>{const p=['dryer','trans','port'];C.segs.forEach((_,i)=>{p.push('d'+(i+1));if(i<C.segs.length-1)p.push('e'+(i+1));});if(!C.noHood)p.push('hood');if(C.booster)p.push('booster');if(C.trap)p.push('trap');return p;};
+const devLen=C=>C.straight+C.elbows*5;
+const rowFor=L=>Math.min(50,Math.max(10,Math.round(L/10)*10));
+function expected(C){
+  if(C.term==='none')return {result:'none'};
+  const L=devLen(C),tb=C.term==='roof'?T410:T49,row=tb.find(r=>r[0]===rowFor(L)),v=Math.max(...C.vel);
+  return {L,row,result:C.gauge<row[1]&&v>=row[2]?'pass':'fail',pOk:C.gauge<row[1],vOk:v>=row[2],v};
+}
+// ---------- state ----------
+const $=id=>document.getElementById(id),svg=$('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let C,S,step='inspect',sel=null,MSG=null;
+const STEPS=[['inspect','1 Inspect'],['clean','2 Clean'],['length','3 Length'],['test','4 Test'],['call','5 Call']];
+function fresh(){return {seen:{},codes:[],clean:null,len:'',table:null,dev:null,tap:null,energized:false,waited:false,reads:{},recorded:null,result:null,recs:[],testBeforeClean:false};}
+const say=(t,s)=>{MSG={t,s};};
+function obs(id){const o=C.obs[id];if(o)return Object.assign({issue:!!((o.code&&o.code.length)||o.lint)},o);
+  if(id==='dryer')return {t:'Electric dryer, pulled out from the wall. Lint screen cleaned by the owner.'};
+  if(id==='port')return {t:'4 in port, collar tight to the drywall.'};
+  if(id[0]==='d')return {t:D+' '+C.segs[+id.slice(1)-1]+' section.'};
+  if(id[0]==='e')return {t:'Hard 90 degree elbow, mitered.'};
+  if(id==='hood')return {t:'Hood flap swings free, barrier clear.'};
+  return {t:'Checked.'};}
+function pname(id){return {dryer:'Dryer',trans:'Transition duct',port:'Wall port and connection',hood:C.term==='roof'?'Roof cap':'Wall hood',booster:'Booster fan',trap:'Secondary lint trap'}[id]||(id[0]==='d'?'Duct section '+id.slice(1):'Elbow '+id.slice(1));}
+function reading(where){ // the gauge reads high and velocity low if the booster has not engaged yet
+  if(C.gauge==null)return null;const early=C.booster&&!S.waited;
+  if(where==='gauge')return early?Math.round((C.gauge+.45)*100)/100:(S.tap==='mid'?C.gauge:Math.round((C.gauge-.12)*100)/100);
+  const i={top:0,bottom:1,side:2}[where];return early?C.vel[i]-420:C.vel[i];}
+// ---------- drawing ----------
+function draw(){
+  svg.innerHTML='';const P=C.path,roof=C.term==='roof'||C.term==='none';
+  el('rect',{x:0,y:0,width:800,height:460,fill:'#f7fafc'});
+  el('path',{d:'M40 430 L40 230 L300 60 L560 230 L560 430',fill:'#fff',stroke:'#9fb3c3','stroke-width':3});
+  el('line',{x1:40,y1:230,x2:560,y2:230,stroke:'#c9d6df','stroke-width':2});el('text',{x:60,y:250,class:'lbl'}).textContent='attic';
+  if(C.path[0][1]>300)el('line',{x1:40,y1:330,x2:560,y2:330,stroke:'#eef3f6','stroke-width':1});
+  el('line',{x1:0,y1:430,x2:800,y2:430,stroke:'#9fb3c3','stroke-width':3});el('text',{x:600,y:450,class:'lbl'}).textContent='outside';
+  if(C.window){el('rect',{x:552,y:238,width:16,height:36,fill:'#dcedf7',stroke:'#5d7282','stroke-width':2});el('text',{x:580,y:258,class:'lbl'}).textContent='window';}
+  if(C.term==='none')el('path',{d:'M360 222 q20 -20 50 0 q20 -14 40 0',fill:'#d8c7a8',stroke:'#b8895a'});
+  const hi=id=>sel===id;
+  const G=(id)=>el('g',{'data-t':id});
+  // dryer + transition
+  let g=G('dryer');el('rect',{x:70,y:330,width:100,height:100,rx:6,fill:'#e6eef3',stroke:hi('dryer')?'#e8a917':'#5d7282','stroke-width':hi('dryer')?4:2.5},g);el('circle',{cx:120,cy:385,r:26,fill:'#fff',stroke:'#5d7282','stroke-width':2},g);el('text',{x:120,y:350,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'#1c2b36'},g).textContent='DRYER';el('rect',{x:62,y:322,width:116,height:116,class:'hit'},g);
+  g=G('trans');const vinyl=C.obs.trans&&C.obs.trans.code;el('path',{d:`M170 400 C 185 425, 190 360, ${P[0][0]} ${P[0][1]}`,fill:'none',stroke:hi('trans')?'#e8a917':vinyl?'#f4f4f4':'#b9c3cc','stroke-width':12,'stroke-dasharray':'3 2'},g);el('path',{d:`M170 400 C 185 425, 190 360, ${P[0][0]} ${P[0][1]}`,fill:'none',stroke:vinyl?'#c9ccd3':'#8f9aa3','stroke-width':1},g);el('path',{d:`M170 400 C 185 425, 190 360, ${P[0][0]} ${P[0][1]}`,class:'hit','stroke-width':34,fill:'none'},g);
+  g=G('port');el('rect',{x:P[0][0]-10,y:P[0][1]-10,width:20,height:20,fill:'#fff',stroke:hi('port')?'#e8a917':'#5d7282','stroke-width':hi('port')?4:2},g);el('rect',{x:P[0][0]-18,y:P[0][1]-18,width:36,height:36,class:'hit'},g);
+  // rigid segments and elbows
+  for(let i=0;i<P.length-1;i++){const id='d'+(i+1),a=P[i],b=P[i+1];g=G(id);
+    if(hi(id))el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#e8a917','stroke-width':22,'stroke-linecap':'round'},g);
+    el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#5d7282','stroke-width':14},g);el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:S.clean==='clean'?'#e6eef3':'#cdb99a','stroke-width':10},g);
+    if(C.obs[id]&&C.obs[id].code&&C.obs[id].code.includes('screws')&&S.seen[id])for(let k=1;k<4;k++){const x=a[0]+(b[0]-a[0])*k/4,y=a[1]+(b[1]-a[1])*k/4;el('circle',{cx:x,cy:y,r:3,fill:'#c0392b'},g);}
+    el('text',{x:(a[0]+b[0])/2+(a[0]===b[0]?12:0),y:(a[1]+b[1])/2-(a[1]===b[1]?12:0),class:'lbl'}).textContent=C.segs[i];
+    el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:'hit','stroke-width':34},g);
+    if(i<P.length-2){const id2='e'+(i+1),c=P[i+1];g=G(id2);el('circle',{cx:c[0],cy:c[1],r:14,fill:'#fff',stroke:hi(id2)?'#e8a917':'#1c2b36','stroke-width':hi(id2)?4:3},g);el('text',{x:c[0],y:c[1]+3.5,'text-anchor':'middle','font-size':9.5,'font-weight':700},g).textContent='90\u00b0';el('circle',{cx:c[0],cy:c[1],r:20,class:'hit'},g);}}
+  if(C.booster){g=G('booster');const x=C.path[1][0]+(C.path[2][0]-C.path[1][0])*.72,y=C.path[1][1];el('rect',{x:x-22,y:y-18,width:44,height:36,rx:4,fill:'#f4c33a',stroke:hi('booster')?'#e8a917':'#1c2b36','stroke-width':hi('booster')?4:2},g);el('text',{x,y:y+4,'text-anchor':'middle','font-size':10,'font-weight':700},g).textContent='FAN';el('rect',{x:x-28,y:y-24,width:56,height:48,class:'hit'},g);}
+  if(C.trap){g=G('trap');const x=C.path[0][0],y=330;el('rect',{x:x-16,y:y-16,width:32,height:32,rx:3,fill:'#fff',stroke:hi('trap')?'#e8a917':'#1c2b36','stroke-width':hi('trap')?4:2},g);el('text',{x,y:y+4,'text-anchor':'middle','font-size':9,'font-weight':700},g).textContent='TRAP';el('rect',{x:x-22,y:y-22,width:44,height:44,class:'hit'},g);}
+  if(!C.noHood){const e=P[P.length-1];g=G('hood');
+    if(C.term==='roof'){el('path',{d:`M${e[0]-22} ${e[1]} L${e[0]+22} ${e[1]} L${e[0]+16} ${e[1]-18} L${e[0]-16} ${e[1]-18} Z`,fill:'#9ea3ad',stroke:hi('hood')?'#e8a917':'#1c2b36','stroke-width':hi('hood')?4:2},g);}
+    else{el('path',{d:`M${e[0]} ${e[1]-16} L${e[0]+22} ${e[1]-10} L${e[0]+22} ${e[1]+14} L${e[0]} ${e[1]+16} Z`,fill:'#9ea3ad',stroke:hi('hood')?'#e8a917':'#1c2b36','stroke-width':hi('hood')?4:2},g);}
+    el('circle',{cx:e[0]+(C.term==='roof'?0:12),cy:e[1]-(C.term==='roof'?10:0),r:28,class:'hit'},g);}
+  // seen pins
+  for(const id of Object.keys(S.seen)){const o=S.seen[id];const bb=svg.querySelector(`[data-t="${id}"]`);if(!bb)continue;const r=bb.getBBox();el('circle',{cx:r.x+r.width,cy:r.y,r:8,fill:o.issue?'#c0392b':'#2e8b57',stroke:'#fff','stroke-width':2});el('text',{x:r.x+r.width,y:r.y+4,'text-anchor':'middle','font-size':10,'font-weight':700,fill:'#fff'}).textContent=o.issue?'!':'✓';}
+  // test rig
+  if(S.dev){el('text',{x:C.path[0][0]+18,y:C.path[0][1]+30,class:'lbl'}).textContent=S.dev==='dedp'?'DEDP test blower on the port':'Running on the dryer blower';}
+}
+// ---------- panes ----------
+function pane(){
+  $('steps').innerHTML=STEPS.map(([k,l])=>`<button type="button" class="step${step===k?' on':''}" data-step="${k}">${l}${done(k)?'<span class="d">✓</span>':''}</button>`).join('');
+  const p=$('pane'),chip=(k,v,on,l)=>`<button type="button" class="chip${on?' on':''}" data-${k}="${v}">${esc(l)}</button>`,opt=(k,v,on,l,s)=>`<button type="button" class="opt${on?' on':''}" data-${k}="${v}">${esc(l)}${s?`<small>${esc(s)}</small>`:''}</button>`;
+  if(step==='inspect'){
+    const list=parts(C);
+    p.innerHTML=(sel?`<div class="find${S.seen[sel]&&S.seen[sel].issue?' issue':''}"><b>${esc(pname(sel))}</b>${S.seen[sel]?esc(S.seen[sel].t):'Tap again to look it over.'}</div>`:'')
+      +`<div class="memo">${C.order.map(x=>`<p>${x}</p>`).join('')}</div>
+      <h3>Pre-test inspection (DEDP 1.2 to 1.9)</h3><p class="eyebrow">Tap every part on the drawing. ${Object.keys(S.seen).length} of ${list.length} looked at.</p>
+      <div class="chips">${list.map(id=>chip('part',id,!!S.seen[id],(S.seen[id]?(S.seen[id].issue?'! ':'✓ '):'')+pname(id))).join('')}</div>
+      <h3>Code calls you are making</h3><div class="chips">${Object.entries(CODE).map(([k,[l,c]])=>chip('code',k,S.codes.includes(k),l+' ('+c+')')).join('')}</div>`;
+    p.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>look(b.dataset.part));
+    p.querySelectorAll('[data-code]').forEach(b=>b.onclick=()=>{tog(S.codes,b.dataset.code);update();});
+  } else if(step==='clean'){
+    p.innerHTML=`<p>DEDP 1.1: confirm the duct is clean before the performance test. The test is for duct that has been inspected and confirmed clean (3.0.1).</p>
+      ${opt('clean','clean',S.clean==='clean','Clean the full run, then look it over','Rotary brush the transition, the run, the hood, and any secondary trap. Confirm non-adhered lint is gone (1.3.1).')}
+      ${opt('clean','hold',S.clean==='hold','Hold the cleaning and trace the run first','When nobody knows where it ends, brushing or blowing from inside can pack lint into the attic or soffit.')}`;
+    p.querySelectorAll('[data-clean]').forEach(b=>b.onclick=()=>{S.clean=b.dataset.clean;say(S.clean==='clean'?'Run cleaned and looked over.':'Cleaning on hold.',S.clean==='clean'?'Non-adhered lint removed, no adhered substances left.':'Trace it before anything gets pushed through.');update();});
+  } else if(step==='length'){
+    p.innerHTML=`<p>DEDP 1.8 and 4.1: estimate total developed length of the permanent duct. Straight hard pipe plus each hard elbow at 5 ft (1.8.3). The transition does not count.</p>
+      <div class="gauge"><label>Developed length <input class="num" id="len" inputmode="numeric" value="${esc(S.len)}"> ft</label></div>
+      <h3>Which performance table (4.6.1)</h3>${opt('tbl','side',S.table==='side','Table 4.9, side wall termination')}${opt('tbl','roof',S.table==='roof','Table 4.10, roof top termination')}
+      <table class="tbl"><tr><th>Developed length</th><th>Side wall: back pressure / fpm</th><th>Roof: back pressure / fpm</th></tr>${T49.map((r,i)=>`<tr><td>${r[0]}${r[0]===50?' +':''} ft</td><td>&lt; ${r[1].toFixed(2)} wc / ${r[2]}</td><td>&lt; ${T410[i][1].toFixed(2)} wc / ${T410[i][2]}</td></tr>`).join('')}</table>`;
+    $('len').oninput=e=>{S.len=e.target.value.replace(/[^0-9.]/g,'');};
+    p.querySelectorAll('[data-tbl]').forEach(b=>b.onclick=()=>{S.table=b.dataset.tbl;update();});
+  } else if(step==='test'){
+    const g=S.energized?reading('gauge'):null;
+    p.innerHTML=`${S.clean!=='clean'&&C.gauge!=null?'<p class="eyebrow" style="color:#c0392b">The run has not been cleaned yet.</p>':''}
+      <h3>Blower</h3>${opt('dev','dedp',S.dev==='dedp','NADCA DEDP test blower on a 4 in test duct','Transition off, test duct clamped to the wall port (3.1.1 to 3.1.5).')}${opt('dev','dryer',S.dev==='dryer','Run the dryer and read that')}
+      <h3>Pressure tap on the test duct</h3>${opt('tap','end',S.tap==='end','At the blower end')}${opt('tap','mid',S.tap==='mid','Halfway along, on top or on the outside of the bend')}
+      <h3>Run it</h3><div class="gauge"><button type="button" class="btn alt" id="on">${S.energized?'Running':'Energize'}</button>${C.booster?`<button type="button" class="btn alt" id="wait"${!S.energized||S.waited?' disabled':''}>${S.waited?'Booster switch engaged':'Wait for the booster switch'}</button>`:''}<span class="dial">${g==null?'--':g.toFixed(2)}<small>in wc</small></span></div>
+      <h3>Airflow at the termination (3.2.1)</h3><div class="gauge">${['top','bottom','side'].map(w=>`<button type="button" class="btn alt" data-read="${w}"${!S.energized?' disabled':''}>${w}: ${S.reads[w]!=null?S.reads[w]+' fpm':'read'}</button>`).join('')}</div>
+      <h3>Velocity you record (4.3)</h3><div class="chips">${Object.entries(S.reads).map(([w,v])=>chip('rec',v,S.recorded===v,v+' fpm ('+w+')')).join('')||'<span class="eyebrow">Take readings first.</span>'}</div>
+      ${C.gauge==null?'<p class="eyebrow" style="margin-top:10px">There is no termination on this run to read at.</p>':''}`;
+    p.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>{S.dev=b.dataset.dev;update();});
+    p.querySelectorAll('[data-tap]').forEach(b=>b.onclick=()=>{S.tap=b.dataset.tap;update();});
+    $('on').onclick=()=>{if(C.gauge==null){say('Nothing to test against.','No termination. DEDP 1.2.3 needs the termination accessible.');update();return;}if(S.clean!=='clean')S.testBeforeClean=true;S.energized=true;S.gaugeRead=reading('gauge');say('Blower running.','Let it run at least a minute (3.1.6), then read the gauge.');update();};
+    const w=$('wait');if(w)w.onclick=()=>{S.waited=true;S.reads={};S.recorded=null;S.gaugeRead=reading('gauge');say('Booster pressure switch engaged.','That takes 30 seconds to a minute after the test blower starts (3.1.6.1).');update();};
+    p.querySelectorAll('[data-read]').forEach(b=>b.onclick=()=>{const k=b.dataset.read;S.reads[k]=reading(k);update();});
+    p.querySelectorAll('[data-rec]').forEach(b=>b.onclick=()=>{S.recorded=+b.dataset.rec;update();});
+  } else {
+    p.innerHTML=`<h3>Result (4.7)</h3>${opt('res','pass',S.result==='pass','Pass')}${opt('res','fail',S.result==='fail','Fail')}${opt('res','none',S.result==='none','No test: the run is not ready to test','Report the condition first (1.3.7).')}
+      <h3>Recommendations for the owner (4.8)</h3><div class="chips">${Object.entries(RECS).map(([k,l])=>chip('recs',k,S.recs.includes(k),l)).join('')}</div>`;
+    p.querySelectorAll('[data-res]').forEach(b=>b.onclick=()=>{S.result=b.dataset.res;update();});
+    p.querySelectorAll('[data-recs]').forEach(b=>b.onclick=()=>{tog(S.recs,b.dataset.recs);update();});
+  }
+}
+function done(k){return k==='inspect'?Object.keys(S.seen).length===parts(C).length:k==='clean'?!!S.clean:k==='length'?!!(S.len&&S.table):k==='test'?(C.gauge==null||S.recorded!=null):!!S.result;}
+const tog=(a,v)=>{const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);};
+function look(id){sel=id;if(!S.seen[id]){S.seen[id]=obs(id);}say(pname(id),S.seen[id].t);update();}
+function hud(){
+  $('msg').innerHTML=MSG?`<b>${esc(MSG.t)}</b><span>${esc(MSG.s||'')}</span>`:'<b>Read the call, then walk the run.</b><span>Five steps, the same order the DEDP puts them in. Tap parts on the drawing to inspect them.</span>';
+  const best=readBest();$('cases').innerHTML=CASES.map(c=>`<button type="button" class="case${c===C?' on':''}${best[c.id]!=null?' done':''}" data-case="${c.id}" data-best="${best[c.id]!=null?best[c.id]:''}"><b>Job ${c.id}</b>${esc(c.title)}</button>`).join('');
+}
+function update(){draw();pane();hud();}
+// ---------- grading ----------
+function grade(){
+  const E=expected(C),out=[];let score=100;const hit=(ok,g,b,why,pen)=>{out.push({ok,t:ok?g:b,why});if(!ok)score-=pen;};
+  const list=parts(C),miss=list.filter(p=>!S.seen[p]);
+  for(const k of['trans','port','hood','booster','trap'])if(list.includes(k)&&!S.seen[k]){const why={trans:'DEDP 1.2.1 and 1.9: the transition has to be accessible and checked against code.',port:'DEDP 1.2.2: the transition connection to the permanent duct.',hood:'DEDP 1.2.3 and 1.3.4 to 1.3.5: the termination device and its barrier.',booster:'DEDP 1.6: determine if a booster fan is present and working before the test.',trap:'DEDP 1.7: determine if a secondary lint trap is present and clean before the test.'}[k];hit(false,'','Never looked at the '+pname(k).toLowerCase()+'.',why,8);}
+  if(!miss.length)out.push({ok:true,t:'Every part of the run inspected before testing.',why:'DEDP 1.2 to 1.9.'});
+  const want=new Set();for(const id of Object.keys(C.obs))if(S.seen[id])(C.obs[id].code||[]).forEach(c=>want.add(c));
+  for(const c of want)if(!S.codes.includes(c)){out.push({ok:false,t:'Missed a code call: '+CODE[c][0].toLowerCase()+'.',why:CODE[c][1]});score-=8;}
+  for(const c of S.codes)if(!want.has(c)){out.push({ok:false,t:'Code call you cannot back up: '+CODE[c][0].toLowerCase()+'.',why:'Nothing you inspected shows it.'});score-=4;}
+  if(want.size&&[...want].every(c=>S.codes.includes(c))&&S.codes.every(c=>want.has(c)))out.push({ok:true,t:'Code calls match what you found.',why:[...want].map(c=>CODE[c][1]).join('; ')});
+  const shouldHold=C.term==='none';
+  hit(S.clean===(shouldHold?'hold':'clean'),shouldHold?'Held the cleaning to trace the run.':'Cleaned and confirmed clean before the test.',S.clean==null?'No cleaning decision.':shouldHold?'Cleaned a run that ends in the attic.':'Held the cleaning on a run that was ready to clean.',shouldHold?'With no termination, brushing or blowing from inside packs lint into the attic. Trace it first.':'DEDP 1.1 and 3.0.1: the test is for a duct confirmed clean.',15);
+  if(!shouldHold){
+    hit(+S.len===E.L,`Developed length ${E.L} ft.`,`Developed length ${S.len||'blank'}; it is ${E.L} ft.`,`${C.straight} ft of hard pipe plus ${C.elbows} hard elbows at 5 ft each (DEDP 1.8.3). The transition does not count.`,10);
+    hit(S.table===C.term,C.term==='roof'?'Used the roof top table.':'Used the side wall table.','Wrong performance table.','DEDP 1.8.4 and 4.6.1: the termination location picks the table. Roof and side wall share velocity minimums, not pressure limits.',10);
+    hit(!S.testBeforeClean,'Tested only after cleaning.','Ran the test before the run was cleaned.','DEDP 3.0.1: the test is for duct that is inspected and confirmed clean.',8);
+    hit(S.dev==='dedp','Tested with the DEDP blower.',S.dev?'Tested on the dryer blower.':'Never picked a test blower.','DEDP 3.0.2: the test shall never use the dryer blower.',15);
+    hit(S.tap==='mid','Tap halfway on the test duct, top or outside bend.','Pressure tap in the wrong spot.','DEDP 3.1.2: the tap goes halfway along the test duct, on top or on the outside of a bend.',6);
+    if(C.booster)hit(S.waited,'Waited for the booster switch before reading.','Read the gauge before the booster fan kicked on.','DEDP 3.1.6.1: give the booster pressure switch 30 seconds to a minute to engage.',8);
+    hit(Object.keys(S.reads).length===3,'Three velocity readings at the termination.','Fewer than three velocity readings.','DEDP 3.2.1.1: at least three readings in different spots, like top, bottom, and side.',4);
+    hit(S.recorded===E.v&&(!C.booster||S.waited),`Recorded the maximum, ${E.v} fpm.`,'Recorded the wrong velocity.','DEDP 3.2.1.1 and 4.3: record the highest reading found.',8);
+  } else {
+    hit(!S.energized,'Did not try to test a run with no termination.','Tried to test a run with no termination.','DEDP 1.2.3 and 1.3.4: there is no termination device to test at. 1.3.7 recommends the test not proceed until the condition is remedied or reported.',6);
+  }
+  hit(S.result===E.result,E.result==='none'?'No test, condition reported.':'Called it '+E.result+'.','Called it '+(S.result||'nothing')+'; the right call is '+(E.result==='none'?'no test':E.result)+'.',E.result==='none'?'No termination, no test. Report it.':`Table ${C.term==='roof'?'4.10 roof':'4.9 side wall'}, ${E.row[0]}${E.row[0]===50?' ft and over':' ft'}: back pressure under ${E.row[1].toFixed(2)} wc (read ${C.gauge.toFixed(2)}, ${E.pOk?'ok':'fails'}) and at least ${E.row[2]} fpm (max ${E.v}, ${E.vOk?'ok':'fails'}). Both have to pass.`,20);
+  const rMiss=C.recs.filter(r=>!S.recs.includes(r)),rExtra=S.recs.filter(r=>!C.recs.includes(r));
+  for(const r of rMiss){out.push({ok:false,t:'Missing recommendation: '+RECS[r][0].toLowerCase()+RECS[r].slice(1)+'.',why:recWhy(r)});score-=6;}
+  for(const r of rExtra){out.push({ok:false,t:'Recommended something this job does not need: '+RECS[r][0].toLowerCase()+RECS[r].slice(1)+'.',why:'Sell what you found.'});score-=3;}
+  if(!rMiss.length&&!rExtra.length)out.push({ok:true,t:'Recommendations fit the job.',why:'DEDP 4.8.'});
+  return {score:Math.max(0,Math.round(score)),out,E};
+}
+function recWhy(r){return {r_trans:'IRC M1502.4.3: one length, listed and labeled to UL 2158A, 8 ft max, not concealed.',r_screen:'IRC M1502.3: no screens at a dryer termination.',r_route:'IRC M1501.1 and M1502.3: dryer exhaust terminates outside the building, never in an attic.',r_clear:'IRC M1502.3: at least 3 ft in any direction from openings into the building when the maker names no location.',r_label:'IRC M1502.4.7: over 35 ft equivalent needs a permanent label within 6 ft of the connection.',r_screws:'IRC M1502.4.2: fasteners may stick into the duct no more than 1/8 in.',r_design:'A clean run that still fails on a long route is a design problem. Another cleaning will not stop the high-limit trips. At 50 ft equivalent this run is also over the IRC 35 ft specified length (M1502.4.6.1), so it is legal only if the dryer maker allows that length (M1502.4.6.2).'}[r];}
+// ---------- wiring ----------
+function readBest(){try{return JSON.parse(localStorage.getItem('vel-vent')||'{}')||{};}catch(e){return {};}}
+function load(id){C=CASES.find(c=>c.id===id)||CASES[0];S=fresh();step='inspect';sel=null;MSG=null;update();}
+svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');if(!g)return;step='inspect';look(g.dataset.t);});
+$('steps').addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(!b)return;step=b.dataset.step;update();});
+$('cases').addEventListener('click',e=>{const b=e.target.closest('[data-case]');if(b)load(+b.dataset.case);});
+$('submit').onclick=()=>{
+  const G=grade();
+  try{const b=readBest();b[C.id]=Math.max(b[C.id]||0,G.score);localStorage.setItem('vel-vent',JSON.stringify(b));const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m['vent-call']||{n:0,best:0};m['vent-call']={n:(r.n||0)+1,best:Math.max(r.best||0,G.score),last:G.score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'vent-call'},location.origin);}catch(e){}
+  const next=CASES.find(c=>c.id===C.id+1);
+  $('report').innerHTML=`<p class="eyebrow">Job ${C.id} · ${esc(C.title)} · graded against the DEDP and the IRC</p><div class="big">${G.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div><ul class="rep">${G.out.map(r=>`<li class="${r.ok?'':'bad'}">${esc(r.t)}<span>${esc(r.why)}</span></li>`).join('')}</ul>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${next?`<button type="button" class="btn" id="next">Job ${next.id}: ${esc(next.title)}</button>`:''}<button type="button" class="btn alt" id="retry">Run this job again</button><button type="button" class="btn alt" id="close">Back to the job</button></div>`;
+  $('over').style.display='flex';if(next)$('next').onclick=()=>{$('over').style.display='none';load(next.id);};$('retry').onclick=()=>{$('over').style.display='none';load(C.id);};$('close').onclick=()=>{$('over').style.display='none';};
+  ($('next')||$('retry')).focus({preventScroll:true});$('over').scrollTop=0;
+};
+// The right way through each job, used by the self-test.
+function solve(id){load(id);const E=expected(C);parts(C).forEach(p=>{S.seen[p]=obs(p);});
+  const want=new Set();Object.values(C.obs).forEach(o=>(o.code||[]).forEach(c=>want.add(c)));S.codes=[...want];
+  if(C.term==='none'){S.clean='hold';S.result='none';S.recs=C.recs.slice();return grade();}
+  S.clean='clean';S.len=String(devLen(C));S.table=C.term;S.dev='dedp';S.tap='mid';S.energized=true;if(C.booster)S.waited=true;
+  for(const w of['top','bottom','side'])S.reads[w]=reading(w);S.recorded=Math.max(...Object.values(S.reads));S.result=E.result;S.recs=C.recs.slice();return grade();}
+window.__VENT={get S(){return S},get C(){return C},load,grade,expected,solve,reading,CASES};
+load(1);
+</script>
+</body>
+</html>

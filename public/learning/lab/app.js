@@ -402,7 +402,9 @@
       + metrics
       + `<div class="grid"><section class="panel"><div class="row-between"><h2>Domain readiness</h2><span class="small muted hint">Tap a domain to drill it</span></div><div class="domain-list">${domRows || '<p class="muted">No domains in this bundle.</p>'}</div></section>${lessonsPanel}</div>`
       + ruleLine(D, S)
-      + (V.field && id !== 'dvt' ? `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the job the standard describes.</h2><p class="muted">Job sims graded on return first, negative air, rod reach, and patching every hole. Print-reading drills for spotting supply and return on sight.</p></div><a class="btn secondary" href="${link('field')}">Open field training</a></section>` : '');
+      + (V.field ? (id === 'dvt'
+        ? `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the dryer vent job.</h2><p class="muted">Five jobs: inspect the run, make the code calls, work out developed length, run the DEDP test, and make the pass or fail call.</p></div><a class="btn secondary" href="${link('field', 'vent-call')}">Open Vent Call</a></section>`
+        : `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the job the standard describes.</h2><p class="muted">Job sims graded on return first, negative air, rod reach, and patching every hole. Inspection casework graded against ACR 2025. Print-reading drills for spotting supply and return on sight.</p></div><a class="btn secondary" href="${link('field')}">Open field training</a></section>`) : '');
     main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; S.planAt = Date.now(); save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
     const date = $('exam-date'), mins = $('exam-min');
     date.onchange = () => { S.plan.date = date.value; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-date'); if (f) f.focus(); };

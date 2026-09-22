@@ -145,31 +145,31 @@ const CASES=[
        S3:{t:'Particulate layer along the trunk bottom.',tags:['N-1']}}},
  {id:3,title:'Walk-in clinic',rule:'Suspect microbial contamination in the air-handling unit SHALL start a duct inspection, and the supply and the return ducts SHALL be inspected at that same time (1.9.1). Condition 1, 2, and 3 status is an IEP determination (D-84).',
   order:['<b>Work order:</b> Musty odor complaint at Eastgate Walk-In Clinic.','<b>Client note:</b> "Patients say the exam rooms smell musty when the air kicks on."','<b>System:</b> The supply plenum and trunk are lined with fibrous glass duct liner. Plans are on file.'],
-  brief:[],zones:['Waiting room','Exam rooms','Lab'],hint:['B2','pan'],
+  brief:[],zones:['Waiting room','Exam rooms','Lab'],hint:['B2','pan'],okTrig:['N-1','N-5'],
   obs:{pan:{t:'Standing water in the condensate pan. Dark, fuzzy, suspect growth on the pan and on the underside of the coil.',mic:true,tags:[]},
        coil:{t:'Suspect growth on the downstream coil face, the same look as the pan.',mic:true,tags:[]},
        B2:{t:'Musty odor strong at the exam room diffusers.',tags:['N-3']},
        S1:{t:'Lined trunk. The liner surface is eroding and flaking into the airstream.',tags:['N-10']},
        ins:{t:'Acoustic insulation near the drain pan is wet and sagging.',tags:['N-10']}}},
- {id:4,title:'Office after a fit-out',rule:'An inspection for cleanliness is recommended before the system operates after construction (1.6-b). When exposure to hazardous materials is possible, consult a qualified IEP (1.8-a).',
+ {id:4,title:'Office after a fit-out',rule:'An inspection for cleanliness is recommended before the system operates after construction (1.6-b). When exposure to hazardous materials is possible, consulting a qualified IEP or a health and safety professional is recommended (1.8-a, 1.8-b). Both are REC, not SHALL.',
   order:['<b>Work order:</b> Post-construction inspection for Tenant 210 before startup.','<b>GC note:</b> "The system ran during drywall and sanding. VAV box 3 and its branch are new this week. We are holding startup until you clear it."','<b>Also on site:</b> The mechanical room has old pipe insulation from the original 1970s building.'],
   brief:[],zones:['Reception','Work area','New suite'],hint:['V3','B3'],
-  obs:{S1:{t:'Heavy drywall dust through the trunk, white and chalky.',tags:['N-8']},
-       S2:{t:'Drywall dust and sanding debris along the bottom.',tags:['N-8']},
-       V3:{t:'New VAV box. Construction dust inside it before it has ever run.',tags:['N-16']},
-       B3:{t:'New branch. Dust and a drywall screw inside the duct.',tags:['N-16']},
-       RP:{t:'Rodent droppings and shredded paper nesting in the return plenum corner.',tags:['N-6']},
+  obs:{S1:{t:'Heavy drywall dust through the trunk, white and chalky.',tags:['N-1','N-8']},
+       S2:{t:'Drywall dust and sanding debris along the bottom.',tags:['N-1','N-8']},
+       V3:{t:'New VAV box. Construction dust inside it before it has ever run.',tags:['N-1','N-8','N-16']},
+       B3:{t:'New branch. Dust and a drywall screw inside the duct.',tags:['N-1','N-8','N-16']},
+       RP:{t:'Rodent droppings and shredded paper nesting in the return plenum corner.',tags:['N-1','N-6']},
        integ:{t:'The unit itself is sound. Right beside it, old wrapped pipe insulation is flaking, and it could contain asbestos.',haz:true}}},
  {id:5,title:'School wing remediation',rule:'For a microbial remediation project to ANSI/IICRC S520, the inspection SHALL include all components, not 10% (1.7-d).',
   order:['<b>Work order:</b> Pre-cleaning inspection for the east wing of Pine Ridge Elementary.','<b>IEP report attached:</b> "Condition 3 confirmed in the Zone 3 supply branch after the roof leak. Remediation will follow ANSI/IICRC S520."','<b>System:</b> Same layout as the plans. The system has been off since the leak.'],
   brief:['N-9'],zones:['Classrooms','Library','East classrooms'],hint:['B3'],s520:true,okRefs:['iep_mic'],
   obs:{B3:{t:'Water-stained, delaminating liner in the branch. Visible growth, matching the IEP report.',tags:['N-5','N-10']},
-       V3:{t:'Water marks inside the VAV box casing. Reheat coil fins corroded.',tags:['N-5']},
+       V3:{t:'Water marks inside the VAV box casing. Reheat coil fins corroded.',tags:['N-5'],dmg:true},
        R2:{t:'Silt and debris line on the duct bottom where water ran through.',tags:['N-1','N-5']},
-       filt:{t:'Filters water stained and collapsed in the rack. Air bypasses around them.',tags:['N-5']}}}
+       filt:{t:'Filters water stained and collapsed in the rack. Air bypasses around them.',tags:['N-5'],dmg:true}}}
 ];
 const RULES=[
- ['1.0-a','SHALL','An inspection determines the need for cleaning, the scope of work, and the engineering controls.'],
+ ['1.0-a to 1.0-c','SHALL','An inspection determines the need for cleaning, the scope of work, and the engineering controls, safety measures, and equipment.'],
  ['1.2.1','SHALL','Before the inspection, the inspector understands its effect on the building and the occupants.'],
  ['1.3-b','SHALL','Building floor plans and mechanical plans are in use during the inspection, if they exist.'],
  ['1.4-d','SHALL','Appropriate engineering controls manage the workspace during an inspection. Settled particulate gets disturbed when you open things.'],
@@ -186,7 +186,7 @@ const RULES=[
  ['N-0','REC','An inspection that shows one condition from the need-to-clean list starts a cleaning.'],
  ['N-1','REC','The components show the presence of particulate. (The 2025 edition lowered this from an accumulation.)'],
  ['N-9','REC','Microbial contamination reaches Condition 2 or Condition 3.'],
- ['D-84','DEF','An IEP determines Condition 1, 2, and 3 status. You can suspect growth. You do not call its Condition.']
+ ['D-84','DEF','An IEP determines Condition 1, 2, and 3 status and verifies the return to Condition 1. Your preliminary determination (1.9-a) is not that determination, so N-9 waits for the IEP.']
 ];
 
 // ---------- state ----------
@@ -231,16 +231,16 @@ function grade(){
   const missed=C.hint.filter(h=>!S.seen[h]);
   hit(!missed.length,C.hint.length?'Checked where the work order pointed.':'No complaint area to chase on this one.','Never looked at '+missed.map(nameOf).join(' or ')+', where the work order pointed.','Read the work order like evidence. The complaint tells you where to open first.',10);
   hit(F.rec===T.rec,T.rec?'Recommended cleaning.':'Recommended no cleaning.',F.rec===null?'No recommendation on the need for cleaning.':(F.rec?'Recommended cleaning with nothing on the list to support it.':'Said no cleaning, but what you saw meets the need-to-clean list.'),'1.10-b SHALL: the assessment recommends on the need for cleaning. N-0: one condition from the list starts a cleaning.',20);
-  const tMiss=[...T.trig].filter(t=>!F.trig.includes(t)),tExtra=F.trig.filter(t=>!T.trig.has(t));
+  const tMiss=[...T.trig].filter(t=>!F.trig.includes(t)),tExtra=F.trig.filter(t=>!T.trig.has(t)&&!(C.okTrig||[]).includes(t));
   for(const t of tMiss){out.push({ok:false,t:`Missed a reason: ${t}, ${TRIG[t].toLowerCase()}.`,why:reasonWhy(t)});score-=6;}
-  for(const t of tExtra){out.push({ok:false,t:`Listed a reason you cannot support: ${t}, ${TRIG[t].toLowerCase()}.`,why:t==='N-9'?'D-84: Condition status is an IEP determination. Suspect growth goes to the IEP (1.9-b); you do not call Condition 2 or 3 yourself.':'Nothing you inspected or read in the work order shows this.'});score-=4;}
+  for(const t of tExtra){out.push({ok:false,t:`Listed a reason you cannot support: ${t}, ${TRIG[t].toLowerCase()}.`,why:t==='N-9'?'D-84: Condition status is an IEP determination. Your preliminary call (1.9-a) is not that determination, so suspect growth goes to the IEP or other appropriate professional (1.9-b) before N-9 applies.':'Nothing you inspected or read in the work order shows this.'});score-=4;}
   if(T.trig.size&&!tMiss.length&&!tExtra.length)out.push({ok:true,t:'Reasons to clean match what you found.',why:[...T.trig].join(', ')});
   const sMiss=[...T.scope].filter(g=>!F.scope.includes(g)),sExtra=F.scope.filter(g=>!T.scope.has(g));
   for(const g of sMiss){out.push({ok:false,t:`Scope is missing the ${GROUPS[g].toLowerCase()}.`,why:'1.10-c SHALL: a clearly defined scope. You found something there.'});score-=6;}
   for(const g of sExtra){out.push({ok:false,t:`Scope includes the ${GROUPS[g].toLowerCase()} with nothing found there.`,why:'Scope follows the findings. If you did not see it, you cannot sell it.'});score-=3;}
   if(T.scope.size&&!sMiss.length&&!sExtra.length)out.push({ok:true,t:'Scope matches the findings.',why:[...T.scope].map(g=>GROUPS[g]).join(', ')});
   const rMiss=[...T.refs].filter(r=>!F.refs.includes(r)),rExtra=F.refs.filter(r=>!T.refs.has(r)&&!(C.okRefs||[]).includes(r));
-  for(const r of rMiss){out.push({ok:false,t:'Missing: '+lc1(REFS[r][0])+'.',why:REFS[r][1]+(r==='doc_dmg'?' SHALL: damaged components get documented.':' REC: that call belongs to a qualified IEP.')});score-=8;}
+  for(const r of rMiss){out.push({ok:false,t:'Missing: '+lc1(REFS[r][0])+'.',why:REFS[r][1]+(r==='doc_dmg'?' SHALL: damaged components get documented.':' REC: that call belongs to a qualified IEP or other appropriate professional.')});score-=8;}
   for(const r of rExtra){out.push({ok:false,t:'Unneeded: '+lc1(REFS[r][0])+'.',why:'Nothing you saw calls for it.'});score-=3;}
   if(T.refs.size&&!rMiss.length&&!rExtra.length)out.push({ok:true,t:'Referrals and documentation are right.',why:[...T.refs].map(r=>REFS[r][1]).join(', ')});
   return {score:Math.max(0,Math.round(score)),out,T};
