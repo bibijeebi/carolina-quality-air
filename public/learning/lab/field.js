@@ -5,6 +5,9 @@
   const { esc, head, empty, fmtDate } = V.u;
   const KEY = 'vel-field'; // the sims in field/ write their own results here (same origin), so full-screen runs count too
   const TOOLS = [
+    { id: 'attic-job', file: 'attic-job.html', kind: 'Job sim', title: 'Attic Job', score: true,
+      blurb: 'The residential attic job in cutaway. Walk it, kill the system, cut access, hook and tie the vac, whip the far end first and forward it to the vac, wash and zip the grilles, patch the right material, and close out. You see the dust move. The lead grades it out of 100 against their own order.',
+      pairs: ['ascs', 'cvi'] },
     { id: 'job-board', file: 'job-board.html', kind: 'Job planner', title: 'Job Board', score: true,
       blurb: 'The whole job on a mechanical plan, one move at a time. Every move shows what the rod reaches and where the dust goes before you commit. Learn mode shows what the lead would flag; Test mode grades you blind against par.',
       pairs: ['ascs', 'cvi'] },
@@ -14,12 +17,6 @@
     { id: 'vent-call', file: 'vent-call.html', kind: 'Dryer vent casework', title: 'Vent Call', score: true,
       blurb: 'Five dryer vent jobs. Inspect the run, make the IRC code calls, clean it, work out developed length, run the DEDP test the right way, and make the pass or fail call.',
       pairs: ['dvt'] },
-    { id: 'duct-sim', file: 'duct-sim.html', kind: 'Job sim', title: 'Residential attic job', score: true,
-      blurb: 'Walk the system, cut access, run the negative air, whip from the far end toward the machine, wash the grilles, and patch every hole. Scored out of 100 on the rules a lead checks.',
-      pairs: ['ascs', 'cvi'] },
-    { id: 'crew-sim', file: 'crew-sim.html', kind: 'Job sim', title: 'Crew sim with the lead’s grade', score: true,
-      blurb: 'Pick the right tool off the belt for every step. Return before supply, negative air before whipping, the right patch for metal and duct board. The lead grades it out of 100 and times you.',
-      pairs: ['ascs'] },
     { id: 'duct-reflex', file: 'duct-reflex.html', kind: 'Speed drill', title: 'Duct Reflex',
       blurb: 'Supply, return, exhaust, or outdoor air, on sight. Real mechanical sheets with hotspots, fast field scenes, and a trace mode until reading a system is boring.',
       pairs: ['ascs', 'cvi'] },

@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Attic Job: residential duct cleaning sim</title>
+<meta name="description" content="Residential attic duct cleaning job. Tool belt, real rod reach, visible airflow, and the lead's grade out of 100.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+:root{--ink:#1c2b36;--muted:#5d7282;--paper:#eef3f7;--sheet:#fff;--line:#d3dee6;--blue:#007cba;--blue-soft:#dcedf7;--rust:#b5452f;--gold:#e8a917;--gold-soft:#fff3cf;--green:#2e8b57;--green-soft:#e1f2e8;--red:#c0392b;--red-soft:#fbe4e1}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-size:15px;line-height:1.4}
+button{font:inherit;color:inherit}
+#app{max-width:1320px;margin:0 auto;padding:8px 10px 16px;display:grid;gap:8px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;background:#fff;border:1px solid var(--line);border-radius:3px;padding:6px 10px}
+.home{font-weight:700;color:var(--blue);text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center}
+.home:hover{background:var(--blue-soft)}
+.bar h1{font-family:'Hind Madurai',Jost,sans-serif;font-size:1.15rem;margin:0;letter-spacing:.03em;text-transform:uppercase;color:var(--blue)}
+.stat{font-size:.82rem;color:var(--muted);display:flex;gap:5px;align-items:center}
+.stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+.stat b.on{color:var(--green)}.stat b.off{color:var(--red)}
+.meter{width:56px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--green);transition:width .3s}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:5px 10px;min-height:34px;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--blue);color:#fff}
+.btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:3px;padding:6px 12px;min-height:36px;font-weight:600;cursor:pointer}
+.btn.alt{background:#fff;color:var(--blue);border-color:#b7cad7}
+.btn:disabled{opacity:.4;cursor:default}
+.scene{background:#fff;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.belt{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 4px}
+.tool{flex:0 0 auto;border:2px solid #b7cad7;background:#fff;border-radius:6px;padding:5px 9px;min-height:50px;min-width:88px;cursor:pointer;text-align:left;line-height:1.15}
+.tool b{display:block;font-size:.88rem}.tool small{color:var(--muted);font-size:.72rem}
+.tool kbd{float:right;font-size:.65rem;color:#9fb3c3;font-family:inherit;margin-left:6px}
+.tool.on{border-color:var(--gold);background:var(--gold-soft)}
+.lower{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:8px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:3px;padding:10px 12px;min-width:0}
+.msg{min-height:3.2em}.msg b{display:block}.msg b.bad{color:var(--red)}.msg b.good{color:var(--green)}.msg span{color:var(--muted);font-size:.86rem;display:block}
+.who{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.prev{margin-top:6px;font-size:.84rem;border-left:3px solid var(--gold);padding:3px 0 3px 9px;display:none}
+.prev.show{display:block}.prev .bad{color:var(--red);font-weight:600}.prev .good{color:var(--green);font-weight:600}
+.choices{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.picks{display:flex;flex-wrap:wrap;gap:5px}
+.pick{border:1px solid var(--line);background:#fff;border-radius:14px;padding:4px 10px;font-size:.78rem;cursor:pointer;min-height:32px}
+.eyebrow{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 5px}
+details summary{cursor:pointer;font-weight:600;font-size:.88rem}
+.log{max-height:170px;overflow:auto;font-size:.8rem;margin:6px 0 0;padding-left:20px;color:var(--muted)}.log li.f{color:var(--red)}
+#over{position:fixed;inset:0;background:#1c2b36cc;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:22px 12px;z-index:9}
+#over .card{max-width:780px;width:100%}
+.big{font-family:'Hind Madurai',Jost,sans-serif;font-size:3rem;font-weight:700;color:var(--blue);line-height:1}
+table.g{border-collapse:collapse;width:100%;font-size:.86rem;margin:10px 0}
+table.g td{border-bottom:1px solid var(--line);padding:5px 6px}table.g td:nth-child(2){font-weight:700;white-space:nowrap}
+.rep{list-style:none;padding:0;margin:8px 0}.rep li{padding:6px 10px;margin:4px 0;border-left:4px solid var(--red);background:var(--red-soft);font-size:.86rem}.rep li span{display:block;color:var(--muted);font-size:.8rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cols ol{padding-left:20px;margin:6px 0;font-size:.8rem}
+.hit{fill:transparent;stroke:transparent;cursor:pointer}
+.rot{display:none;margin:0;font-size:.8rem;color:#5d7282}
+@media (max-width:700px) and (orientation:portrait){.rot{display:block}}
+.lbl{font-size:13px;fill:#5d7282;pointer-events:none;font-family:Jost,sans-serif}
+.pct{font-size:11px;fill:#fff;font-weight:700;pointer-events:none;paint-order:stroke;stroke:#3a2a1a;stroke-width:3px}
+.room{font-size:12px;letter-spacing:.12em;fill:#8aa0b0;font-weight:600;pointer-events:none}
+.flow{fill:none;stroke-width:4;stroke-dasharray:9 8;animation:dash .8s linear infinite;pointer-events:none}
+@keyframes dash{to{stroke-dashoffset:-17}}
+@media (prefers-reduced-motion:reduce){.flow{animation:none}}
+@media (max-width:860px){.belt{flex-wrap:nowrap;overflow-x:auto}.lower{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.scene{position:sticky;top:0;z-index:3;box-shadow:0 4px 10px #1c2b3620}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bar">
+    <a class="home" href="../#/field" target="_top">&larr; Field training</a>
+    <h1>Attic Job</h1>
+    <div class="seg" role="group" aria-label="Mode"><button type="button" data-mode="learn" class="on">Learn</button><button type="button" data-mode="test">Test</button></div>
+    <span class="stat">Clock <b id="clock">0:00</b></span>
+    <span class="stat">System <b id="sys">ON</b></span>
+    <span class="stat">Vac <b id="vac">off</b></span>
+    <span class="stat">Return <span class="meter"><i id="m-ret"></i></span></span>
+    <span class="stat">Supply <span class="meter"><i id="m-sup"></i></span></span>
+    <span class="stat">Flags <b id="flags">0</b></span>
+    <span class="spacer"></span>
+    <button type="button" class="btn alt" id="undo">Undo</button>
+    <button type="button" class="btn" id="finish">Finish job</button>
+  </div>
+  <div class="scene"><svg id="svg" viewBox="0 170 1300 530" role="img" aria-label="Cutaway of a house with the attic duct system"></svg></div>
+  <p class="rot" id="rot">Turn your phone sideways for a bigger view of the attic.</p>
+  <div class="belt" id="belt" role="toolbar" aria-label="Tool belt"></div>
+  <div class="lower">
+    <div class="card"><div class="who" id="who">Lead</div><div class="msg" id="msg" role="status" aria-live="polite"></div><div class="prev" id="prev"></div><div class="choices" id="choices"></div></div>
+    <div class="card"><p class="eyebrow">Tap a spot, or pick it here</p><div class="picks" id="picks"></div><details style="margin-top:8px"><summary>Job log</summary><ol class="log" id="log"></ol></details></div>
+  </div>
+</div>
+<div id="over"><div class="card" id="report"></div></div>
+<script>
+'use strict';
+// ---------- the house (local coords; the house group is shifted right to make room for the van) ----------
+const OX=110;
+const Q=(x0,y0,cx,cy,x1,y1)=>{const o=[];for(let i=0;i<=14;i++){const t=i/14,a=(1-t)*(1-t),b=2*(1-t)*t,c=t*t;o.push([a*x0+b*cx+c*x1,a*y0+b*cy+c*y1]);}return o;};
+const TY=360,TH=26;
+const SEG={
+  RP:{side:'return',kind:'plenum',mat:'metal',label:'return plenum',up:null,r:[420,346,50,56]},
+  R1:{side:'return',kind:'trunk',label:'near return trunk',up:'RP',r:[350,TY,70,TH]},
+  R2:{side:'return',kind:'trunk',label:'far return trunk',up:'R1',r:[276,TY,74,TH]},
+  bLR:{side:'return',kind:'flex',label:'living room return flex',up:'R1',p:Q(386,386,380,404,396,420),reg:'LR'},
+  SP:{side:'supply',kind:'plenum',mat:'board',label:'supply plenum',up:null,r:[540,346,50,56]},
+  T1:{side:'supply',kind:'trunk',label:'supply trunk 1',up:'SP',r:[590,TY,90,TH]},
+  T2:{side:'supply',kind:'trunk',label:'supply trunk 2',up:'T1',r:[680,TY,90,TH]},
+  T3:{side:'supply',kind:'trunk',label:'supply trunk 3',up:'T2',r:[770,TY,90,TH]},
+  T4:{side:'supply',kind:'trunk',label:'supply trunk 4',up:'T3',r:[860,TY,90,TH]},
+  T5:{side:'supply',kind:'trunk',label:'supply trunk 5, end cap',up:'T4',r:[950,TY,80,TH]},
+  bA:{side:'supply',kind:'flex',label:'kitchen flex',up:'T1',p:Q(626,386,616,406,640,420),reg:'A'},
+  bBa:{side:'supply',kind:'flex',label:'bath flex',up:'T2',p:Q(726,386,748,404,742,420),reg:'Ba'},
+  bB:{side:'supply',kind:'flex',label:'bedroom B flex',up:'T4',p:Q(906,386,884,404,882,420),reg:'B'},
+  bC:{side:'supply',kind:'flex',label:'bedroom C flex, off the end cap',up:'T5',p:Q(1030,373,1070,378,1082,420),reg:'C'}
+};
+for(const k in SEG){const s=SEG[k];if(s.r){const[x,y,w,h]=s.r;s.c=[x+w/2,y+h/2];s.a=s.kind==='plenum'?[x+w/2,y+h/2]:(s.side==='supply'?[x,y+h/2]:[x+w,y+h/2]);}else{s.c=s.p[7];s.a=s.p[0];}}
+const REG={
+  RG:{seg:'R2',name:'hallway return grille',soil:'caked',x:292,room:'hallway'},
+  LR:{seg:'bLR',name:'living room return',soil:'light',x:396,room:'living room'},
+  A:{seg:'bA',name:'kitchen supply',soil:'greasy',x:640,room:'kitchen'},
+  Ba:{seg:'bBa',name:'bath supply',soil:'light',x:742,room:'bath'},
+  B:{seg:'bB',name:'bedroom B supply',soil:'caked',x:882,room:'bedroom B'},
+  C:{seg:'bC',name:'bedroom C supply',soil:'caked',x:1082,room:'bedroom C'}
+};
+const SOIL={light:{txt:'light dust',rag:1,hose:1,pw:1},caked:{txt:'caked dust packed into the fins',rag:.5,hose:1,pw:1},greasy:{txt:'greasy film from kitchen air',rag:.2,hose:.4,pw:1}};
+// Reach from each way in. Hard rod: straight metal, stacks about four sections. Soda rod: coils through flex and around the 90 at a takeoff.
+const REACH={
+  RP:{hard:['RP','R1','R2']}, SP:{hard:['SP','T1','T2','T3']},
+  RG:{hard:['R2','R1']}, LR:{soda:['bLR','R1']},
+  A:{soda:['bA','T1']}, Ba:{soda:['bBa','T2']}, B:{soda:['bB','T4']}, C:{soda:['bC','T5']},
+  'h:R1':{hard:['R1','R2']},'h:R2':{hard:['R2','R1']},'h:T1':{hard:['T1','T2']},'h:T2':{hard:['T2','T3']},'h:T3':{hard:['T3','T4']},'h:T4':{hard:['T4','T5']},'h:T5':{hard:['T5','T4']}
+};
+const MIN_HOLES=2;
+const COST={walk:8,tstat:1,ah:20,cut8:6,hook:3,unhook:2,tie:1,mach:1,bit:2,plug:2,patch_metal:8,patch_fsk:4,pull:1,wash_rag:3,wash_hose:5,wash_pw:7,reinstall:1,zip:1,whip:3,fwd:2};
+const HATCH=[190,420],MACH=[190,610],TSTAT=[300,540];
+
+// ---------- engine: pure over state, so previews are a run on a copy ----------
+function rng(seed){let s=seed%2147483647||1;return()=>(s=s*16807%2147483647)/2147483647;}
+function fresh(seed){const r=rng(seed||7),S={seg:{},reg:{},holes:{},hose:null,tied:false,mach:false,power:true,walked:false,ah:false,min:0,vio:[],def:[],log:[],fx:[],house:0,retDone:null,supStart:null,torn:[]};
+  for(const k in SEG)S.seg[k]={g:74+Math.floor(r()*22),l:0};for(const k in REG)S.reg[k]={on:true,dirt:65+Math.floor(r()*28),zip:true};return S;}
+const copy=S=>JSON.parse(JSON.stringify(S));
+const clean=(S,k)=>S.seg[k].g<8&&S.seg[k].l<8;
+const sideSegs=s=>Object.keys(SEG).filter(k=>SEG[k].side===s);
+const sideClean=(S,s)=>sideSegs(s).every(k=>clean(S,k));
+const negOn=(S,side)=>S.mach&&S.hose&&SEG[S.hose].side===side;
+const upChain=k=>{const o=[];let c=SEG[k].up;while(c){o.push(c);c=SEG[c].up;}return o;};
+const names=ks=>ks.map(k=>SEG[k].label).join(', ');
+function flag(S,code,text,why){if(S.vio.some(v=>v.code===code))return;S.vio.push({code,text,why});S.log.push({t:text,f:1});}
+const entryName=e=>REG[e]?'the '+REG[e].name+' boot':e.startsWith('h:')?'the bit hole in '+SEG[e.slice(2)].label:'the '+SEG[e].label+' access';
+const entrySide=e=>SEG[(REACH[e].hard||REACH[e].soda)[0]].side;
+function entryOpen(S,e){if(REG[e])return !S.reg[e].on;if(e.startsWith('h:')){const h=S.holes[e.slice(2)];return !!(h&&h.type==='1'&&!h.closed);}const h=S.holes[e];return !!(h&&h.type==='8'&&!h.closed);}
+const reachSet=(e,rod)=>rod==='nozzle'?(REACH[e].hard||REACH[e].soda):REACH[e][rod]||null;
+function reachableWithoutDrilling(k){for(const e in REACH){if(e.startsWith('h:'))continue;for(const rod of['hard','soda']){const s=REACH[e][rod];if(s&&s.includes(k))return (rod==='hard'?'hard rod from ':'soda rod from ')+entryName(e);}}return null;}
+function act(S,a){
+  S.fx=[];S.dirtied=[];const cost=m=>{S.min+=m;},say=(t,s,cls)=>{S.say={t,s,cls};},logit=t=>S.log.push({t});
+  switch(a.k){
+  case 'walk':S.walked=true;cost(COST.walk);say('Walked it.','Air handler in the middle. Return plenum on the left is sheet metal, supply plenum on the right is duct board. Four supplies, two returns. The supply trunk runs five sections to an end cap, and the hard rod only stacks about four.','good');logit('Walked the job');break;
+  case 'tstat':S.power=!S.power;cost(COST.tstat);say('Thermostat: system '+(S.power?'on.':'off.'),S.power?'':'Blower is off. It cannot fight the vac now.',S.power?'':'good');logit('System '+(S.power?'on':'off')+' at the thermostat');break;
+  case 'ah':if(!(sideClean(S,'return')&&sideClean(S,'supply')))flag(S,'ah-early','Air handler opened before the ducts are done.','It sits between both sides and catches what either side knocks loose. Clean it last.');
+    S.ah=true;cost(COST.ah);say('Panel off, coil sprayed, blower wiped, panel back on.','','good');logit('Cleaned the air handler');break;
+  case 'cut8':if(!S.walked)flag(S,'walk','Cutting before you walked the job.','Hand on the air handler first. Know where the machine hooks up before anything gets opened.');
+    S.holes[a.t]={type:'8',closed:false};cost(COST.cut8);say('8 inch access cut in the '+SEG[a.t].label+'.','That is where the vac hooks up, and where the hard rod goes in.','good');logit('Cut an 8 in. access in the '+SEG[a.t].label);break;
+  case 'hook':S.hose=a.t;S.tied=false;cost(COST.hook);say('Vac hose on the '+SEG[a.t].label+'.','Tie it off with your hands, then turn the vac on.','good');logit('Hooked the vac to the '+SEG[a.t].label);break;
+  case 'unhook':logit('Pulled the hose off the '+SEG[S.hose].label);S.hose=null;S.tied=false;cost(COST.unhook);say('Hose off.','');break;
+  case 'tie':S.tied=true;cost(COST.tie);say('Hose tied off to a collar tie.','','good');logit('Tied off the hose');break;
+  case 'mach':S.mach=!S.mach;cost(COST.mach);say('Vac '+(S.mach?'on.':'off.'),S.mach&&!S.hose?'Nothing is hooked up. It is pulling on the hallway.':'',S.mach?'good':'');logit('Vac '+(S.mach?'on':'off'));break;
+  case 'bit':{if(!S.walked)flag(S,'walk','Cutting before you walked the job.','Hand on the air handler first. Know where the machine hooks up before anything gets opened.');
+    S.holes[a.t]={type:'1',closed:false};cost(COST.bit);const rw=reachableWithoutDrilling(a.t);if(rw)flag(S,'extra-'+a.t,'Extra hole in the '+SEG[a.t].label+'.','You could already reach it with the '+rw+'. Every hole is a hole you close.');
+    say('1 inch bit hole in the '+SEG[a.t].label+'.','It closes with a pop plug and FSK, no patch.','good');logit('Drilled a bit hole in the '+SEG[a.t].label);break;}
+  case 'plug':S.holes[a.t].closed=true;cost(COST.plug);say('Bit hole plugged and taped.','','good');logit('Plugged the bit hole in the '+SEG[a.t].label);break;
+  case 'patch':{const h=S.holes[a.t];h.closed=true;h.mat=a.m;cost(a.m==='metal'?COST.patch_metal:COST.patch_fsk);
+    if(!sideClean(S,SEG[a.t].side))flag(S,'patch-early-'+a.t,'Patching the '+SEG[a.t].side+' side before it is clean.','Close out is last. You will need this hole again.');
+    const right=SEG[a.t].mat==='metal'?'metal':'fsk';if(a.m!==right)S.def.push(SEG[a.t].mat==='metal'?'FSK tape alone over a hole in sheet metal. That takes a metal patch, mastic, and screws.':'A metal patch screwed into duct board. Board takes FSK tape; screws just tear it.');
+    say('Access closed on the '+SEG[a.t].label+'.',a.m!==right?'Wrong patch for that material.':'',a.m!==right?'bad':'good');logit('Patched the '+SEG[a.t].label+(a.m==='metal'?' (metal, mastic, screws)':' (FSK)'));break;}
+  case 'pull':S.reg[a.t].on=false;S.reg[a.t].zip=false;cost(COST.pull);{const s=SOIL[REG[a.t].soil].txt;say('Pulled the '+REG[a.t].name+' grille.',s[0].toUpperCase()+s.slice(1)+'. The boot is open now.');}logit('Pulled the '+REG[a.t].name+' grille');break;
+  case 'wash':{const r=S.reg[a.t],eff=SOIL[REG[a.t].soil][a.m];r.dirt=Math.round(r.dirt*(1-eff));cost(COST['wash_'+a.m]);const how={rag:'Rag',hose:'Garden hose',pw:'Pressure washer and degreaser'}[a.m];
+    say(how+' on the '+REG[a.t].name+' grille.',r.dirt>=8?Math.round(r.dirt)+'% still on it. Not enough for '+SOIL[REG[a.t].soil].txt+'.':'Clean.',r.dirt>=8?'bad':'good');logit('Washed the '+REG[a.t].name+' grille ('+how.toLowerCase()+')');break;}
+  case 'reinstall':{const R=REG[a.t],r=S.reg[a.t];r.on=true;r.zip=false;cost(COST.reinstall);
+    if(!clean(S,R.seg))flag(S,'reg-dirty-'+a.t,'The '+R.name+' grille went back on over a dirty run.','Nothing behind a grille goes back on until the run is clean.');
+    else if(r.dirt>=8)flag(S,'reg-unwashed-'+a.t,'The '+R.name+' grille went back on dirty.','The grille is the one part of the job the customer looks at.');
+    say(R.name[0].toUpperCase()+R.name.slice(1)+' grille back in the ceiling.','It is hanging loose. Zip screws.');logit('Reinstalled the '+R.name+' grille');break;}
+  case 'zip':S.reg[a.t].zip=true;cost(COST.zip);say('Zipped the '+REG[a.t].name+' grille tight.','','good');logit('Zipped the '+REG[a.t].name+' grille');break;
+  case 'whip':{const set=reachSet(a.e,a.rod),side=entrySide(a.e);
+    if(a.rod==='hard'&&REG[a.e]&&SEG[REG[a.e].seg].kind==='flex'){S.torn.push(REG[a.e].seg);flag(S,'torn-'+a.e,'Hard rod in flex. You tore the liner in the '+SEG[REG[a.e].seg].label+'.','Flex gets the soda rod. The hard rod is for straight metal.');cost(COST.whip);say('Hard rod jammed in the flex.','The inner liner tore. That branch now needs replacing.','bad');logit('Tore the '+SEG[REG[a.e].seg].label+' with the hard rod');break;}
+    if(S.power)flag(S,'power','Agitating with the system running.','The blower pushes against the vac and blows what you knock loose out the registers. Kill it at the thermostat first.');
+    if(!negOn(S,side))flag(S,'no-neg-'+side,'Agitating the '+side+' side with no negative air pulling on it.','You are redistributing dirt, not removing it. Vac on, hose on this side, first.');
+    else if(!S.tied)flag(S,'untied','Whipping with the hose loose in the attic.','Tie it off. Untied, it works its way back down the hatch.');
+    if(side==='supply'&&S.supStart==null)S.supStart=S.min;
+    if(side==='supply'&&!sideClean(S,'return'))flag(S,'order-sides','Started the supply before the return was done.','The lead called return first on this job.');
+    for(const k of set){const g=S.seg[k];const d=g.g*.92;g.g-=d;g.l+=d;}S.fx.push({t:'puff',set,side});
+    cost(COST.whip*set.length);say((a.rod==='hard'?'Hard rod':'Soda rod')+' through '+entryName(a.e)+'.','Knocked loose: '+names(set)+'. Forward it with the nozzle before you move on.');logit('Whipped '+names(set)+' ('+(a.rod==='hard'?'hard':'soda')+' rod, '+entryName(a.e)+')');break;}
+  case 'fwd':{const set=reachSet(a.e,'nozzle'),side=entrySide(a.e),ok=negOn(S,side);let moved=0;const dirtied=new Set(),was={};for(const k in SEG)was[k]=clean(S,k);
+    for(const k of set){const amt=S.seg[k].l;if(amt<1)continue;moved+=amt;S.seg[k].l=0;
+      if(ok){for(const u of upChain(k)){if(set.includes(u))continue;if(was[u]){S.seg[u].l+=amt*.3;dirtied.add(u);}}S.fx.push({t:'flow',k,ok:true});}
+      else{S.house+=amt*.5;S.seg[k].l=amt*.5;S.fx.push({t:'flow',k,ok:false});}}
+    cost(COST.fwd*set.length);
+    if(!ok&&moved)flag(S,'fwd-no-neg-'+side,'Forwarding the '+side+' side with nothing pulling.','Loose debris blew out the open boots into the house. Hose on this side, vac on.');
+    if(dirtied.size)flag(S,'order-'+a.e,'Debris from '+entryName(a.e)+' went through duct you already called clean.','Far end first, branches before trunk, working back toward the machine. You just re-dirtied the '+names([...dirtied])+'.');
+    S.dirtied=[...dirtied];if(side==='return'&&sideClean(S,'return')&&S.retDone==null)S.retDone=S.min;
+    say('Nozzle through '+entryName(a.e)+'.',moved?(ok?'Pushed it all toward the vac.':'Nothing pulling. It went into the house.'):'Nothing loose there to push.',ok&&!dirtied.size&&moved?'good':moved?'bad':'');logit('Forwarded '+names(set)+' ('+entryName(a.e)+')');break;}
+  }
+}
+// What a tool does to a target. Things that cannot happen come back with a reason; bad practice is allowed and graded.
+function resolve(S,tool,t){
+  const no=why=>({no:why});
+  if(t==='ah'){if(tool==='hand')return S.walked?no('You walked it already. The sprayer cleans the coil.'):{a:{k:'walk'},label:'Walk the job',min:COST.walk};
+    if(tool==='spray')return S.ah?no('Air handler is done.'):S.power?no('System is on. Kill it at the thermostat before the panel comes off.'):{a:{k:'ah'},label:'Panel off, spray the coil, wipe the blower',min:COST.ah};
+    return no('Wrong tool for the air handler. Hands to walk it, the sprayer to clean it.');}
+  if(t==='tstat')return tool==='hand'?{a:{k:'tstat'},label:S.power?'Turn the system off':'Turn the system back on',min:COST.tstat}:no('Hands on the thermostat.');
+  if(t==='mach')return tool==='hand'?{a:{k:'mach'},label:S.mach?'Turn the vac off':'Turn the vac on',min:COST.mach}:no('Hands on the vac switch.');
+  if(REG[t]){const r=S.reg[t],soda=REACH[t].soda,hard=REACH[t].hard;
+    if(tool==='hand')return r.on?(r.zip?{a:{k:'pull',t},label:'Pull the grille',min:COST.pull}:{a:{k:'pull',t},label:'Pull the grille back off',min:COST.pull}):{a:{k:'reinstall',t},label:'Reinstall the grille',min:COST.reinstall};
+    if(tool==='zip')return r.on&&!r.zip?{a:{k:'zip',t},label:'Zip screws in the grille',min:COST.zip}:no(r.on?'Already tight.':'Nothing to screw here. The grille is off.');
+    if(tool==='wash')return r.on?no('Pull it first, then wash.'):{wash:t};
+    if(['hard','soda','nozzle'].includes(tool)){if(r.on)return no('Pull the grille with your hands before you rod the boot.');
+      if(tool==='nozzle')return {a:{k:'fwd',e:t},label:'Forward with the nozzle through the boot',min:COST.fwd*reachSet(t,'nozzle').length};
+      if(tool==='soda')return soda?{a:{k:'whip',e:t,rod:'soda'},label:'Whip the soda rod through the boot',min:COST.whip*soda.length}:no('Straight rigid drop. Stack the hard rod.');
+      return hard?{a:{k:'whip',e:t,rod:'hard'},label:'Whip the hard rod through the boot',min:COST.whip*hard.length}:{a:{k:'whip',e:t,rod:'hard'},label:'Push the hard rod into the flex',min:COST.whip};}
+    return no('Wrong tool for a grille.');}
+  const s=SEG[t];if(!s)return no('');const h=S.holes[t];
+  if(s.kind==='flex'){if(tool==='saw'||tool==='bit')return no('Do not cut flex. Branches get cleaned from the register boot.');return no('Work the flex from its boot in the ceiling below.');}
+  if(tool==='saw')return s.kind!=='plenum'?no('The vac hooks up at a plenum. Trunks get a bit hole when nothing else reaches.'):h?no('Already cut.'):{a:{k:'cut8',t},label:'Cut an 8 inch access',min:COST.cut8};
+  if(tool==='bit')return s.kind==='plenum'?no('A bit hole will not take the hose. Plenums get the 8 inch access.'):h?no('Already has a hole.'):{a:{k:'bit',t},label:'Drill a 1 inch bit hole',min:COST.bit};
+  if(tool==='neg'){if(s.kind!=='plenum')return no('Vac goes on the plenum, not out on the trunk.');if(!h||h.closed)return no('Nothing to hook to here yet. Cut an 8 inch access.');
+    if(S.hose===t)return S.mach?no('Kill the vac before you pull the hose.'):{a:{k:'unhook'},label:'Pull the hose off',min:COST.unhook};
+    if(S.hose)return no('The hose is on the '+SEG[S.hose].label+'. Pull it off there first.');return {a:{k:'hook',t},label:'Hook the vac hose here',min:COST.hook};}
+  if(tool==='hand'){if(S.hose===t&&!S.tied)return {a:{k:'tie',t},label:'Tie the hose off',min:COST.tie};return no(S.hose===t?'Hose is tied.':'Hands inspect. Pick a tool off the belt.');}
+  const e=s.kind==='plenum'?t:'h:'+t,open=entryOpen(S,e);
+  if(['hard','soda','nozzle'].includes(tool)){if(!open)return no(s.kind==='plenum'?'No access cut here yet.':'No way in here. Drill a bit hole, or come in from a boot or the plenum.');
+    if(tool==='soda')return no('Soda rod coils up in a straight metal trunk. Stack the hard rod.');
+    if(tool==='nozzle')return {a:{k:'fwd',e},label:'Forward with the nozzle',min:COST.fwd*reachSet(e,'nozzle').length};
+    return {a:{k:'whip',e,rod:'hard'},label:'Whip the hard rod',min:COST.whip*REACH[e].hard.length};}
+  if(tool==='patch'||tool==='fsk'){if(s.kind!=='plenum')return h&&!h.closed?no('A bit hole takes a pop plug, not a patch.'):no('No hole here.');if(!h||h.closed)return no(h?'Already patched.':'No hole here.');if(S.hose===t)return no('Vac is still on this hole. Pull the hose first.');
+    return {a:{k:'patch',t,m:tool==='patch'?'metal':'fsk'},label:tool==='patch'?'Metal patch, mastic, and screws':'FSK tape patch',min:tool==='patch'?COST.patch_metal:COST.patch_fsk};}
+  if(tool==='plug')return h&&h.type==='1'&&!h.closed?{a:{k:'plug',t},label:'Pop plug and FSK',min:COST.plug}:no('No bit hole here.');
+  if(tool==='spray'||tool==='wash'||tool==='zip')return no('Wrong tool for duct.');
+  return no('');
+}
+function grade(S){
+  const segs=Object.keys(SEG),cleanPct=Math.round(segs.reduce((a,k)=>a+(clean(S,k)?100:Math.max(0,100-Math.min(100,S.seg[k].g+S.seg[k].l))),0)/segs.length);
+  const holes=Object.entries(S.holes),open=holes.filter(([,h])=>!h.closed),extra=Math.max(0,holes.length-MIN_HOLES);
+  const grOff=Object.keys(S.reg).filter(r=>!S.reg[r].on),grDirty=Object.keys(S.reg).filter(r=>S.reg[r].dirt>=8),grLoose=Object.keys(S.reg).filter(r=>S.reg[r].on&&!S.reg[r].zip);
+  const grBad=new Set([...grOff,...grDirty,...grLoose]);
+  const rows=[
+    ['Dirt removed',Math.round(40*cleanPct/100),40,cleanPct+'% clean across '+segs.length+' sections'],
+    ['Rules the lead checks',Math.max(0,20-4*S.vio.length),20,S.vio.length?S.vio.length+' flag'+(S.vio.length>1?'s':''):'no flags'],
+    ['Holes and patches',Math.max(0,15-5*open.length-3*extra-3*S.def.length),15,holes.length+' cut ('+MIN_HOLES+' is the minimum), '+open.length+' open, '+S.def.length+' wrong patch'],
+    ['Grilles',Math.max(0,Math.round(10-10*grBad.size/Object.keys(REG).length)),10,grOff.length+' off, '+grDirty.length+' dirty, '+grLoose.length+' loose'],
+    ['Air handler',S.ah?10:0,10,S.ah?'coil and blower done':'not cleaned'],
+    ['Closeout',(S.hose?0:2)+(S.mach?0:1)+(S.power?2:0),5,[S.hose?'hose still on':'hose off',S.mach?'vac running':'vac off',S.power?'system back on':'system left off'].join(', ')]
+  ];
+  return {score:Math.max(0,rows.reduce((a,r)=>a+r[1],0)),rows,cleanPct};
+}
+// The order a lead would run it. Doubles as the self-test: it has to score 100.
+const PAR=[{k:'walk'},{k:'tstat'},{k:'cut8',t:'RP'},{k:'hook',t:'RP'},{k:'tie',t:'RP'},{k:'mach'},
+  {k:'pull',t:'LR'},{k:'whip',e:'LR',rod:'soda'},{k:'fwd',e:'LR'},{k:'whip',e:'RP',rod:'hard'},{k:'fwd',e:'RP'},
+  {k:'wash',t:'LR',m:'rag'},{k:'reinstall',t:'LR'},{k:'zip',t:'LR'},{k:'pull',t:'RG'},{k:'wash',t:'RG',m:'hose'},{k:'reinstall',t:'RG'},{k:'zip',t:'RG'},
+  {k:'mach'},{k:'unhook'},{k:'patch',t:'RP',m:'metal'},{k:'cut8',t:'SP'},{k:'hook',t:'SP'},{k:'tie',t:'SP'},{k:'mach'},
+  {k:'pull',t:'C'},{k:'whip',e:'C',rod:'soda'},{k:'fwd',e:'C'},{k:'pull',t:'B'},{k:'whip',e:'B',rod:'soda'},{k:'fwd',e:'B'},
+  {k:'pull',t:'Ba'},{k:'whip',e:'Ba',rod:'soda'},{k:'fwd',e:'Ba'},{k:'pull',t:'A'},{k:'whip',e:'A',rod:'soda'},{k:'fwd',e:'A'},
+  {k:'whip',e:'SP',rod:'hard'},{k:'fwd',e:'SP'},
+  {k:'wash',t:'C',m:'hose'},{k:'reinstall',t:'C'},{k:'zip',t:'C'},{k:'wash',t:'B',m:'hose'},{k:'reinstall',t:'B'},{k:'zip',t:'B'},
+  {k:'wash',t:'Ba',m:'rag'},{k:'reinstall',t:'Ba'},{k:'zip',t:'Ba'},{k:'wash',t:'A',m:'pw'},{k:'reinstall',t:'A'},{k:'zip',t:'A'},
+  {k:'mach'},{k:'unhook'},{k:'patch',t:'SP',m:'fsk'},{k:'ah'},{k:'tstat'}];
+const par=(()=>{const S=fresh(7),steps=[];for(const a of PAR){act(S,a);steps.push(S.log.filter(l=>!l.f).slice(-1)[0].t);}return {S,g:grade(S),min:S.min,steps};})();
+
+// ---------- ui state ----------
+const $=id=>document.getElementById(id),svg=$('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TOOLS=[['hand','Hands','walk, pull, hook, switch'],['saw','8" saw','plenum access'],['bit','1" bit','trunk bit hole'],['neg','Vac hose','hook to an access'],['hard','Hard rod','whip, straight metal'],['soda','Soda rod','whip, flex and 90s'],['nozzle','Nozzle','forward to the vac'],['patch','Metal patch','mastic and screws'],['fsk','FSK tape','duct board patch'],['plug','Pop plug','bit hole plug'],['wash','Wash','rag, hose, pressure'],['zip','Zip screws','grille back tight'],['spray','Sprayer','coil cleaner']];
+let S=fresh(Date.now()%100000),hist=[],tool='hand',mode='learn',hover=null,armed=null,busy=false,worker={x:215,y:600,tx:215,ty:600},anim=[],choices=null;
+const coarse=matchMedia('(pointer:coarse)').matches;
+const fmt=m=>Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0');
+const G=([x,y])=>[x+OX,y];
+function hosePath(){if(!S.hose)return null;const a=G(SEG[S.hose].c),h=G(HATCH),m=G(MACH);return [a,[a[0],404],[h[0],404],h,[h[0],560],m];}
+function flowPts(B,k){const out=[G(SEG[k].c),G(SEG[k].a)];for(const u of upChain(k))out.push(G(SEG[u].a));const hp=(()=>{const keep=S;S=B;const p=hosePath();S=keep;return p;})();if(hp)out.push(...hp);return out;}
+function outPts(k){const side=SEG[k].side;const r=Object.keys(REG).find(x=>REG[x].seg===k)||Object.keys(REG).find(x=>SEG[REG[x].seg].side===side&&!S.reg[x].on)||Object.keys(REG).find(x=>SEG[REG[x].seg].side===side);return [G(SEG[k].c),G([REG[r].x,420]),G([REG[r].x+(Math.random()*40-20),560])];}
+
+// ---------- drawing ----------
+function roomsAndShell(g){
+  const defs=el('defs',{},g);
+  const sky=el('linearGradient',{id:'sky',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:0,'stop-color':'#cfe6f5'},sky);el('stop',{offset:1,'stop-color':'#eef6fb'},sky);
+  const met=el('linearGradient',{id:'metal',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:0,'stop-color':'#eef1f4'},met);el('stop',{offset:.5,'stop-color':'#c5ccd4'},met);el('stop',{offset:1,'stop-color':'#9aa3ad'},met);
+  const brd=el('linearGradient',{id:'board',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:0,'stop-color':'#f3ead2'},brd);el('stop',{offset:1,'stop-color':'#d9c69b'},brd);
+  const dirt=el('pattern',{id:'dirt',width:14,height:14,patternUnits:'userSpaceOnUse'},defs);[[3,4,2.2],[9,2,1.4],[11,9,2.6],[5,11,1.6],[1,8,1.1]].forEach(([x,y,r])=>el('circle',{cx:x,cy:y,r,fill:'#5b3d22'},dirt));
+  const lint=el('pattern',{id:'loose',width:10,height:10,patternUnits:'userSpaceOnUse'},defs);[[2,3,1.6],[7,6,1.2],[4,8,1]].forEach(([x,y,r])=>el('circle',{cx:x,cy:y,r,fill:'#c9a476'},lint));
+  const ins=el('pattern',{id:'ins',width:24,height:10,patternUnits:'userSpaceOnUse'},defs);el('path',{d:'M0 10 Q6 2 12 10 Q18 2 24 10',fill:'none',stroke:'#e9c3a3','stroke-width':2},ins);
+  el('rect',{x:0,y:0,width:1300,height:700,fill:'url(#sky)'},g);
+  el('rect',{x:0,y:640,width:1300,height:60,fill:'#7a9a5a'},g);el('rect',{x:0,y:640,width:1300,height:6,fill:'#6a8a4c'},g);
+  // van
+  const v=el('g',{},g);el('rect',{x:14,y:556,width:150,height:78,rx:9,fill:'#f4f1ea',stroke:'#1c2b36','stroke-width':3},v);el('rect',{x:14,y:556,width:48,height:78,rx:9,fill:'#007cba'},v);el('rect',{x:22,y:566,width:32,height:26,rx:3,fill:'#cfe6f5'},v);
+  el('circle',{cx:46,cy:636,r:14,fill:'#1c2b36'},v);el('circle',{cx:134,cy:636,r:14,fill:'#1c2b36'},v);el('text',{x:112,y:600,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'#1c2b36'},v).textContent='WORK VAN';el('text',{x:112,y:618,'text-anchor':'middle','font-size':11,fill:'#5d7282'},v).textContent='wash station';
+  const h=el('g',{transform:`translate(${OX},0)`},g);
+  el('path',{d:'M130 424 L670 188 L1210 424 Z',fill:'#8a5a3c'},h);el('path',{d:'M162 416 L670 204 L1178 416 Z',fill:'#e8d8bd'},h);
+  el('rect',{x:166,y:396,width:1008,height:24,fill:'url(#ins)',opacity:.9},h);
+  for(let x=180;x<1170;x+=48)el('rect',{x,y:410,width:6,height:10,fill:'#b58a5a'},h);
+  el('rect',{x:150,y:420,width:1040,height:220,fill:'#fbf7ef',stroke:'#1c2b36','stroke-width':3},h);
+  const rooms=[[150,330,'HALLWAY'],[330,560,'LIVING ROOM'],[560,700,'KITCHEN'],[700,800,'BATH'],[800,930,'BEDROOM B'],[930,1190,'BEDROOM C']];
+  for(const[a,b,n]of rooms){if(a>150)el('line',{x1:a,y1:420,x2:a,y2:640,stroke:'#1c2b36','stroke-width':2.5},h);el('text',{x:n==='HALLWAY'?222:(a+b)/2,y:474,'text-anchor':n==='HALLWAY'?'start':'middle',class:'room'},h).textContent=n;}
+  // furniture silhouettes
+  el('rect',{x:360,y:580,width:120,height:44,rx:10,fill:'#b9cfe0'},h);el('rect',{x:370,y:566,width:100,height:22,rx:8,fill:'#a8c1d6'},h);
+  el('rect',{x:575,y:560,width:110,height:80,fill:'#e3d6c2'},h);el('rect',{x:575,y:556,width:110,height:8,fill:'#bfa988'},h);
+  el('rect',{x:830,y:596,width:80,height:44,rx:4,fill:'#dfd2e8'},h);el('rect',{x:1000,y:590,width:130,height:50,rx:4,fill:'#d6e3d0'},h);
+  el('rect',{x:170,y:414,width:40,height:8,fill:'#fff',stroke:'#5d7282','stroke-width':1.5,'stroke-dasharray':'3 2'},h);el('text',{x:214,y:440,class:'lbl'},h).textContent='attic hatch';
+  return h;
+}
+function drawDuct(h,k,prev){
+  const s=SEG[k],st=S.seg[k],dirt=Math.min(1,st.g/100),loose=Math.min(1,st.l/100),col=s.side==='supply'?'#007cba':'#b5452f';
+  const inSet=prev&&prev.set&&prev.set.includes(k),red=prev&&prev.red&&prev.red.includes(k),sel=hover===k;
+  const g=el('g',{'data-t':k,style:'cursor:pointer'},h);
+  if(s.r){const[x,y,w,hh]=s.r;
+    if(inSet||red||sel)el('rect',{x:x-5,y:y-5,width:w+10,height:hh+10,rx:5,fill:'none',stroke:red?'#c0392b':'#e8a917','stroke-width':sel&&!inSet?3:5},g);
+    el('rect',{x,y,width:w,height:hh,rx:s.kind==='plenum'?3:hh/2.2,fill:s.mat==='board'?'url(#board)':'url(#metal)',stroke:'#3b4650','stroke-width':2},g);
+    el('rect',{x:x+2,y:y+2,width:w-4,height:hh-4,rx:hh/3,fill:'url(#dirt)',opacity:(dirt*.95).toFixed(2)},g);
+    if(loose>.02)el('rect',{x:x+2,y:y+2,width:w-4,height:hh-4,rx:hh/3,fill:'url(#loose)',opacity:Math.min(1,loose*1.3).toFixed(2)},g);
+    el('line',{x1:x+4,y1:y+hh-3,x2:x+w-4,y2:y+hh-3,stroke:col,'stroke-width':3,opacity:.8},g);
+    const hole=S.holes[k];if(hole){const cx=x+w/2,cy=y+(s.kind==='plenum'?14:hh/2);el('circle',{cx,cy,r:hole.type==='8'?9:4,fill:hole.closed?(hole.mat==='metal'?'#8f98a1':'#e7d18c'):'#1c2b36',stroke:'#fff','stroke-width':1.5},g);}
+    if(mode==='learn'&&s.kind!=='plenum')el('text',{x:x+w/2,y:y+hh/2+4,'text-anchor':'middle',class:'pct'},g).textContent=Math.round(Math.min(100,st.g+st.l))+'%';
+    el('rect',{x:x-6,y:y-12,width:w+12,height:hh+24,class:'hit'},g);
+  } else {const d='M'+s.p.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L'),torn=S.torn.includes(k);
+    if(inSet||red||sel)el('path',{d,fill:'none',stroke:red?'#c0392b':'#e8a917','stroke-width':28,'stroke-linecap':'round',opacity:.9},g);
+    el('path',{d,fill:'none',stroke:'#3b4650','stroke-width':20,'stroke-linecap':'round'},g);
+    el('path',{d,fill:'none',stroke:torn?'#e7a7a0':'#d7dbe0','stroke-width':16,'stroke-linecap':'round'},g);
+    el('path',{d,fill:'none',stroke:'#8d959d','stroke-width':16,'stroke-dasharray':'2 4'},g);
+    el('path',{d,fill:'none',stroke:'#5b3d22','stroke-width':12,opacity:(dirt*.85).toFixed(2),'stroke-dasharray':'3 2'},g);
+    if(loose>.02)el('path',{d,fill:'none',stroke:'#c9a476','stroke-width':10,opacity:loose.toFixed(2),'stroke-dasharray':'2 3'},g);
+    el('path',{d,class:'hit','stroke-width':40,fill:'none'},g);}
+}
+function draw(prev){
+  svg.innerHTML='';const h=roomsAndShell(svg);
+  // air handler, thermostat, vac
+  const ag=el('g',{'data-t':'ah',style:'cursor:pointer'},h);if(hover==='ah')el('rect',{x:464,y:292,width:82,height:114,rx:6,fill:'none',stroke:'#e8a917','stroke-width':4},ag);
+  el('rect',{x:470,y:300,width:70,height:104,rx:4,fill:S.ah?'#dfe7ed':'#b8c3cc',stroke:'#3b4650','stroke-width':2.5},ag);for(let y=312;y<390;y+=8)el('line',{x1:478,x2:532,y1:y,y2:y,stroke:'#95a1ab','stroke-width':1.5},ag);
+  el('text',{x:505,y:292,'text-anchor':'middle',class:'lbl','font-weight':600},ag).textContent='air handler';el('rect',{x:464,y:292,width:82,height:114,class:'hit'},ag);
+  const tg=el('g',{'data-t':'tstat',style:'cursor:pointer'},h);if(hover==='tstat')el('rect',{x:TSTAT[0]-20,y:TSTAT[1]-28,width:40,height:56,rx:5,fill:'none',stroke:'#e8a917','stroke-width':3},tg);
+  el('rect',{x:TSTAT[0]-14,y:TSTAT[1]-20,width:28,height:40,rx:4,fill:'#fff',stroke:'#1c2b36','stroke-width':2},tg);el('circle',{cx:TSTAT[0],cy:TSTAT[1]-4,r:7,fill:S.power?'#2e8b57':'#c0392b'},tg);el('text',{x:TSTAT[0],y:TSTAT[1]+36,'text-anchor':'middle',class:'lbl'},tg).textContent='t-stat';el('rect',{x:TSTAT[0]-24,y:TSTAT[1]-30,width:48,height:60,class:'hit'},tg);
+  const mg=el('g',{'data-t':'mach',style:'cursor:pointer'},h);if(hover==='mach')el('rect',{x:MACH[0]-44,y:MACH[1]-38,width:88,height:72,rx:6,fill:'none',stroke:'#e8a917','stroke-width':3},mg);
+  el('rect',{x:MACH[0]-38,y:MACH[1]-32,width:76,height:60,rx:6,fill:S.mach?'#f4c33a':'#dde4ea',stroke:'#1c2b36','stroke-width':2.5},mg);el('circle',{cx:MACH[0],cy:MACH[1]-4,r:16,fill:'#1c2b36'},mg);el('circle',{cx:MACH[0],cy:MACH[1]-4,r:6,fill:S.mach?'#f4c33a':'#8a98a4'},mg);
+  el('text',{x:MACH[0],y:MACH[1]+22,'text-anchor':'middle','font-size':10,'font-weight':700,fill:'#1c2b36'},mg).textContent=S.mach?'VAC ON':'VAC OFF';el('rect',{x:MACH[0]-44,y:MACH[1]-38,width:88,height:72,class:'hit'},mg);
+  // ducts
+  ['bLR','bA','bBa','bB','bC','R2','R1','T1','T2','T3','T4','T5','RP','SP'].forEach(k=>drawDuct(h,k,prev));
+  el('rect',{x:282,y:386,width:20,height:34,fill:'url(#metal)',stroke:'#3b4650','stroke-width':2},h);
+  // registers at the ceiling
+  for(const r in REG){const R=REG[r],st=S.reg[r],x=R.x,sel=hover===r||(prev&&prev.reg===r);const g=el('g',{'data-t':r,style:'cursor:pointer'},h);
+    if(sel)el('rect',{x:x-26,y:410,width:52,height:26,rx:5,fill:'none',stroke:'#e8a917','stroke-width':3},g);
+    if(st.on){el('rect',{x:x-20,y:418,width:40,height:10,fill:'#fff',stroke:SEG[R.seg].side==='supply'?'#007cba':'#b5452f','stroke-width':2.5},g);for(let i=-14;i<=14;i+=7)el('line',{x1:x+i,x2:x+i,y1:420,y2:426,stroke:'#5b3d22','stroke-width':2,opacity:(Math.min(1,st.dirt/70)*.85+.15).toFixed(2)},g);if(!st.zip)el('text',{x,y:446,'text-anchor':'middle','font-size':10,fill:'#c0392b','font-weight':700},g).textContent='loose';}
+    else{el('rect',{x:x-14,y:418,width:28,height:8,fill:'#1c2b36'},g);}
+    el('rect',{x:x-28,y:404,width:56,height:44,class:'hit'},g);}
+  // pulled grilles at the van
+  const off=Object.keys(REG).filter(r=>!S.reg[r].on);off.forEach((r,i)=>{const d=S.reg[r].dirt;el('rect',{x:22+i*24,y:530-(i%2)*10,width:20,height:18,fill:'#fff',stroke:'#5d7282','stroke-width':1.5});el('rect',{x:24+i*24,y:532-(i%2)*10,width:16,height:14,fill:'#5b3d22',opacity:(Math.min(1,d/80)*.8).toFixed(2)});});
+  if(off.length)el('text',{x:24,y:516,class:'lbl'}).textContent='grilles off: '+off.length;
+  // hose
+  const hp=hosePath();if(hp){el('path',{d:'M'+hp.map(p=>p.join(' ')).join(' L'),fill:'none',stroke:'#1c2b36','stroke-width':9,'stroke-linejoin':'round',opacity:.85});el('path',{d:'M'+hp.map(p=>p.join(' ')).join(' L'),fill:'none',stroke:'#46525d','stroke-width':5,'stroke-dasharray':'3 3','stroke-linejoin':'round'});if(S.tied)el('circle',{cx:hp[1][0]-20,cy:hp[1][1],r:6,fill:'#e8a917',stroke:'#1c2b36','stroke-width':1.5});}
+  // preview flows
+  if(prev&&prev.flows)for(const f of prev.flows)el('path',{d:'M'+f.p.map(q=>q.join(' ')).join(' L'),class:'flow',stroke:f.ok?'#2e8b57':'#c0392b'});
+  if(S.house>1)el('text',{x:OX+170,y:632,'font-size':14,'font-weight':700,fill:'#c0392b'}).textContent='dust in the house: '+Math.round(S.house);
+  // worker
+  const wg=el('g',{id:'worker','pointer-events':'none'});drawWorker(wg);
+  el('g',{id:'fx','pointer-events':'none'});
+}
+function drawWorker(wg){wg.innerHTML='';const x=worker.x,y=worker.y;el('ellipse',{cx:x,cy:y+2,rx:14,ry:4,fill:'#00000022'},wg);el('rect',{x:x-9,y:y-34,width:18,height:28,rx:7,fill:'#007cba',stroke:'#1c2b36','stroke-width':2},wg);el('circle',{cx:x,cy:y-42,r:9,fill:'#f1c9a5',stroke:'#1c2b36','stroke-width':2},wg);el('path',{d:`M${x-10} ${y-46} Q${x} ${y-58} ${x+10} ${y-46} Z`,fill:'#e8a917',stroke:'#1c2b36','stroke-width':1.5},wg);el('rect',{x:x-8,y:y-7,width:6,height:9,fill:'#1c2b36'},wg);el('rect',{x:x+2,y:y-7,width:6,height:9,fill:'#1c2b36'},wg);}
+function spotFor(t){if(t==='ah')return G([505,404]);if(t==='tstat')return G([TSTAT[0]+30,640]);if(t==='mach')return G([MACH[0]+50,640]);if(REG[t])return G([REG[t].x+26,640]);const s=SEG[t];return G([s.c[0],404]);}
+// ---------- hud ----------
+function hud(){
+  $('clock').textContent=fmt(S.min);const sy=$('sys');sy.textContent=S.power?'ON':'OFF';sy.className=S.power?'off':'on';
+  const vc=$('vac');vc.textContent=S.mach?(S.hose?'on, '+SEG[S.hose].label.split(' ')[0]+(S.tied?'':' (loose hose)'):'on, not hooked'):(S.hose?'off, hooked':'off');vc.className=S.mach&&S.hose?'on':'';
+  const pct=s=>{const ks=sideSegs(s);return 100-ks.reduce((a,k)=>a+Math.min(100,S.seg[k].g+S.seg[k].l),0)/ks.length;};$('m-ret').style.width=pct('return')+'%';$('m-sup').style.width=pct('supply')+'%';
+  $('flags').textContent=S.vio.length;$('undo').disabled=mode==='test'||!hist.length||busy;
+  const m=S.say;$('who').textContent=m?'You':'Lead';
+  $('msg').innerHTML=m?`<b class="${m.cls||''}">${esc(m.t)}</b><span>${esc(m.s||'')}</span>`:'<b>Attic unit, four supplies, two returns. Return first today.</b><span>Walk it with your hands on the air handler before you cut anything. I am on the next house, holler if something is weird. Pick a tool, then tap where it goes.</span>';
+  $('log').innerHTML=S.log.map(l=>`<li class="${l.f?'f':''}">${l.f?'Flag: ':''}${esc(l.t)}</li>`).join('');
+  $('belt').innerHTML=TOOLS.map(([id,n,s],i)=>`<button type="button" class="tool${tool===id?' on':''}" data-tool="${id}"><kbd>${i<9?i+1:i===9?0:''}</kbd><b>${esc(n)}</b><small>${esc(s)}</small></button>`).join('');
+  const targets=['ah','tstat','mach','RP','SP',...Object.keys(REG),'R1','R2','T1','T2','T3','T4','T5'];
+  $('picks').innerHTML=targets.map(t=>`<button type="button" class="pick" data-t="${t}">${esc(tname(t))}</button>`).join('');
+  $('choices').innerHTML=choices||'';
+}
+const tname=t=>t==='ah'?'Air handler':t==='tstat'?'Thermostat':t==='mach'?'Vac':REG[t]?REG[t].name[0].toUpperCase()+REG[t].name.slice(1):SEG[t].label[0].toUpperCase()+SEG[t].label.slice(1);
+function render(prev){draw(prev);hud();}
+// ---------- preview and commit ----------
+function previewFor(t){
+  const r=resolve(S,tool,t),pv=$('prev');hover=t;
+  if(r.no!=null){pv.className='prev show';pv.innerHTML=`<b>${esc(tname(t))}:</b> ${esc(r.no||'Nothing to do there.')}`;render();return r;}
+  if(r.wash){pv.className='prev show';pv.innerHTML=`<b>Wash the ${esc(REG[t].name)} grille:</b> pick a method below.`;render({reg:t});return r;}
+  const T=copy(S);act(T,r.a);const p={set:[],red:[],flows:[]},a=r.a;
+  if(a.k==='whip'||a.k==='fwd'){p.set=a.k==='fwd'?reachSet(a.e,'nozzle'):reachSet(a.e,a.rod);if(a.k==='whip'&&REG[a.e]&&a.rod==='hard'&&SEG[REG[a.e].seg].kind==='flex')p.set=[];}
+  if(a.k==='fwd'){p.red=T.dirtied||[];const ok=negOn(S,entrySide(a.e));for(const k of p.set)if(S.seg[k].l>=1)p.flows.push({p:ok?flowPts(S,k):outPts(k),ok});}
+  if(REG[t])p.reg=t;
+  const w=T.vio.slice(S.vio.length).map(v=>v.text).concat(T.def.slice(S.def.length));
+  let html=`<b>${esc(r.label)}</b> · +${r.min} min`;if(p.set.length)html+=` · ${a.k==='fwd'?'pushes':'reaches'}: ${esc(names(p.set))}`;if(a.k==='fwd'&&!p.flows.length)html+=' · nothing loose to push';
+  if(mode==='learn')html+=w.length?'<br>'+w.map(x=>`<span class="bad">Lead flags: ${esc(x)}</span>`).join('<br>'):((a.k==='whip'||a.k==='fwd')?' · <span class="good">no flags</span>':'');
+  if(coarse||mode==='learn'&&armed===t)html+='<br><b>Tap it again to do it.</b>';
+  pv.className='prev show';pv.innerHTML=html;render(mode==='learn'?p:{set:p.set});return r;
+}
+function tapTarget(t){
+  if(busy)return;choices=null;
+  const twoTap=coarse;
+  if(twoTap&&armed!==t){armed=t;const r=previewFor(t);if(r.wash)showWash(t);return;}
+  armed=null;const r=resolve(S,tool,t);
+  if(r.no!=null){S.say={t:tname(t)+'.',s:r.no||'Nothing to do there.',cls:''};hover=null;$('prev').className='prev';render();return;}
+  if(r.wash){showWash(t);return;}
+  commit(r.a,t);
+}
+function showWash(t){choices=['rag','hose','pw'].map(m=>`<button type="button" class="btn alt" data-wash="${t}" data-m="${m}">${{rag:'Rag',hose:'Garden hose',pw:'Pressure washer + degreaser'}[m]} +${COST['wash_'+m]} min</button>`).join('');S.say={t:'Wash the '+REG[t].name+' grille.',s:'It is '+SOIL[REG[t].soil].txt+'. Pick the method.'};render({reg:t});}
+function commit(a,t){
+  if(busy)return;hist.push(copy(S));if(hist.length>120)hist.shift();
+  const before=copy(S),dest=spotFor(t||'ah');worker.tx=dest[0];worker.ty=dest[1];busy=true;$('prev').className='prev';
+  walkTo(()=>{act(S,a);const fx=S.fx.slice();hover=null;render();playFx(fx,before);const dur=Math.min(1400,260+ (S.min-before.min)*60);setTimeout(()=>{busy=false;hud();checkDone();},dur);});
+}
+function walkTo(done){const sx=worker.x,sy=worker.y,tx=worker.tx,ty=worker.ty,d=Math.hypot(tx-sx,ty-sy),ms=Math.min(650,120+d*.6),t0=performance.now();
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches||d<4){worker.x=tx;worker.y=ty;done();return;}
+  (function step(now){const u=Math.min(1,(now-t0)/ms);worker.x=sx+(tx-sx)*u;worker.y=sy+(ty-sy)*u;const wg=document.getElementById('worker');if(wg)drawWorker(wg);if(u<1)requestAnimationFrame(step);else done();})(t0);}
+function playFx(fx,B){for(const f of fx){if(f.t==='puff'){for(const k of f.set){const c=G(SEG[k].c);anim.push({kind:'puff',x:c[0],y:c[1],t0:performance.now(),bad:!negOn(B,f.side)});if(!negOn(B,f.side)){const r=Object.keys(REG).find(x=>SEG[REG[x].seg].side===f.side&&!B.reg[x].on);if(r)anim.push({kind:'leak',x:G([REG[r].x,0])[0],y:430,t0:performance.now()});}}}
+  if(f.t==='flow'){const path=f.ok?flowPts(B,f.k):outPts(f.k);const len=[];let L=0;for(let i=1;i<path.length;i++){L+=Math.hypot(path[i][0]-path[i-1][0],path[i][1]-path[i-1][1]);len.push(L);}anim.push({kind:'flow',path,len,L,t0:performance.now(),ok:f.ok,dots:Array.from({length:26},(_,i)=>i/26*.55+Math.random()*.06)});}}
+  if(anim.length)requestAnimationFrame(tick);}
+function at(A,d){d=Math.max(0,Math.min(A.L,d));let i=0;while(i<A.len.length-1&&A.len[i]<d)i++;const s0=i?A.len[i-1]:0,f=(d-s0)/((A.len[i]-s0)||1),p=A.path[i],q=A.path[i+1];return[p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f];}
+function tick(){const g=document.getElementById('fx');if(!g){anim=[];return;}g.innerHTML='';const now=performance.now();anim=anim.filter(A=>now-A.t0<(A.kind==='flow'?2300:1100));
+  for(const A of anim){const u=(now-A.t0)/1000;
+    if(A.kind==='puff')for(let i=0;i<7;i++){const a=i/7*6.28,r=6+u*26;el('circle',{cx:A.x+Math.cos(a)*r,cy:A.y+Math.sin(a)*r*.5,r:4+u*4,fill:A.bad?'#a0663a':'#b98c5c',opacity:Math.max(0,.7-u*.65).toFixed(2)},g);}
+    if(A.kind==='leak')for(let i=0;i<9;i++){el('circle',{cx:A.x+(i-4)*6,cy:A.y+u*120*(0.6+i%3*.2),r:3,fill:'#a0663a',opacity:Math.max(0,.8-u*.7).toFixed(2)},g);}
+    if(A.kind==='flow'){const t=(now-A.t0)/1500;for(const o of A.dots){const v=t-o;if(v<0||v>1)continue;const[x,y]=at(A,v*A.L);el('circle',{cx:x,cy:y,r:3.4,fill:A.ok?'#7a5230':'#c0392b',opacity:(1-v*.5).toFixed(2)},g);}}}
+  if(anim.length)requestAnimationFrame(tick);else g.innerHTML='';}
+function checkDone(){}
+// ---------- events ----------
+svg.addEventListener('pointermove',e=>{if(coarse||busy)return;const g=e.target.closest('[data-t]');const t=g?g.dataset.t:null;if(t===hover)return;if(t)previewFor(t);else{hover=null;$('prev').className='prev';render();}});
+svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');if(g)tapTarget(g.dataset.t);});
+$('picks').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;if(armed!==b.dataset.t){armed=b.dataset.t;const r=previewFor(b.dataset.t);if(r.wash)showWash(b.dataset.t);return;}tapTarget(b.dataset.t);});
+$('belt').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;armed=null;choices=null;hover=null;$('prev').className='prev';render();});
+$('choices').addEventListener('click',e=>{const b=e.target.closest('[data-wash]');if(!b)return;choices=null;commit({k:'wash',t:b.dataset.wash,m:b.dataset.m},b.dataset.wash);});
+document.addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const n=e.key==='0'?9:+e.key-1;if(n>=0&&n<TOOLS.length&&/^[0-9]$/.test(e.key)){tool=TOOLS[n][0];armed=null;render();}if(e.key==='z'&&mode==='learn')undo();});
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{if(b.dataset.mode===mode)return;mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));restart(mode==='test'?'Test mode: no previews of what the lead flags, no undo, no dirt numbers. Graded at the end.':'Learn mode: every tap shows what it reaches, where the dust goes, and what the lead would flag.');});
+function undo(){if(mode==='test'||!hist.length||busy)return;S=hist.pop();armed=null;choices=null;render();}
+$('undo').onclick=undo;
+function restart(note){S=fresh(Date.now()%100000);hist=[];armed=null;choices=null;hover=null;worker={x:G(MACH)[0]+60,y:640,tx:0,ty:0};S.say=note?{t:'New job.',s:note}:null;render();}
+$('finish').onclick=finish;
+function finish(){
+  const Gr=grade(S),li=(t,w)=>`<li>${esc(t)}${w?`<span>${esc(w)}</span>`:''}</li>`;
+  try{const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m['attic-job']||{n:0,best:0};m['attic-job']={n:(r.n||0)+1,best:Math.max(r.best||0,Gr.score),last:Gr.score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'attic-job'},location.origin);}catch(e){}
+  $('report').innerHTML=`<p class="eyebrow">${mode==='test'?'Test':'Learn'} mode · the lead's grade</p><div class="big">${Gr.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div><p style="color:#5d7282;margin:.3em 0">${fmt(S.min)} on the clock. The lead's order takes ${fmt(par.min)}.</p>
+  <table class="g">${Gr.rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]} / ${r[2]}</td><td>${esc(r[3])}</td></tr>`).join('')}</table>
+  ${S.vio.length||S.def.length||S.house>1?`<p class="eyebrow">What the lead saw</p><ul class="rep">${S.vio.map(v=>li(v.text,v.why)).join('')}${S.def.map(d=>li(d)).join('')}${S.house>1?li('Dust pushed into the house.','That happens when you whip or forward with nothing pulling on that side.'):''}</ul>`:'<p><b>Clean job. No notes.</b></p>'}
+  <div class="cols"><div><p class="eyebrow">What you did</p><ol>${S.log.map(l=>`<li${l.f?' style="color:#c0392b"':''}>${l.f?'Flag: ':''}${esc(l.t)}</li>`).join('')||'<li>Nothing yet.</li>'}</ol></div><div><p class="eyebrow">The lead's order</p><ol>${par.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button type="button" class="btn" id="again">Run a new job</button><button type="button" class="btn alt" id="back">Back to this job</button><a class="home" href="../#/field" target="_top">&larr; Field training</a></div>`;
+  $('over').style.display='flex';$('over').scrollTop=0;$('again').onclick=()=>{$('over').style.display='none';restart();};$('back').onclick=()=>{$('over').style.display='none';};$('again').focus({preventScroll:true});
+}
+if(window.parent===window){document.querySelectorAll('.home').forEach(a=>a.removeAttribute('target'));}
+const narrow=matchMedia('(max-width:700px)');const fit=()=>svg.setAttribute('viewBox',narrow.matches?'250 236 1050 420':'0 170 1300 530');fit();narrow.addEventListener('change',fit);
+window.__AJ={get S(){return S},act,resolve,grade,PAR,par,commit:(a)=>{act(S,a);render();},fresh,tapTarget,setTool:t=>{tool=t;render();}};
+worker={x:G(MACH)[0]+60,y:640,tx:0,ty:0};render();
+</script>
+</body>
+</html>

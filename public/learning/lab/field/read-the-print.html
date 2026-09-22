@@ -80,12 +80,12 @@ details summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:14px;m
 kbd{background:#eef1f4;border-radius:4px;padding:0 5px;font-size:13px}
 footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
 </style>
-<style>html.in-frame .back{display:none}</style>
+
 <script>if(window.parent!==window)document.documentElement.classList.add('in-frame')</script>
 </head>
 <body>
 <div class="wrap">
-<a class="back" href="../#/field" target="_top">← Field training</a>
+<a class="back home" href="../#/field" target="_top">← Field training</a>
 <h1>Read the Print</h1>
 <p class="sub">Every round draws a fresh mechanical sheet. Pull the takeoff off it, then check it against the crew brief.</p>
 <nav class="tabs"><button data-tab="takeoff" class="on">Takeoff</button><button data-tab="symbols">Symbols</button><button data-tab="stats">Stats</button></nav>
@@ -433,5 +433,6 @@ function renderStats(){
 }
 render();
 </script>
+<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

@@ -75,6 +75,7 @@ details summary{cursor:pointer;font-weight:600;font-size:.9rem}
 <body>
 <div id="app">
   <div class="bar">
+    <a class="home" href="../#/field" target="_top" style="font-weight:700;color:#007cba;text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff">&larr; Field training</a>
     <h1>Job Board</h1>
     <div class="seg" role="group" aria-label="Mode"><button type="button" data-mode="learn" class="on">Learn</button><button type="button" data-mode="test">Test</button></div>
     <span class="stat">Clock <b id="clock">0:00</b></span>
@@ -472,5 +473,6 @@ function finish(){
 window.__JB={get S(){return S},act,valid,grade,PAR,par,commit,actions,fresh};
 render();
 </script>
+<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

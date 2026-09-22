@@ -67,7 +67,8 @@ h3{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut
 </head>
 <body>
 <div id="app">
-  <div class="bar"><h1>Vent Call</h1><span class="spacer"></span><button type="button" class="btn" id="submit">Submit the call</button></div>
+  <div class="bar"><a class="home" href="../#/field" target="_top" style="font-weight:700;color:#007cba;text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff">&larr; Field training</a>
+    <h1>Vent Call</h1><span class="spacer"></span><button type="button" class="btn" id="submit">Submit the call</button></div>
   <div class="cases" id="cases"></div>
   <div class="board">
     <div class="plan"><svg id="svg" viewBox="0 0 800 460" role="img" aria-label="Cutaway of the house showing the dryer exhaust run"></svg></div>
@@ -303,5 +304,6 @@ function solve(id){load(id);const E=expected(C);parts(C).forEach(p=>{S.seen[p]=o
 window.__VENT={get S(){return S},get C(){return C},load,grade,expected,solve,reading,CASES};
 load(1);
 </script>
+<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>
