@@ -141,6 +141,9 @@
     if (Array.isArray(t.sims)) f.sims = t.sims.filter(isObj);
     if (isObj(t.sim) && Array.isArray(t.sim.items)) f.sim = t.sim;
     if (isObj(t.drill) && Array.isArray(t.drill.queue)) f.drill = t.drill;
+    // sync.js stamps: when the study window or mode last changed, and when this track was last reset
+    if (Number(t.planAt) > 0) f.planAt = Number(t.planAt);
+    if (Number(t.resetAt) > 0) f.resetAt = Number(t.resetAt);
     return f;
   }
   const validStore = s => isObj(s) && s.v === 1 && isObj(s.t);
@@ -162,6 +165,8 @@
   // sync.js: read a track's raw state, or replace it with a server copy (normalized like a restore)
   function getTrack(id) { return store.t[id] || null; }
   function setTrack(id, data) { if (!TRACKS.some(t => t.id === id)) return; store.t[id] = normTrack(data); if (canSave) { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* ignore */ } } }
+  // sync.js, when a different seat signs in on this device: swap the whole store (null = start fresh); returns the old one
+  function swapStore(next) { const old = store; store = next && validStore(next) ? normStore(next) : { v: 1, last: store.last, t: {} }; if (canSave) { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* ignore */ } } return old; }
   function storageNote() {
     const el = $('storage-alert');
     if (!el) return;
@@ -376,10 +381,10 @@
       + metrics
       + `<div class="grid"><section class="panel"><div class="row-between"><h2>Domain readiness</h2><span class="small muted hint">Tap a domain to drill it</span></div><div class="domain-list">${domRows || '<p class="muted">No domains in this bundle.</p>'}</div></section>${lessonsPanel}</div>`
       + ruleLine(D, S);
-    main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
+    main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; S.planAt = Date.now(); save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
     const date = $('exam-date'), mins = $('exam-min');
-    date.onchange = () => { S.plan.date = date.value; save(); V.rerender(); const f = $('exam-date'); if (f) f.focus(); };
-    mins.onchange = () => { S.plan.min = Number(mins.value) || 20; save(); V.rerender(); const f = $('exam-min'); if (f) f.focus(); };
+    date.onchange = () => { S.plan.date = date.value; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-date'); if (f) f.focus(); };
+    mins.onchange = () => { S.plan.min = Number(mins.value) || 20; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-min'); if (f) f.focus(); };
   };
   function heroHTML(D, S, ps) {
     const id = D.id, tr = D.track;
@@ -540,7 +545,7 @@
     const rb = $('reset-box');
     const bindReset = () => {
       $('reset').onclick = () => confirmInline(rb, `Reset all ${esc(tr.code)} progress? This cannot be undone.`, `Reset ${esc(tr.code)}`, () => {
-        store.t[id] = freshTrack(); save(); V.rerender();
+        store.t[id] = Object.assign(freshTrack(), { resetAt: Date.now() }); save(); V.rerender();
         const s2 = $('reset-status'); if (s2) s2.textContent = `${tr.code} progress cleared.`;
       }, true);
     };
@@ -569,7 +574,7 @@
   };
 
   /* ---------- boot ---------- */
-  Object.assign(V, { TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
+  Object.assign(V, { TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, swapStore, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
   V.u = { esc, $, link, shuffle, pct, plural, fmtDate, head, empty, tagChip, tagLabel, statusBadge, cloze, recallFront, leitner, unitHTML, lessonBadge, lessonMinutes, announce, confirmInline, isObj };
   function boot() {
     main = $('main');
