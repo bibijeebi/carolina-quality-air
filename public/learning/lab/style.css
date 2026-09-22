@@ -504,3 +504,7 @@ a.domain-row:hover .title { color: var(--blue); text-decoration: underline; }
   main { max-width: none; padding: 0; }
   .panel { box-shadow: none; }
 }
+
+.sync-form { display: grid; gap: 6px; max-width: 420px; }
+.sync-form input { font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 2px; background: #fff; color: var(--ink); }
+.sync-form input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }

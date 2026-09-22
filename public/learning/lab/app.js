@@ -155,10 +155,13 @@
     try { raw = localStorage.getItem(KEY); } catch (e) { canSave = false; return; }
     if (raw) { try { const s = JSON.parse(raw); if (validStore(s)) store = normStore(s); } catch (e) { /* unreadable save: start fresh */ } }
   }
-  function save() {
-    if (!canSave) return;
-    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { canSave = false; storageNote(); }
+  function save(all) {
+    if (canSave) { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { canSave = false; storageNote(); } }
+    if (all !== 'nav' && typeof V.onSave === 'function') { try { V.onSave(all === true ? TRACKS.map(t => t.id) : [V.cur]); } catch (e) { /* sync is optional */ } }
   }
+  // sync.js: read a track's raw state, or replace it with a server copy (normalized like a restore)
+  function getTrack(id) { return store.t[id] || null; }
+  function setTrack(id, data) { if (!TRACKS.some(t => t.id === id)) return; store.t[id] = normTrack(data); if (canSave) { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* ignore */ } } }
   function storageNote() {
     const el = $('storage-alert');
     if (!el) return;
@@ -279,7 +282,7 @@
     const D = V.data[track];
     if (view === 'lab' && !D.sysDom) { location.replace(link(track, 'today')); return; }
     store.last = { track, route: link(track, view) };
-    save();
+    save('nav');
     const moved = location.hash !== lastHash, initial = lastHash === null;
     lastHash = location.hash;
     try { V.views[view](D, r.args); } catch (e) {
@@ -527,7 +530,7 @@
         if (!validStore(data)) { st.textContent = 'That is not a Vent Exam Lab backup. Paste the full text from Copy backup.'; return; }
         const n = Object.keys(data.t).filter(k => TRACKS.some(t => t.id === k)).length;
         confirmInline(rbox, `Replace the progress in this browser with this backup (${plural(n, 'credential')})?`, 'Replace progress', () => {
-          store = normStore(data); save();
+          store = normStore(data); save(true);
           V.rerender();
           const s2 = $('bk-rstatus'); if (s2) s2.textContent = 'Backup restored.';
         });
@@ -566,7 +569,7 @@
   };
 
   /* ---------- boot ---------- */
-  Object.assign(V, { TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
+  Object.assign(V, { TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
   V.u = { esc, $, link, shuffle, pct, plural, fmtDate, head, empty, tagChip, tagLabel, statusBadge, cloze, recallFront, leitner, unitHTML, lessonBadge, lessonMinutes, announce, confirmInline, isObj };
   function boot() {
     main = $('main');
