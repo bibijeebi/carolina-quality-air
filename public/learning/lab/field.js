@@ -5,6 +5,9 @@
   const { esc, head, empty, fmtDate } = V.u;
   const KEY = 'vel-field'; // the sims in field/ write their own results here (same origin), so full-screen runs count too
   const TOOLS = [
+    { id: 'job-board', file: 'job-board.html', kind: 'Job planner', title: 'Job Board', score: true,
+      blurb: 'The whole job on a mechanical plan, one move at a time. Every move shows what the rod reaches and where the dust goes before you commit. Learn mode shows what the lead would flag; Test mode grades you blind against par.',
+      pairs: ['ascs', 'cvi'] },
     { id: 'duct-sim', file: 'duct-sim.html', kind: 'Job sim', title: 'Residential attic job', score: true,
       blurb: 'Walk the system, cut access, run the negative air, whip from the far end toward the machine, wash the grilles, and patch every hole. Scored out of 100 on the rules a lead checks.',
       pairs: ['ascs', 'cvi'] },
