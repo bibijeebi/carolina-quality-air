@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#175878">
+  <meta name="description" content="Independent study for the NADCA ASCS, CVI, and DVT credentials. Lessons, a mastery drill, games, and timed exam sims.">
+  <title>Vent Exam Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23007cba'/%3E%3Cpath d='M6 11c3-3 6 3 10 0s7 3 10 0M6 17c3-3 6 3 10 0s7 3 10 0M6 23c3-3 6 3 10 0s7 3 10 0' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+  <script defer src="drill.js"></script>
+  <script defer src="sim.js"></script>
+  <script defer src="games.js"></script>
+  <script defer src="lab.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="#/" aria-label="Vent Exam Lab home">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28"><path d="M4 10c3-3 6 3 12 0s9 3 12 0M4 16c3-3 6 3 12 0s9 3 12 0M4 22c3-3 6 3 12 0s9 3 12 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span>
+        <span class="brand-name">VENT<span class="brand-sub">EXAM LAB</span></span>
+      </a>
+      <div class="track-area">
+        <p class="eyebrow" id="picker-label">Choose your credential</p>
+        <div id="track-picker" role="group" aria-labelledby="picker-label"></div>
+      </div>
+    </div>
+    <div class="navigation-band"><nav aria-label="Main" id="nav"></nav></div>
+  </header>
+  <div class="context-header"><div class="context-inner"><span id="ctx-name">Vent Exam Lab</span><span class="independent">Independent exam preparation</span></div></div>
+  <div id="storage-alert" class="storage-alert" role="status" hidden></div>
+  <main id="main" tabindex="-1"><div class="loading" role="status">Loading…</div></main>
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-name">VENT EXAM LAB</span>
+      <p>Independent exam preparation. Not affiliated with NADCA. Original practice questions, no actual exam items. Progress stays in this browser.</p>
+    </div>
+  </footer>
+  <div id="live" class="sr" aria-live="polite" aria-atomic="true"></div>
+  <noscript><p class="noscript">Vent Exam Lab needs JavaScript to run.</p></noscript>
+</body>
+</html>
