@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inspection Desk: CVI casework</title>
+<meta name="description" content="Five inspection cases. Read the work order, walk the system, write the assessment. Graded clause by clause against ACR 2025.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+:root{--ink:#1c2b36;--muted:#5d7282;--paper:#f3f7fa;--sheet:#fff;--line:#d3dee6;--blue:#007cba;--blue-soft:#dcedf7;--rust:#b5452f;--rust-soft:#f7e1da;--gold:#e8a917;--gold-soft:#fff3cf;--green:#2e8b57;--green-soft:#e1f2e8;--red:#c0392b;--red-soft:#fbe4e1}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-size:15px;line-height:1.42}
+button{font:inherit;color:inherit}
+#app{max-width:1180px;margin:0 auto;padding:10px 12px 18px;display:grid;gap:10px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.bar h1{font-family:'Hind Madurai',Jost,sans-serif;font-size:1.25rem;margin:0;letter-spacing:.02em;text-transform:uppercase;color:var(--blue)}
+.stat{font-size:.85rem;color:var(--muted)}.stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+.stat.ok b{color:var(--green)}.stat.no b{color:var(--red)}
+.spacer{flex:1}
+.btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:3px;padding:7px 12px;min-height:40px;font-weight:600;cursor:pointer}
+.btn.alt{background:#fff;color:var(--blue);border-color:#b7cad7}
+.btn:disabled{opacity:.45;cursor:default}
+.cases{display:flex;flex-wrap:wrap;gap:6px}
+.case{border:1px solid var(--line);background:#fff;border-radius:3px;padding:5px 10px;font-size:.82rem;cursor:pointer;min-height:36px;text-align:left}
+.case b{display:block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.case.on{border-color:var(--blue);background:var(--blue-soft)}
+.case.done b::after{content:" · best " attr(data-best);color:var(--green)}
+.board{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:10px;align-items:start}
+.plan{background:var(--sheet);border:1px solid var(--line);border-radius:3px}
+.plan svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:3px;padding:12px 14px;min-width:0}
+.card h2{font-size:1.02rem;margin:0 0 4px;font-family:'Hind Madurai',Jost,sans-serif}
+.eyebrow{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 4px}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:-4px -4px 10px;flex-wrap:wrap}
+.tab{border:0;background:none;padding:8px 10px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;min-height:40px}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.tab .n{font-size:.72rem;background:var(--blue-soft);color:var(--blue);border-radius:9px;padding:1px 6px;margin-left:4px}
+.memo{background:#fffdf5;border:1px solid #efe3bf;border-radius:3px;padding:10px 12px;font-size:.92rem}
+.memo p{margin:.3em 0}
+.rule-new{background:var(--gold-soft);border-left:4px solid var(--gold);padding:8px 10px;margin:10px 0;font-size:.88rem}
+.pre{display:grid;gap:6px;margin-top:10px}
+.chk{display:flex;gap:10px;align-items:center;border:1px solid #b7cad7;background:#fff;border-radius:3px;padding:8px 10px;min-height:44px;cursor:pointer;text-align:left;width:100%}
+.chk.done{border-color:#9fd1b3;background:var(--green-soft);cursor:default}
+.chk small{margin-left:auto;color:var(--muted);white-space:nowrap}
+.find{border-left:4px solid var(--line);padding:6px 10px;margin:6px 0;font-size:.88rem;background:#fbfcfd}
+.find.issue{border-left-color:var(--rust);background:#fdf6f4}
+.find b{display:block;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.ahu{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.ahu button{border:1px solid #b7cad7;background:#fff;border-radius:3px;padding:7px 8px;min-height:44px;font-size:.84rem;cursor:pointer;text-align:left}
+.ahu button.seen{border-color:#9fb3c3;background:#f3f7fa}
+.ahu button.seen.issue{border-color:var(--rust);background:#fdf6f4}
+.form h3{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:14px;padding:5px 10px;font-size:.8rem;cursor:pointer;min-height:34px;text-align:left}
+.chip.on{border-color:var(--blue);background:var(--blue);color:#fff}
+.yn{display:flex;gap:6px}.yn .chip{min-width:110px;text-align:center}
+.rules{font-size:.84rem;max-height:520px;overflow:auto}
+.rules dt{font-weight:700;color:var(--blue);margin-top:8px}.rules dd{margin:0 0 2px}
+.rules .lvl{font-size:.68rem;font-weight:700;letter-spacing:.05em;padding:1px 5px;border-radius:2px;margin-right:5px;background:var(--blue-soft);color:var(--blue)}
+.rules .lvl.SHALL{background:var(--blue);color:#fff}
+.msg{font-size:.9rem;min-height:2.4em}.msg span{display:block;color:var(--muted);font-size:.83rem}
+#over{position:fixed;inset:0;background:#1c2b36cc;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:24px 12px;z-index:5}
+#over .card{max-width:760px;width:100%}
+.big{font-family:'Hind Madurai',Jost,sans-serif;font-size:3rem;font-weight:700;color:var(--blue);line-height:1}
+.rep{list-style:none;padding:0;margin:10px 0}.rep li{padding:6px 10px;margin:4px 0;border-left:4px solid var(--green);background:var(--green-soft);font-size:.88rem}
+.rep li.bad{border-left-color:var(--red);background:var(--red-soft)}
+.rep li span{display:block;color:var(--muted);font-size:.8rem}
+.lbl{font-size:12px;fill:var(--muted);pointer-events:none}
+.room{font-size:11px;letter-spacing:.12em;fill:#9fb3c3;font-weight:600;pointer-events:none}
+.hit{fill:transparent;stroke:transparent;cursor:pointer}
+@media (max-width:860px){.board{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="bar">
+    <h1>Inspection Desk</h1>
+    <span class="stat" id="st-clock">Clock <b>0:00</b></span>
+    <span class="stat" id="st-ahu">AHU items <b>0/8</b></span>
+    <span class="stat" id="st-duct">Duct components <b>0</b></span>
+    <span class="spacer"></span>
+    <button type="button" class="btn" id="submit">Submit assessment</button>
+  </div>
+  <div class="cases" id="cases"></div>
+  <div class="board">
+    <div class="plan"><svg id="svg" viewBox="0 0 800 560" role="img" aria-label="Mechanical plan of the building with the HVAC system"></svg></div>
+    <div class="card">
+      <div class="tabs" role="tablist"><button class="tab on" data-tab="order" type="button">Work order</button><button class="tab" data-tab="find" type="button">Findings<span class="n" id="n-find">0</span></button><button class="tab" data-tab="form" type="button">Assessment</button><button class="tab" data-tab="rules" type="button">Rulebook</button></div>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      <div id="pane"></div>
+    </div>
+  </div>
+</div>
+<div id="over"><div class="card" id="report"></div></div>
+<script>
+'use strict';
+// ---------- the building ----------
+const COMP={
+  S1:{g:'supply',name:'Supply trunk, section 1',pts:[[166,120],[300,120]],min:6},
+  S2:{g:'supply',name:'Supply trunk, section 2',pts:[[300,120],[430,120]],min:6},
+  S3:{g:'supply',name:'Supply trunk, section 3',pts:[[430,120],[565,120]],min:6},
+  S4:{g:'supply',name:'Supply trunk, section 4',pts:[[565,120],[690,120]],min:6},
+  V1:{g:'vav',name:'VAV box 1',box:[335,165,56,40],min:8},
+  V2:{g:'vav',name:'VAV box 2',box:[472,165,56,40],min:8},
+  V3:{g:'vav',name:'VAV box 3',box:[606,165,56,40],min:8},
+  B1:{g:'supply',name:'Zone 1 branch and diffusers',pts:[[363,205],[363,330]],min:6},
+  B2:{g:'supply',name:'Zone 2 branch and diffusers',pts:[[500,205],[500,330]],min:6},
+  B3:{g:'supply',name:'Zone 3 branch and diffusers',pts:[[634,205],[634,330]],min:6},
+  RP:{g:'return',name:'Return plenum (ducted)',box:[82,430,56,56],min:6},
+  R1:{g:'return',name:'Return duct, section 1',pts:[[138,470],[410,470]],min:6},
+  R2:{g:'return',name:'Return duct, section 2',pts:[[410,470],[700,470]],min:6},
+  E1:{g:'exhaust',name:'Restroom exhaust duct',pts:[[742,90],[742,34]],min:5}
+};
+const DUCTS=Object.keys(COMP);
+const AHU=[['filt','Filters and air bypass','1.7.1-a'],['coil','Heating and cooling coils','1.7.1-b'],['pan','Condensate pan and drain line','1.7.1-c'],['hum','Humidification system','1.7.1-d'],['ins','Acoustic insulation','1.7.1-e'],['fan','Fan and fan compartment','1.7.1-f'],['dmp','Dampers and door gaskets','1.7.1-g'],['integ','General unit integrity','1.7.1-h']];
+const GROUPS={ahu:'Air-handling unit',supply:'Supply ducts and branches',vav:'VAV boxes',return:'Return ducts and plenum',exhaust:'Restroom exhaust'};
+const groupOf=id=>COMP[id]?COMP[id].g:'ahu';
+const PRE=[['plans','Pull the building and mechanical plans','1.3-b',3],['risk','Risk assessment: effect on the building and the occupants','1.2.1',4],['ctrl','Set up engineering controls for the inspection','1.4-d',5]];
+// Reasons to clean. Paraphrased from ACR 2025 N-1 to N-16. N-0: one condition shown starts a cleaning.
+const TRIG={'N-1':'Presence of particulate','N-2':'Accumulation compromises performance','N-3':'Source of unacceptable odors','N-4':'Visible debris discharged into the space','N-5':'Fire, smoke, or water damage','N-6':'Birds, rodents, insects, or byproducts','N-7':'Fire hazard risk','N-8':'Construction particulate or debris','N-9':'Microbial Condition 2 or 3','N-10':'Porous components deteriorating','N-11':'ASHRAE/ACCA 180 maintenance program','N-12':'Manufacturer recommended maintenance','N-13':'Proactive energy management program','N-14':'Proactive IAQ management program','N-15':'Component of LEED certification','N-16':'Construction dust in a newly installed component'};
+const REFS={iep_mic:['Refer suspect microbial growth to an IEP','1.9-b'],iep_haz:['Consult an IEP about suspect hazardous material','1.8-a'],doc_dmg:['Document damaged or unsafe components','1.7.6-a']};
+
+// Clean looks, so every component has something to read.
+const CLEAN={
+  filt:'Filters seated tight in the rack, no gaps at the edges, light loading.',coil:'Coil faces clear edge to edge, fins straight.',pan:'Pan sloped to the drain, drain runs free, no standing water.',hum:'Humidifier dry and clean, no scale on the pan.',ins:'Acoustic insulation intact and dry, facing unbroken.',fan:'Fan wheel blades clean, compartment floor clean.',dmp:'Dampers move free, door gaskets seated and whole.',integ:'Panels fastened, no casing leaks, unit sound.',
+  duct:'Bare metal, no visible particulate. Wiped with a white glove, it comes back clean.',vav:'Inlet and outlet clean, controls enclosure closed, reheat coil clear.',exh:'Clean to the roof cap, damper free.'
+};
+const CASES=[
+ {id:1,title:'Dental office',rule:'The need-to-clean list. One condition from the list starts a cleaning (N-0). Presence of particulate is enough (N-1).',
+  order:['<b>Work order:</b> Routine annual inspection for Brightside Dental.','<b>Client note:</b> "We keep this system on the ASHRAE/ACCA 180 maintenance program your company set up for us last year."','<b>System:</b> One air handler, three VAV zones, ducted return, one restroom exhaust. Plans are on file.'],
+  brief:['N-11'],zones:['Operatories','Front office','Sterilization'],hint:[],
+  obs:{coil:{t:'A gray film of dust across the cooling coil face. Fins still open.',tags:['N-1']},
+       S2:{t:'An even layer of fine particulate on the bottom of the trunk. A glove wipe comes back gray.',tags:['N-1']},
+       R1:{t:'Light particulate on the duct bottom, heavier near the plenum.',tags:['N-1']}}},
+ {id:2,title:'Law office',rule:'The AHU inspection SHALL include all eight items in 1.7.1. Damaged or unsafe components SHALL be documented (1.7.6).',
+  order:['<b>Work order:</b> Dust complaint at Hale & Ortiz, second floor.','<b>Client note:</b> "Every morning there is dust on the conference table under the ceiling vents. Zone 2 is the conference suite."','<b>System:</b> Same layout as the plans. The air handler was last serviced two years ago.'],
+  brief:[],zones:['Private offices','Conference suite','Open office'],hint:['B2','V2'],
+  obs:{B2:{t:'Diffusers streaked black. Debris on the ceiling tiles around them and on the conference table below.',tags:['N-1','N-4']},
+       V2:{t:'Loose debris piled at the VAV inlet. Some of it lifts when the damper moves.',tags:['N-1']},
+       fan:{t:'Fan wheel blades caked. The service tech reports airflow is down since the last visit.',tags:['N-1','N-2']},
+       dmp:{t:'Access door gasket torn along one side. Air leaks around the door.',dmg:true},
+       S3:{t:'Particulate layer along the trunk bottom.',tags:['N-1']}}},
+ {id:3,title:'Walk-in clinic',rule:'Suspect microbial contamination in the air-handling unit SHALL start a duct inspection, and the supply and the return ducts SHALL be inspected at that same time (1.9.1). Condition 1, 2, and 3 status is an IEP determination (D-84).',
+  order:['<b>Work order:</b> Musty odor complaint at Eastgate Walk-In Clinic.','<b>Client note:</b> "Patients say the exam rooms smell musty when the air kicks on."','<b>System:</b> The supply plenum and trunk are lined with fibrous glass duct liner. Plans are on file.'],
+  brief:[],zones:['Waiting room','Exam rooms','Lab'],hint:['B2','pan'],
+  obs:{pan:{t:'Standing water in the condensate pan. Dark, fuzzy, suspect growth on the pan and on the underside of the coil.',mic:true,tags:[]},
+       coil:{t:'Suspect growth on the downstream coil face, the same look as the pan.',mic:true,tags:[]},
+       B2:{t:'Musty odor strong at the exam room diffusers.',tags:['N-3']},
+       S1:{t:'Lined trunk. The liner surface is eroding and flaking into the airstream.',tags:['N-10']},
+       ins:{t:'Acoustic insulation near the drain pan is wet and sagging.',tags:['N-10']}}},
+ {id:4,title:'Office after a fit-out',rule:'An inspection for cleanliness is recommended before the system operates after construction (1.6-b). When exposure to hazardous materials is possible, consult a qualified IEP (1.8-a).',
+  order:['<b>Work order:</b> Post-construction inspection for Tenant 210 before startup.','<b>GC note:</b> "The system ran during drywall and sanding. VAV box 3 and its branch are new this week. We are holding startup until you clear it."','<b>Also on site:</b> The mechanical room has old pipe insulation from the original 1970s building.'],
+  brief:[],zones:['Reception','Work area','New suite'],hint:['V3','B3'],
+  obs:{S1:{t:'Heavy drywall dust through the trunk, white and chalky.',tags:['N-8']},
+       S2:{t:'Drywall dust and sanding debris along the bottom.',tags:['N-8']},
+       V3:{t:'New VAV box. Construction dust inside it before it has ever run.',tags:['N-16']},
+       B3:{t:'New branch. Dust and a drywall screw inside the duct.',tags:['N-16']},
+       RP:{t:'Rodent droppings and shredded paper nesting in the return plenum corner.',tags:['N-6']},
+       integ:{t:'The unit itself is sound. Right beside it, old wrapped pipe insulation is flaking, and it could contain asbestos.',haz:true}}},
+ {id:5,title:'School wing remediation',rule:'For a microbial remediation project to ANSI/IICRC S520, the inspection SHALL include all components, not 10% (1.7-d).',
+  order:['<b>Work order:</b> Pre-cleaning inspection for the east wing of Pine Ridge Elementary.','<b>IEP report attached:</b> "Condition 3 confirmed in the Zone 3 supply branch after the roof leak. Remediation will follow ANSI/IICRC S520."','<b>System:</b> Same layout as the plans. The system has been off since the leak.'],
+  brief:['N-9'],zones:['Classrooms','Library','East classrooms'],hint:['B3'],s520:true,okRefs:['iep_mic'],
+  obs:{B3:{t:'Water-stained, delaminating liner in the branch. Visible growth, matching the IEP report.',tags:['N-5','N-10']},
+       V3:{t:'Water marks inside the VAV box casing. Reheat coil fins corroded.',tags:['N-5']},
+       R2:{t:'Silt and debris line on the duct bottom where water ran through.',tags:['N-1','N-5']},
+       filt:{t:'Filters water stained and collapsed in the rack. Air bypasses around them.',tags:['N-5']}}}
+];
+const RULES=[
+ ['1.0-a','SHALL','An inspection determines the need for cleaning, the scope of work, and the engineering controls.'],
+ ['1.2.1','SHALL','Before the inspection, the inspector understands its effect on the building and the occupants.'],
+ ['1.3-b','SHALL','Building floor plans and mechanical plans are in use during the inspection, if they exist.'],
+ ['1.4-d','SHALL','Appropriate engineering controls manage the workspace during an inspection. Settled particulate gets disturbed when you open things.'],
+ ['1.6-b','REC','After construction, an inspection for cleanliness occurs before the system operates.'],
+ ['1.7-a','SHALL','The cleanliness inspection includes a minimum of 10% of the components under inspection.'],
+ ['1.7-d','SHALL','For a microbial remediation project to ANSI/IICRC S520, the inspection includes all components.'],
+ ['1.7.1','SHALL','The AHU inspection includes filters and air bypass, coils, condensate pans and drain lines, humidification, acoustic insulation, fans and fan compartments, dampers and door gaskets, and general unit integrity.'],
+ ['1.7.6-a','SHALL','Damaged or unsafe components under observation receive documentation. Repair is not required at this clause.'],
+ ['1.8-a','REC','When exposure to hazardous materials is possible, consult a qualified IEP.'],
+ ['1.9-a','REC','When suspect contamination appears, a preliminary determination of Condition 1, 2, or 3 occurs.'],
+ ['1.9-b','REC','An IEP or other appropriate professional assesses the cause and the extent.'],
+ ['1.9.1','SHALL','Suspect microbial contamination in the AHU starts a duct inspection. Supply and return ducts get inspected in that same visit.'],
+ ['1.10','SHALL','The assessment gives the need for cleaning, a clearly defined scope, the cleaning techniques, the engineering controls, and any unique requirements.'],
+ ['N-0','REC','An inspection that shows one condition from the need-to-clean list starts a cleaning.'],
+ ['N-1','REC','The components show the presence of particulate. (The 2025 edition lowered this from an accumulation.)'],
+ ['N-9','REC','Microbial contamination reaches Condition 2 or Condition 3.'],
+ ['D-84','DEF','An IEP determines Condition 1, 2, and 3 status. You can suspect growth. You do not call its Condition.']
+];
+
+// ---------- state ----------
+const $=id=>document.getElementById(id),svg=$('svg'),NS='http://www.w3.org/2000/svg';
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let C=CASES[0],S,tab='order',sel=null;
+function fresh(c){return {pre:{},seen:{},order:[],min:0,firstOpenBeforeCtrl:false,form:{rec:null,trig:[],scope:[],refs:[]}};}
+function obsFor(id){const o=C.obs[id];if(o)return Object.assign({issue:!!(o.tags&&o.tags.length)||o.mic||o.haz||o.dmg},o);
+  return {t:COMP[id]?(COMP[id].g==='vav'?CLEAN.vav:COMP[id].g==='exhaust'?CLEAN.exh:CLEAN.duct):CLEAN[id],issue:false,tags:[]};}
+function nameOf(id){if(COMP[id]){const z=/^B(\d)$/.exec(id);return z?C.zones[+z[1]-1]+' branch and diffusers':COMP[id].name;}const a=AHU.find(x=>x[0]===id);return a?'AHU: '+a[1].toLowerCase():id;}
+function inspect(id){
+  if(S.seen[id])return;
+  if(!S.pre.ctrl)S.firstOpenBeforeCtrl=true;
+  S.seen[id]=obsFor(id);S.order.push(id);S.min+=COMP[id]?COMP[id].min:3;
+  const o=S.seen[id];say(nameOf(id)+(o.issue?': finding.':': clean.'),o.t);
+}
+let MSG=null;const say=(t,s)=>{MSG={t,s};};
+const ahuCount=()=>AHU.filter(a=>S.seen[a[0]]).length;
+const ductCount=()=>DUCTS.filter(d=>S.seen[d]).length;
+const minDucts=()=>C.s520?DUCTS.length:Math.ceil(DUCTS.length*.10);
+
+// ---------- what the right assessment is, from what you saw ----------
+function truth(){
+  const seen=Object.entries(S.seen);
+  const trig=new Set(C.brief);for(const[,o]of seen)(o.tags||[]).forEach(t=>trig.add(t));
+  const scope=new Set();for(const[id,o]of seen)if((o.tags||[]).length||o.mic)scope.add(groupOf(id));
+  const refs=new Set();for(const[,o]of seen){if(o.mic)refs.add('iep_mic');if(o.haz)refs.add('iep_haz');if(o.dmg)refs.add('doc_dmg');}
+  const micAHU=seen.some(([id,o])=>o.mic&&!COMP[id]);
+  return {trig,scope,refs,rec:trig.size>0,micAHU};
+}
+function grade(){
+  const T=truth(),F=S.form,out=[];let score=100;
+  const hit=(ok,good,bad,why,pen)=>{out.push({ok,t:ok?good:bad,why});if(!ok)score-=pen;};
+  hit(!!S.pre.plans,'Plans in hand for the inspection.','Inspected without pulling the plans.','1.3-b SHALL: plans are in use during the inspection when they exist. They were on file.',6);
+  hit(!!S.pre.risk,'Risk assessment done before you started.','No risk assessment before the inspection.','1.2.1 SHALL: understand the effect on the building and the occupants first.',6);
+  hit(!S.firstOpenBeforeCtrl&&!!S.pre.ctrl,'Engineering controls up before anything was opened.','Opened components before engineering controls were in place.','1.4-d SHALL: opening things disturbs settled particulate. Controls go up first.',8);
+  hit(ahuCount()===8,'All eight AHU items inspected.',`AHU inspection incomplete: ${8-ahuCount()} of 8 items not looked at.`,'1.7.1 SHALL: filters and bypass, coils, pan and drain, humidification, acoustic insulation, fan, dampers and gaskets, unit integrity.',10);
+  hit(ductCount()>=minDucts(),C.s520?'Every component inspected, as S520 requires.':`Duct inspection met the 10% minimum (${ductCount()} of ${DUCTS.length}).`,C.s520?`S520 project: ${DUCTS.length-ductCount()} components not inspected.`:`Only ${ductCount()} duct component${ductCount()===1?'':'s'} inspected; the minimum is ${minDucts()}.`,C.s520?'1.7-d SHALL: a remediation project to S520 inspects all components. The 10% minimum does not apply.':'1.7-a SHALL: at least 10% of the components under inspection.',10);
+  if(T.micAHU){const sup=DUCTS.some(d=>S.seen[d]&&(COMP[d].g==='supply'||COMP[d].g==='vav')),ret=DUCTS.some(d=>S.seen[d]&&COMP[d].g==='return');
+    hit(sup&&ret,'Suspect growth in the AHU, and you inspected both supply and return.','Suspect growth in the AHU, but '+(!sup&&!ret?'neither side':!sup?'no supply duct':'no return duct')+' was inspected.','1.9.1 SHALL: suspect microbial contamination in the AHU starts a duct inspection of the supply and the return in the same visit.',10);}
+  const missed=C.hint.filter(h=>!S.seen[h]);
+  hit(!missed.length,C.hint.length?'Checked where the work order pointed.':'No complaint area to chase on this one.','Never looked at '+missed.map(nameOf).join(' or ')+', where the work order pointed.','Read the work order like evidence. The complaint tells you where to open first.',10);
+  hit(F.rec===T.rec,T.rec?'Recommended cleaning.':'Recommended no cleaning.',F.rec===null?'No recommendation on the need for cleaning.':(F.rec?'Recommended cleaning with nothing on the list to support it.':'Said no cleaning, but what you saw meets the need-to-clean list.'),'1.10-b SHALL: the assessment recommends on the need for cleaning. N-0: one condition from the list starts a cleaning.',20);
+  const tMiss=[...T.trig].filter(t=>!F.trig.includes(t)),tExtra=F.trig.filter(t=>!T.trig.has(t));
+  for(const t of tMiss){out.push({ok:false,t:`Missed a reason: ${t}, ${TRIG[t].toLowerCase()}.`,why:reasonWhy(t)});score-=6;}
+  for(const t of tExtra){out.push({ok:false,t:`Listed a reason you cannot support: ${t}, ${TRIG[t].toLowerCase()}.`,why:t==='N-9'?'D-84: Condition status is an IEP determination. Suspect growth goes to the IEP (1.9-b); you do not call Condition 2 or 3 yourself.':'Nothing you inspected or read in the work order shows this.'});score-=4;}
+  if(T.trig.size&&!tMiss.length&&!tExtra.length)out.push({ok:true,t:'Reasons to clean match what you found.',why:[...T.trig].join(', ')});
+  const sMiss=[...T.scope].filter(g=>!F.scope.includes(g)),sExtra=F.scope.filter(g=>!T.scope.has(g));
+  for(const g of sMiss){out.push({ok:false,t:`Scope is missing the ${GROUPS[g].toLowerCase()}.`,why:'1.10-c SHALL: a clearly defined scope. You found something there.'});score-=6;}
+  for(const g of sExtra){out.push({ok:false,t:`Scope includes the ${GROUPS[g].toLowerCase()} with nothing found there.`,why:'Scope follows the findings. If you did not see it, you cannot sell it.'});score-=3;}
+  if(T.scope.size&&!sMiss.length&&!sExtra.length)out.push({ok:true,t:'Scope matches the findings.',why:[...T.scope].map(g=>GROUPS[g]).join(', ')});
+  const rMiss=[...T.refs].filter(r=>!F.refs.includes(r)),rExtra=F.refs.filter(r=>!T.refs.has(r)&&!(C.okRefs||[]).includes(r));
+  for(const r of rMiss){out.push({ok:false,t:'Missing: '+lc1(REFS[r][0])+'.',why:REFS[r][1]+(r==='doc_dmg'?' SHALL: damaged components get documented.':' REC: that call belongs to a qualified IEP.')});score-=8;}
+  for(const r of rExtra){out.push({ok:false,t:'Unneeded: '+lc1(REFS[r][0])+'.',why:'Nothing you saw calls for it.'});score-=3;}
+  if(T.refs.size&&!rMiss.length&&!rExtra.length)out.push({ok:true,t:'Referrals and documentation are right.',why:[...T.refs].map(r=>REFS[r][1]).join(', ')});
+  return {score:Math.max(0,Math.round(score)),out,T};
+}
+const lc1=s=>s[0].toLowerCase()+s.slice(1);
+function reasonWhy(t){const o={'N-11':'The client said the system is on an ASHRAE/ACCA 180 maintenance program. That is its own reason on the list.','N-9':'The IEP report confirms Condition 3. With the IEP determination in hand, N-9 applies.','N-1':'Presence of particulate is enough in the 2025 edition. It used to take an accumulation.','N-16':'A newly installed component with construction dust is its own line on the list, separate from N-8.','N-10':'Liner, duct board, or other porous material deteriorating is a reason to clean.'};return o[t]||'You saw it. It belongs on the list.';}
+
+// ---------- plan ----------
+function draw(){
+  svg.innerHTML='';
+  const defs=el('defs',{}),pat=el('pattern',{id:'grid',width:20,height:20,patternUnits:'userSpaceOnUse'},defs);el('path',{d:'M20 0H0V20',fill:'none',stroke:'#eef3f6'},pat);
+  el('rect',{x:0,y:0,width:800,height:560,fill:'url(#grid)'});
+  const rooms=[[20,20,190,380,'MECH ROOM'],[210,240,210,300,C.zones[0].toUpperCase()],[420,240,160,300,C.zones[1].toUpperCase()],[580,240,200,300,C.zones[2].toUpperCase()],[700,20,80,100,'RESTROOM'],[210,20,490,220,'CORRIDOR CEILING'],[20,400,190,140,'']];
+  for(const[x,y,w,h,n]of rooms){el('rect',{x,y,width:w,height:h,fill:'none',stroke:'#c9d6df','stroke-width':1.5});if(n)el('text',{x:x+10,y:n==='MECH ROOM'||n==='RESTROOM'?y+20:y+h-12,class:'room'}).textContent=n.length>18?n.slice(0,18):n;}
+  el('rect',{x:18,y:18,width:764,height:524,fill:'none',stroke:'#9fb3c3','stroke-width':3});
+  const colour=g=>g==='return'?['#b5452f','#f7e1da']:g==='exhaust'?['#6b5b95','#ebe6f4']:['#007cba','#dcedf7'];
+  const pin=(x,y,o)=>{if(!o)return;el('circle',{cx:x,cy:y,r:9,fill:o.issue?'#c0392b':'#2e8b57',stroke:'#fff','stroke-width':2});el('text',{x,y:y+4,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'#fff'}).textContent=o.issue?'!':'✓';};
+  const hintOn=id=>tab==='order'&&C.hint.includes(id)&&!S.seen[id];
+  // ducts
+  for(const id of DUCTS){const c=COMP[id],[st,soft]=colour(c.g),g=el('g',{'data-t':id});
+    if(c.pts){const d='M'+c.pts.map(p=>p.join(' ')).join(' L'),w=c.g==='exhaust'?12:id[0]==='B'?14:22;
+      if(sel===id)el('path',{d,stroke:'#e8a917','stroke-width':w+12,fill:'none','stroke-linecap':'round'},g);
+      el('path',{d,stroke:st,'stroke-width':w+4,fill:'none'},g);el('path',{d,stroke:soft,'stroke-width':w,fill:'none'},g);
+      if(id[0]==='B'){const[x,y]=c.pts[1];for(const dx of[-40,0,40]){el('rect',{x:x+dx-11,y:y+18,width:22,height:22,fill:'#fff',stroke:st,'stroke-width':2},g);el('path',{d:`M${x+dx-11} ${y+18} L${x+dx+11} ${y+40} M${x+dx+11} ${y+18} L${x+dx-11} ${y+40}`,stroke:st,'stroke-width':1},g);}el('path',{d:`M${x-40} ${y+18} L${x-40} ${y} L${x+40} ${y} L${x+40} ${y+18} M${x} ${y} L${x} ${y+18}`,stroke:st,'stroke-width':3,fill:'none'},g);}
+      el('path',{d,class:'hit','stroke-width':Math.max(36,w+24),fill:'none'},g);
+      const m=c.pts.length===2?[(c.pts[0][0]+c.pts[1][0])/2,(c.pts[0][1]+c.pts[1][1])/2]:c.pts[1];
+      if(hintOn(id))el('circle',{cx:m[0],cy:m[1],r:16,fill:'none',stroke:'#e8a917','stroke-width':3,'stroke-dasharray':'4 3'},g);
+      pin(m[0]+(id[0]==='B'?16:0),m[1]-(id[0]==='B'?0:18),S.seen[id]);
+    } else {const[x,y,w,h]=c.box;
+      if(sel===id)el('rect',{x:x-6,y:y-6,width:w+12,height:h+12,rx:4,fill:'none',stroke:'#e8a917','stroke-width':4},g);
+      el('rect',{x,y,width:w,height:h,rx:3,fill:soft,stroke:st,'stroke-width':2.5},g);
+      el('text',{x:x+w/2,y:y+h/2+4,'text-anchor':'middle','font-size':11,'font-weight':700,fill:st},g).textContent=c.g==='vav'?'VAV '+id[1]:'RETURN';
+      el('rect',{x:x-8,y:y-8,width:w+16,height:h+16,class:'hit'},g);
+      if(hintOn(id))el('rect',{x:x-10,y:y-10,width:w+20,height:h+20,rx:6,fill:'none',stroke:'#e8a917','stroke-width':3,'stroke-dasharray':'4 3'},g);
+      pin(x+w,y,S.seen[id]);}
+  }
+  // VAV to trunk stubs, AHU to return plenum
+  for(const v of['V1','V2','V3']){const[x,y,w]=COMP[v].box;el('line',{x1:x+w/2,y1:131,x2:x+w/2,y2:y,stroke:'#007cba','stroke-width':6});}
+  el('path',{d:'M110 210 L110 430',stroke:'#b5452f','stroke-width':16,fill:'none'});el('path',{d:'M110 210 L110 430',stroke:'#f7e1da','stroke-width':12,fill:'none'});
+  // air handler
+  const ag=el('g',{'data-t':'ahu'}),n=ahuCount(),anyIssue=AHU.some(a=>S.seen[a[0]]&&S.seen[a[0]].issue);
+  if(sel==='ahu')el('rect',{x:50,y:84,width:124,height:132,rx:5,fill:'none',stroke:'#e8a917','stroke-width':4},ag);
+  el('rect',{x:56,y:90,width:112,height:120,rx:4,fill:'#cfd9e0',stroke:'#5d7282','stroke-width':2.5},ag);
+  el('text',{x:112,y:140,'text-anchor':'middle','font-size':13,'font-weight':700,fill:'#1c2b36'},ag).textContent='AIR';
+  el('text',{x:112,y:156,'text-anchor':'middle','font-size':13,'font-weight':700,fill:'#1c2b36'},ag).textContent='HANDLER';
+  el('text',{x:112,y:178,'text-anchor':'middle','font-size':11,fill:'#5d7282'},ag).textContent=n+' of 8 checked';
+  if(tab==='order'&&C.hint.some(h=>!COMP[h]&&!S.seen[h]))el('rect',{x:46,y:80,width:132,height:140,rx:6,fill:'none',stroke:'#e8a917','stroke-width':3,'stroke-dasharray':'4 3'},ag);
+  el('rect',{x:46,y:80,width:132,height:140,class:'hit'},ag);
+  if(n)pin(168,90,{issue:anyIssue});
+  el('text',{x:742,y:30,'text-anchor':'middle',class:'lbl'}).textContent='roof';
+}
+// ---------- side panes ----------
+function pane(){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));
+  $('n-find').textContent=S.order.length;
+  const p=$('pane');
+  if(sel){p.innerHTML=selPane();bindSel();return;}
+  if(tab==='order'){
+    p.innerHTML=`<div class="memo">${C.order.map(x=>`<p>${x}</p>`).join('')}</div><div class="rule-new"><b>Rule in play:</b> ${esc(C.rule)}</div><p class="eyebrow">Before you open anything</p><div class="pre">${PRE.map(([k,l,c,m])=>`<button type="button" class="chk${S.pre[k]?' done':''}" data-pre="${k}">${S.pre[k]?'✓':'□'} ${esc(l)}<small>${c} · ${m} min</small></button>`).join('')}</div><p class="eyebrow" style="margin-top:12px">Then tap the air handler or any duct on the plan to inspect it. Dashed gold rings mark where the work order points.</p>`;
+    p.querySelectorAll('[data-pre]').forEach(b=>b.onclick=()=>{const k=b.dataset.pre;if(S.pre[k])return;S.pre[k]=true;S.min+=PRE.find(x=>x[0]===k)[3];say(PRE.find(x=>x[0]===k)[1]+'.','');update();});
+  } else if(tab==='find'){
+    p.innerHTML=S.order.length?S.order.map(id=>{const o=S.seen[id];return `<div class="find${o.issue?' issue':''}"><b>${esc(nameOf(id))}</b>${esc(o.t)}</div>`;}).join(''):'<p class="eyebrow">Nothing inspected yet.</p>';
+  } else if(tab==='form'){
+    const F=S.form,chip=(k,v,on,l)=>`<button type="button" class="chip${on?' on':''}" data-${k}="${v}">${esc(l)}</button>`;
+    p.innerHTML=`<div class="form"><p class="eyebrow">System component assessment (1.10)</p>
+      <h3>Need for cleaning</h3><div class="yn">${chip('rec','1',F.rec===true,'Recommend cleaning')}${chip('rec','0',F.rec===false,'No cleaning needed')}</div>
+      <h3>Reasons to clean</h3><div class="chips">${Object.entries(TRIG).map(([k,l])=>chip('trig',k,F.trig.includes(k),k+' '+l)).join('')}</div>
+      <h3>Scope of work</h3><div class="chips">${Object.entries(GROUPS).map(([k,l])=>chip('scope',k,F.scope.includes(k),l)).join('')}</div>
+      <h3>Referrals and documentation</h3><div class="chips">${Object.entries(REFS).map(([k,[l,c]])=>chip('refs',k,F.refs.includes(k),l+' ('+c+')')).join('')}</div></div>`;
+    p.querySelectorAll('[data-rec]').forEach(b=>b.onclick=()=>{F.rec=b.dataset.rec==='1';update();});
+    for(const k of['trig','scope','refs'])p.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{const v=b.dataset[k],a=F[k],i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);update();});
+  } else {
+    p.innerHTML=`<dl class="rules">${RULES.map(([c,l,t])=>`<dt><span class="lvl ${l}">${l}</span>${c}</dt><dd>${esc(t)}</dd>`).join('')}</dl><p class="eyebrow" style="margin-top:8px">Paraphrased from ACR 2025 with clause numbers so you can check the source.</p>`;
+  }
+}
+function selPane(){
+  if(sel==='ahu')return `<p class="eyebrow">Air-handling unit · 1.7.1 SHALL include all eight</p><h2>Air handler</h2><div class="ahu">${AHU.map(([k,l])=>{const o=S.seen[k];return `<button type="button" data-ahu="${k}" class="${o?'seen'+(o.issue?' issue':''):''}">${o?(o.issue?'! ':'✓ '):''}${esc(l)}<br><small style="color:#5d7282">${o?'':'3 min'}</small></button>`;}).join('')}</div>${AHU.filter(a=>S.seen[a[0]]).map(([k,l])=>`<div class="find${S.seen[k].issue?' issue':''}"><b>${esc(l)}</b>${esc(S.seen[k].t)}</div>`).join('')}<div style="margin-top:8px"><button type="button" class="btn alt" id="back">Back</button></div>`;
+  const o=S.seen[sel],c=COMP[sel];
+  return `<p class="eyebrow">${esc(GROUPS[c.g])}</p><h2>${esc(nameOf(sel))}</h2>${o?`<div class="find${o.issue?' issue':''}"><b>${o.issue?'Finding':'Clean'}</b>${esc(o.t)}</div>`:`<p>Open it up and look?</p><button type="button" class="btn" id="look">Inspect it · ${c.min} min</button>`}<div style="margin-top:8px"><button type="button" class="btn alt" id="back">Back</button></div>`;
+}
+function bindSel(){
+  const p=$('pane');
+  p.querySelectorAll('[data-ahu]').forEach(b=>b.onclick=()=>{inspect(b.dataset.ahu);update();});
+  const l=p.querySelector('#look');if(l)l.onclick=()=>{inspect(sel);update();};
+  const bk=p.querySelector('#back');if(bk)bk.onclick=()=>{sel=null;update();};
+}
+function hud(){
+  const fmt=m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0');
+  $('st-clock').innerHTML='Clock <b>'+fmt(S.min)+'</b>';
+  const a=ahuCount();$('st-ahu').className='stat '+(a===8?'ok':a?'no':'');$('st-ahu').innerHTML='AHU items <b>'+a+'/8</b>';
+  const d=ductCount(),m=minDucts();$('st-duct').className='stat '+(d>=m?'ok':d?'no':'');$('st-duct').innerHTML='Duct components <b>'+d+'</b> (min '+m+(C.s520?', S520':'')+')';
+  $('msg').innerHTML=MSG?`<b>${esc(MSG.t)}</b><span>${esc(MSG.s||'')}</span>`:'<b>Read the work order first.</b><span>Then walk the system and write the assessment. The grade checks every step against ACR 2025.</span>';
+  const best=readBest();
+  $('cases').innerHTML=CASES.map(c=>`<button type="button" class="case${c===C?' on':''}${best[c.id]!=null?' done':''}" data-case="${c.id}" data-best="${best[c.id]!=null?best[c.id]:''}"><b>Case ${c.id}</b>${esc(c.title)}</button>`).join('');
+}
+function update(){draw();pane();hud();}
+svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');if(!g)return;sel=g.dataset.t;if(sel!=='ahu'&&!S.seen[sel])say(nameOf(sel),'Tap Inspect to open it up.');update();});
+document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;sel=null;update();});
+$('cases').addEventListener('click',e=>{const b=e.target.closest('[data-case]');if(!b)return;load(+b.dataset.case);});
+function readBest(){try{return JSON.parse(localStorage.getItem('vel-insp')||'{}')||{};}catch(e){return {};}}
+function load(id){C=CASES.find(c=>c.id===id)||CASES[0];S=fresh(C);sel=null;tab='order';MSG=null;update();}
+$('submit').onclick=()=>{
+  const G=grade();
+  try{const b=readBest();b[C.id]=Math.max(b[C.id]||0,G.score);localStorage.setItem('vel-insp',JSON.stringify(b));
+    const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m.inspection||{n:0,best:0};m.inspection={n:(r.n||0)+1,best:Math.max(r.best||0,G.score),last:G.score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));
+    if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'inspection'},location.origin);}catch(e){}
+  const next=CASES.find(c=>c.id===C.id+1);
+  $('report').innerHTML=`<p class="eyebrow">Case ${C.id} · ${esc(C.title)} · graded against ACR 2025</p><div class="big">${G.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div>
+    <ul class="rep">${G.out.map(r=>`<li class="${r.ok?'':'bad'}">${esc(r.t)}<span>${esc(r.why)}</span></li>`).join('')}</ul>
+    <p class="eyebrow">What was on this job</p><div>${[...AHU.map(a=>a[0]),...DUCTS].filter(k=>C.obs[k]).map(k=>`<div class="find issue"><b>${esc(nameOf(k))}${S.seen[k]?'':' · you did not open this'}</b>${esc(C.obs[k].t)}</div>`).join('')}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${next?`<button type="button" class="btn" id="next">Case ${next.id}: ${esc(next.title)}</button>`:''}<button type="button" class="btn alt" id="retry">Run this case again</button><button type="button" class="btn alt" id="close">Back to the desk</button></div>`;
+  $('over').style.display='flex';
+  if(next)$('next').onclick=()=>{$('over').style.display='none';load(next.id);};
+  $('retry').onclick=()=>{$('over').style.display='none';load(C.id);};$('close').onclick=()=>{$('over').style.display='none';};
+  ($('next')||$('retry')).focus({preventScroll:true});$('over').scrollTop=0;
+};
+window.__INSP={get S(){return S},get C(){return C},load,inspect,grade,truth,CASES,AHU,DUCTS,PRE};
+load(1);
+</script>
+</body>
+</html>
