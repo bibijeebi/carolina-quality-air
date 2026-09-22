@@ -53,6 +53,16 @@ kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .75rem; 
 .track-button span { font-size: .75rem; }
 .track-button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 .track-button:hover:not(.active) { background: #edf6fc; border-color: #8bb6cf; }
+.field-button { border-style: dashed; }
+.field-button.active { border-style: solid; }
+.field-frame-wrap { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; background: #1d1a2e; }
+.field-frame { display: block; width: 100%; height: calc(100vh - 16px); height: calc(100dvh - 16px); min-height: 520px; max-height: 900px; border: 0; }
+.field-frame-wrap { scroll-margin-top: 8px; }
+.field-pairs { margin-bottom: 16px; }
+.field-pairs .chip { text-decoration: none; margin: 2px 2px 0 0; background: var(--blue-soft); color: var(--slate); border-color: #9bbfd5; }
+.field-head .head-aside { align-self: center; }
+.field-callout { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; }
+.field-callout p { margin: 4px 0 0; }
 .navigation-band { border-top: 1px solid #edf1f4; border-bottom: 1px solid var(--line); background: #fff; }
 nav#nav { display: flex; max-width: 1240px; margin: 0 auto; padding: 0 24px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #b7cad7 transparent; -webkit-overflow-scrolling: touch; }
 nav#nav a { color: var(--muted); font-size: .94rem; font-weight: 500; white-space: nowrap; padding: 15px 18px 13px; min-height: 48px; display: flex; align-items: center; border-bottom: 3px solid transparent; text-decoration: none; }

@@ -250,7 +250,13 @@
     $('track-picker').innerHTML = TRACKS.map(t => {
       const m = V.data[t.id] ? Object.assign({}, t, V.data[t.id].track) : t;
       return `<button type="button" class="track-button${t.id === track ? ' active' : ''}" data-track="${t.id}" aria-pressed="${t.id === track}"><b>${esc(m.code)}</b><span>${esc(m.kind)}</span></button>`;
-    }).join('');
+    }).join('') + (V.field ? `<button type="button" class="track-button field-button${track === 'field' ? ' active' : ''}" data-track="field" aria-pressed="${track === 'field'}"><b>FIELD</b><span>Sims and drills</span></button>` : '');
+    if (track === 'field') {
+      const nav = $('nav');
+      nav.innerHTML = V.field.NAV.map(([id, label]) => `<a href="${id ? link('field', id) : link('field')}"${id === (view || '') ? ' class="active" aria-current="page"' : ''}>${esc(label)}</a>`).join('');
+      $('ctx-name').textContent = 'Field training';
+      return;
+    }
     const nav = $('nav');
     nav.innerHTML = NAV.filter(([id]) => id !== 'lab' || (D && D.sysDom))
       .map(([id, label]) => `<a href="${link(track, id)}"${id === view ? ' class="active" aria-current="page"' : ''}>${label}</a>`).join('');
@@ -261,10 +267,25 @@
   let lastHash = null;
   async function route() {
     const r = parse();
+    if (r.track === 'field' && V.field) {
+      runCleanup();
+      V.keys = null;
+      V.cur = null; // no credential is active, so sync has nothing to reconcile here
+      renderShell('field', r.view || '');
+      store.last = { track: 'field', route: r.view ? link('field', r.view) : link('field') };
+      save('nav');
+      const moved = location.hash !== lastHash, initial = lastHash === null;
+      lastHash = location.hash;
+      try { V.field.render(r.view || ''); } catch (e) { console.error(e); main.innerHTML = empty('Something went wrong on this page.', esc(e.message), `<a class="btn" href="${link('field')}">All field training</a>`); }
+      const fw = r.view && main.querySelector('.field-frame-wrap');
+      if (fw && moved) { main.focus({ preventScroll: true }); fw.scrollIntoView({ block: 'start' }); } // the job goes edge to edge in the viewport
+      else if (moved && !initial) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
+      return;
+    }
     const track = TRACKS.some(t => t.id === r.track) ? r.track : null;
     if (!track) {
       const last = store.last && store.last.route;
-      location.replace(last && /^#\/(ascs|cvi|dvt)\/[a-z]+$/.test(last) ? last : '#/ascs/today');
+      location.replace(last && /^#\/((ascs|cvi|dvt)\/[a-z]+|field(\/[a-z-]+)?)$/.test(last) ? last : '#/ascs/today');
       return;
     }
     const view = V.views[r.view] ? r.view : null;
@@ -380,7 +401,8 @@
       + `<div class="grid top"><section class="panel hero-panel" id="hero">${heroHTML(D, S, ps)}</section>${windowHTML(D, S, ps, dl)}</div>`
       + metrics
       + `<div class="grid"><section class="panel"><div class="row-between"><h2>Domain readiness</h2><span class="small muted hint">Tap a domain to drill it</span></div><div class="domain-list">${domRows || '<p class="muted">No domains in this bundle.</p>'}</div></section>${lessonsPanel}</div>`
-      + ruleLine(D, S);
+      + ruleLine(D, S)
+      + (V.field && id !== 'dvt' ? `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the job the standard describes.</h2><p class="muted">Job sims graded on return first, negative air, rod reach, and patching every hole. Print-reading drills for spotting supply and return on sight.</p></div><a class="btn secondary" href="${link('field')}">Open field training</a></section>` : '');
     main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; S.planAt = Date.now(); save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
     const date = $('exam-date'), mins = $('exam-min');
     date.onchange = () => { S.plan.date = date.value; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-date'); if (f) f.focus(); };
@@ -586,8 +608,9 @@
     $('track-picker').addEventListener('click', e => {
       const b = e.target.closest('[data-track]'); if (!b) return;
       const r = parse();
+      if (b.dataset.track === 'field') { if (r.track !== 'field') location.hash = link('field'); return; }
       const view = V.views[r.view] ? r.view : 'today';
-      if (b.dataset.track !== V.cur) location.hash = link(b.dataset.track, view);
+      if (b.dataset.track !== r.track) location.hash = link(b.dataset.track, view);
     });
     document.addEventListener('keydown', e => {
       if (!V.keys || e.metaKey || e.ctrlKey || e.altKey) return;
