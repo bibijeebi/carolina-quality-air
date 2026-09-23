@@ -48,7 +48,7 @@
   }
   V.views.lab = function (D) {
     const id = D.id;
-    V.main.innerHTML = head(`${esc(D.track.code)} / Systems lab`, 'See what the system changes.', 'A simplified one-zone teaching model. Change the controls and predict the result before you read it.', `<a class="btn secondary" href="${link(id, 'drill', 'dom', D.sysDom)}">Drill ${esc(D.sysDom)} questions</a>`)
+    V.main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(D.id, 'practice')}">Practice</a> / Systems lab`, 'See what the system changes.', 'A simplified one-zone teaching model. Change the controls and predict the result before you read it.', `<a class="btn secondary" href="${link(id, 'drill', 'dom', D.sysDom)}">Drill ${esc(D.sysDom)} questions</a>`)
       + `<div class="grid lab-grid"><section class="panel"><div class="field"><label for="lab-system">System behavior</label><select id="lab-system">${SYSTEMS.map(([k, n]) => `<option value="${k}"${lab.system === k ? ' selected' : ''}>${n}</option>`).join('')}</select></div>`
       + `<div class="field space"><label for="lab-load" id="load-label"></label><input id="lab-load" type="range" min="20" max="100" step="5" value="${lab.load}"><output id="load-out" for="lab-load"></output></div>`
       + `<div class="field space"><label for="lab-fraction">Baseline measured outdoor-air fraction</label><input id="lab-fraction" type="range" min="10" max="60" step="5" value="${lab.fraction}"><output id="fraction-out" for="lab-fraction"></output></div>`

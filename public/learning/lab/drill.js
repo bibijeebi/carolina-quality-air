@@ -212,7 +212,7 @@
     migrate(s);
     V.quizMode(false);
     const next = filterLabel(D, type, val);
-    V.main.innerHTML = head(`${esc(D.track.code)} / Drill`, 'You have a drill open.', `${esc(s.label)}: ${s.n} of ${s.total} answered.`)
+    V.main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(D.id, 'practice')}">Practice</a> / Drill`, 'You have a drill open.', `${esc(s.label)}: ${s.n} of ${s.total} answered.`)
       + `<section class="panel resume" id="replace-box"><div class="actions"><a class="btn" href="${link(id, 'drill')}">Resume ${esc(s.label)}</a><button type="button" class="btn secondary" id="replace">Start ${esc(next)} instead</button></div></section>`;
     const box = $('replace-box');
     const ask = () => confirmInline(box, `Start ${esc(next)}? The drill you have open ends here. Its misses stay due.`, 'Start new drill', () => { newDrill(D, type, val, q); V.save(); location.replace(link(id, 'drill')); });
@@ -222,7 +222,7 @@
   function renderSetup(D) {
     const S = V.T(), id = D.id;
     V.quizMode(false); stopTicker();
-    const hd = head(`${esc(D.track.code)} / Drill`, 'Drill until it sticks.', 'One question at a time. Right on first sight masters it. A miss comes back three cards later and needs two right in a row.');
+    const hd = head(`${esc(D.track.code)} / <a href="${link(D.id, 'practice')}">Practice</a> / Drill`, 'Drill until it sticks.', 'One question at a time. Right on first sight masters it. A miss comes back three cards later and needs two right in a row.');
     if (!D.pool.length) { V.main.innerHTML = hd + empty('No practice questions yet.', 'Every question here is saved for exam sims.'); return; }
     const ps = V.poolStats(D, S);
     const doms = D.doms.filter(d => D.pool.some(q => q.domain === d.name));
@@ -385,7 +385,7 @@
     const acts = capEnd
       ? `<button type="button" class="btn" id="keep-going">Keep going</button><a class="btn secondary" id="done" href="${link(id, 'today')}">Done</a>${ps.miss ? `<a class="btn text" href="${link(id, 'drill', 'misses')}">Drill ${plural(ps.miss, 'miss', 'misses')}</a>` : ''}`
       : `${ps.miss ? `<a class="btn" href="${link(id, 'drill', 'misses')}">Drill ${plural(ps.miss, 'miss', 'misses')}</a>` : ''}<button type="button" class="btn secondary" id="new-drill">New drill</button><a class="btn text" href="${link(id, 'today')}">Back to Today</a>`;
-    V.main.innerHTML = head(`${esc(D.track.code)} / Drill`, title, lead)
+    V.main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(D.id, 'practice')}">Practice</a> / Drill`, title, lead)
       + `<div class="grid"><section class="panel"><div class="metrics three compact"><div class="metric"><b>${s.n}<span>/${s.total}</span></b><span>Answered</span></div><div class="metric"><b>${s.retired}</b><span>Mastered</span></div><div class="metric"><b>${ps.miss}</b><span>Misses due</span></div></div>`
       + `<p class="space">${s.tries ? `${pct(s.right, s.tries)}% right on ${plural(s.tries, 'answer')}, repeats included. ` : 'No answers this time. '}${capEnd ? `${plural(s.queue.length, 'card')} left in this drill.` : !s.queue.length ? '' : `${plural(s.queue.length, 'card')} not reached.`} ${ps.left} of ${ps.n} questions not mastered yet.</p>`
       + `${!capEnd && ps.miss ? `<p class="small muted space-sm">${carried}</p>` : ''}<div class="actions space">${acts}</div></section>`

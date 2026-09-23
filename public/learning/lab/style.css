@@ -642,3 +642,17 @@ details.advanced[open] > summary::before { content: "\2212"; }
 @media (max-width: 650px) { .su-tracks { grid-template-columns: 1fr; } .setup-form .actions .btn.primary { width: 100%; } }
 @media print { .navigation-band, .subtabs, details.advanced { display: none !important; } body { padding-bottom: 0 !important; } }
 [hidden] { display: none !important; }
+
+/* Exam sim: the length the ready check wants next stands out; on a phone each length is one compact row. */
+.sim-card.next { box-shadow: inset 0 0 0 2px var(--blue); background: #f6fbfe; }
+.next-tag { color: var(--blue); }
+@media (max-width: 650px) {
+  .sim-grid { gap: 10px; }
+  .sim-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 12px; padding: 14px 16px; }
+  .sim-card .eyebrow { grid-column: 1 / -1; }
+  .sim-card h2 { font-size: 1.3rem; }
+  .sim-card p.muted { grid-column: 1; margin: 0; }
+  .sim-card .btn { grid-column: 2; grid-row: 2 / span 2; margin: 0; }
+}
+@media (max-width: 650px) { .hide-sm { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+@media (max-width: 860px) { .lesson-aside .actions .btn:not(#mark-read) { display: none; } .lesson-aside .actions { margin-top: 0; } }

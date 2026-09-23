@@ -42,7 +42,7 @@
     V.quizMode(false);
     const now = Date.now();
     const due = D.units.filter(u => S.rc[u.id] && S.rc[u.id].d <= now).length;
-    V.main.innerHTML = head(`${esc(D.track.code)} / Games`, 'Short rounds, real facts.', 'Short rounds with a score, a streak, and a review of what you missed. Games never use exam-sim questions.')
+    V.main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(D.id, 'practice')}">Practice</a> / Games`, 'Short rounds, real facts.', 'Short rounds with a score, a streak, and a review of what you missed. Games never use exam-sim questions.')
       + (Object.keys(GAMES).every(k => !avail(D, k)) ? `<div class="note blue space-b"><p>Games are built from facts, and the ${esc(D.track.code)} facts are still being written. The question bank is ready now.</p><div class="actions space-sm"><a class="btn small" href="${link(id, 'drill')}">Open the drill</a><a class="btn secondary small" href="${link(id, 'sim')}">Exam sim</a></div></div>` : '')
       + `<div class="game-grid">${Object.entries(GAMES).map(([k, g]) => {
         const n = avail(D, k), best = S.best[k];
