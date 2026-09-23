@@ -39,11 +39,12 @@
       '.field-bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;padding:6px 12px;background:#fff;border-bottom:1px solid var(--line)}',
       '.field-bar .field-back{display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-decoration:none;white-space:nowrap}',
       '.field-bar .field-back:hover{text-decoration:underline}',
+      '.field-bar .field-all{font-weight:500;color:var(--muted)}',
       '.field-bar .field-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}',
       '.field-bar h1{font-size:1.3rem;letter-spacing:.03em;text-transform:uppercase;color:var(--blue);margin:0}',
       '.field-bar .eyebrow{margin:0}',
       '.field-bar .btn{margin-left:auto}',
-      '@media (max-width:650px){.field-bar{padding:4px 12px 10px}.field-bar .field-title{order:3;width:100%}.field-bar h1{font-size:1.15rem}}'
+      '@media (max-width:650px){.field-bar{padding:4px 12px 10px}.field-bar .field-all{display:none}.field-bar .field-title{order:3;width:100%}.field-bar h1{font-size:1.15rem}}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -69,7 +70,8 @@
 
   function hub() {
     mem = read();
-    V.main.innerHTML = head('Field training', 'Do the job, not just the test.', 'Hands-on sims and drills for the work the exams describe. Scores stay in this browser.')
+    const tr = V.homeTrack();
+    V.main.innerHTML = head(`<a href="#/${tr}/practice">Practice</a> / Field training`, 'Do the job, not just the test.', 'Hands-on sims and drills for the work the exams describe. Scores stay in this browser.')
       + `<div class="game-grid field-grid">${TOOLS.map(t => `<section class="panel game-card field-card" data-tool="${t.id}"><p class="eyebrow">${esc(t.kind)}</p><h2>${esc(t.title)}</h2><p class="muted">${esc(t.blurb)}</p><p class="small space-sm field-score">${esc(scoreLine(t))}</p><p class="field-pairs small">Pairs with ${pairs(t)}</p><a class="btn space" href="#/field/${t.id}">${t.score ? 'Run the job' : 'Open'}</a></section>`).join('')}</div>`
       + '<div class="note blue space-lg"><b>How this fits the exams</b><p>The credential tracks teach what the standard says. Field training is where you practice doing it in order. Run a sim after the matching lesson, and the rules stick as a sequence of moves instead of a list of facts.</p></div>';
     watchStorage(() => V.main.querySelectorAll('.field-card').forEach(c => { const t = byId(c.dataset.tool), p = c.querySelector('.field-score'); if (t && p) p.textContent = scoreLine(t); }));
@@ -80,7 +82,7 @@
     const note = '. On a phone, full screen gives it more room.';
     // One bar owns the title and the way back. The tool hides its own copies when it sees it is framed.
     V.main.innerHTML = `<div class="field-frame-wrap">`
-      + `<div class="field-bar"><a class="field-back" href="#/field">&larr; Field training</a><div class="field-title"><h1>${esc(t.title)}</h1><p class="eyebrow">${esc(t.kind)}</p></div><a class="btn secondary small" href="field/${t.file}" target="_blank" rel="noopener">Open full screen</a></div>`
+      + `<div class="field-bar"><a class="field-back" href="#/${V.homeTrack()}/practice">&larr; Practice</a><a class="field-back field-all small" href="#/field">All field training</a><div class="field-title"><h1>${esc(t.title)}</h1><p class="eyebrow">${esc(t.kind)}</p></div><a class="btn secondary small" href="field/${t.file}" target="_blank" rel="noopener">Open full screen</a></div>`
       + `<iframe class="field-frame" src="field/${t.file}" title="${esc(t.title)}" loading="eager" allow="fullscreen"></iframe></div>`
       + `<p class="small muted space-sm">${esc(scoreLine(t))}${note}</p>`;
     const fr = V.main.querySelector('iframe.field-frame');
@@ -108,7 +110,7 @@
   }
 
   V.field = {
-    TOOLS, NAV,
+    TOOLS, NAV, scoreLine: t => { mem = read(); return scoreLine(t); },
     render(view) {
       if (!view) return hub();
       const t = byId(view);

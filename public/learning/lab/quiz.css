@@ -1,0 +1,53 @@
+/* Vent Exam Lab: question screens (drill, checkpoints, games, sim). Loaded after style.css. */
+
+/* Drill status line under the progress bar: misses due and time left. */
+.drill-meta { margin: -8px 0 12px; font-variant-numeric: tabular-nums; }
+.drill-meta.low { color: var(--amber, #8c5715); font-weight: 600; }
+.quiz-top strong { font-variant-numeric: tabular-nums; }
+
+/* "Not sure" explained in one line under the tools. */
+.q-tools + .tool-help { margin-top: 8px; max-width: 60ch; }
+
+/* Tap-to-pick: the picked answer before Check. Choices already have .selected; games' .opt needs it. */
+.opt.selected { border-color: var(--blue, #007cba); background: #eaf4fa; box-shadow: inset 0 0 0 1px var(--blue, #007cba); }
+.opt.selected .letter { background: var(--blue, #007cba); border-color: var(--blue, #007cba); color: #fff; }
+.check-mode { border-top: 1px solid var(--line, #d7e1e8); margin-top: 6px; }
+.check-mode input { width: 20px; height: 20px; accent-color: var(--blue, #007cba); flex-shrink: 0; }
+
+/* The facts behind a question fold on a phone. */
+details.tests > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; min-height: 32px; }
+details.tests > summary::-webkit-details-marker { display: none; }
+details.tests > summary::after { content: "+"; color: var(--blue, #007cba); font-weight: 700; }
+details.tests[open] > summary::after { content: "\2212"; }
+
+/* Sim: answered squares on the jump grid read in sunlight. */
+.qjump.done { background: var(--slate, #175878); border-color: var(--slate, #175878); color: #fff; }
+.lg.done { background: var(--slate, #175878); border-color: var(--slate, #175878); }
+.qjump.current { outline: 3px solid var(--focus, #c48000); }
+.weak-chip { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 10px; border: 1px dashed var(--line, #d7e1e8); color: var(--muted, #526878); font-size: .85rem; }
+@media (min-width: 651px) { .sim-answered { display: none; } }
+
+/* Touch screens: no keyboard hints. */
+@media (hover: none) {
+  .keys-hint { display: none !important; }
+}
+
+/* Phone: Continue / Next / Check / Submit sit in a bar stuck to the bottom of the screen, so no scroll per question. */
+@media (max-width: 650px) {
+  .q-bar {
+    position: sticky; bottom: 0; z-index: 5;
+    background: #fff; border-top: 1px solid var(--line, #d7e1e8); box-shadow: 0 -6px 14px rgba(23, 88, 120, .08);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;
+  }
+  /* Bleed to the panel edges: .question-panel is 20px 16px on a phone. */
+  .question-panel .q-bar { margin: 18px -16px -20px; }
+  .quiz-wrap > .q-bar { margin: 16px -16px 0; }
+  .q-bar > .small { flex: 1 1 auto; min-width: 0; font-size: .8125rem; line-height: 1.35; }
+  .q-bar > .small:empty, .q-bar > .keys-hint { display: none; }
+  .q-bar .btn { flex: 1 1 0; min-height: 48px; }
+  .q-bar > .small:not(:empty):not(.keys-hint) + .btn { flex: 0 0 auto; min-width: 42%; }
+  .q-tools { margin-top: 14px; }
+  .q-tools .btn.small, .q-tools .toggle { min-height: 44px; }
+  .drill-meta { margin-top: -10px; }
+}

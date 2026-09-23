@@ -102,6 +102,8 @@
     [].concat(R.sims || [], L.sims || []).forEach(s => { if (isObj(s) && s.ts && +s.ts >= reset) sims.set(+s.ts, s); });
     out.sims = [...sims.values()].sort((a, b) => a.ts - b.ts).slice(-60);
     LOCAL_ONLY.forEach(f => { out[f] = L[f] || null; });
+    const Ld = isObj(L.day) ? L.day : null, Rd = isObj(R.day) ? R.day : null;
+    if (Ld || Rd) out.day = !Ld ? Rd : !Rd ? Ld : Ld.d !== Rd.d ? (Ld.d > Rd.d ? Ld : Rd) : { d: Ld.d, n: Math.max(+Ld.n || 0, +Rd.n || 0), secs: Math.max(+Ld.secs || 0, +Rd.secs || 0), done: !!(Ld.done || Rd.done) };
     return out;
   }
   // taking the server copy whole still keeps this device's in-progress sim and drill, and its study window if newer
@@ -262,7 +264,7 @@
           : `<div class="actions space-sm"><button type="button" class="btn text" id="sy-out">Disconnect this device</button></div>`)
         + `<p class="backup-status" id="sy-status" role="status">${esc(status)}</p>`;
     }
-    const gbtn = google ? `<div class="actions space"><a class="btn" id="sy-google" href="${esc(API + '/auth/google?next=' + encodeURIComponent(location.href.replace(/[?#].*$/, '') + location.hash))}">Sign in with Google</a></div><p class="small muted space-sm">Free. Your progress saves to your account and follows you to any device. Or use a seat code from your company:</p>` : '';
+    const gbtn = google ? `<div class="actions space"><a class="btn" id="sy-google" href="${esc(API + '/auth/google?next=' + encodeURIComponent(location.href.replace(/[?#].*$/, '') + location.hash))}">Sign in with Google</a></div><p class="small muted space-sm">Free. Your progress saves to your account and follows you to any device.</p><p class="small muted space-sm">Did your company give you a seat code? Use it below instead. Same syncing, and your sims show on your company's dashboard so your trainer can see where you stand.</p>` : '';
     return `<h2>Save your progress</h2>${note}${google ? '' : `<p class="muted small space-sm">Got a seat code from your company? Connect it to keep your progress on every device and put your sims on your company's dashboard. Without one, progress stays in this browser.</p>`}${gbtn}`
       + `<form id="sy-form" class="sync-form space" autocomplete="off"><label class="small" for="sy-code">Seat code</label><input id="sy-code" name="code" placeholder="ABCD-EFGH" autocapitalize="characters" spellcheck="false" required>`
       + `<label class="small" for="sy-name">Your name</label><input id="sy-name" name="name" placeholder="First and last" required maxlength="60"><div class="actions space-sm"><button type="submit" class="btn" ${busy ? 'disabled' : ''}>Connect</button></div></form>`
@@ -327,11 +329,11 @@
     on('sy-out-yes', () => { confirmOut = false; notice = ''; linkShown = ''; dropToken(); put('vel-sync-off', '1'); status = 'Disconnected. Progress stays in this browser.'; bind(); probe().then(bind); });
   }
   function inject() {
-    const anchor = document.getElementById('backup-panel');
-    if (!anchor || document.getElementById('sync-panel')) return;
+    const slot = document.getElementById('sync-slot');
+    if (!slot || document.getElementById('sync-panel')) return;
     const sec = document.createElement('section');
     sec.className = 'panel space-lg'; sec.id = 'sync-panel';
-    anchor.parentNode.parentNode.insertBefore(sec, anchor.parentNode);
+    slot.appendChild(sec);
     bind();
   }
   // Show the panel only where the sync server answers, so a copy published before the server supports the lab stays

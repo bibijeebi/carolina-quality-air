@@ -79,7 +79,7 @@ button{font:inherit;color:inherit}
 .lbl{font-size:12px;fill:var(--muted);pointer-events:none}
 .room{font-size:11px;letter-spacing:.12em;fill:#9fb3c3;font-weight:600;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
 .hit{fill:transparent;stroke:transparent;cursor:pointer}
-@media (max-width:860px){.board{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
+@media (max-width:860px){.board.prep .card{order:-1}.board{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
 /* field kit: shared with the lab shell */
 :root{color-scheme:light}
 :focus-visible{outline:3px solid #c48000;outline-offset:3px}
@@ -444,7 +444,11 @@ function hud(){
   const best=readBest();
   $('cases').innerHTML=CASES.map(c=>`<button type="button" class="case${c===C?' on':''}${best[c.id]!=null?' done':''}" data-case="${c.id}" data-best="${best[c.id]!=null?best[c.id]:''}"><b>Case ${c.id}</b>${esc(c.title)}</button>`).join('');
 }
-function update(){draw();pane();hud();persist();}
+function update(){draw();pane();hud();
+  // Phone: the work order and pre-inspection steps come first; once they are done the plan moves back on top.
+  const prep=!S.order.length&&PRE.some(p=>!S.pre[p[0]]);const bd=document.querySelector('.board');if(bd)bd.classList.toggle('prep',prep);
+  const sb=$('submit');if(sb)sb.classList.toggle('alt',!S.order.length);
+  persist();}
 svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');if(!g)return;sel=g.dataset.t;if(sel!=='ahu'&&!S.seen[sel])say(nameOf(sel),'Tap Inspect to open it up.');update();});
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;sel=null;update();});
 $('cases').addEventListener('click',e=>{const b=e.target.closest('[data-case]');if(!b)return;load(+b.dataset.case);});

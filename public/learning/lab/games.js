@@ -19,10 +19,10 @@
   }
   const levels = D => V.OBLIG.filter(t => D.oblig.some(u => u.tag === t));
   function emptyReason(D, kind) {
-    if (kind === 'oblig') return D.oblig.length ? 'Only one obligation level is tagged so far, so there is nothing to choose between yet.' : 'No units with obligation tags yet for this credential.';
+    if (kind === 'oblig') return D.oblig.length ? 'Only one obligation level is tagged so far, so there is nothing to choose between yet.' : 'No facts with obligation tags yet for this credential.';
     if (kind === 'numbers') return 'No number facts yet for this credential.';
     if (kind === 'order') return 'No step sequences yet for this credential.';
-    return 'No units yet for this credential.';
+    return 'No facts yet for this credential.';
   }
 
   V.views.games = function (D, args) {
@@ -39,10 +39,11 @@
   };
   function hub(D) {
     const S = V.T(), id = D.id;
+    V.quizMode(false);
     const now = Date.now();
     const due = D.units.filter(u => S.rc[u.id] && S.rc[u.id].d <= now).length;
     V.main.innerHTML = head(`${esc(D.track.code)} / Games`, 'Short rounds, real facts.', 'Short rounds with a score, a streak, and a review of what you missed. Games never use exam-sim questions.')
-      + (Object.keys(GAMES).every(k => !avail(D, k)) ? `<div class="note blue space-b"><p>Games are built from units, and the ${esc(D.track.code)} units are still being written. The question bank is ready now.</p><div class="actions space-sm"><a class="btn small" href="${link(id, 'drill')}">Open the drill</a><a class="btn secondary small" href="${link(id, 'sim')}">Exam sim</a></div></div>` : '')
+      + (Object.keys(GAMES).every(k => !avail(D, k)) ? `<div class="note blue space-b"><p>Games are built from facts, and the ${esc(D.track.code)} facts are still being written. The question bank is ready now.</p><div class="actions space-sm"><a class="btn small" href="${link(id, 'drill')}">Open the drill</a><a class="btn secondary small" href="${link(id, 'sim')}">Exam sim</a></div></div>` : '')
       + `<div class="game-grid">${Object.entries(GAMES).map(([k, g]) => {
         const n = avail(D, k), best = S.best[k];
         const count = k === 'oblig' ? plural(n, 'rule') : k === 'numbers' ? plural(n, 'number fact') : k === 'order' ? plural(n, 'sequence') : plural(n, 'card') + (due ? `, ${due} due` : '');
@@ -77,6 +78,7 @@
   }
   function endScreen(D, R, again) {
     V.keys = null;
+    V.quizMode(false);
     return frame(D, R, `<section class="panel question-panel"><p class="eyebrow">Round complete</p><div class="result-top"><div class="result-score">${R.score}/${R.items.length}</div><div><h2>${R.score === R.items.length ? 'Clean round.' : pct(R.score, R.items.length) >= 80 ? 'Strong round.' : 'Keep at it.'}</h2><p class="muted">Best streak ${R.best}.</p></div></div>${R.misses.length ? `<h3>Review your misses</h3>${R.misses.map(m => `<div class="review-item">${m}</div>`).join('')}` : ''}<div class="actions space"><button type="button" class="btn" id="again">Play again</button><a class="btn secondary" href="${link(D.id, 'games')}">All games</a></div></section>`);
   }
   function draw(D, R) {
@@ -85,8 +87,10 @@
       $('again').onclick = () => { const key = D.id + ':' + R.kind; rounds[key] = newRound(D, R.kind); draw(D, rounds[key]); window.scrollTo(0, 0); };
       return;
     }
+    V.quizMode(true);
     if (R.kind === 'order') return drawOrder(D, R);
     const it = R.items[R.i], u = it.u;
+    const pm = V.pickMode() && !R.answered;
     let prompt, opts, answer, label;
     if (R.kind === 'oblig') {
       opts = levels(D); answer = it.ans; label = t => tagLabel(t);
@@ -95,27 +99,33 @@
       opts = it.opts; answer = u.num.a; label = x => x;
       prompt = `<p class="eyebrow">Fill in the number</p><h2 class="quiz-title">${esc(u.num.q).replace(/_{2,}/g, '<span class="blank">_____</span>')}</h2>`;
     }
-    const fb = R.answered ? `<div class="feedback${R.pick === answer ? '' : ' wrong'}"><b>${R.pick === answer ? 'Correct.' : `Not quite. It is ${esc(label(answer))}.`}</b>${R.kind === 'numbers' ? `<p>${esc(u.text)}</p>` : ''}${u.trap ? `<p class="trap"><b>Trap:</b> ${esc(u.trap)}</p>` : ''}${u.src ? `<p class="small muted">${esc(u.src)}</p>` : ''}</div><div class="quiz-bottom end"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '';
+    const fb = R.answered ? `<div class="feedback${R.pick === answer ? '' : ' wrong'}"><b>${R.pick === answer ? 'Correct.' : `Not quite. It is ${esc(label(answer))}.`}</b>${R.kind === 'numbers' ? `<p>${esc(u.text)}</p>` : ''}${u.trap ? `<p class="trap"><b>Trap:</b> ${esc(u.trap)}</p>` : ''}${u.src ? `<p class="small muted">${esc(u.src)}</p>` : ''}</div><div class="quiz-bottom end q-bar"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>`
+      : pm ? `<div class="quiz-bottom q-bar"><span class="small muted">Tap an answer, then Check.</span><button type="button" class="btn" id="gcheck"${R.sel == null ? ' disabled' : ''}>Check</button></div>` : '';
     V.main.innerHTML = frame(D, R, `<section class="panel question-panel">${prompt}<div class="opts ${R.kind}">${opts.map((o, k) => {
       let cls = 'opt';
       if (R.answered) { if (o === answer) cls += ' correct'; else if (o === R.pick) cls += ' wrong'; }
-      return `<button type="button" class="${cls}" data-k="${k}"${R.answered ? ' disabled' : ''}><span class="letter" aria-hidden="true">${k + 1}</span>${esc(label(o))}</button>`;
+      else if (pm && R.sel === k) cls += ' selected';
+      return `<button type="button" class="${cls}" data-k="${k}"${R.answered ? ' disabled' : pm ? ` aria-pressed="${R.sel === k}"` : ''}><span class="letter" aria-hidden="true">${k + 1}</span>${esc(label(o))}</button>`;
     }).join('')}</div>${fb}</section>`);
     const pick = k => {
       if (R.answered) return;
-      R.answered = true; R.pick = opts[k];
+      R.answered = true; R.pick = opts[k]; R.sel = null;
       const ok = R.pick === answer;
       score(R, ok, R.kind === 'oblig' ? `<p>${esc(u.text)}</p><p class="small"><b>${esc(label(answer))}</b>, you said ${esc(label(R.pick))}. ${esc(u.src || '')}</p>` : `<p>${esc(u.num.q)}</p><p class="small"><b>${esc(answer)}</b>, you said ${esc(R.pick)}. ${esc(u.src || '')}</p>`);
       draw(D, R);
       const n = $('gnext'); if (n) n.focus({ preventScroll: true });
+      V.showVerdict();
       announce(ok ? 'Correct.' : `Not quite. It is ${label(answer)}.`);
     };
-    V.main.querySelectorAll('.opt').forEach(b => b.onclick = () => pick(+b.dataset.k));
+    const choose = k => { R.sel = k; V.markPick(V.main, '.opt', V.main.querySelector(`.opt[data-k="${k}"]`)); $('gcheck').disabled = false; };
+    V.main.querySelectorAll('.opt').forEach(b => b.onclick = () => (pm ? choose(+b.dataset.k) : pick(+b.dataset.k)));
+    const gc = $('gcheck'); if (gc) gc.onclick = () => { if (R.sel != null) pick(R.sel); };
     const n = $('gnext'); if (n) n.onclick = () => next(D, R);
     V.keys = e => {
       if (R.answered) { if (e.key === ' ' || e.key === 'Enter') { next(D, R); return true; } return false; }
+      if (pm && (e.key === 'Enter' || e.key === ' ')) { if (R.sel != null) pick(R.sel); return true; }
       const k = /^[1-9]$/.test(e.key) ? +e.key - 1 : -1;
-      if (k >= 0 && k < opts.length) { pick(k); return true; }
+      if (k >= 0 && k < opts.length) { (pm ? choose : pick)(k); return true; }
       return false;
     };
   }
@@ -127,8 +137,8 @@
     V.main.innerHTML = frame(D, R, `<section class="panel question-panel"><p class="eyebrow">Put it in order</p><h2 class="quiz-title">${esc(s.title || 'Order these steps')}</h2>${s.src ? `<p class="unit-foot">${esc(s.src)}</p>` : ''}`
       + `<p class="small muted space-sm">${checked ? '' : 'Tap the steps in order. Tap a placed step to put it back.'}</p>`
       + `<ol class="order-answer" aria-label="Your order">${placed.map((si, k) => `<li><button type="button" class="step placed${checked ? (si === k ? ' right' : ' wrong') : ''}" data-back="${k}"${checked ? ' disabled' : ''}><span class="letter" aria-hidden="true">${k + 1}</span>${esc(s.steps[si])}${checked ? `<span class="sr">${si === k ? ' (right place)' : ' (wrong place)'}</span>` : ''}</button></li>`).join('')}${checked ? '' : s.steps.slice(placed.length).map((_, k) => `<li class="slot" aria-hidden="true"><span class="letter">${placed.length + k + 1}</span></li>`).join('')}</ol>`
-      + (checked ? '' : `<div class="order-pool" aria-label="Steps to place">${left.map(si => `<button type="button" class="step" data-si="${si}">${esc(s.steps[si])}</button>`).join('')}</div><div class="actions space"><button type="button" class="btn" id="ocheck"${left.length ? ' disabled' : ''}>Check order</button><button type="button" class="btn secondary" id="oclear"${placed.length ? '' : ' disabled'}>Clear</button></div>`)
-      + (checked ? `<div class="feedback${allRight ? '' : ' wrong'}"><b>${allRight ? 'Correct order.' : `${placed.filter((v, k) => v === k).length} of ${s.steps.length} in the right place.`}</b>${allRight ? '' : `<p>The correct order:</p><ol class="plain-list">${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`}</div><div class="quiz-bottom end"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '')
+      + (checked ? '' : `<div class="order-pool" aria-label="Steps to place">${left.map(si => `<button type="button" class="step" data-si="${si}">${esc(s.steps[si])}</button>`).join('')}</div><div class="quiz-bottom q-bar"><button type="button" class="btn" id="ocheck"${left.length ? ' disabled' : ''}>Check order</button><button type="button" class="btn secondary" id="oclear"${placed.length ? '' : ' disabled'}>Clear</button></div>`)
+      + (checked ? `<div class="feedback${allRight ? '' : ' wrong'}"><b>${allRight ? 'Correct order.' : `${placed.filter((v, k) => v === k).length} of ${s.steps.length} in the right place.`}</b>${allRight ? '' : `<p>The correct order:</p><ol class="plain-list">${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`}</div><div class="quiz-bottom end q-bar"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '')
       + '</section>');
     const focusFirst = () => { const f = V.main.querySelector('.order-pool .step') || $('ocheck'); if (f) f.focus({ preventScroll: true }); };
     V.main.querySelectorAll('[data-si]').forEach(b => b.onclick = () => { placed.push(+b.dataset.si); drawOrder(D, R); focusFirst(); });
@@ -140,6 +150,7 @@
       score(R, ok, `<p><b>${esc(s.title || '')}</b></p><ol class="plain-list">${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`);
       drawOrder(D, R);
       const n = $('gnext'); if (n) n.focus({ preventScroll: true });
+      V.showVerdict();
       announce(ok ? 'Correct order.' : 'Not quite. The correct order is shown.');
     };
     const cl = $('oclear'); if (cl) cl.onclick = () => { placed.length = 0; drawOrder(D, R); focusFirst(); };
@@ -161,6 +172,7 @@
   }
   function recallSetup(D) {
     const S = V.T(), id = D.id, now = Date.now();
+    V.quizMode(false);
     if (rf.track !== id) Object.assign(rf, { track: id, dom: '', lesson: '' });
     const list = filtered(D);
     const due = list.filter(u => S.rc[u.id] && S.rc[u.id].d <= now);
@@ -195,10 +207,11 @@
       $('again').onclick = () => { delete rounds[D.id + ':recall']; recallSetup(D); window.scrollTo(0, 0); };
       return;
     }
+    V.quizMode(true);
     const u = R.items[R.i].u, f = recallFront(u), l = D.l.get(D.unitLesson.get(u.id));
     V.main.innerHTML = frame(D, R, `<section class="flashcard"><p class="eyebrow">${l ? esc(l.title) : esc(u.dom || '')}${f.kind === 'cloze' ? ' · fill the blank' : ''}</p><h2>${f.html}</h2>`
       + (R.answered ? `<div class="back">${V.u.tagChip(u.tag)}<p class="unit-text">${f.back}</p>${u.trap ? `<p class="trap"><b>Trap:</b> ${esc(u.trap)}</p>` : ''}${u.src ? `<p class="unit-foot">${esc(u.src)}</p>` : ''}</div>` : '')
-      + `</section><div class="recall-controls">${R.answered ? '<button type="button" class="btn secondary" id="rc-miss">Missed it</button><button type="button" class="btn" id="rc-knew">Knew it</button>' : '<button type="button" class="btn" id="rc-show">Show answer</button>'}</div><p class="keys-hint center">${R.answered ? 'Keys: <kbd>1</kbd> missed it, <kbd>2</kbd> knew it' : 'Say it, then <kbd>Space</kbd> to flip'}</p>`);
+      + `</section><div class="recall-controls q-bar">${R.answered ? '<button type="button" class="btn secondary" id="rc-miss">Missed it</button><button type="button" class="btn" id="rc-knew">Knew it</button>' : '<button type="button" class="btn" id="rc-show">Show answer</button>'}</div><p class="keys-hint center">${R.answered ? 'Keys: <kbd>1</kbd> missed it, <kbd>2</kbd> knew it' : 'Say it, then <kbd>Space</kbd> to flip'}</p>`);
     const show = () => { R.answered = true; drawRecall(D, R); const k = $('rc-knew'); if (k) k.focus({ preventScroll: true }); };
     const rate = knew => {
       leitner(u.id, knew);
