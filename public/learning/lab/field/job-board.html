@@ -21,7 +21,11 @@ button{font:inherit;color:inherit}
 .stat b{color:var(--ink);font-size:1rem;font-variant-numeric:tabular-nums}
 .meter{width:64px;height:8px;border-radius:4px;background:var(--line);overflow:hidden;align-self:center}
 .meter i{display:block;height:100%;background:var(--green)}
-.spacer{flex:1}
+.home{font-weight:700;color:var(--blue);text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff}
+.home:hover{background:var(--blue-soft)}
+.bar .stats{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.bar .acts{display:flex;gap:8px;margin-left:auto}
+@media (max-width:700px){.bar .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px 10px;width:100%}.bar .acts{width:100%;margin-left:0}.bar .acts .btn{flex:1}}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .seg button{border:0;background:#fff;padding:6px 10px;min-height:36px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted)}
 .seg button.on{background:var(--blue);color:#fff}
@@ -70,21 +74,122 @@ details summary{cursor:pointer;font-weight:600;font-size:.9rem}
 @keyframes dash{to{stroke-dashoffset:-15}}
 @media (prefers-reduced-motion:reduce){.flowline{animation:none}}
 @media (max-width:820px){.board{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
+/* field kit: shared with the lab shell */
+:root{color-scheme:light}
+:focus-visible{outline:3px solid #c48000;outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+.seg button:focus-visible,.tabs button:focus-visible,.tab:focus-visible,.step:focus-visible{outline-offset:-3px}
+.in-frame .bar>a.home,.in-frame .bar>h1,.in-frame .wrap>a.home,.in-frame .wrap>h1{position:absolute!important;width:1px;height:1px;margin:0;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.in-frame .scene,.in-frame .plan{position:relative!important;top:auto!important;box-shadow:none!important}
+.in-frame #over{padding-top:12px}
+.resume{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:#e8f3fa;border:1px solid #9bbfd5;border-left:4px solid #007cba;border-radius:3px;padding:10px 12px}
+.resume-txt b{display:block}.resume-txt span{display:block;font-size:.85rem;color:#526878}
+.resume-acts{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+<script>
+/* Field training frame kit: framing, auto height, report dialog, saved runs. Same block in every field/*.html. */
+(function(){
+  var root=document.documentElement,framed=false;
+  try{framed=window.parent!==window&&window.parent.location.origin===location.origin;}catch(e){framed=false;}
+  if(framed)root.classList.add('in-frame');
+  var FT=window.FT={framed:framed,banner:null};
+  function post(m){if(framed){try{window.parent.postMessage(m,location.origin);}catch(e){}}}
+  FT.post=post;
+  var lastH=0,over=function(){return document.getElementById('over');};
+  function size(){
+    if(!framed)return;
+    var h=Math.ceil(root.getBoundingClientRect().height),o=over();
+    if(o&&o.style.display&&o.style.display!=='none'&&o.firstElementChild)h=Math.max(h,Math.ceil(o.firstElementChild.getBoundingClientRect().height)+60);
+    if(h!==lastH){lastH=h;post({vel:'field-size',h:h});}
+  }
+  FT.size=size;
+  document.addEventListener('DOMContentLoaded',function(){
+    if(framed){
+      // The lab shell shows the title and the way back; keep ours out of the tab order and the reading order.
+      document.querySelectorAll('.bar > a.home, .wrap > a.home').forEach(function(a){a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true');});
+      if('ResizeObserver' in window){var ro=new ResizeObserver(size);ro.observe(root);var o=over();if(o&&o.firstElementChild)ro.observe(o.firstElementChild);}
+      window.addEventListener('load',size);size();
+    } else {
+      document.querySelectorAll('a[target="_top"]').forEach(function(a){if(a.dataset.solo)a.setAttribute('href',a.dataset.solo);a.removeAttribute('target');});
+    }
+  });
+  // ---- the report dialog ----
+  var ret=null;
+  function focusables(o){return Array.prototype.filter.call(o.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'),function(e){return e.getClientRects().length>0;});}
+  function trap(e){
+    var o=over();if(!o||o.style.display==='none')return;
+    e.stopPropagation(); // tool shortcuts stay off while the report is up; default actions still run
+    if(e.key==='Escape'){e.preventDefault();FT.closeOver();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(o);if(!f.length){e.preventDefault();return;}
+    var a=f[0],z=f[f.length-1],cur=document.activeElement;
+    if(!o.contains(cur)){e.preventDefault();a.focus();}
+    else if(e.shiftKey&&cur===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}
+  }
+  FT.openOver=function(back,first){
+    var o=over(),app=document.getElementById('app');ret=back||null;
+    o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+    var h=o.querySelector('.big');if(h){h.id=h.id||'report-score';o.setAttribute('aria-labelledby',h.id);}
+    o.style.display='flex';o.scrollTop=0;if(app)app.inert=true;
+    document.addEventListener('keydown',trap,true);
+    var f=first||focusables(o)[0];if(f)f.focus({preventScroll:true});
+    if(framed){post({vel:'field-overlay'});size();}
+  };
+  FT.closeOver=function(){
+    var o=over(),app=document.getElementById('app');
+    o.style.display='none';if(app)app.inert=false;
+    document.removeEventListener('keydown',trap,true);
+    if(ret&&document.contains(ret)){try{ret.focus();}catch(e){}}
+    size();
+  };
+  // ---- saved runs: one key per tool, versioned ----
+  FT.run=function(tool){
+    var K='vel-field-run-'+tool;
+    return {
+      load:function(){try{var v=JSON.parse(localStorage.getItem(K)||'null');return v&&v.v===1&&v.d&&typeof v.d==='object'&&!Array.isArray(v.d)?v:null;}catch(e){return null;}},
+      save:function(d){try{localStorage.setItem(K,JSON.stringify({v:1,at:Date.now(),d:d}));}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}},
+      clear:function(){try{localStorage.removeItem(K);}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}}
+    };
+  };
+  FT.offerResume=function(o){
+    var b=document.createElement('div'),when='';
+    try{when=new Date(o.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){}
+    b.className='resume';b.setAttribute('role','region');b.setAttribute('aria-label','Saved job');
+    b.innerHTML='<div class="resume-txt"><b>You have a job in progress.</b><span></span></div><div class="resume-acts"><button type="button" class="btn">Resume your job</button><button type="button" class="btn alt">Start a new one</button></div>';
+    b.querySelector('span').textContent=o.text+(when?' Saved '+when+'.':'');
+    var bs=b.querySelectorAll('button');
+    bs[0].onclick=function(){b.remove();FT.banner=null;try{o.resume();}catch(e){o.run.clear();}size();};
+    bs[1].onclick=function(){o.run.clear();if(o.fresh)o.fresh();size();};
+    var bar=document.querySelector('#app > .bar');if(bar)bar.after(b);else document.body.prepend(b);
+    FT.banner=b;
+  };
+  // Scores for the hub: vel-field is {tool:{n,best,last,at}}; anything else is replaced.
+  FT.record=function(tool,score){
+    try{var K='vel-field',m={};try{var v=JSON.parse(localStorage.getItem(K)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))m=v;}catch(e){}
+      var r=m[tool]&&typeof m[tool]==='object'?m[tool]:{};var n=Number.isFinite(r.n)?r.n:0,best=Number.isFinite(r.best)?r.best:0;
+      m[tool]={n:n+1,best:Math.max(best,score),last:score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));}catch(e){}
+    post({vel:'field',tool:tool});
+  };
+})();
+</script>
 </head>
 <body>
 <div id="app">
   <div class="bar">
-    <a class="home" href="../#/field" target="_top" style="font-weight:700;color:#007cba;text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff">&larr; Field training</a>
+    <a class="home" href="../#/field" target="_top">&larr; Field training</a>
     <h1>Job Board</h1>
     <div class="seg" role="group" aria-label="Mode"><button type="button" data-mode="learn" class="on">Learn</button><button type="button" data-mode="test">Test</button></div>
+    <div class="stats">
     <span class="stat">Clock <b id="clock">0:00</b></span>
     <span class="stat">Return <span class="meter"><i id="m-ret"></i></span></span>
     <span class="stat">Supply <span class="meter"><i id="m-sup"></i></span></span>
     <span class="stat">Flags <b id="flags">0</b></span>
-    <span class="spacer"></span>
+    </div>
+    <div class="acts">
     <button type="button" class="btn alt" id="undo">Undo</button>
     <button type="button" class="btn" id="finish">Finish job</button>
+    </div>
   </div>
   <div class="board">
     <div class="plan"><svg id="svg" viewBox="0 0 800 600" role="img" aria-label="Plan view of a house with the attic duct system drawn over it"></svg></div>
@@ -315,6 +420,7 @@ const $=id=>document.getElementById(id),svg=$('svg'),NS='http://www.w3.org/2000/
 const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;};
 let S=fresh(Date.now()%100000),hist=[],sel=null,mode='learn',armed=null,anim=[];
 const coarse=matchMedia('(pointer:coarse)').matches;
+const RUN=FT.run('job-board');
 const fmt=m=>Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0');
 const pathStr=p=>'M'+p.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' L');
 function flowPath(k){const p=[];const mid=SEG[k].pts[Math.floor(SEG[k].pts.length/2)];p.push(mid);p.push(SEG[k].pts[0]);for(const u of upChain(k))p.push(SEG[u].pts[0]);if(S.hose)p.push(MACH);return p;}
@@ -397,7 +503,7 @@ function hud(){
 }
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function targets(){return ['ah','mach','RP','SP',...Object.keys(REG),'R1','R2','T1','T2','T3','T4'];}
-function tname(t){return t==='ah'?'Air handler':t==='mach'?'Negative air machine':REG[t]?REG[t].name+' grille':SEG[t].label;}
+function tname(t){return t==='ah'?'Air handler':t==='mach'?'Negative air machine':REG[t]?(/grille$/.test(REG[t].name)?REG[t].name:REG[t].name+' grille'):SEG[t].label;}
 function picks(){$('picks').innerHTML=targets().map(t=>`<button type="button" class="pick${sel===t?' on':''}" data-t="${t}">${esc(tname(t))}</button>`).join('');}
 function describe(t){
   if(t==='ah')return['Equipment','Air handler',`Power ${S.power?'on':'off'}. ${S.ah?'Coil and blower done.':'Coil and blower not cleaned.'} Sits between both sides.`];
@@ -434,7 +540,7 @@ function preview(a){
 function commit(a){
   if(!valid(S,a))return;
   hist.push(copy(S));if(hist.length>80)hist.shift();
-  const before=copy(S);act(S,a);armed=null;
+  const before=copy(S);act(S,a);armed=null;persist();
   if(a.k==='fwd'){const ok=negOn(before,entrySide(a.e));for(const f of S.fx)startAnim(ok?flowPathFrom(before,f.k):outPath(f.k),ok);}
   render();$('prev').innerHTML='';
 }
@@ -448,12 +554,12 @@ function tick(){const now=performance.now();anim=anim.filter(A=>now-A.t0<2200);d
 svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');sel=g?g.dataset.t:null;armed=null;render();});
 $('picks').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;sel=b.dataset.t;armed=null;render();});
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{if(b.dataset.mode===mode)return;mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));restart(mode==='test'?'Test mode: no previews of flags, no undo. The lead grades it at the end.':'Learn mode: every move shows what the lead would flag.');});
-$('undo').onclick=()=>{if(mode==='test'||!hist.length)return;S=hist.pop();armed=null;render();};
-function restart(note){S=fresh(Date.now()%100000);hist=[];sel=null;armed=null;S.say={t:'New job.',s:note||''};render();}
+$('undo').onclick=()=>{if(mode==='test'||!hist.length)return;S=hist.pop();armed=null;render();persist();};
+function restart(note){RUN.clear();S=fresh(Date.now()%100000);hist=[];sel=null;armed=null;S.say={t:'New job.',s:note||''};render();}
 $('finish').onclick=finish;
 function finish(){
   const G=grade(S),li=(t,w)=>`<li>${esc(t)}${w?`<span class="why">${esc(w)}</span>`:''}</li>`;
-  try{const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m['job-board']||{n:0,best:0},s=G.score;m['job-board']={n:(r.n||0)+1,best:Math.max(r.best||0,s),last:s,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'job-board'},location.origin);}catch(e){}
+  FT.record('job-board',G.score);RUN.clear();
   const mine=S.log.map(l=>`<li${l.f?' style="color:#c0392b"':''}>${l.f?'Flag: ':''}${esc(l.t)}</li>`).join('');
   $('report').innerHTML=`<p class="eyebrow">${mode==='test'?'Test':'Learn'} mode · the lead's grade</p><div class="big">${G.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div>
   <p class="sub">${fmt(S.min)} on the clock. Par is ${fmt(par.min)} for a 100.</p>
@@ -468,11 +574,15 @@ function finish(){
   ${S.vio.map(v=>li(v.text,v.why)).join('')}${S.def.map(d=>li(d)).join('')}</ul>
   <div class="cols"><div><p class="eyebrow">What you did</p><ol>${mine||'<li>Nothing yet.</li>'}</ol></div><div><p class="eyebrow">The lead's order (${fmt(par.min)})</p><ol>${par.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button type="button" class="btn" id="again">Run a new job</button><button type="button" class="btn alt" id="back">Back to this job</button></div>`;
-  $('over').style.display='flex';$('again').onclick=()=>{$('over').style.display='none';restart();};$('back').onclick=()=>{$('over').style.display='none';};$('again').focus();
+  $('over').style.display='flex';$('again').onclick=()=>{FT.closeOver();restart();};$('back').onclick=()=>{FT.closeOver();persist();};FT.openOver($('finish'),$('again'));
 }
 window.__JB={get S(){return S},act,valid,grade,PAR,par,commit,actions,fresh};
 render();
+// ---------- keep the job if you leave ----------
+function persist(){if(S.log.length)RUN.save({S,mode});}
+(function(){const sv=RUN.load(),d=sv&&sv.d;if(!d||!d.S||!Array.isArray(d.S.log)||!d.S.log.length||!d.S.seg)return;
+  FT.offerResume({run:RUN,at:sv.at,text:`${d.S.log.length} move${d.S.log.length===1?'':'s'}, ${fmt(d.S.min||0)} on the clock, ${d.mode==='test'?'Test':'Learn'} mode.`,
+    resume(){mode=d.mode==='test'?'test':'learn';document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x.dataset.mode===mode));S=d.S;hist=[];sel=null;armed=null;S.say={t:'Back on the job.',s:'Undo history starts fresh from here.'};render();}});})();
 </script>
-<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

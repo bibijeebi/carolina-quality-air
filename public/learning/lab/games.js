@@ -5,7 +5,7 @@
   const { esc, $, link, shuffle, pct, plural, head, empty, fmtDate, tagLabel, recallFront, leitner, announce } = V.u;
   const GAMES = {
     oblig: { title: 'Required or recommended', per: 20, blurb: 'Read the rule and its source. Say how strong the obligation is.' },
-    numbers: { title: 'Numbers', per: 15, blurb: 'Distances, sizes, counts, and limits. Pick the right number from its neighbours.' },
+    numbers: { title: 'Numbers', per: 15, blurb: 'Distances, sizes, counts, and limits. Pick the right number from its neighbors.' },
     order: { title: 'Put it in order', per: 5, blurb: 'Tap the steps of a procedure in the order the source gives.' },
     recall: { title: 'Recall cards', per: 20, blurb: 'Say the answer, flip, and rate yourself. Cards you know come back less often.' }
   };
@@ -41,7 +41,7 @@
     const S = V.T(), id = D.id;
     const now = Date.now();
     const due = D.units.filter(u => S.rc[u.id] && S.rc[u.id].d <= now).length;
-    V.main.innerHTML = head(`${esc(D.track.code)} / Games`, 'Short rounds, real facts.', 'Each game runs in rounds with a score, a streak, and a review of what you missed. Everything comes from the units, never from reserved exam-sim questions.')
+    V.main.innerHTML = head(`${esc(D.track.code)} / Games`, 'Short rounds, real facts.', 'Short rounds with a score, a streak, and a review of what you missed. Games never use exam-sim questions.')
       + (Object.keys(GAMES).every(k => !avail(D, k)) ? `<div class="note blue space-b"><p>Games are built from units, and the ${esc(D.track.code)} units are still being written. The question bank is ready now.</p><div class="actions space-sm"><a class="btn small" href="${link(id, 'drill')}">Open the drill</a><a class="btn secondary small" href="${link(id, 'sim')}">Exam sim</a></div></div>` : '')
       + `<div class="game-grid">${Object.entries(GAMES).map(([k, g]) => {
         const n = avail(D, k), best = S.best[k];
@@ -69,7 +69,7 @@
     if (R.i >= R.items.length) { R.over = true; saveBest(R); }
     draw(D, R);
     window.scrollTo(0, 0);
-    const f = V.main.querySelector('.opt, .step, #again'); if (f) f.focus({ preventScroll: true });
+    const f = R.over ? $('again') : V.main.querySelector('.question-panel, .game-text, .quiz-wrap'); if (f) { if (!R.over) f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
   }
   function saveBest(R) {
     const S = V.T(), b = S.best[R.kind];
@@ -95,7 +95,7 @@
       opts = it.opts; answer = u.num.a; label = x => x;
       prompt = `<p class="eyebrow">Fill in the number</p><h2 class="quiz-title">${esc(u.num.q).replace(/_{2,}/g, '<span class="blank">_____</span>')}</h2>`;
     }
-    const fb = R.answered ? `<div class="feedback${R.pick === answer ? '' : ' wrong'}"><b>${R.pick === answer ? 'Correct.' : `Not quite. It is ${esc(label(answer))}.`}</b>${R.kind === 'numbers' ? `<p>${esc(u.text)}</p>` : ''}${u.trap ? `<p class="trap"><b>Trap:</b> ${esc(u.trap)}</p>` : ''}${u.src ? `<p class="small muted">${esc(u.src)}</p>` : ''}</div><div class="quiz-bottom"><span></span><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '';
+    const fb = R.answered ? `<div class="feedback${R.pick === answer ? '' : ' wrong'}"><b>${R.pick === answer ? 'Correct.' : `Not quite. It is ${esc(label(answer))}.`}</b>${R.kind === 'numbers' ? `<p>${esc(u.text)}</p>` : ''}${u.trap ? `<p class="trap"><b>Trap:</b> ${esc(u.trap)}</p>` : ''}${u.src ? `<p class="small muted">${esc(u.src)}</p>` : ''}</div><div class="quiz-bottom end"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '';
     V.main.innerHTML = frame(D, R, `<section class="panel question-panel">${prompt}<div class="opts ${R.kind}">${opts.map((o, k) => {
       let cls = 'opt';
       if (R.answered) { if (o === answer) cls += ' correct'; else if (o === R.pick) cls += ' wrong'; }
@@ -128,7 +128,7 @@
       + `<p class="small muted space-sm">${checked ? '' : 'Tap the steps in order. Tap a placed step to put it back.'}</p>`
       + `<ol class="order-answer" aria-label="Your order">${placed.map((si, k) => `<li><button type="button" class="step placed${checked ? (si === k ? ' right' : ' wrong') : ''}" data-back="${k}"${checked ? ' disabled' : ''}><span class="letter" aria-hidden="true">${k + 1}</span>${esc(s.steps[si])}${checked ? `<span class="sr">${si === k ? ' (right place)' : ' (wrong place)'}</span>` : ''}</button></li>`).join('')}${checked ? '' : s.steps.slice(placed.length).map((_, k) => `<li class="slot" aria-hidden="true"><span class="letter">${placed.length + k + 1}</span></li>`).join('')}</ol>`
       + (checked ? '' : `<div class="order-pool" aria-label="Steps to place">${left.map(si => `<button type="button" class="step" data-si="${si}">${esc(s.steps[si])}</button>`).join('')}</div><div class="actions space"><button type="button" class="btn" id="ocheck"${left.length ? ' disabled' : ''}>Check order</button><button type="button" class="btn secondary" id="oclear"${placed.length ? '' : ' disabled'}>Clear</button></div>`)
-      + (checked ? `<div class="feedback${allRight ? '' : ' wrong'}"><b>${allRight ? 'Correct order.' : `${placed.filter((v, k) => v === k).length} of ${s.steps.length} in the right place.`}</b>${allRight ? '' : `<p>The correct order:</p><ol class="plain-list">${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`}</div><div class="quiz-bottom"><span></span><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '')
+      + (checked ? `<div class="feedback${allRight ? '' : ' wrong'}"><b>${allRight ? 'Correct order.' : `${placed.filter((v, k) => v === k).length} of ${s.steps.length} in the right place.`}</b>${allRight ? '' : `<p>The correct order:</p><ol class="plain-list">${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`}</div><div class="quiz-bottom end"><button type="button" class="btn" id="gnext">${R.i + 1 < R.items.length ? 'Next' : 'See results'}</button></div>` : '')
       + '</section>');
     const focusFirst = () => { const f = V.main.querySelector('.order-pool .step') || $('ocheck'); if (f) f.focus({ preventScroll: true }); };
     V.main.querySelectorAll('[data-si]').forEach(b => b.onclick = () => { placed.push(+b.dataset.si); drawOrder(D, R); focusFirst(); });
@@ -174,7 +174,7 @@
       + `<div class="grid"><section class="panel"><h2>Choose cards</h2><div class="field space"><label for="rf-dom">Domain</label><select id="rf-dom"><option value="">All domains</option>${doms.map(d => `<option${rf.dom === d.name ? ' selected' : ''}>${esc(d.name)}</option>`).join('')}</select></div><div class="field space"><label for="rf-lesson">Lesson</label><select id="rf-lesson"><option value="">All lessons</option>${lessons.map(l => `<option value="${esc(l.id)}"${rf.lesson === l.id ? ' selected' : ''}>${esc(l.title)}</option>`).join('')}</select></div>`
       + `<div class="metrics three compact space"><div class="metric"><b>${due.length}</b><span>Due now</span></div><div class="metric"><b>${fresh.length}</b><span>New</span></div><div class="metric"><b>${later.length}</b><span>Scheduled</span></div></div>`
       + `<div class="actions space">${due.length + fresh.length ? `<button type="button" class="btn" id="rc-start">Start round (${Math.min(20, due.length + fresh.length)} cards)</button>` : `<p class="muted">Nothing due in this filter.${later.length ? ` Next card due ${fmtDate(S.rc[later[0].id].d)}.` : ''}</p>`}${list.length ? `<button type="button" class="btn secondary" id="rc-any">Practice anyway</button>` : ''}</div></section>`
-      + `<section class="panel"><h2>Leitner boxes</h2><p class="small muted space-sm">Box 2 and up counts a unit as known.</p><div class="boxes">${boxes.map((n, b) => `<div class="box"><b>${n}</b><span>Box ${b}</span></div>`).join('')}</div></section></div>`;
+      + `<section class="panel"><h2>Card piles</h2><p class="small muted space-sm">Cards move up a pile each time you know them and drop back to pile 1 when you miss. Pile 2 and up counts as known.</p><div class="boxes">${boxes.map((n, b) => `<div class="box"><b>${n}</b><span>Pile ${b}</span></div>`).join('')}</div></section></div>`;
     $('rf-dom').onchange = e => { rf.dom = e.target.value; rf.lesson = ''; recallSetup(D); $('rf-dom').focus(); };
     $('rf-lesson').onchange = e => { rf.lesson = e.target.value; recallSetup(D); $('rf-lesson').focus(); };
     const st = $('rc-start');

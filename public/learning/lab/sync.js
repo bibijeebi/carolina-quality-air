@@ -186,7 +186,8 @@
     done(t, out !== local ? 'Merged with progress from another device and saved.' : 'Saved to your account.', out !== local);
   }
   // redraw only when this track's data changed under the page, and never mid-question
-  function done(t, msg, changed) { status = msg; paint(); if (changed && V.cur === t && V.rerender && !document.querySelector('.question-panel, .flashcard')) V.rerender(); }
+  // Redraw after a merge, but never under someone typing: a focused field or a pasted backup would be wiped.
+  function done(t, msg, changed) { status = msg; paint(); const a = document.activeElement, typing = a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName), bk = document.getElementById('bk-in'); if (changed && V.cur === t && V.rerender && !typing && !(bk && bk.value) && !document.querySelector('.question-panel, .flashcard, .quiz-wrap')) V.rerender(); }
   function schedule(t, ms) { if (!token) return; clearTimeout(timers[t]); timers[t] = setTimeout(() => { delete timers[t]; syncTrack(t); }, ms); }
   // After a seat switch: if the new seat has nothing anywhere, offer to bring the parked progress into it.
   function offerBack() {
@@ -251,7 +252,7 @@
     if (token) {
       const who = user ? `<b>${esc(user.name)}</b>${user.email ? ` (${esc(user.email)})` : ''}${user.company ? ', ' + esc(user.company) : ''}` : 'your seat';
       const join = user && user.indie
-        ? `<form id="sy-join" class="sync-form space" autocomplete="off"><label class="small" for="sy-jcode">Company seat code (optional)</label><input id="sy-jcode" name="code" placeholder="ABCD-EFGH" autocapitalize="characters" spellcheck="false" required><div class="actions space-sm"><button type="submit" class="btn secondary">Join my company</button></div></form><p class="small muted space-sm">Joining puts your progress and sims on your company's dashboard. You keep studying either way.</p>`
+        ? `<form id="sy-join" class="sync-form space" autocomplete="off"><label class="small" for="sy-jcode">Company seat code</label><input id="sy-jcode" name="code" placeholder="ABCD-EFGH" autocapitalize="characters" spellcheck="false" required><div class="actions space-sm"><button type="submit" class="btn secondary">Join my company</button></div></form><p class="small muted space-sm">Joining puts your progress and sims on your company's dashboard. You keep studying either way.</p>`
         : '';
       return `<h2>Sync across devices</h2>${note}${bring}<p class="small space-sm">Signed in as ${who}. Each credential's progress saves to your account${user && user.indie ? ' and follows you to any device you sign in on' : ", and your sims show on your company's dashboard"}.</p>${join}`
         + `<div class="actions space"><button type="button" class="btn" id="sy-now">Sync now</button><button type="button" class="btn secondary" id="sy-link">Sign in another device</button></div>`

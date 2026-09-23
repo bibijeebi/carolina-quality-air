@@ -17,7 +17,10 @@ button,input,select{font:inherit;color:inherit}
 #app{max-width:1180px;margin:0 auto;padding:10px 12px 18px;display:grid;gap:10px}
 .bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
 .bar h1{font-family:'Hind Madurai',Jost,sans-serif;font-size:1.25rem;margin:0;letter-spacing:.02em;text-transform:uppercase;color:var(--blue)}
-.spacer{flex:1}
+.home{font-weight:700;color:var(--blue);text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff}
+.home:hover{background:var(--blue-soft)}
+.bar .acts{display:flex;gap:8px;margin-left:auto}
+@media (max-width:700px){.bar .acts{width:100%;margin-left:0}.bar .acts .btn{flex:1}}
 .btn{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:3px;padding:7px 12px;min-height:40px;font-weight:600;cursor:pointer}
 .btn.alt{background:#fff;color:var(--blue);border-color:#b7cad7}
 .btn:disabled{opacity:.45;cursor:default}
@@ -32,8 +35,9 @@ button,input,select{font:inherit;color:inherit}
 .card{background:var(--sheet);border:1px solid var(--line);border-radius:3px;padding:12px 14px;min-width:0}
 .card h2{font-size:1.02rem;margin:0 0 4px;font-family:'Hind Madurai',Jost,sans-serif}
 .eyebrow{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 4px}
-.steps{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:-4px -4px 10px}
-.step{border:0;background:none;padding:8px 10px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;min-height:40px}
+.steps{display:flex;flex-wrap:nowrap;border-bottom:1px solid var(--line);margin:-4px -4px 10px}
+.step{flex:1 1 auto;border:0;background:none;padding:8px 5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;min-height:44px;white-space:nowrap}
+@media (max-width:420px){.step{font-size:.8rem;padding:8px 2px}}
 .step.on{color:var(--blue);border-bottom-color:var(--blue)}
 .step .d{font-size:.72rem;color:var(--green);margin-left:3px}
 .memo{background:#fffdf5;border:1px solid #efe3bf;border-radius:3px;padding:10px 12px;font-size:.92rem}.memo p{margin:.3em 0}
@@ -63,12 +67,110 @@ h3{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut
 .lbl{font-size:12px;fill:var(--muted);pointer-events:none}
 .hit{fill:transparent;stroke:transparent;cursor:pointer}
 @media (max-width:860px){.board{grid-template-columns:1fr}.plan{position:sticky;top:0;z-index:2;box-shadow:0 4px 10px #1c2b3614}}
+/* field kit: shared with the lab shell */
+:root{color-scheme:light}
+:focus-visible{outline:3px solid #c48000;outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+.seg button:focus-visible,.tabs button:focus-visible,.tab:focus-visible,.step:focus-visible{outline-offset:-3px}
+.in-frame .bar>a.home,.in-frame .bar>h1,.in-frame .wrap>a.home,.in-frame .wrap>h1{position:absolute!important;width:1px;height:1px;margin:0;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.in-frame .scene,.in-frame .plan{position:relative!important;top:auto!important;box-shadow:none!important}
+.in-frame #over{padding-top:12px}
+.resume{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:#e8f3fa;border:1px solid #9bbfd5;border-left:4px solid #007cba;border-radius:3px;padding:10px 12px}
+.resume-txt b{display:block}.resume-txt span{display:block;font-size:.85rem;color:#526878}
+.resume-acts{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+<script>
+/* Field training frame kit: framing, auto height, report dialog, saved runs. Same block in every field/*.html. */
+(function(){
+  var root=document.documentElement,framed=false;
+  try{framed=window.parent!==window&&window.parent.location.origin===location.origin;}catch(e){framed=false;}
+  if(framed)root.classList.add('in-frame');
+  var FT=window.FT={framed:framed,banner:null};
+  function post(m){if(framed){try{window.parent.postMessage(m,location.origin);}catch(e){}}}
+  FT.post=post;
+  var lastH=0,over=function(){return document.getElementById('over');};
+  function size(){
+    if(!framed)return;
+    var h=Math.ceil(root.getBoundingClientRect().height),o=over();
+    if(o&&o.style.display&&o.style.display!=='none'&&o.firstElementChild)h=Math.max(h,Math.ceil(o.firstElementChild.getBoundingClientRect().height)+60);
+    if(h!==lastH){lastH=h;post({vel:'field-size',h:h});}
+  }
+  FT.size=size;
+  document.addEventListener('DOMContentLoaded',function(){
+    if(framed){
+      // The lab shell shows the title and the way back; keep ours out of the tab order and the reading order.
+      document.querySelectorAll('.bar > a.home, .wrap > a.home').forEach(function(a){a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true');});
+      if('ResizeObserver' in window){var ro=new ResizeObserver(size);ro.observe(root);var o=over();if(o&&o.firstElementChild)ro.observe(o.firstElementChild);}
+      window.addEventListener('load',size);size();
+    } else {
+      document.querySelectorAll('a[target="_top"]').forEach(function(a){if(a.dataset.solo)a.setAttribute('href',a.dataset.solo);a.removeAttribute('target');});
+    }
+  });
+  // ---- the report dialog ----
+  var ret=null;
+  function focusables(o){return Array.prototype.filter.call(o.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'),function(e){return e.getClientRects().length>0;});}
+  function trap(e){
+    var o=over();if(!o||o.style.display==='none')return;
+    e.stopPropagation(); // tool shortcuts stay off while the report is up; default actions still run
+    if(e.key==='Escape'){e.preventDefault();FT.closeOver();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(o);if(!f.length){e.preventDefault();return;}
+    var a=f[0],z=f[f.length-1],cur=document.activeElement;
+    if(!o.contains(cur)){e.preventDefault();a.focus();}
+    else if(e.shiftKey&&cur===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}
+  }
+  FT.openOver=function(back,first){
+    var o=over(),app=document.getElementById('app');ret=back||null;
+    o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+    var h=o.querySelector('.big');if(h){h.id=h.id||'report-score';o.setAttribute('aria-labelledby',h.id);}
+    o.style.display='flex';o.scrollTop=0;if(app)app.inert=true;
+    document.addEventListener('keydown',trap,true);
+    var f=first||focusables(o)[0];if(f)f.focus({preventScroll:true});
+    if(framed){post({vel:'field-overlay'});size();}
+  };
+  FT.closeOver=function(){
+    var o=over(),app=document.getElementById('app');
+    o.style.display='none';if(app)app.inert=false;
+    document.removeEventListener('keydown',trap,true);
+    if(ret&&document.contains(ret)){try{ret.focus();}catch(e){}}
+    size();
+  };
+  // ---- saved runs: one key per tool, versioned ----
+  FT.run=function(tool){
+    var K='vel-field-run-'+tool;
+    return {
+      load:function(){try{var v=JSON.parse(localStorage.getItem(K)||'null');return v&&v.v===1&&v.d&&typeof v.d==='object'&&!Array.isArray(v.d)?v:null;}catch(e){return null;}},
+      save:function(d){try{localStorage.setItem(K,JSON.stringify({v:1,at:Date.now(),d:d}));}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}},
+      clear:function(){try{localStorage.removeItem(K);}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}}
+    };
+  };
+  FT.offerResume=function(o){
+    var b=document.createElement('div'),when='';
+    try{when=new Date(o.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){}
+    b.className='resume';b.setAttribute('role','region');b.setAttribute('aria-label','Saved job');
+    b.innerHTML='<div class="resume-txt"><b>You have a job in progress.</b><span></span></div><div class="resume-acts"><button type="button" class="btn">Resume your job</button><button type="button" class="btn alt">Start a new one</button></div>';
+    b.querySelector('span').textContent=o.text+(when?' Saved '+when+'.':'');
+    var bs=b.querySelectorAll('button');
+    bs[0].onclick=function(){b.remove();FT.banner=null;try{o.resume();}catch(e){o.run.clear();}size();};
+    bs[1].onclick=function(){o.run.clear();if(o.fresh)o.fresh();size();};
+    var bar=document.querySelector('#app > .bar');if(bar)bar.after(b);else document.body.prepend(b);
+    FT.banner=b;
+  };
+  // Scores for the hub: vel-field is {tool:{n,best,last,at}}; anything else is replaced.
+  FT.record=function(tool,score){
+    try{var K='vel-field',m={};try{var v=JSON.parse(localStorage.getItem(K)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))m=v;}catch(e){}
+      var r=m[tool]&&typeof m[tool]==='object'?m[tool]:{};var n=Number.isFinite(r.n)?r.n:0,best=Number.isFinite(r.best)?r.best:0;
+      m[tool]={n:n+1,best:Math.max(best,score),last:score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));}catch(e){}
+    post({vel:'field',tool:tool});
+  };
+})();
+</script>
 </head>
 <body>
 <div id="app">
-  <div class="bar"><a class="home" href="../#/field" target="_top" style="font-weight:700;color:#007cba;text-decoration:none;font-size:.85rem;border:1px solid #b7cad7;border-radius:3px;padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;background:#fff">&larr; Field training</a>
-    <h1>Vent Call</h1><span class="spacer"></span><button type="button" class="btn" id="submit">Submit the call</button></div>
+  <div class="bar"><a class="home" href="../#/field" target="_top">&larr; Field training</a>
+    <h1>Vent Call</h1><div class="acts"><button type="button" class="btn" id="submit">Submit the call</button></div></div>
   <div class="cases" id="cases"></div>
   <div class="board">
     <div class="plan"><svg id="svg" viewBox="0 0 800 460" role="img" aria-label="Cutaway of the house showing the dryer exhaust run"></svg></div>
@@ -216,7 +318,7 @@ function pane(){
       <div class="gauge"><label>Developed length <input class="num" id="len" inputmode="numeric" value="${esc(S.len)}"> ft</label></div>
       <h3>Which performance table (4.6.1)</h3>${opt('tbl','side',S.table==='side','Table 4.9, side wall termination')}${opt('tbl','roof',S.table==='roof','Table 4.10, roof top termination')}
       <table class="tbl"><tr><th>Developed length</th><th>Side wall: back pressure / fpm</th><th>Roof: back pressure / fpm</th></tr>${T49.map((r,i)=>`<tr><td>${r[0]}${r[0]===50?' +':''} ft</td><td>&lt; ${r[1].toFixed(2)} wc / ${r[2]}</td><td>&lt; ${T410[i][1].toFixed(2)} wc / ${T410[i][2]}</td></tr>`).join('')}</table>`;
-    $('len').oninput=e=>{S.len=e.target.value.replace(/[^0-9.]/g,'');};
+    $('len').oninput=e=>{S.len=e.target.value.replace(/[^0-9.]/g,'');persist();};
     p.querySelectorAll('[data-tbl]').forEach(b=>b.onclick=()=>{S.table=b.dataset.tbl;update();});
   } else if(step==='test'){
     const g=S.energized?reading('gauge'):null;
@@ -247,7 +349,7 @@ function hud(){
   $('msg').innerHTML=MSG?`<b>${esc(MSG.t)}</b><span>${esc(MSG.s||'')}</span>`:'<b>Read the call, then walk the run.</b><span>Five steps, the same order the DEDP puts them in. Tap parts on the drawing to inspect them.</span>';
   const best=readBest();$('cases').innerHTML=CASES.map(c=>`<button type="button" class="case${c===C?' on':''}${best[c.id]!=null?' done':''}" data-case="${c.id}" data-best="${best[c.id]!=null?best[c.id]:''}"><b>Job ${c.id}</b>${esc(c.title)}</button>`).join('');
 }
-function update(){draw();pane();hud();}
+function update(){draw();pane();hud();persist();}
 // ---------- grading ----------
 function grade(){
   const E=expected(C),out=[];let score=100;const hit=(ok,g,b,why,pen)=>{out.push({ok,t:ok?g:b,why});if(!ok)score-=pen;};
@@ -281,19 +383,20 @@ function grade(){
 }
 function recWhy(r){return {r_trans:'IRC M1502.4.3: one length, listed and labeled to UL 2158A, 8 ft max, not concealed.',r_screen:'IRC M1502.3: no screens at a dryer termination.',r_route:'IRC M1501.1 and M1502.3: dryer exhaust terminates outside the building, never in an attic.',r_clear:'IRC M1502.3: at least 3 ft in any direction from openings into the building when the maker names no location.',r_label:'IRC M1502.4.7: over 35 ft equivalent needs a permanent label within 6 ft of the connection.',r_screws:'IRC M1502.4.2: fasteners may stick into the duct no more than 1/8 in.',r_design:'A clean run that still fails on a long route is a design problem. Another cleaning will not stop the high-limit trips. At 50 ft equivalent this run is also over the IRC 35 ft specified length (M1502.4.6.1), so it is legal only if the dryer maker allows that length (M1502.4.6.2).'}[r];}
 // ---------- wiring ----------
-function readBest(){try{return JSON.parse(localStorage.getItem('vel-vent')||'{}')||{};}catch(e){return {};}}
-function load(id){C=CASES.find(c=>c.id===id)||CASES[0];S=fresh();step='inspect';sel=null;MSG=null;update();}
+function readBest(){try{const v=JSON.parse(localStorage.getItem('vel-vent')||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(e){return {};}}
+function load(id){if(booted)RUN.clear();C=CASES.find(c=>c.id===id)||CASES[0];S=fresh();step='inspect';sel=null;MSG=null;update();}
 svg.addEventListener('click',e=>{const g=e.target.closest('[data-t]');if(!g)return;step='inspect';look(g.dataset.t);});
 $('steps').addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(!b)return;step=b.dataset.step;update();});
 $('cases').addEventListener('click',e=>{const b=e.target.closest('[data-case]');if(b)load(+b.dataset.case);});
 $('submit').onclick=()=>{
   const G=grade();
-  try{const b=readBest();b[C.id]=Math.max(b[C.id]||0,G.score);localStorage.setItem('vel-vent',JSON.stringify(b));const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m['vent-call']||{n:0,best:0};m['vent-call']={n:(r.n||0)+1,best:Math.max(r.best||0,G.score),last:G.score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'vent-call'},location.origin);}catch(e){}
+  try{const b=readBest();b[C.id]=Math.max(b[C.id]||0,G.score);localStorage.setItem('vel-vent',JSON.stringify(b));}catch(e){}
+  FT.record('vent-call',G.score);RUN.clear();
   const next=CASES.find(c=>c.id===C.id+1);
   $('report').innerHTML=`<p class="eyebrow">Job ${C.id} · ${esc(C.title)} · graded against the DEDP and the IRC</p><div class="big">${G.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div><ul class="rep">${G.out.map(r=>`<li class="${r.ok?'':'bad'}">${esc(r.t)}<span>${esc(r.why)}</span></li>`).join('')}</ul>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${next?`<button type="button" class="btn" id="next">Job ${next.id}: ${esc(next.title)}</button>`:''}<button type="button" class="btn alt" id="retry">Run this job again</button><button type="button" class="btn alt" id="close">Back to the job</button></div>`;
-  $('over').style.display='flex';if(next)$('next').onclick=()=>{$('over').style.display='none';load(next.id);};$('retry').onclick=()=>{$('over').style.display='none';load(C.id);};$('close').onclick=()=>{$('over').style.display='none';};
-  ($('next')||$('retry')).focus({preventScroll:true});$('over').scrollTop=0;
+  if(next)$('next').onclick=()=>{FT.closeOver();load(next.id);};$('retry').onclick=()=>{FT.closeOver();load(C.id);};$('close').onclick=()=>{FT.closeOver();};
+  FT.openOver($('submit'),$('next')||$('retry'));
 };
 // The right way through each job, used by the self-test.
 function solve(id){load(id);const E=expected(C);parts(C).forEach(p=>{S.seen[p]=obs(p);});
@@ -302,8 +405,15 @@ function solve(id){load(id);const E=expected(C);parts(C).forEach(p=>{S.seen[p]=o
   S.clean='clean';S.len=String(devLen(C));S.table=C.term;S.dev='dedp';S.tap='mid';S.energized=true;if(C.booster)S.waited=true;
   for(const w of['top','bottom','side'])S.reads[w]=reading(w);S.recorded=Math.max(...Object.values(S.reads));S.result=E.result;S.recs=C.recs.slice();return grade();}
 window.__VENT={get S(){return S},get C(){return C},load,grade,expected,solve,reading,CASES};
-load(1);
+// ---------- keep the job if you leave ----------
+const RUN=FT.run('vent-call');let booted=false;
+function dirty(){return !!(S&&(Object.keys(S.seen).length||S.codes.length||S.clean||S.len||S.table||S.dev||S.tap||S.result||S.recs.length));}
+function persist(){if(booted&&dirty())RUN.save({c:C.id,S,step});}
+load(1);booted=true;
+(function(){const sv=RUN.load(),d=sv&&sv.d,c=d&&CASES.find(x=>x.id===d.c);if(!c||!d.S||!d.S.seen||!Array.isArray(d.S.codes)||!Array.isArray(d.S.recs)||!d.S.reads)return;
+  const n=STEPS.filter(([k])=>{const keep=[C,S];C=c;S=d.S;let r=false;try{r=done(k);}catch(e){}[C,S]=keep;return r;}).length;
+  FT.offerResume({run:RUN,at:sv.at,text:`Job ${c.id}, ${c.title}: ${n} of 5 steps done.`,
+    resume(){C=c;S=d.S;step=STEPS.some(([k])=>k===d.step)?d.step:'inspect';sel=null;say('Back on the job.','Everything you checked and wrote is still here.');update();}});})();
 </script>
-<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

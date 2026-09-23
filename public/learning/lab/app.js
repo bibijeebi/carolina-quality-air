@@ -20,7 +20,7 @@
   const MODES = [
     ['pass', 'Pass my exam', 'Today’s drill, misses first, then a sim'],
     ['understand', 'Understand the work', 'Read the next lesson, then pass its checkpoint'],
-    ['master', 'Master the standard', 'Recall cards and lesson checkpoints']
+    ['master', 'Lock in the facts', 'Recall cards and lesson checkpoints']
   ];
   const NAV = [['today', 'Today'], ['learn', 'Learn'], ['drill', 'Drill'], ['games', 'Games'], ['sim', 'Exam sim'],
     ['units', 'Units'], ['lab', 'Systems lab'], ['progress', 'Progress'], ['sources', 'Sources']];
@@ -124,7 +124,8 @@
     box.innerHTML = `<div class="confirm-inline" role="group" aria-label="Confirm"><p>${question}</p><div class="actions"><button type="button" class="btn${danger ? ' danger-btn' : ''}" data-yes>${yesLabel}</button><button type="button" class="btn secondary" data-no>Cancel</button></div></div>`;
     const no = box.querySelector('[data-no]');
     box.querySelector('[data-yes]').onclick = onYes;
-    no.onclick = () => { box.innerHTML = prev; if (box._rebind) box._rebind(); };
+    no.onclick = () => { box.innerHTML = prev; if (box._rebind) box._rebind(); const f = box.querySelector('button, a'); if (f) f.focus(); };
+    box.querySelector('[data-yes]').addEventListener('click', () => setTimeout(() => { if (!document.activeElement || document.activeElement === document.body) { const f = document.querySelector('main h1, main h2'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); } } }, 0));
     box.querySelector('[data-yes]').focus();
   }
 
@@ -138,9 +139,14 @@
     if (isObj(t.plan)) { f.plan.date = typeof t.plan.date === 'string' ? t.plan.date : ''; f.plan.min = Number(t.plan.min) > 0 ? Number(t.plan.min) : 20; }
     if (MODES.some(m => m[0] === t.mode)) f.mode = t.mode;
     ['q', 'rc', 'ls', 'exp', 'best'].forEach(k => { if (isObj(t[k])) f[k] = t[k]; });
-    if (Array.isArray(t.sims)) f.sims = t.sims.filter(isObj);
-    if (isObj(t.sim) && Array.isArray(t.sim.items)) f.sim = t.sim;
-    if (isObj(t.drill) && Array.isArray(t.drill.queue)) f.drill = t.drill;
+    // Nested records are checked too: one bad record from an old or hand-edited backup must not break a page for good.
+    ['q', 'rc', 'ls', 'exp', 'best'].forEach(k => { for (const id of Object.keys(f[k])) if (k === 'exp' ? !Number.isFinite(+f[k][id]) : !isObj(f[k][id]) && typeof f[k][id] !== 'string') delete f[k][id]; });
+    if (Array.isArray(t.sims)) f.sims = t.sims.filter(x => isObj(x) && Number.isFinite(+x.pct) && Number.isFinite(+x.total)).map(x => Object.assign({}, x, { pct: +x.pct, total: +x.total, dom: isObj(x.dom) ? x.dom : {}, miss: Array.isArray(x.miss) ? x.miss.filter(Array.isArray) : [] }));
+    if (isObj(t.sim) && Array.isArray(t.sim.items)) {
+      const items = t.sim.items.filter(i => isObj(i) && typeof i.q === 'string' && Array.isArray(i.o));
+      if (items.length && Number.isFinite(+t.sim.end)) f.sim = Object.assign({}, t.sim, { items, cur: Math.min(Math.max(0, +t.sim.cur || 0), items.length - 1), end: +t.sim.end });
+    }
+    if (isObj(t.drill) && Array.isArray(t.drill.queue)) f.drill = Object.assign({}, t.drill, { queue: t.drill.queue.filter(x => typeof x === 'string') });
     // sync.js stamps: when the study window or mode last changed, and when this track was last reset
     if (Number(t.planAt) > 0) f.planAt = Number(t.planAt);
     if (Number(t.resetAt) > 0) f.resetAt = Number(t.resetAt);
@@ -156,10 +162,36 @@
     try { localStorage.setItem('vel-probe', '1'); localStorage.removeItem('vel-probe'); } catch (e) { canSave = false; return; }
     let raw = null;
     try { raw = localStorage.getItem(KEY); } catch (e) { canSave = false; return; }
-    if (raw) { try { const s = JSON.parse(raw); if (validStore(s)) store = normStore(s); } catch (e) { /* unreadable save: start fresh */ } }
+    if (raw) {
+      let ok = false;
+      try { const s = JSON.parse(raw); if (validStore(s)) { store = normStore(s); ok = true; } } catch (e) { /* unreadable */ }
+      if (!ok) { try { localStorage.setItem(KEY + '-unreadable-' + Date.now(), raw); } catch (e) { /* keep going */ } } // keep the raw copy instead of silently overwriting it
+    }
+    // Pick up saves from other tabs. The track this tab is working in is only replaced when no question is on screen.
+    window.addEventListener('storage', e => {
+      if (e.key !== KEY || !e.newValue) return;
+      let s; try { s = JSON.parse(e.newValue); } catch (err) { return; }
+      if (!validStore(s)) return;
+      const next = normStore(s), busy = !!document.querySelector('.question-panel, .flashcard, .quiz-wrap');
+      for (const tr of TRACKS) { if (tr.id === V.cur && busy) continue; if (next.t[tr.id]) store.t[tr.id] = next.t[tr.id]; }
+      if (V.cur && !busy && V.rerender) V.rerender();
+    });
   }
+  // Another tab may have saved since this one loaded. Write only the tracks this tab changed and keep the rest from disk,
+  // so two open tabs never wipe each other's progress.
+  function mergeDisk(changed) {
+    let disk = null;
+    try { const raw = localStorage.getItem(KEY); if (raw) { const s = JSON.parse(raw); if (validStore(s)) disk = normStore(s); } } catch (e) { /* unreadable: ours wins */ }
+    if (!disk) return;
+    for (const tr of TRACKS) if (!changed.includes(tr.id) && disk.t[tr.id]) store.t[tr.id] = disk.t[tr.id];
+  }
+  let saveFails = 0;
   function save(all) {
-    if (canSave) { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { canSave = false; storageNote(); } }
+    const changed = all === true ? TRACKS.map(t => t.id) : all === 'nav' ? [] : V.cur ? [V.cur] : [];
+    if (canSave) {
+      mergeDisk(changed.length ? changed : (V.cur ? [V.cur] : []));
+      try { localStorage.setItem(KEY, JSON.stringify(store)); saveFails = 0; } catch (e) { if (++saveFails >= 3) { canSave = false; storageNote(); } }
+    }
     if (all !== 'nav' && typeof V.onSave === 'function') { try { V.onSave(all === true ? TRACKS.map(t => t.id) : [V.cur]); } catch (e) { /* sync is optional */ } }
   }
   // sync.js: read a track's raw state, or replace it with a server copy (normalized like a restore)
@@ -250,11 +282,13 @@
     $('track-picker').innerHTML = TRACKS.map(t => {
       const m = V.data[t.id] ? Object.assign({}, t, V.data[t.id].track) : t;
       return `<button type="button" class="track-button${t.id === track ? ' active' : ''}" data-track="${t.id}" aria-pressed="${t.id === track}"><b>${esc(m.code)}</b><span>${esc(m.kind)}</span></button>`;
-    }).join('') + (V.field ? `<button type="button" class="track-button field-button${track === 'field' ? ' active' : ''}" data-track="field" aria-pressed="${track === 'field'}"><b>FIELD</b><span>Sims and drills</span></button>` : '');
+    }).join('') + (V.field ? `<button type="button" class="track-button field-button${track === 'field' ? ' active' : ''}" data-track="field" aria-pressed="${track === 'field'}"><b>FIELD</b><span>Field training</span></button>` : '');
     if (track === 'field') {
       const nav = $('nav');
       nav.innerHTML = V.field.NAV.map(([id, label]) => `<a href="${id ? link('field', id) : link('field')}"${id === (view || '') ? ' class="active" aria-current="page"' : ''}>${esc(label)}</a>`).join('');
       $('ctx-name').textContent = 'Field training';
+      document.title = (view ? (V.field.NAV.find(n => n[0] === view) || [0, 'Field training'])[1] + ' · ' : '') + 'Field training · Vent Exam Lab';
+      document.querySelector('.brand').setAttribute('href', link('field'));
       return;
     }
     const nav = $('nav');
@@ -263,6 +297,8 @@
     const active = nav.querySelector('.active');
     if (active && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = Math.max(0, active.offsetLeft - nav.clientWidth / 2 + active.offsetWidth / 2);
     $('ctx-name').textContent = meta.name;
+    document.title = ((NAV.find(n => n[0] === view) || [0, ''])[1] ? (NAV.find(n => n[0] === view))[1] + ' · ' : '') + meta.code + ' · Vent Exam Lab';
+    document.querySelector('.brand').setAttribute('href', link(track, 'today'));
   }
   let lastHash = null;
   async function route() {
@@ -352,7 +388,7 @@
     let run = 0, stepOne = false, stepTwo = false, bestRun = 0;
     for (const s of S.sims) {
       if (s.total === quick && quick !== full) { run = s.pct >= 85 ? run + 1 : 0; bestRun = Math.max(bestRun, run); if (run >= 2) stepOne = true; }
-      if (s.total === full && stepOne && s.pct > cut) stepTwo = true;
+      if (s.total === full && stepOne && s.pct >= cut) stepTwo = true;
       if (quick === full && s.total === full) { run = s.pct >= 85 ? run + 1 : 0; bestRun = Math.max(bestRun, run); if (run >= 2) stepOne = true; }
     }
     return { quick, full, cut, run, stepOne, stepTwo, bestRun: Math.min(2, bestRun) };
@@ -360,9 +396,9 @@
   function ruleLine(D, S) {
     const r = readiness(D, S);
     const status = r.stepTwo ? '<b class="ok">Done. You met the readiness rule.</b>'
-      : r.stepOne ? `<b>Step 1 done.</b> Next: a ${r.full}-question sim above ${r.cut}%.`
+      : r.stepOne ? `<b>Step 1 done.</b> Next: a ${r.full}-question sim at ${r.cut}% or better.`
         : `<b>${r.run} of 2</b> ${r.quick}-question sims in a row at 85% or better.`;
-    return `<div class="note blue rule"><p><b>Readiness rule:</b> Two ${r.quick}-question sims in a row at 85% or better, then one full-length sim above the cut.</p><p class="small">${status}</p></div>`;
+    return `<div class="note blue rule"><p><b>Readiness rule:</b> Two ${r.quick}-question sims in a row at 85% or better, then one full-length sim at the cut or better.</p><p class="small">${status}</p></div>`;
   }
 
   /* ---------- Today ---------- */
@@ -377,16 +413,16 @@
     if (D.lessons.length) counts.push(plural(D.lessons.length, 'lesson'));
     const modeTabs = `<div class="mode-switch" role="group" aria-label="Study mode">${MODES.map(([m, t, s]) => `<button type="button" data-mode="${m}" class="${S.mode === m ? 'active' : ''}" aria-pressed="${S.mode === m}"><b>${t}</b><span>${s}</span></button>`).join('')}</div>`;
     const tiles = [
-      [D.units.length ? `${known}<span> / ${D.units.length}</span>` : '<span class="nil">None yet</span>', D.units.length ? 'Units known' : 'Units known (units are on the way)'],
+      [D.units.length ? `${known}<span> / ${D.units.length}</span>` : '<span class="nil">None yet</span>', 'Units known'],
       [`${ps.retired}<span> / ${ps.n}</span>`, 'Questions retired'],
       [last ? `${last.pct}%` : '<span class="nil">No sim yet</span>', last ? `Last sim, ${last.total} questions` : 'Last sim score'],
-      [dl == null ? '<span class="nil">Set a date</span>' : dl < 0 ? '<span class="nil">Passed</span>' : String(dl), dl == null ? 'Days to exam' : dl === 1 ? 'Day to exam' : 'Days to exam']
+      [dl == null ? '<span class="nil">Set a date</span>' : dl < 0 ? '<span class="nil">Passed</span>' : dl === 0 ? 'Today' : String(dl), dl == null ? 'Days to exam' : dl === 0 ? 'Exam day' : dl === 1 ? 'Day to exam' : 'Days to exam']
     ];
     const metrics = `<div class="metrics four">${tiles.map(([b, s]) => `<div class="metric"><b>${b}</b><span>${s}</span></div>`).join('')}</div>`;
     const domRows = D.doms.filter(d => d.w > 0 || D.pool.some(q => q.domain === d.name)).map(d => {
       const st = poolStats(D, S, q => q.domain === d.name);
       const p = pct(st.retired, st.n);
-      const inner = `<div class="row-between"><span class="title">${esc(d.name)}</span><span class="small num">${st.n ? p + '%' : ''}</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${st.n ? `${st.retired} of ${st.n} retired` : 'No practice questions yet'}${d.w ? ` · ${d.w}% of exam` : ''}${st.miss ? ` · ${plural(st.miss, 'miss', 'misses')}` : ''}</small>`;
+      const inner = `<div class="row-between"><span class="title">${esc(d.name)}</span><span class="small num">${st.n ? p + '%' : ''}</span></div><div class="bar"><i style="width:${p}%"></i></div><small>${st.n ? `${st.retired} of ${st.n} retired` : 'No practice questions yet'}${d.w && wPub(D) ? ` · ${d.w}% of exam` : ''}${st.miss ? ` · ${plural(st.miss, 'miss', 'misses')}` : ''}</small>`;
       return st.n ? `<a class="domain-row" href="${link(id, 'drill', 'dom', d.name)}" aria-label="Drill ${esc(d.name)}, ${p}% retired">${inner}</a>` : `<div class="domain-row">${inner}</div>`;
     }).join('');
     const nextL = D.lessons.filter(l => lessonStatus(S, l) !== 'passed').sort((a, b) => (lessonStatus(S, a) === 'new') - (lessonStatus(S, b) === 'new') || a.idx - b.idx);
@@ -400,14 +436,18 @@
       + modeTabs
       + `<div class="grid top"><section class="panel hero-panel" id="hero">${heroHTML(D, S, ps)}</section>${windowHTML(D, S, ps, dl)}</div>`
       + metrics
-      + `<div class="grid"><section class="panel"><div class="row-between"><h2>Domain readiness</h2><span class="small muted hint">Tap a domain to drill it</span></div><div class="domain-list">${domRows || '<p class="muted">No domains in this bundle.</p>'}</div></section>${lessonsPanel}</div>`
+      + `<div class="grid"><section class="panel"><div class="row-between"><h2>Domain readiness</h2><span class="small muted hint">Tap a domain to drill it</span></div><div class="domain-list">${domRows || '<p class="muted">No domains yet.</p>'}</div></section>${lessonsPanel}</div>`
       + ruleLine(D, S)
       + (V.field ? (id === 'dvt'
         ? `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the dryer vent job.</h2><p class="muted">Five jobs: inspect the run, make the code calls, work out developed length, run the DEDP test, and make the pass or fail call.</p></div><a class="btn secondary" href="${link('field', 'vent-call')}">Open Vent Call</a></section>`
-        : `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Run the job the standard describes.</h2><p class="muted">Job sims graded on return first, negative air, rod reach, and patching every hole. Inspection casework graded against ACR 2025. Print-reading drills for spotting supply and return on sight.</p></div><a class="btn secondary" href="${link('field')}">Open field training</a></section>`) : '');
+        : `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training</p><h2>Practice the job, not just the test.</h2><p class="muted">Clean a whole attic system, work inspection cases, and read mechanical plans. Each one is graded.</p></div><a class="btn secondary" href="${link('field')}">Open field training</a></section>`) : '');
     main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; S.planAt = Date.now(); save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
     const date = $('exam-date'), mins = $('exam-min');
-    date.onchange = () => { S.plan.date = date.value; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-date'); if (f) f.focus(); };
+    // Save as it changes, but only redraw when the field loses focus: Chrome fires change on a partial year while typing.
+    let dateDirty = false;
+    date.onchange = () => { const y = /^(\d{4})-\d{2}-\d{2}$/.exec(date.value); if (date.value && (!y || +y[1] < 2000)) return; S.plan.date = date.value; S.planAt = Date.now(); save(); dateDirty = true; };
+    date.onblur = () => { if (dateDirty) { dateDirty = false; V.rerender(); } };
+    date.onkeydown = e => { if (e.key === 'Enter') date.blur(); };
     mins.onchange = () => { S.plan.min = Number(mins.value) || 20; S.planAt = Date.now(); save(); V.rerender(); const f = $('exam-min'); if (f) f.focus(); };
   };
   function heroHTML(D, S, ps) {
@@ -431,25 +471,33 @@
       if (chk) return `<p class="eyebrow">Next checkpoint</p><h2>${esc(chk.title)}</h2><p>No cards are due. Pass this lesson’s checkpoint to lock in its ${plural(chk.units.length, 'unit')}.</p><div class="actions">${btn(link(id, 'learn', chk.id, 'check'), 'Start checkpoint')}${fresh ? `<a class="btn light-text" href="${link(id, 'games', 'recall')}">Recall cards (${fresh} new)</a>` : ''}</div>`;
       return `<p class="eyebrow">Recall cards</p><h2>Nothing due right now.</h2><p>${fresh ? `${plural(fresh, 'unit')} not yet carded.` : 'Every unit is on a schedule.'}</p>${btn(link(id, 'games', 'recall'), 'Recall cards')}`;
     }
-    if (!ps.n) return `<p class="eyebrow">Practice</p><h2>No practice questions yet.</h2><p>This bundle has no drillable questions.</p>`;
+    if (!ps.n) return `<p class="eyebrow">Practice</p><h2>No practice questions yet.</h2><p>There are no practice questions for this credential.</p>`;
     const sims = simLengths(D);
     if (ps.retired / ps.n >= 0.8 || ps.left === 0) {
-      return `<p class="eyebrow">Ready to check</p><h2>Take a ${sims[0][0]}-question sim.</h2><p>You have retired ${pct(ps.retired, ps.n)}% of the drill pool. A sim draws fresh reserved questions by domain weight and scores you against the ${esc(String((tr.exam || {}).cut || ''))}% line.</p><div class="actions">${btn(link(id, 'sim'), 'Start a sim')}${ps.miss ? `<a class="btn light-text" href="${link(id, 'drill', 'misses')}">Drill ${plural(ps.miss, 'miss', 'misses')}</a>` : ''}</div>`;
+      return `<p class="eyebrow">Ready to check</p><h2>Take a ${sims[0][0]}-question sim.</h2><p>You have retired ${pct(ps.retired, ps.n)}% of the drill pool. A sim uses questions you have not drilled and scores you against the ${esc(String((tr.exam || {}).cut || ''))}% line.</p><div class="actions">${btn(link(id, 'sim'), 'Start a sim')}${ps.miss ? `<a class="btn light-text" href="${link(id, 'drill', 'misses')}">Drill ${plural(ps.miss, 'miss', 'misses')}</a>` : ''}</div>`;
+    }
+    if (S.drill && !S.drill.done && S.drill.queue && S.drill.queue.length) {
+      const d = S.drill;
+      return `<p class="eyebrow">Drill in progress</p><h2>${esc(d.label || 'Your drill')}: ${d.n} of ${d.total} answered.</h2><p>Pick up where you left off. Starting today’s drill instead replaces this one.</p><div class="actions">${btn(link(id, 'drill'), 'Resume the drill')}<a class="btn secondary" href="${link(id, 'drill', 'today')}">Start today’s drill</a></div>`;
     }
     const plan = V.todayPlan(D);
     const title = plan.miss.length ? `${plan.fresh.length} new + ${plural(plan.miss.length, 'miss', 'misses')}.` : `${plural(plan.fresh.length, 'new question')}.`;
     return `<p class="eyebrow">Today’s drill</p><h2>${title}</h2><p>Sized for ${S.plan.min} minutes a day at about 1.5 minutes per question. Right on first sight retires a question. A miss comes back until you get it twice in a row.</p>${btn(link(id, 'drill', 'today'), 'Start today’s drill')}<p class="under-note">${ps.left} of ${ps.n} questions left in the bank.</p>`;
   }
+  const wPub = D => ((D.track || {}).exam || {}).weightsPublished !== false;
+  const ePub = D => ((D.track || {}).exam || {}).published !== false;
+  function todayISO() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   function windowHTML(D, S, ps, dl) {
     const cap = V.drillSize(S.plan.min);
     let out;
     if (dl == null) out = `Add an exam date to get a daily target. At ${S.plan.min} minutes a day you cover about ${cap} questions.`;
     else if (dl < 0) out = 'That date has passed. Set your next exam date.';
+    else if (dl === 0) out = '<b>Exam day.</b> Keep it light: one short drill of your misses, then go take it.';
     else {
       const need = Math.ceil(ps.left / Math.max(1, dl));
       out = `<b>${plural(dl, 'day')} left.</b> Retire about <b>${need} a day</b> to clear the ${ps.left} questions left. At ${S.plan.min} minutes a day you cover about ${cap}.` + (need > cap ? ' Add minutes or lean on misses and sims.' : '');
     }
-    return `<section class="panel window"><h2>Your study window</h2><div class="field space"><label for="exam-date">Exam date <span class="muted">(optional)</span></label><input type="date" id="exam-date" value="${esc(S.plan.date)}"></div><div class="field space"><label for="exam-min">Minutes per day</label><select id="exam-min">${MINUTES.concat(MINUTES.includes(S.plan.min) ? [] : [S.plan.min]).sort((a, b) => a - b).map(m => `<option value="${m}"${m === S.plan.min ? ' selected' : ''}>${m} minutes</option>`).join('')}</select></div><p class="window-out" id="window-out">${out}</p><p class="under-note">Saved as you change it.</p></section>`;
+    return `<section class="panel window"><h2>Your study window</h2><div class="field space"><label for="exam-date">Exam date <span class="muted">(optional)</span></label><input type="date" id="exam-date" min="${todayISO()}" value="${esc(S.plan.date)}"></div><div class="field space"><label for="exam-min">Minutes per day</label><select id="exam-min">${MINUTES.concat(MINUTES.includes(S.plan.min) ? [] : [S.plan.min]).sort((a, b) => a - b).map(m => `<option value="${m}"${m === S.plan.min ? ' selected' : ''}>${m} minutes</option>`).join('')}</select></div><p class="window-out" id="window-out">${out}</p><p class="under-note">Saved as you change it.</p></section>`;
   }
 
   /* ---------- Learn ---------- */
@@ -457,7 +505,7 @@
     if (args[0] && args[1] === 'check') return V.checkpoint(D, args[0]);
     if (args[0]) return lessonPage(D, args[0]);
     const S = T(), id = D.id;
-    const hd = head(`${esc(D.track.code)} / Learn`, 'Learn it once, properly.', 'Short lessons in blueprint order. Each unit is one testable fact with its conditions and source. Pass the checkpoint to lock it in.');
+    const hd = head(`${esc(D.track.code)} / Learn`, 'Learn it once, properly.', 'Short lessons in exam order. Read one, then pass its checkpoint to lock it in.');
     if (!D.lessons.length) {
       main.innerHTML = hd + empty(`No ${esc(D.track.code)} lessons yet.`, 'Lessons are being written from the standards and codes. The question bank is ready now, and every answer comes with an explanation.', `<a class="btn" href="${link(id, 'drill')}">Start drilling</a><a class="btn secondary" href="${link(id, 'sources')}">See the sources</a>`);
       return;
@@ -465,13 +513,13 @@
     const groups = D.doms.map(d => ({ d, ls: D.lessons.filter(l => l.dom === d.name) })).filter(g => g.ls.length);
     const done = D.lessons.filter(l => lessonStatus(S, l) !== 'new').length, passed = D.lessons.filter(l => lessonStatus(S, l) === 'passed').length;
     main.innerHTML = hd
-      + `<div class="panel learn-summary"><div><b>${done} of ${D.lessons.length}</b> lessons read · <b>${passed}</b> checkpoints passed</div><div class="bar"><i style="width:${pct(done, D.lessons.length)}%"></i></div>${groups.length > 1 ? `<div class="jump" aria-label="Jump to a domain">${groups.map(g => `<a href="#dom-${g.d.name.replace(/[^a-z0-9]+/gi, '-')}" data-jump>${esc(g.d.name)}</a>`).join('')}</div>` : ''}</div>`
-      + groups.map(g => `<section class="dom-section" id="dom-${g.d.name.replace(/[^a-z0-9]+/gi, '-')}"><div class="section-heading"><h2>${esc(g.d.name)}</h2><span class="small muted">${g.d.w ? g.d.w + '% of exam · ' : ''}${plural(g.ls.length, 'lesson')}</span></div><div class="lesson-grid">${g.ls.map(l => { const st = lessonStatus(S, l); return `<a class="lesson-card st-${st}" href="${link(id, 'learn', l.id)}"><span class="lc-top">${lessonBadge(st)}<small>${lessonMinutes(l)} min</small></span><h3>${esc(l.title)}</h3><small class="lc-meta">${plural(l.units.length, 'unit')}${(D.lessonQs.get(l.id) || []).length ? ' · ' + plural(D.lessonQs.get(l.id).length, 'question') : ''}</small></a>`; }).join('')}</div></section>`).join('');
+      + `<div class="panel learn-summary"><div><b>${done} of ${D.lessons.length}</b> lessons read · <b>${passed}</b> checkpoints passed</div><div class="bar"><i style="width:${pct(done, D.lessons.length)}%"></i></div>${groups.length > 1 ? `<div class="jump" aria-label="Jump to a domain">${groups.map(g => `<a href="javascript:void 0" data-jump="dom-${g.d.name.replace(/[^a-z0-9]+/gi, '-')}" data-jump>${esc(g.d.name)}</a>`).join('')}</div>` : ''}</div>`
+      + groups.map(g => `<section class="dom-section" id="dom-${g.d.name.replace(/[^a-z0-9]+/gi, '-')}"><div class="section-heading"><h2>${esc(g.d.name)}</h2><span class="small muted">${g.d.w && wPub(D) ? g.d.w + '% of exam · ' : ''}${plural(g.ls.length, 'lesson')}</span></div><div class="lesson-grid">${g.ls.map(l => { const st = lessonStatus(S, l); return `<a class="lesson-card st-${st}" href="${link(id, 'learn', l.id)}"><span class="lc-top">${lessonBadge(st)}<small>${lessonMinutes(l)} min</small></span><h3>${esc(l.title)}</h3><small class="lc-meta">${plural(l.units.length, 'unit')}${(D.lessonQs.get(l.id) || []).length ? ' · ' + plural(D.lessonQs.get(l.id).length, 'question') : ''}</small></a>`; }).join('')}</div></section>`).join('');
     main.querySelectorAll('[data-jump]').forEach(a => a.onclick = e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) { t.scrollIntoView({ block: 'start' }); const h = t.querySelector('h2'); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } } });
   };
   function lessonPage(D, lid) {
     const S = T(), id = D.id, l = D.l.get(lid);
-    if (!l) { main.innerHTML = empty('That lesson is not in this bundle.', 'It may have been renamed. Pick one from the list.', `<a class="btn" href="${link(id, 'learn')}">All lessons</a>`); return; }
+    if (!l) { main.innerHTML = empty('That lesson is not here.', 'It may have been renamed. Pick one from the list.', `<a class="btn" href="${link(id, 'learn')}">All lessons</a>`); return; }
     const prev = D.lessons[l.idx - 1], next = D.lessons[l.idx + 1];
     const nq = (D.lessonQs.get(l.id) || []).length;
     const st = lessonStatus(S, l);
@@ -480,7 +528,7 @@
     const pn = `<nav class="lesson-pn" aria-label="Lesson navigation">${prev ? `<a class="btn secondary" href="${link(id, 'learn', prev.id)}"><span class="small muted">Previous</span>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a class="btn secondary next" href="${link(id, 'learn', next.id)}"><span class="small muted">Next</span>${esc(next.title)}</a>` : ''}</nav>`;
     main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(id, 'learn')}">Learn</a> / ${esc(l.dom)}`, esc(l.title), esc(l.intro || `${plural(units.length, 'unit')} from ${l.dom}. Read each one with its condition, then take the checkpoint.`), '', 'lesson-head')
       + `<div class="lesson-layout"><div class="lesson-main">${l.mnemonic ? `<div class="mnemonic"><p class="eyebrow">Memory hook</p><p>${esc(l.mnemonic)}</p></div>` : ''}<section class="panel unit-list" aria-label="Units">${units.map(u => unitHTML(D, u)).join('')}</section><div id="read-sentinel"></div>`
-      + `<section class="panel checkpoint-cta"><p class="eyebrow">Checkpoint</p><h2>${nq ? `Answer ${Math.min(6, nq)} linked ${nq === 1 ? 'question' : 'questions'}.` : `Recall ${plural(units.length, 'card')}.`}</h2><p class="muted">${nq ? 'Tutor mode: you see the answer and explanation right away. Get them all right to pass.' : 'No questions are linked to this lesson yet, so the checkpoint uses recall cards of its units. Mark every card Knew it to pass.'}</p><div class="actions space"><a class="btn" href="${link(id, 'learn', l.id, 'check')}">Start checkpoint</a></div></section>${pn}</div>`
+      + `<section class="panel checkpoint-cta"><p class="eyebrow">Checkpoint</p><h2>${nq ? `Answer ${Math.min(6, nq)} linked ${nq === 1 ? 'question' : 'questions'}.` : `Recall ${plural(units.length, 'card')}.`}</h2><p class="muted">${nq ? 'You see the answer and the explanation right after each one. Get them all right to pass.' : 'No questions are linked to this lesson yet, so the checkpoint uses recall cards of its units. Mark every card Knew it to pass.'}</p><div class="actions space"><a class="btn" href="${link(id, 'learn', l.id, 'check')}">Start checkpoint</a></div></section>${pn}</div>`
       + `<aside class="lesson-aside"><div class="panel"><p class="eyebrow">This lesson</p><div id="lesson-status" class="space-sm">${lessonBadge(st)}</div><ul class="facts"><li><b>${units.length}</b> units</li><li><b>${lessonMinutes(l)}</b> min read</li><li><b>${nq}</b> linked questions</li></ul><div class="actions stack"><a class="btn" href="${link(id, 'learn', l.id, 'check')}">Start checkpoint</a>${nq ? `<a class="btn secondary" href="${link(id, 'drill', 'lesson', l.id)}">Drill this lesson</a>` : ''}${st === 'new' ? '<button type="button" class="btn text" id="mark-read">Mark as read</button>' : ''}</div></div></aside></div>`;
     const mr = $('mark-read'); if (mr) mr.onclick = markRead;
     const sent = $('read-sentinel');
@@ -494,8 +542,8 @@
   const uf = { track: null, q: '', dom: '', lesson: '', tag: '', status: '', limit: 60 };
   V.views.units = function (D) {
     const id = D.id;
-    if (uf.track !== id) Object.assign(uf, { track: id, q: '', dom: '', lesson: '', tag: '', status: '', limit: 60 });
-    const hd = head(`${esc(D.track.code)} / Units`, 'Master the standard.', 'Every testable fact in one place with its tag, source, and trap. Known means recall box 2 or higher, or every linked question retired with no open miss.');
+    if (uf.track !== id) Object.assign(uf, { track: id, q: '', dom: '', lesson: '', tag: '', status: '', limit: 25 });
+    const hd = head(`${esc(D.track.code)} / Units`, 'Every fact, one place.', 'Each fact with how strong the rule is, its source, and the common trap. A fact counts as known once you have recalled it twice in a row, or retired every question on it.');
     if (!D.units.length) { main.innerHTML = hd + empty(`No ${esc(D.track.code)} units yet.`, 'Units are the small facts behind lessons, recall cards, and games. They are being written now. The question bank works today.', `<a class="btn" href="${link(id, 'drill')}">Start drilling</a>`); return; }
     const tagsPresent = Object.keys(TAGS).filter(t => D.units.some(u => u.tag === t));
     const domsPresent = D.doms.filter(d => D.units.some(u => u.dom === d.name));
@@ -514,12 +562,12 @@
       D.units.forEach(u => { const s = unitStatus(D, u, S); if (counts[s] != null) counts[s]++; });
       $('unit-results').innerHTML = `<p class="result-count" role="status">${plural(rows.length, 'unit')} shown of ${D.units.length} · ${counts.known} known · ${counts.shaky} shaky</p>`
         + (rows.length ? `<div class="panel unit-list">${rows.slice(0, uf.limit).map(u => unitHTML(D, u, { status: true, meta: true })).join('')}</div>` : '<div class="panel empty"><p class="muted">No units match. Clear a filter or change the search.</p></div>')
-        + (rows.length > uf.limit ? `<div class="actions center space"><button type="button" class="btn secondary" id="uf-more">Show ${Math.min(60, rows.length - uf.limit)} more</button></div>` : '');
-      const more = $('uf-more'); if (more) more.onclick = () => { uf.limit += 60; draw(); const n = $('uf-more'); if (n) n.focus(); };
+        + (rows.length > uf.limit ? `<div class="actions center space"><button type="button" class="btn secondary" id="uf-more">Show ${Math.min(25, rows.length - uf.limit)} more</button></div>` : '');
+      const more = $('uf-more'); if (more) more.onclick = () => { uf.limit += 25; draw(); const n = $('uf-more'); if (n) n.focus(); };
     };
     let tm;
-    $('uf-q').oninput = e => { clearTimeout(tm); tm = setTimeout(() => { uf.q = e.target.value; uf.limit = 60; draw(); }, 140); };
-    [['uf-dom', 'dom'], ['uf-lesson', 'lesson'], ['uf-tag', 'tag'], ['uf-status', 'status']].forEach(([el, k]) => { $(el).onchange = e => { uf[k] = e.target.value; uf.limit = 60; draw(); }; });
+    $('uf-q').oninput = e => { clearTimeout(tm); tm = setTimeout(() => { uf.q = e.target.value; uf.limit = 25; draw(); }, 140); };
+    [['uf-dom', 'dom'], ['uf-lesson', 'lesson'], ['uf-tag', 'tag'], ['uf-status', 'status']].forEach(([el, k]) => { $(el).onchange = e => { uf[k] = e.target.value; uf.limit = 25; draw(); }; });
     draw();
   };
 
@@ -533,14 +581,14 @@
     const domRows = D.doms.filter(d => D.pool.some(q => q.domain === d.name)).map(d => {
       const st = poolStats(D, S, q => q.domain === d.name);
       const a = st.c + st.w ? pct(st.c, st.c + st.w) : null;
-      return `<div class="domain-row static"><div class="row-between"><span class="title">${esc(d.name)}</span><span class="small muted">${d.w ? d.w + '% of exam' : ''}</span></div><div class="two-bars"><div><small>Accuracy ${a == null ? 'not started' : a + '%'}</small><div class="bar green"><i style="width:${a || 0}%"></i></div></div><div><small>Retired ${pct(st.retired, st.n)}% (${st.retired}/${st.n})</small><div class="bar"><i style="width:${pct(st.retired, st.n)}%"></i></div></div></div></div>`;
+      return `<div class="domain-row static"><div class="row-between"><span class="title">${esc(d.name)}</span><span class="small muted">${d.w && wPub(D) ? d.w + '% of exam' : ''}</span></div><div class="two-bars"><div><small>Accuracy ${a == null ? 'not started' : a + '%'}</small><div class="bar green"><i style="width:${a || 0}%"></i></div></div><div><small>Retired ${pct(st.retired, st.n)}% (${st.retired}/${st.n})</small><div class="bar"><i style="width:${pct(st.retired, st.n)}%"></i></div></div></div></div>`;
     }).join('');
     main.innerHTML = head(`${esc(tr.code)} / Progress`, 'Coverage before confidence.', 'Accuracy counts every answer. Retired counts questions you no longer need to see. Sims are the honest check.')
       + `<div class="metrics four"><div class="metric"><b>${ps.retired}<span> / ${ps.n}</span></b><span>Questions retired</span></div><div class="metric"><b>${acc}</b><span>Drill accuracy</span></div><div class="metric"><b>${D.units.length ? `${known}<span> / ${D.units.length}</span>` : '<span class="nil">None yet</span>'}</b><span>Units known</span></div><div class="metric"><b>${D.lessons.length ? `${passed}<span> / ${D.lessons.length}</span>` : '<span class="nil">None yet</span>'}</b><span>Lessons passed</span></div></div>`
-      + `<div class="grid"><section class="panel"><h2>By domain</h2><div class="domain-list">${domRows || '<p class="muted">No questions yet.</p>'}</div></section>`
+      + `<div class="grid"><section class="panel"><h2>By domain</h2>${ps.c + ps.w ? `<div class="domain-list">${domRows || '<p class="muted">No questions yet.</p>'}</div>` : `<p class="muted space">Nothing answered yet. Accuracy and retired counts for each domain show here once you drill.</p><div class="actions space"><a class="btn" href="${link(id, 'drill', 'today')}">Start today’s drill</a></div>`}</section>`
       + `<section class="panel"><div class="row-between"><h2>Sim history</h2><a class="small" href="${link(id, 'sim')}">Take a sim</a></div>${simChart(D, S)}${S.sims.length ? `<div class="history">${S.sims.slice().reverse().slice(0, 8).map((s, i) => `<a class="history-row" href="${link(id, 'sim', 'report', S.sims.length - 1 - i)}"><span>${fmtDate(s.ts)} · ${esc(s.label || '')} ${s.total}q</span><b class="${s.pct >= (Number((tr.exam || {}).cut) || 0) ? 'ok' : 'bad'}">${s.pct}%</b></a>`).join('')}</div>` : ''}</section></div>`
       + ruleLine(D, S)
-      + `<div class="grid even space-lg"><section class="panel" id="backup-panel"><h2>Backup</h2><p class="muted small space-sm">Progress lives in this browser only. Copy a backup to move it or keep it safe. The backup covers all three credentials.</p><div class="actions space"><button type="button" class="btn" id="bk-copy">Copy backup</button></div><label class="sr" for="bk-out">Backup text</label><textarea id="bk-out" rows="4" readonly placeholder="Your backup appears here." class="space"></textarea><p class="backup-status" id="bk-status" role="status"></p>`
+      + `<div class="grid even space-lg"><section class="panel" id="backup-panel"><h2>Backup</h2><p class="muted small space-sm">Progress saves in this browser, and to your account if you sign in above. A backup is a copy you keep yourself, covering all three credentials.</p><div class="actions space"><button type="button" class="btn" id="bk-copy">Copy backup</button></div><label class="sr" for="bk-out">Backup text</label><textarea id="bk-out" rows="4" readonly placeholder="Your backup appears here." class="space"></textarea><p class="backup-status" id="bk-status" role="status"></p>`
       + `<h3 class="space-lg">Restore</h3><label for="bk-in" class="small muted">Paste a backup, then press Restore.</label><textarea id="bk-in" rows="4" class="space-sm"></textarea><div class="actions space" id="bk-restore-box"><button type="button" class="btn secondary" id="bk-restore">Restore</button></div><p class="backup-status" id="bk-rstatus" role="status"></p></section>`
       + `<section class="panel" id="reset-panel"><h2>Reset ${esc(tr.code)}</h2><p class="muted small space-sm">Clears ${esc(tr.code)} drill records, recall cards, lessons, sims, and your study window in this browser. Other credentials stay as they are.</p><div class="actions space" id="reset-box"><button type="button" class="btn secondary danger" id="reset">Reset ${esc(tr.code)} progress</button></div><p class="backup-status" id="reset-status" role="status"></p></section></div>`;
     $('bk-copy').onclick = () => {
@@ -557,9 +605,11 @@
         try { obj = JSON.parse($('bk-in').value.trim()); } catch (e) { st.textContent = 'That is not a Vent Exam Lab backup. Paste the full text from Copy backup.'; return; }
         const data = obj && obj.app === 'vent-exam-lab' ? obj.data : obj;
         if (!validStore(data)) { st.textContent = 'That is not a Vent Exam Lab backup. Paste the full text from Copy backup.'; return; }
-        const n = Object.keys(data.t).filter(k => TRACKS.some(t => t.id === k)).length;
-        confirmInline(rbox, `Replace the progress in this browser with this backup (${plural(n, 'credential')})?`, 'Replace progress', () => {
-          store = normStore(data); save(true);
+        const ids = Object.keys(data.t).filter(k => TRACKS.some(t => t.id === k));
+        if (!ids.length) { st.textContent = 'That backup has no ASCS, CVI, or DVT progress in it. Nothing to restore.'; return; }
+        const names = ids.map(k => TRACKS.find(t => t.id === k).code).join(', ');
+        confirmInline(rbox, `Replace your ${names} progress in this browser with this backup? Credentials not in the backup stay as they are.`, 'Replace progress', () => {
+          const next = normStore(data); ids.forEach(k => { store.t[k] = Object.assign(next.t[k], { planAt: Date.now() }); }); save(true);
           V.rerender();
           const s2 = $('bk-rstatus'); if (s2) s2.textContent = 'Backup restored.';
         });
@@ -578,6 +628,7 @@
   function simChart(D, S) {
     const sims = S.sims.slice(-20);
     if (!sims.length) return '<p class="muted space">No sims yet. Your scores will chart here with the cut line.</p>';
+    if (sims.length === 1) return `<p class="space">One sim so far: <b class="${sims[0].pct >= (Number((D.track.exam || {}).cut) || 0) ? 'ok' : 'bad'}">${sims[0].pct}%</b> on ${sims[0].total} questions. Take another and the trend charts here against the cut.</p>`;
     const cut = Number((D.track.exam || {}).cut) || 0;
     const W = 420, H = 190, L = 34, R = 10, Tp = 14, B = 26;
     const x = i => (sims.length === 1 ? (L + W - R) / 2 : L + (i * (W - L - R)) / (sims.length - 1));
@@ -592,16 +643,18 @@
     const tr = D.track, e = tr.exam || {};
     const facts = (tr.facts || []).filter(Boolean), srcs = (tr.sources || []).filter(s => Array.isArray(s) && s[0]);
     main.innerHTML = head(`${esc(tr.code)} / Sources`, 'Know where it comes from.', `About the ${esc(tr.org || 'NADCA')} ${esc(tr.name || '')} and the documents this bank is built from.`)
-      + `<div class="grid"><section class="panel"><h2>The ${esc(tr.code)} at a glance</h2>${facts.length ? `<ul class="plain-list">${facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : '<p class="muted space">No published facts yet.</p>'}${e.questions ? `<div class="metrics three space-lg"><div class="metric"><b>${e.questions}</b><span>Questions</span></div><div class="metric"><b>${e.minutes}</b><span>Minutes</span></div><div class="metric"><b>${e.cut}%</b><span>Working cut</span></div></div>` : ''}${e.cutNote ? `<p class="note">${esc(e.cutNote)}</p>` : ''}</section>`
+      + `<div class="grid"><section class="panel"><h2>The ${esc(tr.code)} at a glance</h2>${facts.length ? `<ul class="plain-list">${facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : '<p class="muted space">No published facts yet.</p>'}${e.questions ? `<div class="metrics three space-lg"><div class="metric"><b>${e.questions}</b><span>${e.published === false ? 'Practice questions' : 'Questions'}</span></div><div class="metric"><b>${e.minutes}</b><span>${e.published === false ? 'Practice minutes' : 'Minutes'}</span></div><div class="metric"><b>${e.cut}%</b><span>Working cut</span></div></div>` : ''}${e.cutNote ? `<p class="note">${esc(e.cutNote)}</p>` : ''}${e.note ? `<p class="small muted space-sm">${esc(e.note)}</p>` : ''}</section>`
       + `<section class="panel"><h2>Sources</h2>${srcs.length ? srcs.map(s => `<div class="source"><a href="${esc(s[1] || '#')}" target="_blank" rel="noopener noreferrer">${esc(s[0])}</a>${s[1] ? `<p>${esc(s[1].replace(/^https?:\/\//, '').split('/')[0])}</p>` : ''}</div>`).join('') : '<p class="muted space">No sources listed yet.</p>'}</section></div>`
       + `<section class="panel space-lg"><h2>About this site</h2><p class="space-sm">Vent Exam Lab is independent exam preparation. It is not affiliated with, endorsed by, or sponsored by NADCA. The practice questions are original. Standards and codes are paraphrased in plain words with citations so you can look up the source. There are no actual exam items here.</p><p class="small muted space-sm">Study data built ${esc(D.b.built || 'recently')}. ${plural(D.qs.length, 'question')}${D.units.length ? `, ${plural(D.units.length, 'unit')}` : ''}${D.lessons.length ? `, ${plural(D.lessons.length, 'lesson')}` : ''}.</p></section>`;
   };
 
   /* ---------- boot ---------- */
-  Object.assign(V, { TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, swapStore, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
+  Object.assign(V, { wPub, ePub, TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, swapStore, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
   V.u = { esc, $, link, shuffle, pct, plural, fmtDate, head, empty, tagChip, tagLabel, statusBadge, cloze, recallFront, leitner, unitHTML, lessonBadge, lessonMinutes, announce, confirmInline, isObj };
   function boot() {
     main = $('main');
+    // In-page jump links (Learn domains) scroll without touching the router's hash.
+    main.addEventListener('click', e => { const j = e.target.closest('[data-jump]'); if (!j) return; e.preventDefault(); const t = document.getElementById(j.dataset.jump); if (t) { t.scrollIntoView({ block: 'start' }); t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); } });
     V.main = main;
     initStorage();
     storageNote();

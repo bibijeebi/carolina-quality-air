@@ -115,7 +115,8 @@
       const type = ['today', 'dom', 'lesson', 'misses', 'all', 'sim'].includes(args[0]) ? args[0] : 'all';
       const q = queueFor(D, type, args[1]);
       if (q.length) { S.drill = { track: D.id, type, val: args[1] || '', label: filterLabel(D, type, args[1]), queue: q, total: q.length, n: 0, right: 0, retired: 0, miss: 0, done: false }; card = null; }
-      else flash = `Nothing to drill in ${esc(filterLabel(D, type, args[1]))}. ${type === 'misses' ? 'You have no open misses.' : type === 'sim' ? 'The missed items were reserved and nothing drillable is linked to them yet.' : 'Every question there is retired.'}`;
+      else if (S.drill && !S.drill.done && S.drill.queue.length) V.u.announce(`Nothing to drill in ${filterLabel(D, type, args[1])}. Your current drill is still open.`);
+      else flash = `Nothing to drill in ${esc(filterLabel(D, type, args[1]))}. ${type === 'misses' ? 'You have no open misses.' : type === 'sim' ? 'Those questions are saved for sims, and no practice questions cover them yet.' : 'Every question there is retired.'}`;
       V.save();
       location.replace(link(D.id, 'drill'));
       return;
@@ -128,7 +129,7 @@
   function renderSetup(D) {
     const S = V.T(), id = D.id;
     const hd = head(`${esc(D.track.code)} / Drill`, 'Drill until it sticks.', 'One question at a time. Right on first sight retires it. A miss comes back three cards later and needs two correct in a row.');
-    if (!D.pool.length) { V.main.innerHTML = hd + empty('No practice questions yet.', 'This bundle has no questions outside the exam-sim reserve.'); return; }
+    if (!D.pool.length) { V.main.innerHTML = hd + empty('No practice questions yet.', 'Every question here is saved for exam sims.'); return; }
     const ps = V.poolStats(D, S);
     const doms = D.doms.filter(d => D.pool.some(q => q.domain === d.name));
     const lessonsQ = D.lessons.filter(l => (D.lessonQs.get(l.id) || []).length);
@@ -141,7 +142,7 @@
         : `<p class="radio-off small muted">${D.lessons.length ? 'Lesson filter: no questions are linked to lessons yet.' : 'Lesson filter: lessons are on the way.'}</p>`)
       + `<label class="radio"><input type="radio" name="df" value="misses"${ps.miss ? '' : ' disabled'}> <span><b>Misses only</b><small>${ps.miss ? plural(ps.miss, 'open miss', 'open misses') : 'No open misses'}</small></span></label>`
       + `</fieldset><div class="actions space"><button type="button" class="btn" id="df-start">Start drill</button><span class="small muted" id="df-count" role="status"></span></div></section>`
-      + `<section class="panel"><h2>Where you stand</h2><div class="metrics three compact"><div class="metric"><b>${ps.retired}</b><span>Retired</span></div><div class="metric"><b>${ps.miss}</b><span>Open misses</span></div><div class="metric"><b>${ps.unseen}</b><span>Unseen</span></div></div><h3 class="space">How it works</h3><ul class="plain-list small"><li>Right on first sight retires a question.</li><li>A miss shows the answer and explanation, then comes back three cards later. Two correct in a row retires it.</li><li>Miss it twice and it comes back as a study card first.</li><li>Turn on Not sure before you answer and a right answer will not retire it.</li><li>Reserved questions never appear here. They stay fresh for sims.</li></ul><p class="keys-hint">Keys: <kbd>1</kbd>-<kbd>4</kbd> or <kbd>A</kbd>-<kbd>D</kbd> answer, <kbd>0</kbd> I don’t know, <kbd>N</kbd> not sure, <kbd>Space</kbd> continue.</p></section></div>`;
+      + `<section class="panel"><h2>Where you stand</h2><div class="metrics three compact"><div class="metric"><b>${ps.retired}</b><span>Retired</span></div><div class="metric"><b>${ps.miss}</b><span>Open misses</span></div><div class="metric"><b>${ps.unseen}</b><span>Unseen</span></div></div><h3 class="space">How it works</h3><ul class="plain-list small"><li>Right on first sight retires a question.</li><li>A miss shows the answer and explanation, then comes back three cards later. Two correct in a row retires it.</li><li>Miss it twice and it comes back as a study card first.</li><li>Turn on Not sure before you answer and a right answer will not retire it.</li><li>Sim-only questions never appear here, so sims stay fresh.</li></ul><p class="keys-hint">Keys: <kbd>1</kbd>-<kbd>4</kbd> or <kbd>A</kbd>-<kbd>D</kbd> answer, <kbd>0</kbd> I don’t know, <kbd>N</kbd> not sure, <kbd>Space</kbd> continue.</p></section></div>`;
     flash = '';
     const upd = () => {
       const v = (V.main.querySelector('input[name=df]:checked') || {}).value;
@@ -153,7 +154,7 @@
     V.main.querySelectorAll('input[name=df]').forEach(r => r.onchange = upd);
     $('df-dom').onchange = () => { V.main.querySelector('input[value=dom]').checked = true; upd(); };
     if ($('df-lesson')) $('df-lesson').onchange = () => { V.main.querySelector('input[value=lesson]').checked = true; upd(); };
-    $('df-start').onclick = () => { const [v, val] = upd(); location.hash = val ? link(id, 'drill', v, val) : link(id, 'drill', v); };
+    $('df-start').onclick = () => { const [v, val] = upd(); location.replace(val ? link(id, 'drill', v, val) : link(id, 'drill', v)); };
     upd();
   }
   function renderCard(D) {
@@ -236,7 +237,8 @@
     if (!s.queue.length) return finish(D);
     renderCard(D);
     window.scrollTo(0, 0);
-    const st = document.querySelector('.choice'); if (st) st.focus({ preventScroll: true });
+    // Focus the question, not choice A, so a second Enter from Continue can't answer it.
+    const st = document.querySelector('.question-panel'); if (st) { st.setAttribute('tabindex', '-1'); st.focus({ preventScroll: true }); }
   }
   function finish(D) { const s = V.T().drill; s.done = true; V.save(); renderSummary(D); }
   function renderSummary(D) {
@@ -253,7 +255,7 @@
   let cp = null;
   V.checkpoint = function (D, lid) {
     const S = V.T(), id = D.id, l = D.l.get(lid);
-    if (!l) { V.main.innerHTML = empty('That lesson is not in this bundle.', '', `<a class="btn" href="${link(id, 'learn')}">All lessons</a>`); return; }
+    if (!l) { V.main.innerHTML = empty('That lesson is not here.', '', `<a class="btn" href="${link(id, 'learn')}">All lessons</a>`); return; }
     if (!cp || cp.track !== id || cp.lid !== lid || cp.finished) {
       const qs = D.lessonQs.get(lid) || [];
       const units = l.units.filter(u => D.u.has(u));
@@ -285,7 +287,7 @@
       if (!cp.card || cp.card.qid !== q.id) cp.card = { qid: q.id, order: shuffle(q.options.map((_, i) => i)), answered: false, chosen: null };
       const c = cp.card;
       const ok = c.chosen === 0;
-      V.main.innerHTML = `<div class="quiz-wrap">${top}<section class="panel question-panel"><div class="row-between"><p class="eyebrow">Tutor mode</p><span class="badge">${esc(q.domain)}</span></div><h2 class="quiz-title">${esc(q.stem)}</h2>${V.choicesHTML(q, c)}`
+      V.main.innerHTML = `<div class="quiz-wrap">${top}<section class="panel question-panel"><div class="row-between"><p class="eyebrow">Checkpoint</p><span class="badge">${esc(q.domain)}</span></div><h2 class="quiz-title">${esc(q.stem)}</h2>${V.choicesHTML(q, c)}`
         + (c.answered ? `<div class="feedback${ok ? '' : ' wrong'}"><b>${ok ? 'Correct.' : `Not quite. The answer is ${LETTERS[c.order.indexOf(0)]}.`}</b><p>${esc(q.expl)}</p>${V.testsHTML(D, q)}</div><div class="quiz-bottom"><span></span><button type="button" class="btn" id="cp-next">${cp.i + 1 < cp.items.length ? 'Next question' : 'See result'}</button></div>` : '')
         + '</section></div>';
       const pick = oi => {

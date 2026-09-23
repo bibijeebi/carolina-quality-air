@@ -24,7 +24,9 @@ button{font:inherit;color:inherit}
 .stat b.on{color:var(--green)}.stat b.off{color:var(--red)}
 .meter{width:56px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .meter i{display:block;height:100%;background:var(--green);transition:width .3s}
-.spacer{flex:1}
+.bar .stats{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.bar .acts{display:flex;gap:8px;margin-left:auto}
+@media (max-width:700px){.bar .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:6px 10px;width:100%}.bar .acts{width:100%;margin-left:0}.bar .acts .btn{flex:1}}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .seg button{border:0;background:#fff;padding:5px 10px;min-height:34px;cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted)}
 .seg button.on{background:var(--blue);color:#fff}
@@ -66,8 +68,107 @@ table.g td{border-bottom:1px solid var(--line);padding:5px 6px}table.g td:nth-ch
 .flow{fill:none;stroke-width:4;stroke-dasharray:9 8;animation:dash .8s linear infinite;pointer-events:none}
 @keyframes dash{to{stroke-dashoffset:-17}}
 @media (prefers-reduced-motion:reduce){.flow{animation:none}}
-@media (max-width:860px){.belt{flex-wrap:nowrap;overflow-x:auto}.lower{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.scene{position:sticky;top:0;z-index:3;box-shadow:0 4px 10px #1c2b3620}}
+@media (max-width:650px){.belt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.tool{min-width:0;padding:5px 6px;min-height:46px}.tool b{font-size:.8rem}.tool small{font-size:.68rem}.tool kbd{display:none}}
+@media (max-width:860px){.lower{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.scene{position:sticky;top:0;z-index:3;box-shadow:0 4px 10px #1c2b3620}}
+/* field kit: shared with the lab shell */
+:root{color-scheme:light}
+:focus-visible{outline:3px solid #c48000;outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+.seg button:focus-visible,.tabs button:focus-visible,.tab:focus-visible,.step:focus-visible{outline-offset:-3px}
+.in-frame .bar>a.home,.in-frame .bar>h1,.in-frame .wrap>a.home,.in-frame .wrap>h1{position:absolute!important;width:1px;height:1px;margin:0;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.in-frame .scene,.in-frame .plan{position:relative!important;top:auto!important;box-shadow:none!important}
+.in-frame #over{padding-top:12px}
+.resume{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:#e8f3fa;border:1px solid #9bbfd5;border-left:4px solid #007cba;border-radius:3px;padding:10px 12px}
+.resume-txt b{display:block}.resume-txt span{display:block;font-size:.85rem;color:#526878}
+.resume-acts{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+<script>
+/* Field training frame kit: framing, auto height, report dialog, saved runs. Same block in every field/*.html. */
+(function(){
+  var root=document.documentElement,framed=false;
+  try{framed=window.parent!==window&&window.parent.location.origin===location.origin;}catch(e){framed=false;}
+  if(framed)root.classList.add('in-frame');
+  var FT=window.FT={framed:framed,banner:null};
+  function post(m){if(framed){try{window.parent.postMessage(m,location.origin);}catch(e){}}}
+  FT.post=post;
+  var lastH=0,over=function(){return document.getElementById('over');};
+  function size(){
+    if(!framed)return;
+    var h=Math.ceil(root.getBoundingClientRect().height),o=over();
+    if(o&&o.style.display&&o.style.display!=='none'&&o.firstElementChild)h=Math.max(h,Math.ceil(o.firstElementChild.getBoundingClientRect().height)+60);
+    if(h!==lastH){lastH=h;post({vel:'field-size',h:h});}
+  }
+  FT.size=size;
+  document.addEventListener('DOMContentLoaded',function(){
+    if(framed){
+      // The lab shell shows the title and the way back; keep ours out of the tab order and the reading order.
+      document.querySelectorAll('.bar > a.home, .wrap > a.home').forEach(function(a){a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true');});
+      if('ResizeObserver' in window){var ro=new ResizeObserver(size);ro.observe(root);var o=over();if(o&&o.firstElementChild)ro.observe(o.firstElementChild);}
+      window.addEventListener('load',size);size();
+    } else {
+      document.querySelectorAll('a[target="_top"]').forEach(function(a){if(a.dataset.solo)a.setAttribute('href',a.dataset.solo);a.removeAttribute('target');});
+    }
+  });
+  // ---- the report dialog ----
+  var ret=null;
+  function focusables(o){return Array.prototype.filter.call(o.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'),function(e){return e.getClientRects().length>0;});}
+  function trap(e){
+    var o=over();if(!o||o.style.display==='none')return;
+    e.stopPropagation(); // tool shortcuts stay off while the report is up; default actions still run
+    if(e.key==='Escape'){e.preventDefault();FT.closeOver();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(o);if(!f.length){e.preventDefault();return;}
+    var a=f[0],z=f[f.length-1],cur=document.activeElement;
+    if(!o.contains(cur)){e.preventDefault();a.focus();}
+    else if(e.shiftKey&&cur===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}
+  }
+  FT.openOver=function(back,first){
+    var o=over(),app=document.getElementById('app');ret=back||null;
+    o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+    var h=o.querySelector('.big');if(h){h.id=h.id||'report-score';o.setAttribute('aria-labelledby',h.id);}
+    o.style.display='flex';o.scrollTop=0;if(app)app.inert=true;
+    document.addEventListener('keydown',trap,true);
+    var f=first||focusables(o)[0];if(f)f.focus({preventScroll:true});
+    if(framed){post({vel:'field-overlay'});size();}
+  };
+  FT.closeOver=function(){
+    var o=over(),app=document.getElementById('app');
+    o.style.display='none';if(app)app.inert=false;
+    document.removeEventListener('keydown',trap,true);
+    if(ret&&document.contains(ret)){try{ret.focus();}catch(e){}}
+    size();
+  };
+  // ---- saved runs: one key per tool, versioned ----
+  FT.run=function(tool){
+    var K='vel-field-run-'+tool;
+    return {
+      load:function(){try{var v=JSON.parse(localStorage.getItem(K)||'null');return v&&v.v===1&&v.d&&typeof v.d==='object'&&!Array.isArray(v.d)?v:null;}catch(e){return null;}},
+      save:function(d){try{localStorage.setItem(K,JSON.stringify({v:1,at:Date.now(),d:d}));}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}},
+      clear:function(){try{localStorage.removeItem(K);}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}}
+    };
+  };
+  FT.offerResume=function(o){
+    var b=document.createElement('div'),when='';
+    try{when=new Date(o.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){}
+    b.className='resume';b.setAttribute('role','region');b.setAttribute('aria-label','Saved job');
+    b.innerHTML='<div class="resume-txt"><b>You have a job in progress.</b><span></span></div><div class="resume-acts"><button type="button" class="btn">Resume your job</button><button type="button" class="btn alt">Start a new one</button></div>';
+    b.querySelector('span').textContent=o.text+(when?' Saved '+when+'.':'');
+    var bs=b.querySelectorAll('button');
+    bs[0].onclick=function(){b.remove();FT.banner=null;try{o.resume();}catch(e){o.run.clear();}size();};
+    bs[1].onclick=function(){o.run.clear();if(o.fresh)o.fresh();size();};
+    var bar=document.querySelector('#app > .bar');if(bar)bar.after(b);else document.body.prepend(b);
+    FT.banner=b;
+  };
+  // Scores for the hub: vel-field is {tool:{n,best,last,at}}; anything else is replaced.
+  FT.record=function(tool,score){
+    try{var K='vel-field',m={};try{var v=JSON.parse(localStorage.getItem(K)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))m=v;}catch(e){}
+      var r=m[tool]&&typeof m[tool]==='object'?m[tool]:{};var n=Number.isFinite(r.n)?r.n:0,best=Number.isFinite(r.best)?r.best:0;
+      m[tool]={n:n+1,best:Math.max(best,score),last:score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));}catch(e){}
+    post({vel:'field',tool:tool});
+  };
+})();
+</script>
 </head>
 <body>
 <div id="app">
@@ -75,15 +176,18 @@ table.g td{border-bottom:1px solid var(--line);padding:5px 6px}table.g td:nth-ch
     <a class="home" href="../#/field" target="_top">&larr; Field training</a>
     <h1>Attic Job</h1>
     <div class="seg" role="group" aria-label="Mode"><button type="button" data-mode="learn" class="on">Learn</button><button type="button" data-mode="test">Test</button></div>
+    <div class="stats">
     <span class="stat">Clock <b id="clock">0:00</b></span>
     <span class="stat">System <b id="sys">ON</b></span>
     <span class="stat">Vac <b id="vac">off</b></span>
     <span class="stat">Return <span class="meter"><i id="m-ret"></i></span></span>
     <span class="stat">Supply <span class="meter"><i id="m-sup"></i></span></span>
     <span class="stat">Flags <b id="flags">0</b></span>
-    <span class="spacer"></span>
+    </div>
+    <div class="acts">
     <button type="button" class="btn alt" id="undo">Undo</button>
     <button type="button" class="btn" id="finish">Finish job</button>
+    </div>
   </div>
   <div class="scene"><svg id="svg" viewBox="0 170 1300 530" role="img" aria-label="Cutaway of a house with the attic duct system"></svg></div>
   <p class="rot" id="rot">Turn your phone sideways for a bigger view of the attic.</p>
@@ -134,6 +238,7 @@ const REACH={
   'h:R1':{hard:['R1','R2']},'h:R2':{hard:['R2','R1']},'h:T1':{hard:['T1','T2']},'h:T2':{hard:['T2','T3']},'h:T3':{hard:['T3','T4']},'h:T4':{hard:['T4','T5']},'h:T5':{hard:['T5','T4']}
 };
 const MIN_HOLES=2;
+const RUN=FT.run('attic-job');
 const COST={walk:8,tstat:1,ah:20,cut8:6,hook:3,unhook:2,tie:1,mach:1,bit:2,plug:2,patch_metal:8,patch_fsk:4,pull:1,wash_rag:3,wash_hose:5,wash_pw:7,reinstall:1,zip:1,whip:3,fwd:2};
 const HATCH=[190,420],MACH=[190,610],TSTAT=[300,540];
 
@@ -408,7 +513,7 @@ function showWash(t){choices=['rag','hose','pw'].map(m=>`<button type="button" c
 function commit(a,t){
   if(busy)return;hist.push(copy(S));if(hist.length>120)hist.shift();
   const before=copy(S),dest=spotFor(t||'ah');worker.tx=dest[0];worker.ty=dest[1];busy=true;$('prev').className='prev';
-  walkTo(()=>{act(S,a);const fx=S.fx.slice();hover=null;render();playFx(fx,before);const dur=Math.min(1400,260+ (S.min-before.min)*60);setTimeout(()=>{busy=false;hud();checkDone();},dur);});
+  walkTo(()=>{act(S,a);const fx=S.fx.slice();hover=null;render();playFx(fx,before);const dur=Math.min(1400,260+ (S.min-before.min)*60);setTimeout(()=>{busy=false;hud();checkDone();},dur);persist();});
 }
 function walkTo(done){const sx=worker.x,sy=worker.y,tx=worker.tx,ty=worker.ty,d=Math.hypot(tx-sx,ty-sy),ms=Math.min(650,120+d*.6),t0=performance.now();
   if(matchMedia('(prefers-reduced-motion:reduce)').matches||d<4){worker.x=tx;worker.y=ty;done();return;}
@@ -432,24 +537,28 @@ $('belt').addEventListener('click',e=>{const b=e.target.closest('[data-tool]');i
 $('choices').addEventListener('click',e=>{const b=e.target.closest('[data-wash]');if(!b)return;choices=null;commit({k:'wash',t:b.dataset.wash,m:b.dataset.m},b.dataset.wash);});
 document.addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const n=e.key==='0'?9:+e.key-1;if(n>=0&&n<TOOLS.length&&/^[0-9]$/.test(e.key)){tool=TOOLS[n][0];armed=null;render();}if(e.key==='z'&&mode==='learn')undo();});
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{if(b.dataset.mode===mode)return;mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x===b));restart(mode==='test'?'Test mode: no previews of what the lead flags, no undo, no dirt numbers. Graded at the end.':'Learn mode: every tap shows what it reaches, where the dust goes, and what the lead would flag.');});
-function undo(){if(mode==='test'||!hist.length||busy)return;S=hist.pop();armed=null;choices=null;render();}
+function undo(){if(mode==='test'||!hist.length||busy)return;S=hist.pop();armed=null;choices=null;render();persist();}
 $('undo').onclick=undo;
-function restart(note){S=fresh(Date.now()%100000);hist=[];armed=null;choices=null;hover=null;worker={x:G(MACH)[0]+60,y:640,tx:0,ty:0};S.say=note?{t:'New job.',s:note}:null;render();}
+function restart(note){RUN.clear();S=fresh(Date.now()%100000);hist=[];armed=null;choices=null;hover=null;worker={x:G(MACH)[0]+60,y:640,tx:0,ty:0};S.say=note?{t:'New job.',s:note}:null;render();}
 $('finish').onclick=finish;
 function finish(){
   const Gr=grade(S),li=(t,w)=>`<li>${esc(t)}${w?`<span>${esc(w)}</span>`:''}</li>`;
-  try{const K='vel-field';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}const r=m['attic-job']||{n:0,best:0};m['attic-job']={n:(r.n||0)+1,best:Math.max(r.best||0,Gr.score),last:Gr.score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));if(window.parent!==window)window.parent.postMessage({vel:'field',tool:'attic-job'},location.origin);}catch(e){}
+  FT.record('attic-job',Gr.score);RUN.clear();
   $('report').innerHTML=`<p class="eyebrow">${mode==='test'?'Test':'Learn'} mode · the lead's grade</p><div class="big">${Gr.score}<span style="font-size:1.2rem;color:#5d7282"> / 100</span></div><p style="color:#5d7282;margin:.3em 0">${fmt(S.min)} on the clock. The lead's order takes ${fmt(par.min)}.</p>
   <table class="g">${Gr.rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]} / ${r[2]}</td><td>${esc(r[3])}</td></tr>`).join('')}</table>
   ${S.vio.length||S.def.length||S.house>1?`<p class="eyebrow">What the lead saw</p><ul class="rep">${S.vio.map(v=>li(v.text,v.why)).join('')}${S.def.map(d=>li(d)).join('')}${S.house>1?li('Dust pushed into the house.','That happens when you whip or forward with nothing pulling on that side.'):''}</ul>`:'<p><b>Clean job. No notes.</b></p>'}
   <div class="cols"><div><p class="eyebrow">What you did</p><ol>${S.log.map(l=>`<li${l.f?' style="color:#c0392b"':''}>${l.f?'Flag: ':''}${esc(l.t)}</li>`).join('')||'<li>Nothing yet.</li>'}</ol></div><div><p class="eyebrow">The lead's order</p><ol>${par.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button type="button" class="btn" id="again">Run a new job</button><button type="button" class="btn alt" id="back">Back to this job</button><a class="home" href="../#/field" target="_top">&larr; Field training</a></div>`;
-  $('over').style.display='flex';$('over').scrollTop=0;$('again').onclick=()=>{$('over').style.display='none';restart();};$('back').onclick=()=>{$('over').style.display='none';};$('again').focus({preventScroll:true});
+  $('again').onclick=()=>{FT.closeOver();restart();};$('back').onclick=()=>{FT.closeOver();persist();};FT.openOver($('finish'),$('again'));
 }
-if(window.parent===window){document.querySelectorAll('.home').forEach(a=>a.removeAttribute('target'));}
 const narrow=matchMedia('(max-width:700px)');const fit=()=>svg.setAttribute('viewBox',narrow.matches?'250 236 1050 420':'0 170 1300 530');fit();narrow.addEventListener('change',fit);
-window.__AJ={get S(){return S},act,resolve,grade,PAR,par,commit:(a)=>{act(S,a);render();},fresh,tapTarget,setTool:t=>{tool=t;render();}};
+window.__AJ={get S(){return S},act,resolve,grade,PAR,par,commit:(a)=>{act(S,a);render();persist();},fresh,tapTarget,setTool:t=>{tool=t;render();}};
 worker={x:G(MACH)[0]+60,y:640,tx:0,ty:0};render();
+// ---------- keep the job if you leave ----------
+function persist(){if(S.log.length)RUN.save({S,mode,tool});}
+(function(){const sv=RUN.load(),d=sv&&sv.d;if(!d||!d.S||!Array.isArray(d.S.log)||!d.S.log.length||!d.S.seg)return;
+  FT.offerResume({run:RUN,at:sv.at,text:`${d.S.log.length} move${d.S.log.length===1?'':'s'}, ${fmt(d.S.min||0)} on the clock, ${d.mode==='test'?'Test':'Learn'} mode.`,
+    resume(){mode=d.mode==='test'?'test':'learn';document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('on',x.dataset.mode===mode));S=d.S;hist=[];armed=null;choices=null;hover=null;if(TOOLS.some(x=>x[0]===d.tool))tool=d.tool;S.say={t:'Back on the job.',s:'Undo history starts fresh from here.'};render();}});})();
 </script>
 </body>
 </html>

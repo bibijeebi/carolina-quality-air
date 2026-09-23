@@ -3,27 +3,28 @@
 <head><meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Read the Print — mechanical plan takeoff trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<title>Read the Print: mechanical plan takeoff trainer</title>
 <style>
-:root{--bg:#f4f2ee;--card:#fff;--ink:#1c2024;--mut:#6a7480;--acc:#0d6d8e;--red:#c62828;--amb:#b26a00;--ok:#2e7d32;--line:#dfe3e8;--paper:#fbfaf7}
+:root{--bg:#f4f7f9;--card:#fff;--ink:#203746;--mut:#526878;--acc:#007cba;--red:#af343a;--amb:#8c5715;--ok:#157655;--line:#d7e1e8;--paper:#fbfcfd}
 *{box-sizing:border-box}
 html,body{overflow-x:hidden}
-body{margin:0;font:16px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-.wrap{max-width:720px;margin:0 auto;padding:14px 14px 80px}
-.back{color:var(--acc);font-size:13.5px;text-decoration:none;font-weight:700}
-h1{font-size:24px;letter-spacing:-.5px;margin:6px 0 0}
+body{margin:0;font:16px/1.5 Jost,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:880px;margin:0 auto;padding:14px 14px 80px}
 .sub{color:var(--mut);font-size:14px;margin:0 0 12px}
 .tabs{display:flex;gap:6px;margin-bottom:12px}
-.tabs button{flex:1;background:#fff;color:var(--mut);border:1.5px solid var(--line);border-radius:9px;padding:9px 6px;font-weight:700;font-size:14px}
+.tabs button{flex:1;background:#fff;color:var(--mut);border:1.5px solid var(--line);border-radius:3px;padding:9px 6px;font-weight:700;font-size:14px}
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
-button{background:var(--acc);color:#fff;border:0;border-radius:9px;padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:16px;margin:12px 0}
+button{background:var(--acc);color:#fff;border:0;border-radius:3px;padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer}
 button.ghost{background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
 button.small{padding:7px 12px;font-size:13.5px}
 button:disabled{opacity:.4;cursor:default}
 .mut{color:var(--mut)}.small{font-size:13.5px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.sheet{background:var(--paper);border:1px solid #cfd4d9;border-radius:6px;padding:8px 8px 6px;margin:12px 0 0;box-shadow:inset 0 0 0 1px #fff}
+.sheet{background:var(--paper);border:1px solid #cfd4d9;border-radius:3px;padding:8px 8px 6px;margin:12px 0 0;box-shadow:inset 0 0 0 1px #fff}
 .zoombar{display:flex;gap:6px;align-items:center;justify-content:space-between;margin-bottom:6px}
 .zoombar span{font-size:12.5px;color:var(--mut)}
 .zoombar button{padding:4px 10px;font-size:12.5px;background:#fff;color:var(--acc);border:1.5px solid var(--line)}
@@ -57,14 +58,14 @@ svg .hex{fill:#fff;stroke:#1c2024;stroke-width:.9}
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .q{font-size:17px;font-weight:600;margin:4px 0 12px;line-height:1.4}
 .prog{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mut);margin-bottom:6px}
-.skill{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:1px 9px;background:#eef6f9;color:var(--acc)}
-.opts button{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;margin:7px 0;font-weight:500;font-size:15px;line-height:1.35}
+.skill{display:inline-block;font-size:11px;font-weight:800;border-radius:3px;padding:1px 9px;background:#eef6f9;color:var(--acc)}
+.opts button{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:3px;padding:11px 13px;margin:7px 0;font-weight:500;font-size:15px;line-height:1.35}
 .opts button.ok{border-color:var(--ok);background:#e9f4ea}
 .opts button.bad{border-color:var(--red);background:#fbeaea}
 .num{display:flex;gap:8px;align-items:center}
-.num input{flex:1;font-size:20px;padding:9px 12px;border:1.5px solid var(--line);border-radius:9px;width:100%;min-width:0}
+.num input{flex:1;font-size:20px;padding:9px 12px;border:1.5px solid var(--line);border-radius:3px;width:100%;min-width:0}
 .num input:focus{outline:2px solid var(--acc);border-color:var(--acc)}
-.fb{border-radius:10px;padding:12px 14px;margin-top:12px;font-size:15px;line-height:1.5}
+.fb{border-radius:3px;padding:12px 14px;margin-top:12px;font-size:15px;line-height:1.5}
 .fb.ok{background:#e9f4ea;border:1px solid #bfdcc3}
 .fb.bad{background:#fbeaea;border:1px solid #efc4c4}
 .fb b.h{display:block;margin-bottom:4px}
@@ -74,23 +75,138 @@ svg .hex{fill:#fff;stroke:#1c2024;stroke-width:.9}
 .brief b{color:var(--acc)}
 .flag{color:var(--amb);font-weight:700}
 .score{font-size:34px;font-weight:800;letter-spacing:-1px}
-.sym{background:#fff;border:1px solid #d7dbe0;border-radius:8px;padding:10px;margin-bottom:10px;display:flex;justify-content:center}
+.sym{background:#fff;border:1px solid #d7dbe0;border-radius:3px;padding:10px;margin-bottom:10px;display:flex;justify-content:center}
 .sym svg{width:min(100%,360px);height:auto}
 details summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:14px;margin-top:8px}
 kbd{background:#eef1f4;border-radius:4px;padding:0 5px;font-size:13px}
 footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
+/* lab look: same tokens, fonts and square controls as the rest of Vent Exam Lab */
+body{font-family:Jost,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1{font-family:'Hind Madurai','Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--acc);margin:8px 0 2px;line-height:1.15}
+h2,h3,h4{font-family:'Hind Madurai','Arial Narrow',Arial,sans-serif}
+.card h2,.card h3{text-transform:uppercase;letter-spacing:.05em;color:var(--ink)}
+.eyebrow,.card>b,.body>b.small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.back.home{display:inline-flex;align-items:center;min-height:40px;padding:6px 10px;border:1px solid #b7cad7;border-radius:3px;background:#fff;color:var(--acc);font-size:.85rem;font-weight:700;text-decoration:none}
+.back.home:hover{background:#e8f3fa}
+.next{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;color:var(--acc);font-weight:700;text-decoration:none}
+.next:hover{text-decoration:underline}
+.tabs{gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:#fff}
+.tabs button{border:0;border-right:1px solid var(--line);border-radius:0;min-height:44px;color:var(--mut)}
+.tabs button:last-child{border-right:0}
+.tabs button.on{background:var(--acc);color:#fff}
+button{min-height:44px}
+button.small{min-height:40px}
+.in-frame .wrap{padding-top:8px;padding-bottom:20px}
+.imgfail{margin:8px 0;padding:10px 12px;border:1px dashed #b7cad7;border-radius:3px;background:#fff;color:var(--mut);font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+/* field kit: shared with the lab shell */
+:root{color-scheme:light}
+:focus-visible{outline:3px solid #c48000;outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+.seg button:focus-visible,.tabs button:focus-visible,.tab:focus-visible,.step:focus-visible{outline-offset:-3px}
+.in-frame .bar>a.home,.in-frame .bar>h1,.in-frame .wrap>a.home,.in-frame .wrap>h1{position:absolute!important;width:1px;height:1px;margin:0;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.in-frame .scene,.in-frame .plan{position:relative!important;top:auto!important;box-shadow:none!important}
+.in-frame #over{padding-top:12px}
+.resume{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:#e8f3fa;border:1px solid #9bbfd5;border-left:4px solid #007cba;border-radius:3px;padding:10px 12px}
+.resume-txt b{display:block}.resume-txt span{display:block;font-size:.85rem;color:#526878}
+.resume-acts{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+<script>
+/* Field training frame kit: framing, auto height, report dialog, saved runs. Same block in every field/*.html. */
+(function(){
+  var root=document.documentElement,framed=false;
+  try{framed=window.parent!==window&&window.parent.location.origin===location.origin;}catch(e){framed=false;}
+  if(framed)root.classList.add('in-frame');
+  var FT=window.FT={framed:framed,banner:null};
+  function post(m){if(framed){try{window.parent.postMessage(m,location.origin);}catch(e){}}}
+  FT.post=post;
+  var lastH=0,over=function(){return document.getElementById('over');};
+  function size(){
+    if(!framed)return;
+    var h=Math.ceil(root.getBoundingClientRect().height),o=over();
+    if(o&&o.style.display&&o.style.display!=='none'&&o.firstElementChild)h=Math.max(h,Math.ceil(o.firstElementChild.getBoundingClientRect().height)+60);
+    if(h!==lastH){lastH=h;post({vel:'field-size',h:h});}
+  }
+  FT.size=size;
+  document.addEventListener('DOMContentLoaded',function(){
+    if(framed){
+      // The lab shell shows the title and the way back; keep ours out of the tab order and the reading order.
+      document.querySelectorAll('.bar > a.home, .wrap > a.home').forEach(function(a){a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true');});
+      if('ResizeObserver' in window){var ro=new ResizeObserver(size);ro.observe(root);var o=over();if(o&&o.firstElementChild)ro.observe(o.firstElementChild);}
+      window.addEventListener('load',size);size();
+    } else {
+      document.querySelectorAll('a[target="_top"]').forEach(function(a){if(a.dataset.solo)a.setAttribute('href',a.dataset.solo);a.removeAttribute('target');});
+    }
+  });
+  // ---- the report dialog ----
+  var ret=null;
+  function focusables(o){return Array.prototype.filter.call(o.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'),function(e){return e.getClientRects().length>0;});}
+  function trap(e){
+    var o=over();if(!o||o.style.display==='none')return;
+    e.stopPropagation(); // tool shortcuts stay off while the report is up; default actions still run
+    if(e.key==='Escape'){e.preventDefault();FT.closeOver();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(o);if(!f.length){e.preventDefault();return;}
+    var a=f[0],z=f[f.length-1],cur=document.activeElement;
+    if(!o.contains(cur)){e.preventDefault();a.focus();}
+    else if(e.shiftKey&&cur===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}
+  }
+  FT.openOver=function(back,first){
+    var o=over(),app=document.getElementById('app');ret=back||null;
+    o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+    var h=o.querySelector('.big');if(h){h.id=h.id||'report-score';o.setAttribute('aria-labelledby',h.id);}
+    o.style.display='flex';o.scrollTop=0;if(app)app.inert=true;
+    document.addEventListener('keydown',trap,true);
+    var f=first||focusables(o)[0];if(f)f.focus({preventScroll:true});
+    if(framed){post({vel:'field-overlay'});size();}
+  };
+  FT.closeOver=function(){
+    var o=over(),app=document.getElementById('app');
+    o.style.display='none';if(app)app.inert=false;
+    document.removeEventListener('keydown',trap,true);
+    if(ret&&document.contains(ret)){try{ret.focus();}catch(e){}}
+    size();
+  };
+  // ---- saved runs: one key per tool, versioned ----
+  FT.run=function(tool){
+    var K='vel-field-run-'+tool;
+    return {
+      load:function(){try{var v=JSON.parse(localStorage.getItem(K)||'null');return v&&v.v===1&&v.d&&typeof v.d==='object'&&!Array.isArray(v.d)?v:null;}catch(e){return null;}},
+      save:function(d){try{localStorage.setItem(K,JSON.stringify({v:1,at:Date.now(),d:d}));}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}},
+      clear:function(){try{localStorage.removeItem(K);}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}}
+    };
+  };
+  FT.offerResume=function(o){
+    var b=document.createElement('div'),when='';
+    try{when=new Date(o.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){}
+    b.className='resume';b.setAttribute('role','region');b.setAttribute('aria-label','Saved job');
+    b.innerHTML='<div class="resume-txt"><b>You have a job in progress.</b><span></span></div><div class="resume-acts"><button type="button" class="btn">Resume your job</button><button type="button" class="btn alt">Start a new one</button></div>';
+    b.querySelector('span').textContent=o.text+(when?' Saved '+when+'.':'');
+    var bs=b.querySelectorAll('button');
+    bs[0].onclick=function(){b.remove();FT.banner=null;try{o.resume();}catch(e){o.run.clear();}size();};
+    bs[1].onclick=function(){o.run.clear();if(o.fresh)o.fresh();size();};
+    var bar=document.querySelector('#app > .bar');if(bar)bar.after(b);else document.body.prepend(b);
+    FT.banner=b;
+  };
+  // Scores for the hub: vel-field is {tool:{n,best,last,at}}; anything else is replaced.
+  FT.record=function(tool,score){
+    try{var K='vel-field',m={};try{var v=JSON.parse(localStorage.getItem(K)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))m=v;}catch(e){}
+      var r=m[tool]&&typeof m[tool]==='object'?m[tool]:{};var n=Number.isFinite(r.n)?r.n:0,best=Number.isFinite(r.best)?r.best:0;
+      m[tool]={n:n+1,best:Math.max(best,score),last:score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));}catch(e){}
+    post({vel:'field',tool:tool});
+  };
+})();
+</script>
 
-<script>if(window.parent!==window)document.documentElement.classList.add('in-frame')</script>
 </head>
 <body>
 <div class="wrap">
 <a class="back home" href="../#/field" target="_top">← Field training</a>
 <h1>Read the Print</h1>
-<p class="sub">Every round draws a fresh mechanical sheet. Pull the takeoff off it, then check it against the crew brief.</p>
+<p class="sub">Each round draws a new mechanical sheet. Do the takeoff from it, then check your count against the crew brief.</p>
 <nav class="tabs"><button data-tab="takeoff" class="on">Takeoff</button><button data-tab="symbols">Symbols</button><button data-tab="stats">Stats</button></nav>
 <main id="app"></main>
-<footer>Vent Exam Lab · field training · sheets are generated, not real projects</footer>
+<footer>Vent Exam Lab · Field training · sheets are generated, not real projects</footer>
 </div>
 <script>
 const $=s=>document.querySelector(s);
@@ -101,8 +217,10 @@ const sum=a=>a.reduce((x,y)=>x+y,0);
 const fi=n=>`${Math.floor(n/12)}'-${n%12}"`;
 const LS='rtp_v1';
 const SKILLS={sheet:'Sheet basics',count:'Counting',air:'Airflow math',size:'Sizes & elevations',branch:'Branches & terminals',ret:'Return path',notes:'Notes & materials',scope:'Scope & access'};
-let ST=JSON.parse(localStorage.getItem(LS)||'null')||{skills:{},sheets:0,best:0,sym:{}};
-const save=()=>localStorage.setItem(LS,JSON.stringify(ST));
+const DEF=()=>({skills:{},sheets:0,best:0,sym:{}});const isObj=x=>!!x&&typeof x==='object'&&!Array.isArray(x);
+let ST;try{const v=JSON.parse(localStorage.getItem(LS)||'null');ST=isObj(v)?Object.assign(DEF(),v,{skills:isObj(v.skills)?v.skills:{},sym:isObj(v.sym)?v.sym:{}}):DEF();}catch(e){ST=DEF();}
+for(const k of['sheets','best'])if(!Number.isFinite(ST[k]))ST[k]=0;for(const k in ST.skills){const s=ST.skills[k];if(!isObj(s)||!Number.isFinite(s.c)||!Number.isFinite(s.a))delete ST.skills[k];}for(const k in ST.sym)if(!Number.isFinite(ST.sym[k]))delete ST.sym[k];
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(ST));}catch(e){}};
 
 // ---------- sheet generator ----------
 const ROOMS=['OFFICE','CONF. RM.','TECH. ENG.','SECRETARY','ANALYTICAL LAB','RECORDS','BREAK RM.','RECEPTION','TRAINING','MANAGER','COPY RM.','PROJ. ENG.','ESTIMATING','DRAFTING'];
@@ -429,10 +547,9 @@ function renderStats(){
   app.innerHTML=`<div class="card"><div class="row" style="justify-content:space-between"><div><div class="score">${ST.sheets}</div><div class="small mut">sheets finished</div></div><div><div class="score">${ST.best}%</div><div class="small mut">best sheet</div></div><div><div class="score">${Object.values(ST.sym).filter(v=>v>0).length}/${SYM.length}</div><div class="small mut">symbols hit</div></div></div></div>
   <div class="card"><h3 style="margin:0 0 10px;font-size:16px">Accuracy by skill</h3>${rows}<div class="small mut" style="margin-top:6px">Anything under 80% is where to draw more sheets. Notes & materials and Scope & access are the two that change what goes in the truck.</div></div>
   <div class="card small"><button class="small ghost" id="reset">Reset all progress</button></div>`;
-  $('#reset').onclick=()=>{if(confirm('Wipe all progress?')){ST={skills:{},sheets:0,best:0,sym:{}};save();symStart();render()}};
+  $('#reset').onclick=e=>{if(e.target.dataset.arm){ST=DEF();save();symStart();render()}else{e.target.dataset.arm=1;e.target.textContent='Tap again to wipe'}};
 }
 render();
 </script>
-<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

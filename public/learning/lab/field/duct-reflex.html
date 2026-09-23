@@ -3,27 +3,28 @@
 <head><meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Duct Reflex — supply, return, exhaust, on sight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<title>Duct Reflex: supply, return, exhaust, on sight</title>
 <style>
-:root{--bg:#f4f2ee;--card:#fff;--ink:#1c2024;--mut:#6a7480;--acc:#0d6d8e;--red:#c62828;--amb:#b26a00;--ok:#2e7d32;--line:#dfe3e8;--paper:#fbfaf7;--sa:#0d6d8e;--ra:#b26a00;--ea:#c62828;--oa:#2e7d32}
+:root{--bg:#f4f7f9;--card:#fff;--ink:#203746;--mut:#526878;--acc:#007cba;--red:#af343a;--amb:#8c5715;--ok:#157655;--line:#d7e1e8;--paper:#fbfcfd;--sa:#007cba;--ra:#a35c00;--ea:#c0392b;--oa:#2e7d4f}
 *{box-sizing:border-box}
 html,body{overflow-x:hidden}
-body{margin:0;font:16px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-.wrap{max-width:720px;margin:0 auto;padding:14px 14px 80px}
-.back{color:var(--acc);font-size:13.5px;text-decoration:none;font-weight:700}
-h1{font-size:24px;letter-spacing:-.5px;margin:6px 0 0}
+body{margin:0;font:16px/1.5 Jost,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:880px;margin:0 auto;padding:14px 14px 80px}
 .sub{color:var(--mut);font-size:14px;margin:0 0 12px}
 .tabs{display:flex;gap:6px;margin-bottom:12px}
-.tabs button{flex:1;background:#fff;color:var(--mut);border:1.5px solid var(--line);border-radius:9px;padding:9px 4px;font-weight:700;font-size:13.5px}
+.tabs button{flex:1;background:#fff;color:var(--mut);border:1.5px solid var(--line);border-radius:3px;padding:9px 4px;font-weight:700;font-size:13.5px}
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
-button{background:var(--acc);color:#fff;border:0;border-radius:9px;padding:11px 14px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:14px;margin:12px 0}
+button{background:var(--acc);color:#fff;border:0;border-radius:3px;padding:11px 14px;font-size:15px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
 button.ghost{background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
 button.small{padding:7px 12px;font-size:13.5px}
 button:disabled{opacity:.45;cursor:default}
 .mut{color:var(--mut)}.small{font-size:13.5px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.scene{background:var(--paper);border:1px solid #cfd4d9;border-radius:8px;margin:8px 0;overflow:hidden;display:flex;justify-content:center}
+.scene{background:var(--paper);border:1px solid #cfd4d9;border-radius:3px;margin:8px 0;overflow:hidden;display:flex;justify-content:center}
 .scene svg{display:block;width:100%;max-width:440px;height:auto}
 svg text{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;fill:#1c2024}
 svg .ink{fill:none;stroke:#1c2024;stroke-width:1.1}
@@ -39,19 +40,19 @@ svg .face{fill:#fff;stroke:#1c2024;stroke-width:1}
 svg .sky{fill:#eaf2f7}
 svg .tap{cursor:pointer}
 svg .sel{fill:#ffe082}
-.viewer{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#fff;border:1px solid #cfd4d9;border-radius:8px;margin:8px 0;touch-action:none}
+.viewer{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#fff;border:1px solid #cfd4d9;border-radius:3px;margin:8px 0;touch-action:none}
 .viewer .pan{position:absolute;left:0;top:0;transform-origin:0 0;transition:transform .35s ease}
 .viewer img{display:block;pointer-events:none;user-select:none}
 .viewer .hb{position:absolute;border:2.5px solid #ffb300;background:rgba(255,179,0,.14);border-radius:3px;box-shadow:0 0 0 2px rgba(255,255,255,.7)}
 .viewer .zb{position:absolute;right:8px;bottom:8px;padding:6px 10px;font-size:12.5px;background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
 .viewer .sn{position:absolute;left:8px;top:6px;font-size:11px;color:#6a7480;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px}
-.lesson{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff}
+.lesson{border:1px solid var(--line);border-radius:3px;margin:8px 0;background:#fff}
 .lesson summary{padding:12px 14px;font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
 .lesson summary::after{content:'+';color:var(--acc)}
 .lesson[open] summary::after{content:'–'}
 .lesson .body{padding:0 14px 14px;font-size:15px;line-height:1.55}
 .lesson .body p{margin:0 0 10px}
-.fig{margin:10px 0}.fig img{display:block;width:100%;max-width:520px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.fig{margin:10px 0}.fig img{display:block;width:100%;max-width:520px;border:1px solid var(--line);border-radius:3px;background:#fff}
 .fig .cap,.spot .cap{font-size:13px;color:var(--mut);margin-top:4px}
 .spots{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
 .spots button{padding:7px 10px;font-size:13px;background:#fff;color:var(--acc);border:1.5px solid var(--acc)}
@@ -67,14 +68,14 @@ svg .sel{fill:#ffe082}
 .ans button.right{background:#e3f2e6;border-color:var(--ok);color:var(--ok)}
 .ans button.wrong{background:#fbeaea;border-color:var(--red);color:var(--red)}
 .q{font-weight:700;font-size:16px;margin:6px 0 2px}
-.fb{border-radius:9px;padding:10px 12px;margin-top:10px;font-size:14.5px;line-height:1.5}
+.fb{border-radius:3px;padding:10px 12px;margin-top:10px;font-size:14.5px;line-height:1.5}
 .fb.ok{background:#e3f2e6;border:1px solid #bfe0c5}
 .fb.bad{background:#fbeaea;border:1px solid #efc4c4}
 .fb b.h{display:block;margin-bottom:3px}
 .stat{display:flex;gap:14px;font-size:13.5px;color:var(--mut);margin-bottom:4px}
 .stat b{color:var(--ink)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
-.cell{border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;line-height:1.3;background:#fff}
+.cell{border:1px solid var(--line);border-radius:3px;padding:8px;font-size:12.5px;line-height:1.3;background:#fff}
 .cell.m0{background:#fff}.cell.m1{background:#fbeaea;border-color:#efc4c4}.cell.m2{background:#fff5e0;border-color:#f0d7a3}.cell.m3{background:#e3f2e6;border-color:#bfe0c5}
 .cell small{display:block;color:var(--mut)}
 .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin:6px 0 10px}
@@ -83,18 +84,133 @@ svg .sel{fill:#ffe082}
 kbd{background:#eef1f4;border-radius:4px;padding:0 5px;font-size:12.5px}
 details summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:14px;margin-top:8px}
 footer{margin-top:34px;color:#9aa4ae;font-size:12.5px}
+/* lab look: same tokens, fonts and square controls as the rest of Vent Exam Lab */
+body{font-family:Jost,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1{font-family:'Hind Madurai','Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--acc);margin:8px 0 2px;line-height:1.15}
+h2,h3,h4{font-family:'Hind Madurai','Arial Narrow',Arial,sans-serif}
+.card h2,.card h3{text-transform:uppercase;letter-spacing:.05em;color:var(--ink)}
+.eyebrow,.card>b,.body>b.small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.back.home{display:inline-flex;align-items:center;min-height:40px;padding:6px 10px;border:1px solid #b7cad7;border-radius:3px;background:#fff;color:var(--acc);font-size:.85rem;font-weight:700;text-decoration:none}
+.back.home:hover{background:#e8f3fa}
+.next{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;color:var(--acc);font-weight:700;text-decoration:none}
+.next:hover{text-decoration:underline}
+.tabs{gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:#fff}
+.tabs button{border:0;border-right:1px solid var(--line);border-radius:0;min-height:44px;color:var(--mut)}
+.tabs button:last-child{border-right:0}
+.tabs button.on{background:var(--acc);color:#fff}
+button{min-height:44px}
+button.small{min-height:40px}
+.in-frame .wrap{padding-top:8px;padding-bottom:20px}
+.imgfail{margin:8px 0;padding:10px 12px;border:1px dashed #b7cad7;border-radius:3px;background:#fff;color:var(--mut);font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+/* field kit: shared with the lab shell */
+:root{color-scheme:light}
+:focus-visible{outline:3px solid #c48000;outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+.seg button:focus-visible,.tabs button:focus-visible,.tab:focus-visible,.step:focus-visible{outline-offset:-3px}
+.in-frame .bar>a.home,.in-frame .bar>h1,.in-frame .wrap>a.home,.in-frame .wrap>h1{position:absolute!important;width:1px;height:1px;margin:0;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.in-frame .scene,.in-frame .plan{position:relative!important;top:auto!important;box-shadow:none!important}
+.in-frame #over{padding-top:12px}
+.resume{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:#e8f3fa;border:1px solid #9bbfd5;border-left:4px solid #007cba;border-radius:3px;padding:10px 12px}
+.resume-txt b{display:block}.resume-txt span{display:block;font-size:.85rem;color:#526878}
+.resume-acts{display:flex;gap:8px;flex-wrap:wrap}
 </style>
+<script>
+/* Field training frame kit: framing, auto height, report dialog, saved runs. Same block in every field/*.html. */
+(function(){
+  var root=document.documentElement,framed=false;
+  try{framed=window.parent!==window&&window.parent.location.origin===location.origin;}catch(e){framed=false;}
+  if(framed)root.classList.add('in-frame');
+  var FT=window.FT={framed:framed,banner:null};
+  function post(m){if(framed){try{window.parent.postMessage(m,location.origin);}catch(e){}}}
+  FT.post=post;
+  var lastH=0,over=function(){return document.getElementById('over');};
+  function size(){
+    if(!framed)return;
+    var h=Math.ceil(root.getBoundingClientRect().height),o=over();
+    if(o&&o.style.display&&o.style.display!=='none'&&o.firstElementChild)h=Math.max(h,Math.ceil(o.firstElementChild.getBoundingClientRect().height)+60);
+    if(h!==lastH){lastH=h;post({vel:'field-size',h:h});}
+  }
+  FT.size=size;
+  document.addEventListener('DOMContentLoaded',function(){
+    if(framed){
+      // The lab shell shows the title and the way back; keep ours out of the tab order and the reading order.
+      document.querySelectorAll('.bar > a.home, .wrap > a.home').forEach(function(a){a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true');});
+      if('ResizeObserver' in window){var ro=new ResizeObserver(size);ro.observe(root);var o=over();if(o&&o.firstElementChild)ro.observe(o.firstElementChild);}
+      window.addEventListener('load',size);size();
+    } else {
+      document.querySelectorAll('a[target="_top"]').forEach(function(a){if(a.dataset.solo)a.setAttribute('href',a.dataset.solo);a.removeAttribute('target');});
+    }
+  });
+  // ---- the report dialog ----
+  var ret=null;
+  function focusables(o){return Array.prototype.filter.call(o.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'),function(e){return e.getClientRects().length>0;});}
+  function trap(e){
+    var o=over();if(!o||o.style.display==='none')return;
+    e.stopPropagation(); // tool shortcuts stay off while the report is up; default actions still run
+    if(e.key==='Escape'){e.preventDefault();FT.closeOver();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(o);if(!f.length){e.preventDefault();return;}
+    var a=f[0],z=f[f.length-1],cur=document.activeElement;
+    if(!o.contains(cur)){e.preventDefault();a.focus();}
+    else if(e.shiftKey&&cur===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}
+  }
+  FT.openOver=function(back,first){
+    var o=over(),app=document.getElementById('app');ret=back||null;
+    o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');
+    var h=o.querySelector('.big');if(h){h.id=h.id||'report-score';o.setAttribute('aria-labelledby',h.id);}
+    o.style.display='flex';o.scrollTop=0;if(app)app.inert=true;
+    document.addEventListener('keydown',trap,true);
+    var f=first||focusables(o)[0];if(f)f.focus({preventScroll:true});
+    if(framed){post({vel:'field-overlay'});size();}
+  };
+  FT.closeOver=function(){
+    var o=over(),app=document.getElementById('app');
+    o.style.display='none';if(app)app.inert=false;
+    document.removeEventListener('keydown',trap,true);
+    if(ret&&document.contains(ret)){try{ret.focus();}catch(e){}}
+    size();
+  };
+  // ---- saved runs: one key per tool, versioned ----
+  FT.run=function(tool){
+    var K='vel-field-run-'+tool;
+    return {
+      load:function(){try{var v=JSON.parse(localStorage.getItem(K)||'null');return v&&v.v===1&&v.d&&typeof v.d==='object'&&!Array.isArray(v.d)?v:null;}catch(e){return null;}},
+      save:function(d){try{localStorage.setItem(K,JSON.stringify({v:1,at:Date.now(),d:d}));}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}},
+      clear:function(){try{localStorage.removeItem(K);}catch(e){}if(FT.banner){FT.banner.remove();FT.banner=null;size();}}
+    };
+  };
+  FT.offerResume=function(o){
+    var b=document.createElement('div'),when='';
+    try{when=new Date(o.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){}
+    b.className='resume';b.setAttribute('role','region');b.setAttribute('aria-label','Saved job');
+    b.innerHTML='<div class="resume-txt"><b>You have a job in progress.</b><span></span></div><div class="resume-acts"><button type="button" class="btn">Resume your job</button><button type="button" class="btn alt">Start a new one</button></div>';
+    b.querySelector('span').textContent=o.text+(when?' Saved '+when+'.':'');
+    var bs=b.querySelectorAll('button');
+    bs[0].onclick=function(){b.remove();FT.banner=null;try{o.resume();}catch(e){o.run.clear();}size();};
+    bs[1].onclick=function(){o.run.clear();if(o.fresh)o.fresh();size();};
+    var bar=document.querySelector('#app > .bar');if(bar)bar.after(b);else document.body.prepend(b);
+    FT.banner=b;
+  };
+  // Scores for the hub: vel-field is {tool:{n,best,last,at}}; anything else is replaced.
+  FT.record=function(tool,score){
+    try{var K='vel-field',m={};try{var v=JSON.parse(localStorage.getItem(K)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))m=v;}catch(e){}
+      var r=m[tool]&&typeof m[tool]==='object'?m[tool]:{};var n=Number.isFinite(r.n)?r.n:0,best=Number.isFinite(r.best)?r.best:0;
+      m[tool]={n:n+1,best:Math.max(best,score),last:score,at:Date.now()};localStorage.setItem(K,JSON.stringify(m));}catch(e){}
+    post({vel:'field',tool:tool});
+  };
+})();
+</script>
 
-<script>if(window.parent!==window)document.documentElement.classList.add('in-frame')</script>
 </head>
 <body>
 <div class="wrap">
 <a class="back home" href="../#/field" target="_top">← Field training</a>
 <h1>Duct Reflex</h1>
-<p class="sub">Look, call it, next. Real mechanical sheets, field scenes, flow tracing, the move. Rep each cue until it's boring.</p>
+<p class="sub">Look, call it, next. Real mechanical sheets, field scenes, and flow tracing. Repeat each cue until it is automatic.</p>
 <nav class="tabs"><button data-tab="learn" class="on">Learn</button><button data-tab="sheet">Sheet</button><button data-tab="flash">Flash</button><button data-tab="trace">Trace</button><button data-tab="call">Call</button><button data-tab="board">Board</button></nav>
 <main id="app"></main>
-<footer>Vent Exam Lab · field training · Sheet mode uses public bid drawings (City of Reading PA, 3rd &amp; Spruce Rec Center, Arora Engineers, 2022); field scenes are generated</footer>
+<footer>Vent Exam Lab · Field training · Sheet mode uses public bid drawings (City of Reading PA, 3rd &amp; Spruce Rec Center, Arora Engineers, 2022); field scenes are generated</footer>
 </div>
 <script>
 const $=s=>document.querySelector(s);
@@ -102,8 +218,11 @@ const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const LS='dreflex_v1';
-let ST=JSON.parse(localStorage.getItem(LS)||'null')||{h:{},reps:0,streak:0,best:0};
-const save=()=>localStorage.setItem(LS,JSON.stringify(ST));
+const DEF=()=>({h:{},reps:0,streak:0,best:0});
+let ST;try{const v=JSON.parse(localStorage.getItem(LS)||'null');ST=v&&typeof v==='object'&&!Array.isArray(v)?Object.assign(DEF(),v,{h:v.h&&typeof v.h==='object'&&!Array.isArray(v.h)?v.h:{}}):DEF();}catch(e){ST=DEF();}
+for(const k of['reps','streak','best'])if(!Number.isFinite(ST[k]))ST[k]=0;for(const k in ST.h)if(!Array.isArray(ST.h[k]))delete ST.h[k];
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(ST));}catch(e){}};
+const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}},lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
 const STREAM={SA:'Supply',RA:'Return',EA:'Exhaust',OA:'Outside air'};
 
 // ---------- drawing helpers ----------
@@ -426,18 +545,18 @@ function fitViewer(vw,sh,r,zoomed){const pan=vw.querySelector('.pan');const VW=v
   else{k=Math.min(VW/sh.w,VH/sh.h);tx=(VW-k*sh.w)/2;ty=(VH-k*sh.h)/2}
   pan.style.transform=`translate(${tx}px,${ty}px) scale(${k})`}
 function wireViewer(vw,sh,r){let z=true;fitViewer(vw,sh,r,z);vw.querySelector('.zb').onclick=e=>{z=!z;e.target.textContent=z?'Whole sheet':'Zoom in';fitViewer(vw,sh,r,z)};return()=>fitViewer(vw,sh,r,z)}
-let openLesson=+(localStorage.getItem('dreflex_lesson')||0);
+let openLesson=+(lsGet('dreflex_lesson')||0);if(!(openLesson>=0&&openLesson<LESSONS.length))openLesson=0;
 function renderLearn(){
   app.innerHTML=`<div class="card"><p class="small mut" style="margin:0 0 6px">Eight short lessons, every example points at a real sheet (Reading PA rec center, Arora Engineers M000 / M200). Open one, tap the spots, then drill it.</p>
   ${LESSONS.map((L,i)=>`<details class="lesson" data-i="${i}" ${i===openLesson?'open':''}><summary>${L.t}</summary><div class="body">${L.p.map(x=>`<p>${x}</p>`).join('')}
   ${L.figs.map(f=>`<div class="fig"><img src="${R2+f.i}" alt="" loading="lazy"><div class="cap">${f.c}</div></div>`).join('')}
   ${L.spots.length?`<b class="small">See it on the sheet</b><div class="spots">${L.spots.map((s,j)=>`<button data-l="${i}" data-j="${j}">${j+1}</button>`).join('')}</div><div class="spot" id="spot${i}"></div>`:''}
   <div class="row" style="margin-top:10px"><button class="small" data-drill="${i}">Drill it</button>${i<LESSONS.length-1?`<button class="small ghost" data-nextl="${i+1}">Next lesson</button>`:''}</div></div></details>`).join('')}</div>`;
-  app.querySelectorAll('details.lesson').forEach(d=>d.addEventListener('toggle',()=>{if(d.open){openLesson=+d.dataset.i;localStorage.setItem('dreflex_lesson',openLesson)}}));
+  app.querySelectorAll('details.lesson').forEach(d=>d.addEventListener('toggle',()=>{if(d.open){openLesson=+d.dataset.i;lsSet('dreflex_lesson',openLesson)}}));
   let refit=null;window.onresize=()=>refit&&refit();
   app.querySelectorAll('.spots button').forEach(b=>b.onclick=()=>{const L=LESSONS[+b.dataset.l],s=L.spots[+b.dataset.j],sh=SHEETS.find(x=>x.id===s.s);b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));const box=$('#spot'+b.dataset.l);box.innerHTML=viewerHtml(sh,s,'v'+b.dataset.l)+`<div class="cap">${s.c}</div>`;refit=wireViewer(box.querySelector('.viewer'),sh,s)});
   app.querySelectorAll('[data-drill]').forEach(b=>b.onclick=()=>document.querySelector('.tabs button[data-tab=sheet]').click());
-  app.querySelectorAll('[data-nextl]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.nextl;localStorage.setItem('dreflex_lesson',openLesson);render();app.querySelector(`details[data-i="${openLesson}"]`).scrollIntoView({behavior:'smooth'})});
+  app.querySelectorAll('[data-nextl]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.nextl;lsSet('dreflex_lesson',openLesson);render();app.querySelector(`details[data-i="${openLesson}"]`).scrollIntoView({behavior:'smooth'})});
   window.onkeydown=null;
 }
 
@@ -514,11 +633,14 @@ function renderBoard(){
   <b>Trace</b><div class="grid" style="margin:6px 0 14px">${tr.map(c=>cell(c)).join('')}</div>
   <b>Calls</b><div class="grid" style="margin:6px 0 14px">${CALLS.map(c=>cell(c)).join('')}</div>
   <details><summary>How the drill works</summary><p class="small">Every cue is weighted by how you did on it last. Misses come back fast, boring ones drift out. Sheet mode boxes one item on a real mechanical drawing (public bid sets) and asks the stream, what feeds it, or the move. Flash gives you 3 seconds (2 once it is boring); no answer counts as a miss. Trace draws a fresh little system each time so you are reading the drawing, not remembering the picture. Board is per device, nothing leaves the phone.</p></details>
-  <div class="row"><a class="back" href="read-the-print.html">Next up: Read the Print, the takeoff trainer →</a></div><div class="row" style="margin-top:8px"><button class="ghost small" id="reset">Reset progress</button></div></div>`;
+  <div class="row"><a class="next" ${FT.framed?'href="../#/field/read-the-print" target="_top"':'href="read-the-print.html"'}>Next up: Read the Print, the takeoff trainer →</a></div><div class="row" style="margin-top:8px"><button class="ghost small" id="reset">Reset progress</button></div></div>`;
   $('#reset').onclick=e=>{if(e.target.dataset.arm){ST={h:{},reps:0,streak:0,best:0};save();render()}else{e.target.dataset.arm=1;e.target.textContent='Tap again to wipe'}};
 }
 render();
+// Drawings come from a remote file host. If one does not load, say so and offer a retry.
+document.addEventListener('error',e=>{const img=e.target;if(!img||img.tagName!=='IMG'||img.dataset.failed)return;img.dataset.failed='1';
+  const box=img.closest('.viewer,.fig')||img.parentElement,p=document.createElement('div');p.className='imgfail';p.innerHTML='<span>Drawing did not load. Check the connection.</span><button type="button" class="small ghost">Try again</button>';
+  p.querySelector('button').onclick=()=>{p.remove();delete img.dataset.failed;const u=img.getAttribute('src').replace(/[?#].*$/,'');img.src=u+'?r='+Date.now();};box.after(p);},true);
 </script>
-<script>if(window.parent===window)document.querySelectorAll('a.home').forEach(a=>a.removeAttribute('target'));</script>
 </body>
 </html>

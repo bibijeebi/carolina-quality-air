@@ -42,15 +42,15 @@
   };
   function setup(D) {
     const S = V.T(), id = D.id, tr = D.track, e = tr.exam || {};
-    const hd = head(`${esc(tr.code)} / Exam sim`, 'Practice under exam conditions.', `Drawn by domain weight at the real pace${e.questions ? ` (${e.minutes} minutes for ${e.questions} questions)` : ''}. No feedback until you submit.`);
+    const hd = head(`${esc(tr.code)} / Exam sim`, 'Practice under exam conditions.', `${V.wPub(D) ? 'Drawn by domain weight' : 'Drawn evenly across the modules'} ${V.ePub(D) ? 'at the exam pace' : 'at a practice pace'}${e.questions ? ` (${e.minutes} minutes for ${e.questions} questions${V.ePub(D) ? '' : ', not a published format'})` : ''}. No feedback until you submit.`);
     if (!D.qs.length) { V.main.innerHTML = hd + empty('No questions yet.', 'Sims need a question bank.'); return; }
     const fresh = D.qs.filter(q => q.reserved && !(S.exp[q.id] > 0)).length;
     const lens = V.simLengths(D);
     const act = S.sim;
     V.main.innerHTML = hd
-      + (act ? `<section class="panel resume" id="resume-box"><div><p class="eyebrow">Sim in progress</p><h2>${esc(act.label)}: ${act.items.filter(i => i.a != null).length} of ${act.items.length} answered</h2><p class="muted small">${clock((act.end - Date.now()) / 1000)} left on the clock. The clock keeps running while you are away.</p></div><div class="actions"><a class="btn" href="${link(id, 'sim', 'run')}">Resume</a><button type="button" class="btn secondary" id="discard">Discard</button></div></section>` : '')
-      + `<div class="sim-grid">${lens.map(([n, label]) => { const m = Math.round((n * secsPerQ(D)) / 60); return `<section class="panel sim-card"><p class="eyebrow">${esc(label)}</p><h2>${n} questions</h2><p class="muted">${m} minutes${Number(n) === Number(e.questions) ? ', the real exam length' : ''}.</p><button type="button" class="btn${act ? ' secondary' : ''}" data-len="${n}" data-label="${esc(label)}"${act ? ' disabled' : ''}>Start ${n}-question sim</button></section>`; }).join('')}</div>`
-      + `<div class="grid space-lg"><section class="panel"><h2>How questions are drawn</h2><ul class="plain-list small"><li>Each domain gets its share of the exam weight, rounded by largest remainder.</li><li>Reserved questions you have not seen in a sim come first. They never appear in the drill or games. ${plural(fresh, 'reserved question')} ${fresh === 1 ? 'is' : 'are'} still fresh.</li><li>Then practice questions you have seen least. Depth items stay out of sims.</li><li>Flag questions and jump around. Submit when ready, or the clock submits for you.</li></ul>${e.cutNote ? `<p class="note space">${esc(e.cutNote)}</p>` : ''}</section>`
+      + (act ? `<section class="panel resume" id="resume-box"><div><p class="eyebrow">${Date.now() >= act.end ? 'Time ran out' : 'Sim in progress'}</p><h2>${esc(act.label)}: ${act.items.filter(i => i.a != null).length} of ${act.items.length} answered</h2><p class="muted small">${Date.now() >= act.end ? 'The clock ran out while you were away. Score it as it stands, or discard it.' : `${clock((act.end - Date.now()) / 1000)} left on the clock. The clock keeps running while you are away.`}</p></div><div class="actions"><a class="btn" href="${link(id, 'sim', 'run')}">${Date.now() >= act.end ? 'Score it' : 'Resume'}</a><button type="button" class="btn secondary" id="discard">Discard</button></div></section>` : '')
+      + `<div class="sim-grid">${lens.map(([n, label]) => { const m = Math.round((n * secsPerQ(D)) / 60); return `<section class="panel sim-card"><p class="eyebrow">${esc(label)}</p><h2>${n} questions</h2><p class="muted">${m} minutes${Number(n) === Number(e.questions) && V.ePub(D) ? ', the real exam length' : ''}.</p><button type="button" class="btn${act ? ' secondary' : ''}" data-len="${n}" data-label="${esc(label)}"${act ? ' disabled' : ''}>Start ${n}-question sim</button></section>`; }).join('')}</div>`
+      + `<div class="grid space-lg"><section class="panel"><h2>How questions are drawn</h2><ul class="plain-list small"><li>${V.wPub(D) ? 'Each domain gets its share of the exam weight.' : 'Each module gets an equal share, since NADCA publishes no weights.'}</li><li>Sim-only questions you have not seen in a sim come first. They never appear in the drill or games. ${plural(fresh, 'sim-only question')} ${fresh === 1 ? 'is' : 'are'} still fresh.</li><li>Then practice questions you have seen least. The extra-hard depth questions stay out of sims.</li><li>Flag questions and jump around. Submit when ready, or the clock submits for you.</li></ul>${e.cutNote ? `<p class="note space">${esc(e.cutNote)}</p>` : ''}</section>`
       + `<section class="panel"><h2>Sim history</h2>${S.sims.length ? `<div class="history">${S.sims.slice().reverse().map((s, i) => `<a class="history-row" href="${link(id, 'sim', 'report', S.sims.length - 1 - i)}"><span>${fmtDate(s.ts)} · ${esc(s.label || '')} ${s.total}q</span><b class="${s.pct >= (Number(e.cut) || 0) ? 'ok' : 'bad'}">${s.pct}%</b></a>`).join('')}</div>` : '<p class="muted space">No sims yet.</p>'}</section></div>`;
     V.main.querySelectorAll('[data-len]').forEach(b => b.onclick = () => start(D, +b.dataset.len, b.dataset.label));
     const dc = $('discard');
@@ -69,6 +69,7 @@
     V.save();
     location.hash = link(D.id, 'sim', 'run');
   }
+  let simTimer = null;
   function run(D) {
     const S = V.T(), sim = S.sim, id = D.id;
     if (!sim) { location.replace(link(id, 'sim')); return; }
@@ -101,7 +102,8 @@
       if (left <= 0) { clearInterval(timer); finish(D, 'time'); return; }
       if (el) { el.textContent = clock(left); el.classList.toggle('low', left < 300); }
     };
-    const timer = setInterval(tick, 1000);
+    clearInterval(simTimer); // run() redraws on every answer; keep exactly one clock running
+    const timer = simTimer = setInterval(tick, 1000);
     V.onLeave(() => clearInterval(timer));
     V.keys = e => {
       const i = V.keyIndex(e, it.o.length);
@@ -149,16 +151,18 @@
     }).join('');
     const drillable = new Set();
     (s.miss || []).forEach(([qid]) => { const q = D.q.get(qid); if (!q) return; if (!q.reserved) drillable.add(qid); else (D.qu.get(qid) || []).forEach(u => (D.uq.get(u) || []).forEach(x => { if (!D.q.get(x).reserved) drillable.add(x); })); });
-    const missHTML = (s.miss || []).map(([qid, a]) => {
+    // Each miss folds, so a rough sim doesn't make a page as long as the bank. The first three start open.
+    const missHTML = (s.miss || []).map(([qid, a], k) => {
       const q = D.q.get(qid); if (!q) return '';
-      return `<article class="review-item"><p class="status">${a == null ? 'Not answered' : 'Missed'} · ${esc(q.domain)}${q.reserved ? ' · reserved for sims' : ''}</p><h3>${esc(q.stem)}</h3>${a != null ? `<p><b>Your answer:</b> ${esc(q.options[a])}</p>` : ''}<p><b>Correct:</b> ${esc(q.options[0])}</p><p class="muted">${esc(q.expl)}</p>${V.testsHTML(D, q)}</article>`;
+      return `<details class="review-item"${k < 3 ? ' open' : ''}><summary><span class="status">${a == null ? 'Not answered' : 'Missed'} · ${esc(q.domain)}${q.reserved ? ' · sim only' : ''}</span><span class="rv-stem">${esc(q.stem)}</span></summary>${a != null ? `<p><b>Your answer:</b> ${esc(q.options[a])}</p>` : ''}<p><b>Correct:</b> ${esc(q.options[0])}</p><p class="muted">${esc(q.expl)}</p>${V.testsHTML(D, q)}</details>`;
     }).join('');
     const mins = Math.round((s.secs || 0) / 60);
     const weak = Object.entries(s.dom).map(([n, [r, t]]) => [n, pct(r, t)]).filter(([n, p]) => p < cut && D.pool.some(q => q.domain === n)).sort((a, b) => a[1] - b[1]).slice(0, 3);
     V.main.innerHTML = head(`${esc(tr.code)} / Sim report`, `${s.pct}%. ${where} the ${cut}% line.`, `${esc(s.label || 'Sim')}, ${s.total} questions, ${fmtDate(s.ts)}${mins ? `, ${mins} min used` : ''}${s.how === 'time' ? ', submitted when time ran out' : ''}.`)
       + `<div class="grid"><section class="panel"><div class="result-top"><div class="result-score ${above ? 'ok' : 'bad'}">${s.pct}%</div><div><h2>${s.right} of ${s.total} correct</h2><p class="muted small">${esc((tr.exam || {}).cutNote || '')}</p></div></div><h3 class="space">By domain</h3><p class="small muted">The line on each bar marks the ${cut}% cut.</p><div class="domain-list">${rows}</div></section>`
-      + `<section class="panel"><h2>Next move</h2>${s.miss && s.miss.length ? `<p class="space-sm">${plural(s.miss.length, 'item')} missed.${drillable.size ? ` ${plural(drillable.size, 'practice question')} ${drillable.size === 1 ? 'covers' : 'cover'} them.` : ' They were reserved questions with nothing linked in the practice pool yet, so they stay out of the drill.'}</p>` : '<p class="space-sm">No misses. Try a longer sim.</p>'}<div class="actions space">${drillable.size ? `<a class="btn" href="${link(id, 'drill', 'sim', i)}">Drill these misses</a>` : ''}<a class="btn secondary" href="${link(id, 'sim')}">Another sim</a><a class="btn text" href="${link(id, 'progress')}">Progress</a></div>${weak.length ? `<h3 class="space-lg">Below the line</h3><p class="small muted">Drill the domains that scored under ${cut}%.</p><div class="actions space-sm">${weak.map(([n, p]) => `<a class="btn secondary small" href="${link(id, 'drill', 'dom', n)}">${esc(n)} (${p}%)</a>`).join('')}</div>` : ''}</section></div>`
-      + (missHTML ? `<section class="panel space-lg"><h2>Missed items</h2>${missHTML}</section>` : '')
+      + `<section class="panel"><h2>Next move</h2>${s.miss && s.miss.length ? `<p class="space-sm">${plural(s.miss.length, 'item')} missed.${drillable.size ? ` ${plural(drillable.size, 'practice question')} ${drillable.size === 1 ? 'covers' : 'cover'} them.` : ' They are sim-only questions with no practice questions on the same facts yet.'}</p>` : '<p class="space-sm">No misses. Try a longer sim.</p>'}<div class="actions space">${drillable.size ? `<a class="btn" href="${link(id, 'drill', 'sim', i)}">Drill these misses</a>` : ''}<a class="btn secondary" href="${link(id, 'sim')}">Another sim</a><a class="btn text" href="${link(id, 'progress')}">Progress</a></div>${weak.length ? `<h3 class="space-lg">Below the line</h3><p class="small muted">Drill the domains that scored under ${cut}%.</p><div class="actions space-sm">${weak.map(([n, p]) => `<a class="btn secondary small" href="${link(id, 'drill', 'dom', n)}">${esc(n)} (${p}%)</a>`).join('')}</div>` : ''}</section></div>`
+      + (missHTML ? `<section class="panel space-lg"><div class="row-between"><h2>Missed items</h2><button type="button" class="btn text small" id="rv-all">Open all</button></div>${missHTML}</section>` : '')
       + `<section class="panel space-lg"><h2>Sim history</h2><div class="history">${S.sims.slice().reverse().map((x, k) => { const j = S.sims.length - 1 - k; return `<a class="history-row${j === i ? ' current' : ''}" href="${link(id, 'sim', 'report', j)}"><span>${fmtDate(x.ts)} · ${esc(x.label || '')} ${x.total}q</span><b class="${x.pct >= cut ? 'ok' : 'bad'}">${x.pct}%</b></a>`; }).join('')}</div></section>`;
+    const ra = $('rv-all'); if (ra) ra.onclick = () => { const all = V.main.querySelectorAll('details.review-item'), open = [...all].every(d => d.open); all.forEach(d => { d.open = !open; }); ra.textContent = open ? 'Open all' : 'Close all'; };
   }
 })();
