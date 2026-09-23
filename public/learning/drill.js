@@ -1,4 +1,4 @@
-/* Vent Exam Lab: the drill (mastery loop) and lesson checkpoints (tutor mode). */
+/* DuctStudy: the drill (mastery loop) and lesson checkpoints (tutor mode). */
 (function () {
   'use strict';
   const V = window.VEL;
@@ -143,7 +143,7 @@
     return S.day;
   }
   V.dayRec = dayRec;
-  function dayCheck(S) { const dy = dayRec(S); if (!dy.done && dy.secs >= capSecs(S)) dy.done = true; return dy; }
+  function dayCheck(S) { const dy = dayRec(S); if (!dy.done && dy.secs >= capSecs(S)) { dy.done = true; V.ev('day_done'); } return dy; }
 
   // Active time: counts only while a drill card is on screen, the tab is visible, and there was input in the last two minutes.
   const IDLE_MS = 120000;
@@ -185,6 +185,7 @@
   const active = s => !!(s && !s.done && (s.queue.length || s.card));
   function newDrill(D, type, val, q) {
     const S = V.T();
+    V.ev('drill_start', D.id + ':' + type);
     S.drill = { track: D.id, type, val: val || '', label: filterLabel(D, type, val), queue: q, total: q.length, n: 0, tries: 0, right: 0, retired: 0, miss: 0, seen: [], secs: 0, cap: capSecs(S), day: dayKey(), done: false, end: null, card: null };
   }
   V.views.drill = function (D, args) {
@@ -418,7 +419,7 @@
     const top = `<div class="quiz-top"><a class="btn text small" href="${link(id, 'learn', l.id)}">Back to lesson</a><span class="qlabel">Checkpoint: ${esc(l.title)}</span><strong>${Math.min(cp.i + 1, cp.items.length)} / ${cp.items.length}</strong></div><div class="progress" aria-hidden="true"><i style="width:${pct(cp.i, cp.items.length)}%"></i></div>`;
     if (cp.i >= cp.items.length) {
       const all = cp.right === cp.items.length;
-      if (all) { S.ls[l.id] = Object.assign({}, S.ls[l.id], { passed: Date.now() }); V.save(); }
+      if (all) { S.ls[l.id] = Object.assign({}, S.ls[l.id], { passed: Date.now() }); V.save(); V.ev('check_pass'); }
       cp.finished = true;
       V.keys = null;
       V.quizMode(false);

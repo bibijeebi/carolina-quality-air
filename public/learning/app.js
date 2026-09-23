@@ -1,4 +1,4 @@
-/* Vent Exam Lab: core state, data loading, routing, shell, and the Today, Practice, Learn, Facts, Me and About views.
+/* DuctStudy: core state, data loading, routing, shell, and the Today, Practice, Learn, Facts, Me and About views.
    Drill and checkpoints live in drill.js, the exam sim in sim.js, games in games.js, the systems lab in lab.js. */
 (function () {
   'use strict';
@@ -171,6 +171,7 @@
     // where each credential was last left, so switching exams comes back to the same page
     if (isObj(s.lastBy)) { out.lastBy = {}; for (const tr of TRACKS) { const r = s.lastBy[tr.id]; if (typeof r === 'string' && new RegExp('^#/' + tr.id + '/[a-z]+$').test(r)) out.lastBy[tr.id] = r; } }
     if (Number(s.setup) > 0) out.setup = Number(s.setup);
+    if (isObj(s.imported)) { out.imported = {}; for (const [k, v] of Object.entries(s.imported)) if (Number(v) > 0) out.imported[k] = Number(v); }
     if (TRACKS.some(t => t.id === s.lastTrack)) out.lastTrack = s.lastTrack;
     return out;
   }
@@ -201,6 +202,7 @@
     if (!disk) return;
     for (const tr of TRACKS) if (!changed.includes(tr.id) && disk.t[tr.id]) store.t[tr.id] = disk.t[tr.id];
     if (disk.setup && !store.setup) store.setup = disk.setup;
+    if (disk.imported) store.imported = Object.assign({}, disk.imported, store.imported);
     if (disk.lastTrack && !store.lastTrack) store.lastTrack = disk.lastTrack;
     if (disk.lastBy) store.lastBy = Object.assign({}, disk.lastBy, store.lastBy);
   }
@@ -314,8 +316,8 @@
     document.body.classList.toggle('no-nav', !meta);
     if (!meta) {
       nav.innerHTML = '';
-      $('ctx-name').textContent = 'Vent Exam Lab';
-      document.title = 'Get started · Vent Exam Lab';
+      $('ctx-name').textContent = 'DuctStudy';
+      document.title = 'Get started · DuctStudy';
       document.querySelector('.brand').setAttribute('href', '#/');
       return;
     }
@@ -323,11 +325,12 @@
     nav.innerHTML = NAV.map(([id, label]) => `<a href="${link(track, id)}" data-tab="${id}"${id === tab ? ` class="active"${id === view ? ' aria-current="page"' : ''}` : ''}><svg class="tab-ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]}</svg><span>${label}</span></a>`).join('');
     $('ctx-name').textContent = view === 'field' ? 'Field training' : meta.name;
     const fieldName = view === 'field' ? (sub ? ((V.field.TOOLS.find(t => t.id === sub) || {}).title || 'Field training') : 'Field training') : '';
-    document.title = (view === 'field' ? fieldName + ' · ' : (VIEW_NAME[view] ? VIEW_NAME[view] + ' · ' : '') + meta.code + ' · ') + 'Vent Exam Lab';
+    document.title = (view === 'field' ? fieldName + ' · ' : (VIEW_NAME[view] ? VIEW_NAME[view] + ' · ' : '') + meta.code + ' · ') + 'DuctStudy';
     document.querySelector('.brand').setAttribute('href', link(track, 'today'));
   }
   let lastHash = null;
   async function route() {
+    if (location.hash.startsWith('#import=')) { await importHash().catch(() => {}); }
     const r = parse();
     if (r.track === 'field' && V.field) {
       runCleanup();
@@ -342,6 +345,16 @@
       const fw = r.view && main.querySelector('.field-frame-wrap');
       if (fw && moved) { main.focus({ preventScroll: true }); fw.scrollIntoView({ block: 'start' }); } // the job goes edge to edge in the viewport
       else if (moved && !initial) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
+      return;
+    }
+    if (r.track === 'library') {
+      runCleanup(); V.keys = null; V.cur = null;
+      renderShell(homeTrack(), 'field', '');
+      document.title = 'More training · DuctStudy';
+      $('ctx-name').textContent = 'More training';
+      lastHash = location.hash;
+      libraryView();
+      window.scrollTo(0, 0);
       return;
     }
     if (r.track === 'setup') {
@@ -460,8 +473,9 @@
     const pairs = V.field ? V.field.TOOLS.filter(t => t.pairs[0] === id) : [];
     const ft = pairs[0];
     const field = ft ? `<section class="panel field-callout space-lg"><div><p class="eyebrow">Field training · ${esc(ft.kind)}</p><h2>${esc(ft.title)}</h2><p class="muted">${esc(ft.blurb)}</p></div><div class="actions"><a class="btn secondary" href="${link('field', ft.id)}">Open ${esc(ft.title)}</a><a class="btn text" href="${link(id, 'practice')}">More in Practice</a></div></section>` : '';
+    const note = V.importNote; V.importNote = '';
     main.innerHTML = head(`${esc(tr.code)} / Today`, esc(TITLES[id] || 'Make today’s study count.'), status, '', 'today-head')
-      + welcome + modeTabs
+      + (note ? `<div class="note blue space-b" role="status"><p>${esc(note)}</p></div>` : '') + welcome + modeTabs
       + `<section class="panel hero-panel" id="hero">${heroHTML(D, S, ps, dl)}</section>`
       + readyHTML(D, S) + field;
     main.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; S.planAt = Date.now(); save(); V.rerender(); const f = main.querySelector(`[data-mode="${S.mode}"]`); if (f) f.focus(); });
@@ -563,7 +577,8 @@
     const fieldP = tools.length ? `<section class="space-lg"><div class="section-heading"><h2>Field training for ${esc(tr.code)}</h2><a class="small" href="${link('field')}">All field training</a></div><div class="game-grid field-grid">${tools.map(t => `<a class="panel tool-card" href="${link('field', t.id)}"><p class="eyebrow">${esc(t.kind)}</p><h3>${esc(t.title)}</h3><p class="muted small">${esc(t.blurb)}</p><p class="small space-sm">${esc(V.field.scoreLine(t))}</p></a>`).join('')}</div></section>` : '';
     main.innerHTML = head(`${esc(tr.code)} / Practice`, 'Practice until it sticks.', 'Drill the bank, play short rounds on the facts, and run the job the exam describes.')
       + `<div class="grid top">${drill}<section class="panel"><div class="row-between"><h2>Drill one domain</h2><span class="small muted hint">Weakest first is a good habit</span></div><div class="domain-list">${domRows || '<p class="muted">No practice questions yet.</p>'}</div></section></div>`
-      + `<div class="space-lg">${gamesP}</div>` + fieldP;
+      + `<div class="space-lg">${gamesP}</div>` + fieldP
+      + `<section class="panel field-callout space-lg"><div><p class="eyebrow">More training</p><h2>EPA 608, forklift, the crew field guide, pricing.</h2><p class="muted">The rest of the CQA training shelf lives here too.</p></div><a class="btn secondary" href="#/library">Open more training</a></section>`;
   };
 
   /* ---------- First run ---------- */
@@ -605,7 +620,7 @@
       store.setup = Date.now(); store.lastTrack = p.t;
       V.cur = p.t; save();
     };
-    f.onsubmit = e => { e.preventDefault(); const p = pick(); commit(p); location.hash = link(p.t, 'drill', 'today'); };
+    f.onsubmit = e => { e.preventDefault(); const p = pick(); commit(p); V.ev('setup', p.t); location.hash = link(p.t, 'drill', 'today'); };
     $('su-skip').onclick = () => { const p = pick(); store.setup = Date.now(); store.lastTrack = p.t; save('nav'); location.hash = link(p.t, 'today'); };
     upd();
   }
@@ -651,7 +666,7 @@
     const nq = (D.lessonQs.get(l.id) || []).length;
     const st = lessonStatus(S, l);
     const units = l.units.map(u => D.u.get(u)).filter(Boolean);
-    const markRead = () => { if (!S.ls[l.id] || !S.ls[l.id].read) { S.ls[l.id] = Object.assign({}, S.ls[l.id], { read: Date.now() }); save(); const b = $('lesson-status'); if (b) b.innerHTML = lessonBadge(lessonStatus(S, l)); const m = $('mark-read'); if (m) m.remove(); } };
+    const markRead = () => { if (!S.ls[l.id] || !S.ls[l.id].read) { S.ls[l.id] = Object.assign({}, S.ls[l.id], { read: Date.now() }); save(); V.ev('lesson_read'); const b = $('lesson-status'); if (b) b.innerHTML = lessonBadge(lessonStatus(S, l)); const m = $('mark-read'); if (m) m.remove(); } };
     const pn = `<nav class="lesson-pn" aria-label="Lesson navigation">${prev ? `<a class="btn secondary" href="${link(id, 'learn', prev.id)}"><span class="small muted">Previous</span>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a class="btn secondary next" href="${link(id, 'learn', next.id)}"><span class="small muted">Next</span>${esc(next.title)}</a>` : ''}</nav>`;
     main.innerHTML = head(`${esc(D.track.code)} / <a href="${link(id, 'learn')}">Learn</a> / ${esc(l.dom)}`, esc(l.title), esc(l.intro || `${plural(units.length, 'fact')} from ${l.dom}. Read each one with its condition, then take the checkpoint.`), `<div class="actions"><a class="btn small" href="${link(id, 'learn', l.id, 'check')}">Checkpoint</a>${nq ? `<a class="btn secondary small" href="${link(id, 'drill', 'lesson', l.id)}">Drill this lesson</a>` : ''}</div>`, 'lesson-head')
       + `<div class="lesson-layout"><div class="lesson-main">${l.mnemonic ? `<div class="mnemonic"><p class="eyebrow">Memory hook</p><p>${esc(l.mnemonic)}</p></div>` : ''}<section class="panel unit-list" aria-label="Facts">${units.map(u => unitHTML(D, u)).join('')}</section><div id="read-sentinel"></div>`
@@ -723,13 +738,14 @@
     if (args && args[0] === 'plan') { const pl = $('plan'); if (pl) { pl.scrollIntoView({ block: 'start' }); const d = $('exam-date'); if (d) d.focus({ preventScroll: true }); } }
     const summary = () => shareText(D, S);
     $('sh-copy').onclick = () => {
+      V.ev('share');
       const txt = summary(), out = $('sh-out'); out.hidden = false; out.value = txt; out.select();
       const done = ok => { $('sh-status').textContent = ok ? 'Copied. Paste it into a text or email.' : 'The browser blocked the clipboard. Select the text above and copy it.'; };
       try { navigator.clipboard.writeText(txt).then(() => done(true), () => done(false)); } catch (e) { done(false); }
     };
     const sn = $('sh-send'); if (sn) sn.onclick = () => { navigator.share({ title: `${tr.code} study progress`, text: summary() }).catch(() => {}); };
     $('bk-copy').onclick = () => {
-      const txt = JSON.stringify({ app: 'vent-exam-lab', v: 1, exported: new Date().toISOString(), data: store });
+      const txt = JSON.stringify({ app: 'ductstudy', v: 1, exported: new Date().toISOString(), data: store });
       const out = $('bk-out'); out.value = txt; out.select();
       const done = ok => { $('bk-status').textContent = ok ? 'Copied to the clipboard. It is also in the box above.' : 'The browser blocked the clipboard. Select the text in the box above and copy it.'; };
       try { navigator.clipboard.writeText(txt).then(() => done(true), () => done(false)); } catch (e) { done(false); }
@@ -739,9 +755,9 @@
       $('bk-restore').onclick = () => {
         const st = $('bk-rstatus'); st.textContent = '';
         let obj;
-        try { obj = JSON.parse($('bk-in').value.trim()); } catch (e) { st.textContent = 'That is not a Vent Exam Lab backup. Paste the full text from Copy backup.'; return; }
-        const data = obj && obj.app === 'vent-exam-lab' ? obj.data : obj;
-        if (!validStore(data)) { st.textContent = 'That is not a Vent Exam Lab backup. Paste the full text from Copy backup.'; return; }
+        try { obj = JSON.parse($('bk-in').value.trim()); } catch (e) { st.textContent = 'That is not a DuctStudy backup. Paste the full text from Copy backup.'; return; }
+        const data = obj && (obj.app === 'ductstudy' || obj.app === 'vent-exam-lab') ? obj.data : obj;
+        if (!validStore(data)) { st.textContent = 'That is not a DuctStudy backup. Paste the full text from Copy backup.'; return; }
         const ids = Object.keys(data.t).filter(k => TRACKS.some(t => t.id === k));
         if (!ids.length) { st.textContent = 'That backup has no ASCS, CVI, or DVT progress in it. Nothing to restore.'; return; }
         const names = ids.map(k => TRACKS.find(t => t.id === k).code).join(', ');
@@ -777,7 +793,7 @@
     const weak = D.doms.map(d => { const st = poolStats(D, S, q => q.domain === d.name); return [d.name, st.c + st.w >= 10 ? pct(st.c, st.c + st.w) : null]; }).filter(x => x[1] != null).sort((a, b) => a[1] - b[1]);
     if (weak.length > 1) lines.push(`Weakest area: ${weak[0][0]} (${weak[0][1]}% accuracy)`);
     lines.push(`Ready check: ${r.stepTwo ? 'met. Ready to book the exam.' : r.stepOne ? 'step 1 of 2 done. Needs one full-length sim at the cut.' : `${r.run} of 2 short sims at 85% in a row.`}`);
-    lines.push('', 'From Vent Exam Lab, independent exam prep.');
+    lines.push('', 'From DuctStudy, independent exam prep.');
     return lines.join('\n');
   }
   function simChart(D, S) {
@@ -800,8 +816,102 @@
     main.innerHTML = head(`${esc(tr.code)} / Learn / About the exam`, 'Know the exam and its sources.', `About the ${esc(tr.org || 'NADCA')} ${esc(tr.name || '')} and the documents this bank is built from.`) + subtabs(D, 'sources')
       + `<div class="grid"><section class="panel"><h2>The ${esc(tr.code)} at a glance</h2>${facts.length ? `<ul class="plain-list">${facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : '<p class="muted space">No published facts yet.</p>'}${e.questions ? `<div class="metrics three space-lg"><div class="metric"><b>${e.questions}</b><span>${e.published === false ? 'Practice questions' : 'Questions'}</span></div><div class="metric"><b>${e.minutes}</b><span>${e.published === false ? 'Practice minutes' : 'Minutes'}</span></div><div class="metric"><b>${e.cut}%</b><span>Working cut</span></div></div>` : ''}${e.cutNote ? `<p class="note">${esc(e.cutNote)}</p>` : ''}${e.note ? `<p class="small muted space-sm">${esc(e.note)}</p>` : ''}</section>`
       + `<section class="panel"><h2>Sources</h2>${srcs.length ? srcs.map(s => `<div class="source"><a href="${esc(s[1] || '#')}" target="_blank" rel="noopener noreferrer">${esc(s[0])}</a>${s[1] ? `<p>${esc(s[1].replace(/^https?:\/\//, '').split('/')[0])}</p>` : ''}</div>`).join('') : '<p class="muted space">No sources listed yet.</p>'}</section></div>`
-      + `<section class="panel space-lg"><h2>About this site</h2><p class="space-sm">Vent Exam Lab is independent exam preparation. It is not affiliated with, endorsed by, or sponsored by NADCA. The practice questions are original. Standards and codes are paraphrased in plain words with citations so you can look up the source. There are no actual exam items here.</p><p class="small muted space-sm">Study data built ${esc(D.b.built || 'recently')}. ${plural(D.qs.length, 'question')}${D.units.length ? `, ${plural(D.units.length, 'fact')}` : ''}${D.lessons.length ? `, ${plural(D.lessons.length, 'lesson')}` : ''}.</p></section>`;
+      + `<section class="panel space-lg"><h2>About this site</h2><p class="space-sm">DuctStudy is independent exam preparation. It is not affiliated with, endorsed by, or sponsored by NADCA. The practice questions are original. Standards and codes are paraphrased in plain words with citations so you can look up the source. There are no actual exam items here.</p><p class="small muted space-sm">Study data built ${esc(D.b.built || 'recently')}. ${plural(D.qs.length, 'question')}${D.units.length ? `, ${plural(D.units.length, 'fact')}` : ''}${D.lessons.length ? `, ${plural(D.lessons.length, 'lesson')}` : ''}.</p></section>`;
   };
+
+  /* ---------- progress from the older study pages ---------- */
+  // ascs.html, cvi.html and dryer.html, and the first DuctStudy app, kept one record per question by its place in the
+  // same three banks, so position i there is question <track>-000i here. A record this site already has always wins.
+  const OLD = [['ascs', 'ascs_share_v1'], ['cvi', 'cvi_v1'], ['dvt', 'dryer_v1']];
+  function importCards(tr, arr, tag) {
+    if (!Array.isArray(arr) || !TRACKS.some(t => t.id === tr)) return 0;
+    const S = T(tr), at = Date.now();
+    let n = 0;
+    arr.forEach((st, i) => {
+      if (!isObj(st) || !st.seen) return;
+      const id = tr + '-' + String(i).padStart(4, '0');
+      if (S.q[id]) return;
+      const l = Array.isArray(st.lta) ? st.lta : [];
+      const rec = { n: Math.max(1, l.length), c: l.filter(x => x === 1).length, w: l.filter(x => x === 0).length, t: at };
+      if ((+st.c || 0) >= 2 || (Number(st.due) > at && !(+st.ms))) rec.r = 1;
+      else if (+st.ms || l[0] === 0) rec.m = 1;
+      S.q[id] = rec; n++;
+    });
+    store.imported = Object.assign({}, store.imported, { [tag]: at });
+    if (n && !store.setup) store.setup = at;
+    return n;
+  }
+  function importOld() {
+    if (!canSave) return;
+    const got = [];
+    let tried = false;
+    for (const [tr, key] of OLD) {
+      if (store.imported && store.imported[key]) continue;
+      let arr = null;
+      try { arr = JSON.parse(localStorage.getItem(key)); } catch (e) { arr = null; }
+      if (!Array.isArray(arr)) continue;
+      tried = true;
+      const n = importCards(tr, arr, key);
+      if (n) got.push([tr, n]);
+    }
+    if (!tried) return;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* the next save tries again */ }
+    if (got.length) V.importNote = `Brought over your progress from the old study pages: ${got.map(([t, n]) => `${plural(n, 'question')} in ${t.toUpperCase()}`).join(', ')}.`;
+  }
+  // A move from another address (the old ductstudy.workers.dev copy) arrives as #import=<gzip, base64url of the store>.
+  async function importHash() {
+    const m = /^#import=([A-Za-z0-9_-]+)/.exec(location.hash);
+    if (!m) return;
+    let data = null;
+    try {
+      const bin = Uint8Array.from(atob(m[1].replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+      const txt = await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+      data = JSON.parse(txt);
+    } catch (e) { data = null; }
+    history.replaceState(null, '', location.pathname + location.search + '#/');
+    if (!validStore(data)) return;
+    const inc = normStore(data);
+    let moved = 0;
+    for (const tr of TRACKS) {
+      const a = inc.t[tr.id]; if (!a) continue;
+      const b = store.t[tr.id];
+      if (!hasWork(b)) { store.t[tr.id] = a; moved++; continue; }
+      for (const [id, r] of Object.entries(a.q)) if (!b.q[id]) b.q[id] = r;
+      const seen = new Set(b.sims.map(x => +x.ts));
+      b.sims = b.sims.concat(a.sims.filter(x => !seen.has(+x.ts))).sort((x, y) => x.ts - y.ts);
+      moved++;
+    }
+    if (inc.setup && !store.setup) store.setup = inc.setup;
+    if (!store.last && inc.last) store.last = inc.last;
+    if (moved) { save(true); V.importNote = 'Your progress moved over from the old address.'; }
+  }
+  V.importCards = importCards;
+
+  /* ---------- usage counts ---------- */
+  // Anonymous counts only (what was used, never who or what they answered), and only on the real sites.
+  const API = ((document.querySelector('meta[name="vel-api"]') || {}).content || '').replace(/\/$/, '');
+  const LIVE = /(^|\.)carolinaqualityair\.xyz$|\.workers\.dev$/.test(location.hostname);
+  const evOnce = new Set();
+  V.ev = function (e, t, once) {
+    if (!LIVE || !API || !navigator.sendBeacon) return;
+    const k = e + ':' + (t || '') + ':' + (once || '');
+    if (once && evOnce.has(k)) return;
+    evOnce.add(k);
+    try { navigator.sendBeacon(API + '/api/ev', JSON.stringify({ e, t: t || V.cur || '' })); } catch (x) { /* counts are optional */ }
+  };
+
+  /* ---------- More training ---------- */
+  const SITE = 'https://carolinaqualityair.xyz/learning/';
+  const LIBRARY = [
+    ['On the job', [['field-guide/', 'Crew field guide', 'How CQA runs a job, from the truck to the closeout.']]],
+    ['Other certifications', [['epa608.html', 'EPA 608', 'Hub, mastery drill, and mock exam for refrigerant handling.'], ['epa609-drill.html', 'EPA 609', 'Motor vehicle air conditioning drill.'], ['forklift-drill.html', 'Forklift operator', 'Operator rules drill for the card.']]],
+    ['Pricing and sales', [['walk-the-job.html', 'Walk the Job', 'The CQA pricing game. Walk a job and price it.'], ['estimator.html', 'Job estimator trainer', 'Price duct jobs the way the office does.'], ['pricing-doctrine.html', 'Pricing doctrine', 'How CQA prices work, written down.']]]
+  ];
+  function libraryView() {
+    const tr = homeTrack();
+    main.innerHTML = head(`<a href="${link(tr, 'practice')}">Practice</a> / More training`, 'More training.', 'The rest of the CQA training shelf: other certifications, the crew field guide, and pricing.')
+      + LIBRARY.map(([h, items]) => `<section class="space-lg"><div class="section-heading"><h2>${h}</h2></div><div class="tile-links wide">${items.map(([href, t, sub]) => `<a class="tile-link" href="${SITE + href}"><b>${t}</b><small>${sub}</small></a>`).join('')}</div></section>`).join('');
+  }
 
   /* ---------- boot ---------- */
   Object.assign(V, { wPub, ePub, TRACKS, TAGS, OBLIG, LEITNER, DAY, T, save, getTrack, setTrack, swapStore, poolStats, simLengths, fullLength, readiness, lessonStatus, unitStatus });
@@ -812,6 +922,7 @@
     main.addEventListener('click', e => { const j = e.target.closest('[data-jump]'); if (!j) return; e.preventDefault(); const t = document.getElementById(j.dataset.jump); if (t) { t.scrollIntoView({ block: 'start' }); t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); } });
     V.main = main;
     initStorage();
+    importOld();
     storageNote();
     // The skip link must not touch the hash, which is the router's.
     document.querySelector('.skip').addEventListener('click', e => { e.preventDefault(); main.focus(); main.scrollIntoView(); });
@@ -831,6 +942,7 @@
       if (V.keys(e) === true) e.preventDefault();
     });
     window.addEventListener('hashchange', route);
+    V.ev('open', '', 'load');
     route();
   }
   document.addEventListener('DOMContentLoaded', boot);

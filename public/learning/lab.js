@@ -1,4 +1,4 @@
-/* Vent Exam Lab: systems lab. A clean port of the one-zone VAV / CAV / multizone teaching model. */
+/* DuctStudy: systems lab. A clean port of the one-zone VAV / CAV / multizone teaching model. */
 (function () {
   'use strict';
   const V = window.VEL;

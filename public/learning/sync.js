@@ -1,4 +1,4 @@
-/* Vent Exam Lab: optional sync through DuctStudy seat codes.
+/* DuctStudy: optional sync through DuctStudy seat codes.
    Local-first. With a seat, each credential's progress reconciles with the DuctStudy API: pull first, merge when both
    sides changed, then a compare-and-swap push (the server refuses a write whose base is not its current copy).
    Sims post once each (the server ignores a repeat) so they show on the company's owner dashboard.
@@ -146,7 +146,20 @@
     if (!t) return Promise.resolve();
     if (queued[t]) return locks[t];
     queued[t] = true;
-    return (locks[t] = (locks[t] || Promise.resolve()).then(() => { queued[t] = false; return reconcile(t, 0); }).catch(() => {}));
+    return (locks[t] = (locks[t] || Promise.resolve()).then(() => { queued[t] = false; return reconcile(t, 0); }).then(() => { if (t === 'ascs') return oldAppImport(); }).catch(() => {}));
+  }
+  // The first DuctStudy app kept ASCS progress on the server under pool ascs-en, one record per question in the same
+  // bank. Once per device and seat, anything studied there that this site has no record of comes over.
+  let oldBusy = false;
+  async function oldAppImport() {
+    if (oldBusy || !token || !V.importCards || !user || get('vel-old-ascs-en') === String(user.id)) return;
+    oldBusy = true;
+    try {
+      const j = await api('/api/me?pool=ascs-en');
+      let arr = null; try { arr = JSON.parse(j.state || 'null'); } catch (e) { arr = null; }
+      put('vel-old-ascs-en', String(user.id));
+      if (Array.isArray(arr) && arr.some(c => c && c.seen) && V.importCards('ascs', arr, 'ds-ascs-en')) { V.save(true); if (V.cur === 'ascs' && V.rerender && !document.querySelector('.question-panel')) V.rerender(); }
+    } catch (e) { /* tried again on the next sync */ } finally { oldBusy = false; }
   }
   async function reconcile(t, tries) {
     if (!token || !V.getTrack) return;

@@ -1,4 +1,4 @@
-/* Vent Exam Lab: games hub and four games (obligation levels, numbers, put it in order, recall cards). */
+/* DuctStudy: games hub and four games (obligation levels, numbers, put it in order, recall cards). */
 (function () {
   'use strict';
   const V = window.VEL;
@@ -67,7 +67,7 @@
   }
   function next(D, R) {
     R.i++; R.answered = false;
-    if (R.i >= R.items.length) { R.over = true; saveBest(R); }
+    if (R.i >= R.items.length) { R.over = true; saveBest(R); V.ev('game_round', D.id + ':' + R.kind); }
     draw(D, R);
     window.scrollTo(0, 0);
     const f = R.over ? $('again') : V.main.querySelector('.question-panel, .game-text, .quiz-wrap'); if (f) { if (!R.over) f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
@@ -217,7 +217,7 @@
       leitner(u.id, knew);
       score(R, knew, `<p>${esc(u.text)}</p><p class="small muted">${esc(u.src || '')}</p>`);
       R.i++; R.answered = false;
-      if (R.i >= R.items.length) { R.over = true; saveBest(R); }
+      if (R.i >= R.items.length) { R.over = true; saveBest(R); V.ev('game_round', D.id + ':' + R.kind); }
       drawRecall(D, R);
       const n = $('rc-show') || $('again'); if (n) n.focus({ preventScroll: true });
     };

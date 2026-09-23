@@ -1,4 +1,4 @@
-/* Vent Exam Lab: question screens (drill, checkpoints, games, sim). Loaded after style.css. */
+/* DuctStudy: question screens (drill, checkpoints, games, sim). Loaded after style.css. */
 
 /* Drill status line under the progress bar: misses due and time left. */
 .drill-meta { margin: -8px 0 12px; font-variant-numeric: tabular-nums; }

@@ -1,4 +1,4 @@
-/* Vent Exam Lab: exam simulation (draw by domain weight, timer, flags, jump grid, score report, history). */
+/* DuctStudy: exam simulation (draw by domain weight, timer, flags, jump grid, score report, history). */
 (function () {
   'use strict';
   const V = window.VEL;
@@ -72,6 +72,7 @@
     const now = Date.now();
     S.sim = { label, len: n, items: ids.map(qid => ({ q: qid, o: shuffle(D.q.get(qid).options.map((_, i) => i)), a: null, f: 0 })), cur: 0, start: now, end: now + Math.round(ids.length * secsPerQ(D) * 1000) };
     V.save();
+    V.ev('sim_start', D.id + ':' + n);
     location.hash = link(D.id, 'sim', 'run');
   }
   let simTimer = null;
@@ -137,6 +138,7 @@
       S.exp[it.q] = (S.exp[it.q] || 0) + 1;
     });
     const total = sim.items.length;
+    V.ev('sim_done', D.id + ':' + total);
     S.sims.push({ ts: Date.now(), label: sim.label, total, right, pct: pct(right, total), dom, miss, how, secs: Math.round((Math.min(Date.now(), sim.end) - sim.start) / 1000) });
     if (S.sims.length > 60) S.sims.splice(0, S.sims.length - 60);
     S.sim = null;

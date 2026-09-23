@@ -1,4 +1,4 @@
-/* Vent Exam Lab. White masthead, slate context bar, square panels, blue actions. */
+/* DuctStudy. White masthead, slate context bar, square panels, blue actions. */
 :root {
   --slate: #175878; --ink: #203746; --muted: #526878; --paper: #f4f7f9; --line: #d7e1e8;
   --blue: #007cba; --green: #157655; --red: #af343a; --amber: #8c5715; --sky: #c8e9fb;
@@ -656,3 +656,5 @@ details.advanced[open] > summary::before { content: "\2212"; }
 }
 @media (max-width: 650px) { .hide-sm { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 @media (max-width: 860px) { .lesson-aside .actions .btn:not(#mark-read) { display: none; } .lesson-aside .actions { margin-top: 0; } }
+.tile-links.wide { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.footer-inner a { color: #fff; }

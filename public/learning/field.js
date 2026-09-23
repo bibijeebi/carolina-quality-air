@@ -1,4 +1,4 @@
-/* Vent Exam Lab: field training. Hands-on sims and drills that sit beside the three credentials. */
+/* DuctStudy: field training. Hands-on sims and drills that sit beside the three credentials. */
 (function () {
   'use strict';
   const V = window.VEL;
@@ -101,6 +101,7 @@
         const top = fr.getBoundingClientRect().top;
         if (top < 0 || top > window.innerHeight * 0.4) window.scrollTo({ top: Math.max(0, window.scrollY + top - 8), behavior: 'auto' });
       } else if (d.vel === 'field' && d.tool === t.id) {
+        V.ev('field_run', t.id);
         setTimeout(() => { mem = read(); line(); const r = mem[t.id]; if (r && Number.isFinite(r.last)) V.u.announce(`Scored ${r.last} out of 100. Best ${r.best}.`); }, 0);
       }
     };
