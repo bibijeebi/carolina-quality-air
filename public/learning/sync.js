@@ -1,8 +1,8 @@
-/* DuctStudy: optional sync through DuctStudy seat codes.
-   Local-first. With a seat, each credential's progress reconciles with the DuctStudy API: pull first, merge when both
+/* DuctStudy: optional sign-in (Google) that saves progress to an account.
+   Local-first. Signed in, each credential's progress reconciles with the DuctStudy API: pull first, merge when both
    sides changed, then a compare-and-swap push (the server refuses a write whose base is not its current copy).
    Sims post once each (the server ignores a repeat) so they show on the company's owner dashboard.
-   Without a seat, nothing here talks to a server except one check that the sync server exists. */
+   Signed out, nothing here talks to a server except one check that the sync server exists. */
 (function () {
   'use strict';
   const V = window.VEL = window.VEL || {};
@@ -46,7 +46,7 @@
     return j;
   }
   function fail(e) {
-    if (e && e.status === 401) { dropToken(); status = 'That sign-in is no longer active on this device. Connect again with a seat code or a fresh sign-in link.'; }
+    if (e && e.status === 401) { dropToken(); status = 'That sign-in is no longer active on this device. Sign in again to keep saving.'; }
     else status = 'Could not reach the sync server. Progress is saved in this browser and syncs next time.';
     paint();
   }
@@ -63,9 +63,9 @@
     const cur = owner();
     if (cur === uid) return true;
     if (cur && V.swapStore) {
-      const curName = get('vel-owner-name') || 'the previous seat';
+      const curName = get('vel-owner-name') || 'the previous account';
       const snapshot = JSON.stringify(V.swapStore(null));
-      if (!put('vel-stash-' + cur, snapshot)) { V.swapStore(JSON.parse(snapshot)); notice = 'This browser is out of storage, so it cannot switch seats without losing the current progress. Use Progress, Copy backup first.'; return false; }
+      if (!put('vel-stash-' + cur, snapshot)) { V.swapStore(JSON.parse(snapshot)); notice = 'This browser is out of storage, so it cannot switch accounts without losing the current progress. Use Progress, Copy backup first.'; return false; }
       put('vel-stash-name-' + cur, curName);
       let mine = null;
       try { mine = JSON.parse(get('vel-stash-' + uid)); } catch (e) { mine = null; }
@@ -208,7 +208,7 @@
   function offerBack() {
     const from = offer;
     if (!from || !get('vel-stash-' + from) || !tracks().every(t => blank(V.getTrack(t)))) return;
-    notice = `This seat has no progress yet. The progress on this device belongs to ${get('vel-stash-name-' + from) || 'another seat'}.`;
+    notice = `This account has no progress yet. The progress on this device belongs to ${get('vel-stash-name-' + from) || 'another account'}.`;
     if (document.getElementById('sync-panel')) bind();
   }
 
@@ -249,7 +249,7 @@
     } catch (e) { return; }
     if (!/^[A-Z0-9]{6,20}\.\d{10,14}\.[A-Za-z0-9_-]{20,64}$/.test(code)) { notice = 'That sign-in link is not valid. Copy a new one on the connected device.'; return; }
     const uid = code.split('.')[0];
-    if (token && user && user.id && user.id !== uid) { notice = `This link is for a different seat, and this device is connected as ${user.name}. Disconnect it first, then open the link again.`; return; }
+    if (token && user && user.id && user.id !== uid) { notice = `This link is for a different account, and this device is signed in as ${user.name}. Sign out first, then open the link again.`; return; }
     busy = true;
     api('/api/redeem', { method: 'POST', body: JSON.stringify({ l: code }), anon: true }).then(j => {
       if (!claimDevice(j.user.id)) return;
@@ -261,85 +261,39 @@
   })();
 
   /* ---------- Progress panel ---------- */
+  const googleHref = () => API + '/auth/google?next=' + encodeURIComponent(location.href.replace(/[?#].*$/, '') + location.hash);
   function panelHTML() {
     const note = notice ? `<p class="sync-notice small space-sm">${esc(notice)}</p>` : '';
-    const bring = offer && notice && get('vel-stash-' + offer) ? `<div class="actions space-sm"><button type="button" class="btn secondary" id="sy-bring">Bring it into this seat</button></div>` : '';
+    const bring = offer && notice && get('vel-stash-' + offer) ? `<div class="actions space-sm"><button type="button" class="btn secondary" id="sy-bring">Bring it into this account</button></div>` : '';
     if (token) {
-      const who = user ? `<b>${esc(user.name)}</b>${user.email ? ` (${esc(user.email)})` : ''}${user.company ? ', ' + esc(user.company) : ''}` : 'your seat';
-      const join = user && user.indie
-        ? `<form id="sy-join" class="sync-form space" autocomplete="off"><label class="small" for="sy-jcode">Company seat code</label><input id="sy-jcode" name="code" placeholder="ABCD-EFGH" autocapitalize="characters" spellcheck="false" required><div class="actions space-sm"><button type="submit" class="btn secondary">Join my company</button></div></form><p class="small muted space-sm">Joining puts your progress and sims on your company's dashboard. You keep studying either way.</p>`
-        : '';
-      return `<h2>Sync across devices</h2>${note}${bring}<p class="small space-sm">Signed in as ${who}. Each credential's progress saves to your account${user && user.indie ? ' and follows you to any device you sign in on' : ", and your sims show on your company's dashboard"}.</p>${join}`
-        + `<div class="actions space"><button type="button" class="btn" id="sy-now">Sync now</button><button type="button" class="btn secondary" id="sy-link">Sign in another device</button></div>`
-        + (linkShown ? `<label class="small muted space-sm" for="sy-url">Open this on the other device within 15 minutes. Anyone with it can sign in as you until then.</label><input id="sy-url" class="sync-url" readonly value="${esc(linkShown)}">` : '')
-        + (confirmOut
-          ? `<p class="small space">Disconnecting leaves your progress in this browser but stops syncing here. Your seat code works only once, so to reconnect this device later you will need a sign-in link from a device that is still connected.</p><div class="actions space-sm"><button type="button" class="btn secondary danger" id="sy-out-yes">Disconnect this device</button><button type="button" class="btn text" id="sy-out-no">Keep syncing</button></div>`
-          : `<div class="actions space-sm"><button type="button" class="btn text" id="sy-out">Disconnect this device</button></div>`)
+      const who = user ? `<b>${esc(user.name)}</b>${user.email ? ` (${esc(user.email)})` : ''}` : 'your account';
+      const canOut = !!(user && user.email); // a Google account can always sign back in
+      return `<h2>Your account</h2>${note}${bring}<p class="small space-sm">Signed in as ${who}. Your progress saves to your account and follows you to any device where you sign in.</p>`
+        + `<div class="actions space"><button type="button" class="btn secondary" id="sy-now">Sync now</button>${canOut && !confirmOut ? '<button type="button" class="btn text" id="sy-out">Sign out</button>' : ''}</div>`
+        + (confirmOut ? `<p class="small space">Sign out on this device? Your progress stays in this browser and in your account. Sign in again any time to keep saving.</p><div class="actions space-sm"><button type="button" class="btn secondary" id="sy-out-yes">Sign out</button><button type="button" class="btn text" id="sy-out-no">Stay signed in</button></div>` : '')
         + `<p class="backup-status" id="sy-status" role="status">${esc(status)}</p>`;
     }
-    const gbtn = google ? `<div class="actions space"><a class="btn" id="sy-google" href="${esc(API + '/auth/google?next=' + encodeURIComponent(location.href.replace(/[?#].*$/, '') + location.hash))}">Sign in with Google</a></div><p class="small muted space-sm">Free. Your progress saves to your account and follows you to any device.</p><p class="small muted space-sm">Did your company give you a seat code? Use it below instead. Same syncing, and your sims show on your company's dashboard so your trainer can see where you stand.</p>` : '';
-    return `<h2>Save your progress</h2>${note}${google ? '' : `<p class="muted small space-sm">Got a seat code from your company? Connect it to keep your progress on every device and put your sims on your company's dashboard. Without one, progress stays in this browser.</p>`}${gbtn}`
-      + `<form id="sy-form" class="sync-form space" autocomplete="off"><label class="small" for="sy-code">Seat code</label><input id="sy-code" name="code" placeholder="ABCD-EFGH" autocapitalize="characters" spellcheck="false" required>`
-      + `<label class="small" for="sy-name">Your name</label><input id="sy-name" name="name" placeholder="First and last" required maxlength="60"><div class="actions space-sm"><button type="submit" class="btn" ${busy ? 'disabled' : ''}>Connect</button></div></form>`
-      + `<p class="small muted space-sm">Already connected on another device? Use Sign in another device there and open the link here.</p><p class="backup-status" id="sy-status" role="status">${esc(status)}</p>`;
+    return `<h2>Save your progress</h2>${note}<p class="small space-sm">Everything here works without an account and saves in this browser. Sign in to keep it safe and pick it up on any device. What you have done here comes with you.</p>`
+      + `<div class="actions space"><a class="btn" id="sy-google" href="${esc(googleHref())}">Sign in with Google</a></div><p class="backup-status" id="sy-status" role="status">${esc(status)}</p>`;
   }
   function paint() { const el = document.getElementById('sy-status'); if (el) el.textContent = status; }
   function bind() {
     const box = document.getElementById('sync-panel'); if (!box) return;
     box.innerHTML = panelHTML();
     const on = (id, f) => { const el = document.getElementById(id); if (el) el.onclick = f; };
-    const f = document.getElementById('sy-form');
-    if (f) f.onsubmit = async ev => {
-      ev.preventDefault();
-      const code = f.code.value.trim().toUpperCase(), name = f.name.value.trim();
-      if (!code || !name || busy) return;
-      busy = true; notice = ''; status = 'Connecting…'; paint();
-      try {
-        const j = await api('/api/claim', { method: 'POST', body: JSON.stringify({ code, name }), anon: true });
-        token = j.token; user = j.user; put('vel-token', token); put('vel-user', JSON.stringify(user)); put('vel-sync-off', null);
-        if (API === '' && !get('ds_token')) { put('ds_token', token); put('ds_user', JSON.stringify(user)); } // the DuctStudy app on this host uses the same seat
-        if (!claimDevice(j.user.id)) { status = ''; bind(); return; }
-        put('vel-owner-name', j.user.name);
-        status = 'Connected. Syncing your progress…'; busy = false; bind();
-        for (const t of tracks()) await syncTrack(t);
-      } catch (e) {
-        busy = false;
-        status = e && e.status === 404 ? 'That seat code was not recognized.' : e && e.status === 409 ? 'That seat code is already in use. On a device that is connected, use Sign in another device.' : 'Could not reach the sync server. Try again in a minute.';
-        paint();
-      }
-    };
-    const jf = document.getElementById('sy-join');
-    if (jf) jf.onsubmit = async ev => {
-      ev.preventDefault();
-      const code = jf.code.value.trim().toUpperCase();
-      if (!code || busy) return;
-      busy = true; status = 'Joining…'; paint();
-      try { const j = await api('/api/join', { method: 'POST', body: JSON.stringify({ code }) }); noteUser(j.user); status = `You're on ${j.user.company} now. Your progress and sims show on its dashboard.`; bind(); }
-      catch (e) { status = e && e.status === 404 ? 'That seat code was not recognized.' : e && e.status === 409 ? (e.message === 'Already on a company.' ? 'You are already on a company.' : 'That seat code is already in use.') : 'Could not reach the sync server. Try again in a minute.'; paint(); }
-      busy = false;
-    };
     on('sy-now', async () => { status = 'Syncing…'; paint(); for (const t of tracks()) await syncTrack(t); });
-    on('sy-link', async () => {
-      try {
-        const j = await api('/api/link', { method: 'POST', body: '{}' });
-        linkShown = location.origin + location.pathname + '?l=' + encodeURIComponent(j.link);
-        status = 'Sign-in link ready below.';
-        bind();
-        try { await navigator.clipboard.writeText(linkShown); status = 'Sign-in link copied. It also shows below.'; paint(); } catch (e) { /* the box below has it */ }
-      } catch (e) { fail(e); }
-    });
     on('sy-bring', async () => {
       let s = null;
       try { s = JSON.parse(get('vel-stash-' + offer)); } catch (e) { s = null; }
       if (s && V.swapStore) { V.swapStore(s); put('vel-stash-' + offer, null); put('vel-stash-name-' + offer, null); }
-      offer = ''; notice = ''; status = 'Bringing your progress into this seat…'; bind();
+      offer = ''; notice = ''; status = 'Bringing your progress into this account…'; bind();
       V.onSave(tracks());
       for (const t of tracks()) await syncTrack(t);
       if (V.rerender) V.rerender();
     });
     on('sy-out', () => { confirmOut = true; bind(); });
     on('sy-out-no', () => { confirmOut = false; bind(); });
-    on('sy-out-yes', () => { confirmOut = false; notice = ''; linkShown = ''; dropToken(); put('vel-sync-off', '1'); status = 'Disconnected. Progress stays in this browser.'; bind(); probe().then(bind); });
+    on('sy-out-yes', () => { confirmOut = false; notice = ''; linkShown = ''; dropToken(); put('vel-sync-off', '1'); status = 'Signed out. Progress stays in this browser.'; bind(); probe().then(bind); });
   }
   function inject() {
     const slot = document.getElementById('sync-slot');
@@ -355,12 +309,15 @@
   const probe = () => probing || (probing = fetch(API + '/api/lab').then(r => (r.ok ? r.json() : null))
     .then(j => { supported = !!(j && Array.isArray(j.lab)); google = !!(j && j.google); if (!supported) probing = null; })
     .catch(() => { supported = false; probing = null; }));
+  // Other pages ask this to offer a sign-in once there is something worth saving.
+  V.account = { signedIn: () => !!token, canSignIn: () => supported && google, href: googleHref, ready: () => probe() };
+  if (!token) probe();
   if (V.views && V.views.progress) {
     const base = V.views.progress;
     V.views.progress = function () {
       base.apply(this, arguments);
       if (token) inject();
-      else probe().then(() => { if (supported || notice) inject(); });
+      else probe().then(() => { if ((supported && google) || notice) inject(); });
     };
   }
 })();
