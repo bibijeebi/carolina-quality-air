@@ -1,6 +1,8 @@
 ---
 title: "Return side vs supply side"
 description: "Returns are always dirty, supply should be clean, and dirty supply is a red flag to document."
+sidebar:
+  order: 1
 ---
 The single most useful thing to know before opening a duct: what should be in it.
 
@@ -9,6 +11,8 @@ The single most useful thing to know before opening a duct: what should be in it
 **Supply** has already passed the filter at the air handler. It should be relatively clean. If the supply side is visibly nasty, that means one of two things:
 1. Something is growing in the ductwork itself. Mold, mildew, microbial buildup.
 1. Filters were neglected so long that dirty air got pushed through.
+
+**Black particulate blowing out of supply diffusers** can also point to internal duct liner breaking down, not dirt. See [Duct board and lined duct](/kb/jobs/systems/duct-board-and-lined-duct/).
 
 **Dirty supply is a red flag, not the norm.** Call it out and document it. See [Hazards and stop-work](/kb/jobs/rules/hazards-and-stop-work/).
 

@@ -14,6 +14,10 @@ Start at the bottom rung. Only climb if the rung below won't cover it.
 | **2. OdoBan** | Odor is beyond what Bio-Fresh covers, and it's in the rooms (pets, carpet, fabric) | [OdoBan](/kb/chemicals/odoban/) at label dilution | **Rooms only.** Carpet, upholstery, hard surfaces. Not the ducts. |
 | **3. Ozone** | Heavy odor: smoke, a building closed from the smell | [Ozone machine](/kb/gear/air-treatment/ozone/) | Empty building or room. Nobody inside. |
 
+:::note[One fogger, one gallon]
+The fleet has one fogger and one gallon of Bio-Fresh, both in Van 3. Rung 1 depends on knowing where they are. See [van loadout](/kb/gear/van/loadout/).
+:::
+
 ## The rule that overrides the ladder
 
 Anything that goes **inside the HVAC system** has to be EPA-registered with HVAC directions on its label. That's NADCA's position and EPA's. Bio-Fresh cd qualifies. OdoBan doesn't, so it stays in the rooms.

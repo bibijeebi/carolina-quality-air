@@ -5,7 +5,16 @@ sidebar:
   order: 1
 ---
 
-The indoor tier. Used on in-wall PTAC and fan coil work and on residential attic air handlers. Made by Hypervac Technologies; the portable model is the **Revolution Hybrid**, sold in 120 V and 220 V versions. Check the data plate for which one you're holding.
+The indoor tier. Used on in-wall PTAC and fan coil work and on residential attic air handlers. Made by Hypervac Technologies; the portable model is the **Revolution Hybrid**, sold in 120 V and 220 V versions. **Ours are the 120 V version**: they run off a normal wall outlet through a twist-lock adapter.
+
+## Our units
+
+| Unit | Home | Condition (September 2026) |
+|---|---|---|
+| Hypervac A | Van 2, behind the Meyer gas vac, with its collector | Housing cracked and patched with duct tape. Intake collar shot. |
+| Hypervac B | Van 1, front, with its collector | Intake collar shot. |
+
+Both are on the list to reseal and test before they're trusted on a big job. A cracked housing or a torn collar leaks air, and a leak on the suction side is lost suction at the duct. Tape is a stopgap, not a repair.
 
 <dl class="facts">
 <dt>Job</dt><dd>Negative air and collection on indoor, short-run, in-wall work.</dd>
@@ -31,12 +40,13 @@ The standard cartridge is MERV 15, and Hypervac says the vacuum itself "is not H
 
 ## Setup
 
-1. **Power first.** Our unit has a 20 A plug, so it needs a **20 A adapter** plus a cord to reach a normal outlet. That one adapter is the part that has stranded a crew. Confirm it's in the van at [roll out](/kb/jobs/procedures/roll-out/).
-2. Cords: 12 gauge up to 100 ft, 10 gauge past 100 ft.
+1. **Power first.** The machine's power connection is a twist-lock, not a household plug. It needs its adapter (standard plug on the wall end, twist-lock on the machine end) plus a cord to reach an outlet. That one adapter is the part that has stranded a crew. Confirm it's in the van at [roll out](/kb/jobs/procedures/roll-out/). See [power cords and adapters](/kb/gear/van/power-cords-and-adapters/).
+2. Cords: 12 gauge up to 100 ft, 10 gauge past 100 ft. Give it a circuit of its own.
 3. Push the hose collar into the lid. Flex line duct-taped to the top and run to the access hole.
 4. Tie the hose off to a beam for strain relief in an attic. See [set the negative air](/kb/jobs/procedures/set-the-negative-air/).
-5. One switch. That's it.
-6. Check the wheels before rolling across a finished floor. They pick up paint and mastic. Carry it upstairs on finished floors; roll it on bare subfloor.
+5. One toggle switch. That's it.
+6. **Check the pull.** Our field check: the machine should suck the 8 inch hose onto the opening and hold it there. If it can't, look for a leak or a blockage before you start agitating.
+7. Check the wheels before rolling across a finished floor. They pick up paint and mastic. Carry it upstairs on finished floors; roll it on bare subfloor.
 
 **220 V units only:** a dryer outlet or range adapter works. Hypervac says avoid generators because startup pulls about 60 A for a split second. The only generator they found that worked was a Baldor 6500 W or larger. The Quick 220 splitter (two 110 V outlets on opposite phases) "rarely works in new homes" because of AFCI/GFCI breakers.
 
@@ -55,7 +65,8 @@ The standard cartridge is MERV 15, and Hypervac says the vacuum itself "is not H
 | Overheats or trips the breaker | **Too little restriction.** No hose, big ducts with vents open, brand-new filters, or a weak or shared circuit. Always run it with a hose. Add hose length, use 8" hose, or seal vents. Fully blocking the inlet also overheats it. |
 | Motor shut down | Thermal overload. Unplug, wait for the impeller to stop and the motor to cool, press the red reset on the motor behind the switch plate. No click means no reset. |
 | "PF Fault" on 3-phase keypad | Wrong voltage, usually 208 V. Drop the setting to 55 Hz. |
-| Weak suction | Blockage in the hose. See the [hose blockage field guide](/learning/field-guide/hose-blockage.html). |
+| Weak suction | Blockage in the hose, or a leak: cracked housing, torn intake collar, tape-patched hose. See the [hose blockage field guide](/learning/field-guide/hose-blockage.html) and [hoses](/kb/gear/air/hoses/). |
+| Trips with new filters and no hose | It pulls about 15 A wide open. Put the hose on. The manual says it should run 12 to 13 A with some dust in the filters and a hose attached. |
 
 ## Safety
 

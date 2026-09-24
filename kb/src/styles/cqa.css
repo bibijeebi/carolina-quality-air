@@ -110,3 +110,10 @@ header.header {
   .facts dd { margin-bottom: 0.4rem !important; }
 }
 .sl-markdown-content .from { font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); margin-top: 0.25rem; }
+
+/* Asides in brand colors (note = CQA blue). */
+:root, :root[data-theme="light"] {
+  --sl-color-blue-low: #eff7fd;
+  --sl-color-blue: #0072bb;
+  --sl-color-blue-high: #054a79;
+}

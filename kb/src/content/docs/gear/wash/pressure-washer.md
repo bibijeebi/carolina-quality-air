@@ -14,6 +14,21 @@ The pressure washer cleans **grilles, registers, and gear**. It does not touch c
 <dt>Gas vs electric</dt><dd>Gas: more power, outdoor only. Electric: less maintenance, can go indoors, tied to a cord.</dd>
 </dl>
 
+## Ours
+
+| Machine | Where | Status |
+|---|---|---|
+| **2500 psi gas pressure washer** | Van 3 | The work unit. Not yet inspected closely. |
+| **BE Commercial 4200 psi**, Honda GX | Jeff's garage | Not a work unit. It stays at Jeff's. Its nozzle holder is empty and the tips are missing. |
+
+Kit that goes with it: 50 ft pressure hose with gun and wand (green 25° tip installed, second wand loose), a gray rubber garden hose (the green one is kinked and spliced, retire it), and a tarp to work on.
+
+**How we set up:** find the spigot, lay the tarp, connect the garden hose, top off the gas, then wash the grilles and registers. Scrub with a brush where the washer won't lift it. Lay them out to dry in the order they came off. Simple Green is the usual cleaner. On fire-damaged grilles where Simple Green wouldn't cut the soot, we stepped up to an alkaline condenser coil cleaner; see [coil cleaners](/kb/chemicals/coil-cleaners/).
+
+**Tips get lost.** The BE's tip holder came back empty and one orphan tip turned up in a van. Tips are on the tether list. A spare quick-connect tip set (0°, 15°, 40°, soap) is on the buy list.
+
+**Grease is a different machine.** Kitchen hood exhaust needs a hot-water unit. A cold-water washer doesn't move grease. We don't own a hot-water unit.
+
 ## Nozzle tips
 
 | Tip | Angle | Use |

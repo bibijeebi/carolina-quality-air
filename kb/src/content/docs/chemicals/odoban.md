@@ -11,6 +11,8 @@ sidebar:
 Neither OdoBan label found has directions for HVAC or duct use. EPA says a product can go on or in HVAC components only if the label specifically says so, and NADCA says "products without specific HVAC directions are not to be used on these surfaces." Using a pesticide off-label is a federal violation. OdoBan is for the **rooms**: carpet, upholstery, hard surfaces. Not the ducts, coil, or pan.
 :::
 
+**On the trucks:** one jug as of September 2026, in the chemical crates. _(Which of the two products below it is: check the label.)_
+
 ## OdoBan Disinfectant Concentrate (original eucalyptus)
 
 EPA reg. no. 66243-2. Active ingredient: 2.0% quat (alkyl dimethyl benzyl ammonium chloride).

@@ -5,6 +5,10 @@ sidebar:
   order: 3
 ---
 
+:::note[Not in the fleet]
+No steam cleaner turned up in the August 30 or September 16, 2026 inventories of the vans, box truck and Jeff's garage. This page is reference for when one is rented or bought. _(Shop and trailer not yet swept.)_
+:::
+
 A dry vapor steamer boils water in a small pressurized boiler and puts out superheated steam with very little water in it. It cleans and sanitizes with heat instead of chemical.
 
 <dl class="facts">

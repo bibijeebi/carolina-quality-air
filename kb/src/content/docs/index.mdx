@@ -9,49 +9,52 @@ hero:
     - text: How a job runs
       link: /kb/jobs/the-job/
       icon: right-arrow
-    - text: Odor ladder
-      link: /kb/ladders/odor/
+    - text: New here? Start with this
+      link: /kb/company/new-hire/
       icon: right-arrow
       variant: minimal
 ---
 
 import { CardGrid, LinkCard } from "@astrojs/starlight/components";
 
-## Decide
+## The job
 
 <CardGrid>
-  <LinkCard title="Odor ladder" description="Bio-Fresh, OdoBan, or ozone. Which one, and where it's allowed to go." href="/kb/ladders/odor/" />
-  <LinkCard title="Which machine pulls" description="HyperVac or gas vac, and why the truck compressor isn't one." href="/kb/ladders/negative-air/" />
-  <LinkCard title="Which wash tool" description="Coil jet, soaker, pressure washer, or steam. Fins fold." href="/kb/ladders/wash/" />
+  <LinkCard title="The job, generically" description="The nine phases every CQA job runs through, in order." href="/kb/jobs/the-job/" />
+  <LinkCard title="Order of operations" description="Branches before trunk, air handler last. The thing people get wrong." href="/kb/jobs/rules/order-of-operations/" />
+  <LinkCard title="Safety and PPE" description="What goes on when, heat, ladders, lockout." href="/kb/jobs/rules/safety-and-ppe/" />
+  <LinkCard title="Job write-ups" description="Real CQA jobs, start to finish, and what each one taught." href="/kb/jobs/write-ups/job-013-two-story-residential-attic-ahu-and-package-unit/" />
 </CardGrid>
 
 ## Machines
 
 <CardGrid>
-  <LinkCard title="Air compressors" description="Types, sizing by CFM, and what breaks." href="/kb/gear/air/compressors/" />
-  <LinkCard title="Air tools and the soaker hose" description="Whips, skipper balls, forward nozzles, siphon sprayer." href="/kb/gear/air/air-tools/" />
-  <LinkCard title="HyperVac" description="Indoor negative air. Power, filters, overheating." href="/kb/gear/vacuum/hypervac/" />
+  <LinkCard title="HyperVac" description="Indoor negative air. Twist-lock adapter, filters, overheating." href="/kb/gear/vacuum/hypervac/" />
   <LinkCard title="Meyer gas vac" description="Outdoor negative air. Placement, engine care, CO." href="/kb/gear/vacuum/meyer-gas-vac/" />
-  <LinkCard title="Coil cleaning" description="Coil jet, soaker, pump sprayer. Pressure limits." href="/kb/gear/wash/coil-cleaning/" />
+  <LinkCard title="Air compressors" description="Our fleet, sizing by CFM, and what breaks." href="/kb/gear/air/compressors/" />
+  <LinkCard title="Air tools" description="Whips, skipper balls, forward nozzles, the soaker hose." href="/kb/gear/air/air-tools/" />
+  <LinkCard title="Hoses" description="Collector hose, airlines, reach, reels." href="/kb/gear/air/hoses/" />
+  <LinkCard title="Coil cleaning" description="Port-A-Blaster, soaker, pump sprayer. Pressure limits." href="/kb/gear/wash/coil-cleaning/" />
+  <LinkCard title="Fogger" description="The Smith ULV17 and how to fog a system." href="/kb/gear/air-treatment/fogger/" />
   <LinkCard title="Pressure washer" description="Tips, pump care, pulsing." href="/kb/gear/wash/pressure-washer/" />
-  <LinkCard title="Fogger" description="Putting deodorizer into a system." href="/kb/gear/air-treatment/fogger/" />
-  <LinkCard title="Ozone machine" description="House protocol and what ozone damages." href="/kb/gear/air-treatment/ozone/" />
 </CardGrid>
 
-## Chemicals
+## Van and chemicals
 
 <CardGrid>
-  <LinkCard title="Bio-Fresh cd" description="Fogging deodorizer, labeled for HVAC." href="/kb/chemicals/bio-fresh-cd/" />
-  <LinkCard title="OdoBan" description="Rooms, not ducts. Dilution chart." href="/kb/chemicals/odoban/" />
-  <LinkCard title="Coil cleaners" description="Enzymatic, alkaline, acid." href="/kb/chemicals/coil-cleaners/" />
+  <LinkCard title="Van loadout" description="What lives in each van and what gets forgotten." href="/kb/gear/van/loadout/" />
+  <LinkCard title="Batteries and chargers" description="DeWalt packs, charger lights, the isolation test." href="/kb/gear/van/batteries-and-chargers/" />
+  <LinkCard title="Cords and adapters" description="The twist-lock adapter that has stranded a crew." href="/kb/gear/van/power-cords-and-adapters/" />
+  <LinkCard title="Coil cleaners" description="What we stock and which coil gets which." href="/kb/chemicals/coil-cleaners/" />
 </CardGrid>
 
-## Jobs
+## Company
 
 <CardGrid>
-  <LinkCard title="The job, generically" description="The eight phases every CQA job runs through." href="/kb/jobs/the-job/" />
-  <LinkCard title="Job write-ups" description="Real CQA jobs, start to finish, and what each one taught." href="/kb/jobs/write-ups/job-013-two-story-residential-attic-ahu-and-package-unit/" />
+  <LinkCard title="About CQA" description="Who we are, where we work, who holds which cert." href="/kb/company/about/" />
+  <LinkCard title="Standards" description="What the NADCA ACR actually requires in the field." href="/kb/company/standards/" />
+  <LinkCard title="Customers and markets" description="Who we work for and what each expects." href="/kb/company/customers-and-markets/" />
   <LinkCard title="Glossary" description="The words the trade uses." href="/kb/reference/glossary/" />
 </CardGrid>
 
-Study drills and exam prep live in [DuctStudy](/learning/).
+Decision guides for picking a vacuum, a wash tool, or an odor product are in the sidebar. Study drills and exam prep live in [DuctStudy](/learning/).

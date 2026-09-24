@@ -7,11 +7,12 @@ sidebar:
 
 | Surface | Use | Never |
 |---|---|---|
-| Evaporator coil | [Coil jet](/kb/gear/wash/coil-cleaning/), or cleaner on with the soaker and rinse low pressure | Pressure washer |
+| Evaporator coil | [Coil jet](/kb/gear/wash/coil-cleaning/) (our Port-A-Blaster, INDOOR setting), or cleaner on with the soaker and rinse low pressure | Pressure washer |
 | Condenser coil | Coil jet or low-pressure rinse, against the airflow | Pressure washer, 0° or 15° tips |
 | Microchannel coil | Coil jet. Rinse every time, even "no rinse" products. | Acid below pH 6, anything over 600 psi |
 | Chemical-sensitive site | [Steam cleaner](/kb/gear/wash/steam-cleaner/) | |
-| Grilles and registers in bulk | [Pressure washer](/kb/gear/wash/pressure-washer/), green 25° tip, off site or contained | Over a customer floor |
+| Grilles and registers in bulk | [Simple Green](/kb/chemicals/simple-green/), then the [pressure washer](/kb/gear/wash/pressure-washer/), green 25° tip, off site or contained | Over a customer floor |
+| Fire-damaged grilles, baked-on soot | Alkaline condenser coil cleaner (Total-Bright), gloves and eye protection, then rinse | Bare hands |
 | Drain pan | HEPA vac first, then cleaner and rags | |
 
 The deciding fact: **fins fold.** Anything with fins gets low pressure, rinsed against the airflow, spray parallel to the fins. Anything solid steel can take the pressure washer.

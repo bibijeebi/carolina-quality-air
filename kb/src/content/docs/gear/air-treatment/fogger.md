@@ -14,6 +14,21 @@ A ULV (ultra-low volume) cold fogger turns liquid into a fine mist so it carries
 <dt>No fogger?</dt><dd>A spray bottle or pump sprayer on a fine mist does the same job slower. Follow the product label either way.</dd>
 </dl>
 
+## Ours
+
+<dl class="facts">
+<dt>Machine</dt><dd>Smith ULV17 electric cold fogger. Maker's listing: 1.7 gal tank, 900 W AC motor, 36 in hose, output set from 1/4 turn open (low) to 1 turn open (high). 110 V AC.</dd>
+<dt>Count</dt><dd>One in the fleet, in Van 3. The handle wiring has a tape repair. The goal is one per van.</dd>
+<dt>Juice</dt><dd>One gallon of <a href="/kb/chemicals/bio-fresh-cd/">Bio-Fresh cd</a> fleet-wide, riding with the fogger. Two more wanted.</dd>
+<dt>When we fog</dt><dd>Every job with a ducted central system. Not on ductless work: mini-splits, window units, PTAC coils cleaned by hand. There's no duct network to carry the fog.</dd>
+</dl>
+
+:::caution[One fogger for three vans]
+If the crew splits into three vans, only the Van 3 crew can fog. Plan the day around where the fogger is, or decant Bio-Fresh into a sprayer for the other van and apply it on fine mist per the label.
+:::
+
+**Our habit vs. the standard.** We fog every ducted job as the finishing step. NADCA's position is that treatment is not automatic: only after cleaning, only when warranted, only with an HVAC-labeled product applied per its label, and with the customer's knowledge. Expect that distinction on the ASCS exam. See the [odor ladder](/kb/ladders/odor/#the-rule-that-overrides-the-ladder).
+
 ## Fogging a system
 
 **The product label decides the method.** The sources disagree with each other, so use the one on the bottle in the tank:
@@ -41,6 +56,8 @@ Vectorfog's procedure:
 
 
 ## Sources
+
+- [Smith ULV17 listing (Solutions Stores)](https://www.solutionsstores.com/smith-ulv17-electric-cold-fogger) and [Smith Performance Sprayers ULV17](https://smithperformancesprayers.com/product/ulv17-1-7-gal-ulv-electric-cold-fogger-110v-ac/)
 
 - [Nu-Calgon Bio-Fresh Fogger](https://www.nucalgon.com/products/indoor-air-quality/bio-fresh-fogger/)
 - [Nu-Calgon Bio-Fresh cd bulletin (PDF)](https://www.nucalgon.com/media/7771/3-5_biofreshcd.pdf)

@@ -16,6 +16,12 @@ sidebar:
 <dt>Sizes</dt><dd>4126-34 (1 qt), 4126-38 (1 gal).</dd>
 </dl>
 
+## Our stock
+
+One gallon fleet-wide as of September 2026, nearly full, riding with the [Smith fogger](/kb/gear/air-treatment/fogger/) in Van 3. The standard we want is one gallon per van. Until then, decant some into a labeled spray bottle for a van that's going out without the fogger, and apply on fine mist per the label.
+
+We fog every ducted job after the cleaning. Ductless jobs (mini-splits, window units) don't get fogged.
+
 ## When to use it
 
 - After a cleaning passes, when the customer wants a fresh smell. This is the default.

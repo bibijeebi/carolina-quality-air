@@ -7,6 +7,10 @@ sidebar:
 
 An ozone generator makes ozone (O₃), which oxidizes odor-causing organic material. It's the top of the [odor ladder](/kb/ladders/odor/): what you use when the smell is beyond what a deodorizer covers, like smoke or a building closed from the smell.
 
+:::note[Where is it?]
+No ozone generator turned up in the August 30 or September 16, 2026 inventories of the vans, box truck and Jeff's garage. Confirm where the machine lives (shop, trailer, or rented) before quoting it. _(unconfirmed)_
+:::
+
 <dl class="facts">
 <dt>Job</dt><dd>Heavy odor in an empty building or room.</dd>
 <dt>Price</dt><dd>Ozone treatment lists at $250. Perry has comped it as goodwill, and when he does, the $250 gets said out loud. See <a href="/learning/pricing-doctrine.html">pricing doctrine</a>.</dd>

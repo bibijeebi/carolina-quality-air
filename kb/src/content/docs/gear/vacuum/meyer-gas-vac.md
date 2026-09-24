@@ -7,7 +7,23 @@ sidebar:
 
 The squirrel cage. This is the machine that pulls on real duct volume: package units, rooftops, commercial trunks. It's gas powered, so it lives outside.
 
-Two unrelated Illinois companies make "Meyer" gas duct vacs. Check the nameplate to know which manual applies:
+## Ours
+
+<dl class="facts">
+<dt>Maker</dt><dd>Meyer Machine &amp; Equipment (Antioch, IL). Red. One in the fleet.</dd>
+<dt>Model</dt><dd>Not recorded yet. Read the nameplate and the engine tag at the next reset. <em>(unconfirmed)</em></dd>
+<dt>Home</dt><dd>Van 2, strapped in the slide-door pocket. It comes out first and goes back last.</dd>
+<dt>Fuel</dt><dd>Run from the gas can: the fuel line drops into the can and a primer bulb on the line pulls fuel to the engine. Keep the can with the machine.</dd>
+<dt>Condition</dt><dd>Working. Chipped paint and rust on the guard cage. Fan bearing and engine inspection due before the busy season.</dd>
+</dl>
+
+Van check before it rolls: fuel, oil, and it starts. Fuel shutoff off for the drive.
+
+Also in the fleet: a **rotary brush duct vac** with a Briggs & Stratton Vanguard V-twin, riding in Van 1. Dusty, intact, working. Maker not recorded. _(unconfirmed)_
+
+## Which Meyer
+
+Two unrelated Illinois companies make "Meyer" gas duct vacs. Ours is Meyer Machine. For reference, both lines:
 
 | Maker | Models | Key specs |
 |---|---|---|
@@ -30,7 +46,8 @@ Reach: 50 to 75 ft of hose on residential, up to 250 ft (General) or 300 ft (Ran
 4. Build the hose from 8 to 10 inch sections. Duct-tape the joints or use the quick connects. Clamp it to the inlet.
 5. Keep the gas can with the machine. Open the tank vent.
 6. Warm up the engine before you pull. Never run it above factory speed.
-7. It runs the whole time anyone is agitating on that side. See [set the negative air](/kb/jobs/procedures/set-the-negative-air/).
+7. **Check the pull.** Our field check: the machine should suck the 8 inch hose onto the opening and hold it there. If it can't, find the leak or blockage first. Taped hose sections are the usual leak. See [hoses](/kb/gear/air/hoses/).
+8. It runs the whole time anyone is agitating on that side. See [set the negative air](/kb/jobs/procedures/set-the-negative-air/).
 
 **Shutdown:** idle, off, key out. Leave the hoses on until the fan stops.
 
@@ -59,6 +76,7 @@ Duct work is dusty work. Service more often than the book says.
 | Noise or vibration from the fan | **Shut it down now.** An out-of-balance wheel "may explode". Don't run it until it's checked. |
 | Engine runs, no suction | Blockage in the hose, inlet, discharge, or fan inlet. |
 | Fan not turning (belt units) | Belts loose or off. Remount and align. |
+| Won't start | Fuel line out of the can, primer bulb not squeezed until firm, fuel shutoff still off from transport, or a weak battery on electric-start units. |
 
 ## Safety
 

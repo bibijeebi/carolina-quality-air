@@ -2,7 +2,7 @@
 title: "Pop-plug a bit hole"
 description: "Close a 1 inch fairbairn-bit hole with a pop plug and FSK tape, no patch or mastic."
 sidebar:
-  order: 9
+  order: 11
 ---
 For the 1 inch fairbairn-bit holes you cut along a trunk to get the whip in.
 

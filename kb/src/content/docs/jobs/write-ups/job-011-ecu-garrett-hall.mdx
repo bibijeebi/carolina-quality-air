@@ -1,12 +1,19 @@
 ---
 title: "JOB-011 ECU Garrett Hall"
-description: "Three-day summer dorm turnaround at ECU Garrett Hall, room-by-room fan coil and PTAC cleaning."
+description: "Summer dorm turnaround at ECU Garrett Hall, 7/20 to 7/22/2026: room-by-room window unit cleaning, water from dorm sinks, and a unit survey."
 sidebar:
   order: 11
 ---
 import { Content as T0 } from "../systems/ptac-and-fan-coil.md";
 
-Summer dorm turnaround. Three days.
+Summer dorm turnaround at East Carolina University. Three days, Monday 7/20 to Wednesday 7/22/2026, followed straight on by [JOB-012 ECU Clement Hall](/kb/jobs/write-ups/job-012-ecu-clement-hall/).
+
+<dl class="facts">
+<dt>Site</dt><dd>Garrett Residence Hall, ECU, Greenville NC</dd>
+<dt>Dates</dt><dd>Mon 7/20 to Wed 7/22/2026</dd>
+<dt>System</dt><dd>One through-wall room unit per dorm room, Friedrich units, plus hallway units near the bathrooms</dd>
+<dt>Equipment</dt><dd>Compressor outside the entrance, hoses through the front door, coil washing with water from the dorm sinks</dd>
+</dl>
 
 ## Why summer
 
@@ -14,8 +21,58 @@ Residence halls only get touched between terms. Empty building, no occupants to 
 
 ## Room-by-room work
 
-Dorms are the highest unit-count-per-square-foot job type CQA does. Every room has its own fan coil or PTAC. The work is not technically hard, it is a production line, which makes crew splitting and pre-cutting access the whole game. Same shape as [JOB-006 Hallway fan-coil run](/kb/jobs/write-ups/job-006-hallway-fan-coil-run/).
+Dorms are the highest unit-count-per-square-foot job type CQA does. Every room has its own unit. The work is not technically hard, it is a production line, which makes crew splitting and pre-staging the whole game. Same shape as [JOB-006 Hallway fan-coil run](/kb/jobs/write-ups/job-006-hallway-fan-coil-run/).
 
 <T0 />
 
 <p class="from">From <a href="/kb/jobs/systems/ptac-and-fan-coil/">PTAC and fan coil</a></p>
+
+Per unit, as worked here:
+1. Pull the face plate. Some screws are stripped. If the bit will not turn them, note the room and move on rather than wrecking the plate.
+1. Clean the unit and coil. See [Coil cleaner and pump sprayer](/kb/gear/wash/coil-cleaning/).
+1. New filter in.
+1. **Let it sit before powering on.** The instruction on site was to give washed units time so water does not hit the electronics.
+1. Power on and check airflow and buttons.
+
+## The front door alarm
+
+The air hose ran from the compressor outside through the dorm's front entrance. Holding that door open sets off a door-held-open alarm. That door contact reports to the building's security or fire panel.
+
+Do not defeat the sensor. The fix is a phone call: whoever booked the job has the campus facilities contact, and facilities can put that door on test at the panel for the work window. Make that call before the first hose goes through a monitored door.
+
+## Water from a dorm sink
+
+Coil washing needs a hose, and a dorm room has a sink. Sink faucets use aerator threads, not garden hose threads.
+
+- Unscrew the aerator. The spout is threaded one of two ways: female (the adapter's 15/16 inch-27 male end goes in) or male (the adapter's 55/64 inch-27 female end goes on).
+- A **dual-thread faucet-to-garden-hose adapter** (Danco makes one) covers both and ends in a 3/4 inch male garden hose thread.
+- Some institutional faucets have a recessed vandal-resistant aerator with nothing to grip. That takes an aerator key. They are sold in the same aisle.
+
+Put one dual adapter and a key set in the van for every dorm job.
+
+## The unit survey
+
+Along with cleaning, each unit got a function check, and problems were reported to Jeff by room number. Findings from the second floor show what the survey catches:
+
+| Finding | Examples |
+|---|---|
+| Dead, will not power on | 229, one hallway unit by the bathroom |
+| Powers on, buttons dead | One hallway unit. Suspect the two-pin connector. |
+| "Check filter" warning and no airflow | 213 |
+| Clicking every couple of seconds | 240, 248, 258 |
+| Sputtering or scratching, likely motor | 239 |
+| Face plate screws stripped, unit likely missed | 242 |
+
+Across the building, the broken list sorted into three failure modes: fully dead (229), panel partly lit but no response and no air (325), and powers on and takes settings but blows no air (213, 315, 329, 333, 350).
+
+That list is a service lead for the customer. See [JOB-012](/kb/jobs/write-ups/job-012-ecu-clement-hall/) for how the report goes to Jeff.
+
+## Carry forward
+
+1. On any building with monitored doors, get the door put on test before running hose.
+1. Bring the faucet adapter kit to every dorm.
+1. Note room numbers as you go. A unit you skip or cannot fix is only useful to the customer if it is on the list.
+
+## Sources
+
+- Danco 15/16"-27M or 55/64"-27F x 3/4" GHTM garden hose adapter: https://www.danco.com/product/1516-in-27m-564-in-27f-x-34-in-ghtm-or-5564-in-27m-chrome-garden-hose-adapter/

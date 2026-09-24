@@ -1,10 +1,10 @@
 ---
 title: "JOB-016 Franklin County Health Dept"
-description: "Saturday shift in August at the Franklin County Health Department, a public clinical building worked while empty."
+description: "Saturday 8/22/2026 at the Franklin County Health Department in Louisburg, a public clinical building worked while empty."
 sidebar:
   order: 16
 ---
-Saturday shift in August. _(date unconfirmed)_
+Saturday 8/22/2026. Franklin County Health Department, 107 Industrial Dr, Louisburg NC.
 
 ## Shape of the job
 

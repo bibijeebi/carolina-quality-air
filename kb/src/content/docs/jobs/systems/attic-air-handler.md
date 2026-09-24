@@ -1,6 +1,8 @@
 ---
 title: "Attic air handler"
 description: "Attic air handler with one return run and a round supply trunk: where negative air goes and what to watch for."
+sidebar:
+  order: 2
 ---
 Air handler and evaporator coil in the attic, matched to an outdoor condenser. Standard for the second floor of a two-story NC house.
 

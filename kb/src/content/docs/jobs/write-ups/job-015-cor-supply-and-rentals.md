@@ -4,7 +4,7 @@ description: "Short errand to COR Supply and Rentals with Jeff. Not a cleaning j
 sidebar:
   order: 15
 ---
-Short one, and not a cleaning job. Run with Jeff.
+Short one, and not a cleaning job. Friday 8/21/2026, run with Jeff.
 
 A short stop at a supply and rental house reads as a parts, pickup, or equipment-rental errand rather than production work.
 

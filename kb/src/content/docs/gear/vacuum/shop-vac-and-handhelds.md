@@ -7,6 +7,22 @@ sidebar:
 
 The small machines. They don't do negative air. They do cleanup: contact vacuuming registers and grilles, drain pans, the mess around an access hole, spills in the customer's house.
 
+## Ours
+
+| Machine | Where | Notes |
+|---|---|---|
+| Shark upright A | Van 2 or 3 | Dust-cup latch broken on one of the two. Not re-checked which. |
+| Shark upright B | Van 2 or 3 | Good. |
+| Shark mini turbo head and attachments | Loose | Orphaned. Reunite with a vac. |
+| Small black and red wet/dry shop vac | Van 1 | "The shop vac." |
+| Third vacuum | Wanted | Two vacs for three vans. Every van should carry one. |
+
+The van check says **cup EMPTY**. A full cup is how a vac shows up useless on the next job.
+
+:::caution[HEPA check]
+None of these is on record as HEPA-rated at the discharge. Until the labels are checked, treat them as the "shop vac with a standard filter" row below: fine for the van and outdoors, not for exhausting inside an occupied space. _(HEPA rating of our Sharks unconfirmed.)_
+:::
+
 ## The one rule
 
 NADCA's guide spec: any vacuum that exhausts inside the building, **including hand-held and wet vacs**, needs HEPA filtration on its discharge, rated 99.97% at 0.3 micron.

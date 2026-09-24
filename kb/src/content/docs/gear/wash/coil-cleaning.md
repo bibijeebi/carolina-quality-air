@@ -20,13 +20,35 @@ A typical pressure washer runs about 1,000 psi at 2 GPM or more. Coil makers wan
 
 That's why the pressure washer is for [grilles and registers](/kb/jobs/procedures/pressure-wash-grilles-and-registers/), never coils.
 
+## Ours
+
+| Tool | Count and home | Notes |
+|---|---|---|
+| **Port-A-Blaster** (Supco ZPB140), the coil jet | One, Van 3 | The "Cool Jet" in crew talk is most likely this machine _(unconfirmed)_. It's the only coil jet in the fleet. A second one is on the wish list. |
+| **Soaker** (airline siphon sprayer) | One | Runs off the compressor airline. |
+| **Pump sprayers** | Several | The fallback. Always works. |
+| **Spray bottles** | Two per van on S-hooks | Spot work and small coils. |
+| **Rags** | Mesh bags, every van | Coil work eats rags. |
+
+**Port-A-Blaster, from the Supco manual:**
+
+<dl class="facts">
+<dt>Output</dt><dd>140 psi max, 0.25 GPM. 80 W, 120 V, plugs in.</dd>
+<dt>Hoses</dt><dd>5 ft suction hose into a bucket of water or cleaner, 16 ft spray hose.</dd>
+<dt>Settings</dt><dd>INDOOR (low pressure) or OUTDOOR (high pressure). Use INDOOR on evaporator coils.</dd>
+<dt>Limits</dt><dd>Never run it dry. No more than 30 minutes continuous. Non-corrosive cleaners only.</dd>
+<dt>After</dt><dd>Run clean water through the pump after every use with cleaner in it.</dd>
+</dl>
+
+Its status on the September 2026 sheet is "test pump and pressure." Run it at the reset before a coil-heavy week.
+
 ## The tools, best to worst
 
 | Tool | What it is | Notes |
 |---|---|---|
-| **Coil jet** | Battery pump sprayer built for coils. SpeedClean's CoilJet CJ-125 runs 125 psi at 0.6 GPM, up to 12 tanks per charge. Goodway's CoilPro Jr. is the same idea. | Low flow won't overflow the condensate line on an indoor coil. Safe on microchannel. |
+| **Coil jet** | Low-pressure pump sprayer built for coils. Ours is the Port-A-Blaster. SpeedClean's battery CoilJet CJ-125 (125 psi, 0.6 GPM) and Goodway's CoilPro Jr. are the same idea. | Low flow won't overflow the condensate line on an indoor coil. |
 | **Soaker hose** | [Airline siphon sprayer](/kb/gear/air/air-tools/#the-soaker-hose-siphon-sprayer) dropped in a bucket. | Fast and even for putting chemical on. |
-| **Pump sprayer** | Hand-pumped garden-style sprayer. | Always works. Slower, less even. It's what you use when the good tools are in the wrong van, which has happened. |
+| **Pump sprayer** | Hand-pumped garden-style sprayer. | Always works. Slower, less even. It's what you use when the good tools are in the wrong van, which has happened: see [JOB-013](/kb/jobs/write-ups/job-013-two-story-residential-attic-ahu-and-package-unit/). |
 
 Also on the truck for coil work: **a lot of rags.** More than you think.
 
@@ -47,5 +69,6 @@ The [steam cleaner](/kb/gear/wash/steam-cleaner/) is the no-chemical option.
 - [EVAPCO: coil cleaning do's](https://www.evapco.com/news/maintenance-do-coil-cleaning)
 - [Goodway coil cleaning guide (PDF)](https://www.goodway.com/sites/default/files/documents/2022-01/goodway_coilcleaning_8.5x5.5_fnl_0122.pdf)
 - [Trane microchannel coil servicing guidelines (PDF)](https://www.trane.com/content/dam/Trane/Commercial/lar/es/product-systems/comercial/Rooftops/Accesorios-Rooftops/IOM/Microchannel%20IOM%20(Ingl%C3%A9s).pdf)
+- [Supco ZPB140 Port-A-Blaster manual (PDF)](https://trutechtools.com/content/brands/supco/documents/supco-zpb140-manual.pdf)
 - [SpeedClean CoilJet CJ-125](https://www.speedclean.com/coiljet-coil-cleaning-tools/portable-hvac-coil-cleaner-system-cj125)
 - [Goodway CoilPro Jr.](https://www.goodway.com/products/coil-cleaning-systems-chemicals/coilpro-jr-compact-coil-cleaning-system)

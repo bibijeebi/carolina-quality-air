@@ -14,11 +14,13 @@ Containment is the job. If the machine isn't pulling on the side you're agitatin
 | Truck-mounted vacuum | Big diesel units pulling 10,000+ CFM. | Long runs with parking access. Loud, and long hose runs lose suction fast. |
 | [Truck compressor](/kb/gear/air/compressors/) | **Does not pull.** Feeds the whips. | Whenever the truck is on site. |
 
+**What we actually own:** two HyperVacs (Van 1 and Van 2), one Meyer gas vac (Van 2), and a gas rotary brush duct vac with a Briggs Vanguard engine (Van 1). No truck-mounted vacuum in the September 2026 inventory. The machines on the trucks that people call "the truck unit" are [compressors](/kb/gear/air/compressors/#ours). If the crew splits into three vans, the Van 3 crew has no negative air machine unless one moves.
+
 ## Questions that decide it
 
 1. **Can the machine be outside?** No: HyperVac. Yes: either.
 2. **How big is the system?** One air handler and short branches: HyperVac. Trunks, a rooftop, a package unit: gas vac.
-3. **What's the power?** HyperVac needs its 20 A adapter (or a 30 A circuit for the 220 V). No power at the unit: gas vac.
+3. **What's the power?** HyperVac needs its twist-lock adapter and a circuit of its own. No power at the unit: gas vac. See [power cords and adapters](/kb/gear/van/power-cords-and-adapters/).
 4. **Where does the exhaust go?** Gas vac exhaust can't be drawn back into the building. HyperVac exhausting indoors needs its HEPA cartridge.
 
 ## Sources

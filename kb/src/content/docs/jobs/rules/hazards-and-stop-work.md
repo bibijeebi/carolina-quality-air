@@ -1,8 +1,10 @@
 ---
 title: "Hazards and stop-work"
 description: "What stops work and gets escalated, and which job hazards you manage and keep working."
+sidebar:
+  order: 2
 ---
-Spot these on the [Walk the job](/kb/jobs/procedures/walk-the-job/) walkthrough, not after you have opened a duct.
+Spot these on the [Walk the job](/kb/jobs/procedures/walk-the-job/) walkthrough, not after you have opened a duct. Everyday PPE, ladders, lockout, and heat are on [Safety and PPE](/kb/jobs/rules/safety-and-ppe/).
 
 **Stop work and escalate**:
 - **Asbestos**. Pre-1980s buildings. Duct wrap, mastic, and pipe insulation. Stop, do not disturb.

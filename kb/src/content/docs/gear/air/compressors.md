@@ -14,6 +14,22 @@ Every air tool on a CQA job runs off a compressor. The compressor on the truck *
 <dt>Kills it</dt><dd>Running flat out past its duty cycle, long skinny extension cords, never draining the tank.</dd>
 </dl>
 
+## Ours
+
+| Compressor | Where | Notes |
+|---|---|---|
+| **CAS RS3 rotary screw**, Honda GX390, 150 psi | Van 1, strapped at the slide door | Healthiest machine in the fleet. Data plate as photographed: Compressed Air Systems, model about RS130GEHBM3-NT _(verify on the plate)_. Oil filter interval on our sheet: 3 months or 500 hours. |
+| **John Deere compressor**, Honda GX engine (two) | Van 1 (driver side) and Van 2 | Near-new. One of the two has a sticky pressure relief valve. Pull the ring on each at pressure and tag the sticky one. Van 2's rode on a wood pallet and needed a real mount. |
+| **Black roll-cage gas compressor** | Van 3 | Not yet tested and tagged. |
+| **Portable air carry tank** (tank only, no pump) | Box truck | For topping off, not for running tools. |
+| **Shop compressor** | Shop | 175 psi tank. Relief valve failed in August 2026 (below). |
+
+Van 1 carries both the RS3 and a John Deere. Whether it should is still an open decision.
+
+**Oil for the Honda engines.** Honda specifies SAE 10W-30, API SJ or later, for the GX270 and GX390. Check the manual for the other GX sizes. The GX390 holds 1.1 L (1.16 US qt). Change it after the first month or 20 hours, then every 6 months or 100 hours. Air cleaner every 3 months or 50 hours. One van had no engine oil aboard at the September reset, and the vans had 5W-30 and a 15W-50 on hand, not 10W-30. Carry the right oil. Compressor pump oil is a separate question: use what the pump's own label says. _(What the 15W-50 synthetic is for is unconfirmed.)_
+
+**Before the van rolls:** fuel, oil, relief valve pops, fuel shutoff off for the drive.
+
 ## The types, by how they squeeze
 
 | Type | How it works | Where you see it |
@@ -64,8 +80,18 @@ Practical read: a 115 V portable runs one light tool at a time, and not all day.
 4. Short heavy cord, long air hose.
 5. Never point air at skin.
 
-:::caution[Safety relief valve]
-The shop compressor ran with a dead pop-off in August 2026. The fix is a 1/4 NPT, 175 psi, ASME-stamped relief valve, about $10. See [repair WO-001](/repairs/2026-08-22).
+:::caution[Safety relief valve: the August 2026 repair]
+The shop compressor's pop-off started opening at 40 psi on a tank rated for 175. A relief valve that opens early has a failed spring, and these valves are sealed, not rebuildable. It was running with a dead safety device, which makes it the first fix on the list.
+
+The replacement has to match the tank data plate: **1/4 inch male NPT, 175 psi, ASME stamped.** Not 125, not 150, not 200. Take the old valve to the store to match the thread.
+
+1. Unit off, tank drained to zero.
+2. Old valve out.
+3. Two or three wraps of thread tape clockwise, skipping the first thread. Hand tight, then one or two turns with a wrench. Brass into steel, don't overdo it.
+4. Pressure up, soap-test the joint, confirm it holds to the rated pressure.
+5. While it's drained, open the tank drain. Rusty water means tank debris probably killed the old seat and will kill the new one unless the tank gets drained after use.
+
+If a new valve also pops early, the valve was never the problem. Look at the regulator and pilot circuit next. See [repair WO-001](/repairs/2026-08-22).
 :::
 
 ## Sources
@@ -74,3 +100,4 @@ The shop compressor ran with a dead pop-off in August 2026. The fix is a 1/4 NPT
 - [Compressed Air Systems: duct and dryer vent cleaning](https://www.compressedairsystems.com/application/professional-air-duct-and-dryer-vent-cleaning-solutions/)
 - [Spycor: Nikro portable compressors](https://spycor.com/blog/nikro-portable-air-compressors-buy-for-duct-cleaning-power/)
 - [Nikro compressed air cleaning tools](https://www.nikro.com/products/air-duct-cleaning-equipment-supplies/compressed-air-cleaning-tools)
+- [Honda GX270/GX390 maintenance information (PDF)](https://cf.hondappsv.com/files/OP/OP000145VNM/GX270-390_Mainte.pdf)

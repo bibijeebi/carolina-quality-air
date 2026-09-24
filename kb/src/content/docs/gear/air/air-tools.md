@@ -16,6 +16,25 @@ Everything here runs off the [compressor](/kb/gear/air/compressors/) airline. Th
 | **Air washing** | Compressed air only, no contact. | Internally lined duct, where a whip would release fiber. |
 | **Contact vacuuming** | Hand tool plus a HEPA vac. | Registers, grilles, anything you can reach. |
 
+## What we carry
+
+| Item | Count and home | Notes |
+|---|---|---|
+| Door-pocket kit | Both front doors, every van | One whip handle, one whip, one **reverse**, one **forward**. Extra whips in the tool bag. |
+| Fiberglass whip rods, brass quick-connect | 60 plus, along the wall in every van | The soft rods. |
+| Hard rods | In the 4" PVC quivers (Van 1, Van 2) | Hard rods only in the quiver. Broken ones go to an outside shop to be re-tipped and crimped. |
+| Rotary brush heads | Brush buckets in Van 2 and Van 3 | For stuck buildup. |
+| Drill-brush attachment | Tube, one | Brush on a drill. |
+| Orange octopus whip head | One, new in the bag | Spare. Don't re-buy. |
+| Compressed air wand (blow gun) | Van 3 tool bag | |
+| Soaker (siphon sprayer) | One | Easy to lose to the wrong van. |
+
+**Soft rod or hard rod.** Soft rod in flex duct and around 90s. Hard rod on straight runs only.
+
+**Forward and reverse.** Small heads on the airline that jet air in one direction as you snake the line: the forward pushes ahead of the head, the reverse jets back the other way. Pick the one that pushes debris toward the suction from where you're standing. On a residential supply we make the standard whip pass from the boot and the reverse pass from the trunk.
+
+The brands in this category (Nikro, Rotobrush, Viper, Abatement) are sold through duct cleaning suppliers. Match the quick-connect fitting when you buy heads or rods. _(Maker of our current rods and heads unconfirmed.)_
+
 Order matters: whip and forward toward the suction, one run at a time. See [whip and forward a run](/kb/jobs/procedures/whip-and-forward-a-run/) and [order of operations](/kb/jobs/rules/order-of-operations/).
 
 :::note[Airline reach is a planning constraint]
@@ -34,9 +53,9 @@ The "soaker hose" is an **air-powered siphon sprayer**: a gun on the airline wit
 
 **After use:** drop the tube in clean water and spray until it runs clear, then blow it dry. That's shop practice; no manufacturer procedure was found.
 
-## Hose reels
+## Hose reels and airlines
 
-The motorized reels on the rigs wind the airline. Reelcraft and Coxreels make this kind (12 V motor-driven air reels). Check the reel label for the model before ordering parts.
+Van 1 and Van 2 have Reelcraft powered reels, Van 3 has a Coxreels, each with about 200 ft of 3/8" line. See [hoses, tubing, and reels](/kb/gear/air/hoses/).
 
 ## Sources
 

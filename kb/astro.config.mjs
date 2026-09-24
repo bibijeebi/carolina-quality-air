@@ -28,19 +28,7 @@ export default defineConfig({
         { tag: "meta", attrs: { name: "theme-color", content: "#0072bb" } },
       ],
       sidebar: [
-        { label: "Start here", items: [{ slug: "index" }, { slug: "how-this-works" }] },
-        { label: "Decision ladders", items: [{ autogenerate: { directory: "ladders" } }] },
-        {
-          label: "Gear",
-          items: [
-            { label: "Air", items: [{ autogenerate: { directory: "gear/air" } }] },
-            { label: "Vacuum & collection", items: [{ autogenerate: { directory: "gear/vacuum" } }] },
-            { label: "Wash", items: [{ autogenerate: { directory: "gear/wash" } }] },
-            { label: "Air treatment", items: [{ autogenerate: { directory: "gear/air-treatment" } }] },
-            { label: "Hand tools & materials", items: [{ autogenerate: { directory: "gear/tools" } }] },
-          ],
-        },
-        { label: "Chemicals", items: [{ autogenerate: { directory: "chemicals" } }] },
+        { label: "Start here", items: [{ slug: "index" }, { slug: "company/new-hire" }, { slug: "how-this-works" }] },
         {
           label: "How a job runs",
           items: [
@@ -50,6 +38,21 @@ export default defineConfig({
             { label: "Rules", collapsed: true, items: [{ autogenerate: { directory: "jobs/rules" } }] },
           ],
         },
+        {
+          label: "Gear",
+          items: [
+            { label: "Air", items: [{ autogenerate: { directory: "gear/air" } }] },
+            { label: "Vacuum & collection", items: [{ autogenerate: { directory: "gear/vacuum" } }] },
+            { label: "Wash", items: [{ autogenerate: { directory: "gear/wash" } }] },
+            { label: "Air treatment", items: [{ autogenerate: { directory: "gear/air-treatment" } }] },
+            { label: "Hand tools & materials", items: [{ autogenerate: { directory: "gear/tools" } }] },
+            { label: "Van & power", items: [{ autogenerate: { directory: "gear/van" } }] },
+            { label: "PPE", items: [{ autogenerate: { directory: "gear/ppe" } }] },
+          ],
+        },
+        { label: "Chemicals", items: [{ autogenerate: { directory: "chemicals" } }] },
+        { label: "Decision guides", items: [{ autogenerate: { directory: "ladders" } }] },
+        { label: "Company", items: [{ autogenerate: { directory: "company" } }] },
         { label: "Job write-ups", collapsed: true, items: [{ autogenerate: { directory: "jobs/write-ups" } }] },
         { label: "Reference", items: [{ autogenerate: { directory: "reference" } }] },
       ],

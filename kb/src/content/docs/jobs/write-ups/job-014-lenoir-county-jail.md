@@ -1,10 +1,10 @@
 ---
 title: "JOB-014 Lenoir County Jail"
-description: "Short day at the Lenoir County Jail in Kinston, a correctional site with compressed lint in the returns and tight access."
+description: "Thursday 8/20/2026 at the Lenoir County Jail in Kinston, a correctional site with compressed lint in the returns and tight access."
 sidebar:
   order: 14
 ---
-Detention facility. Short day for a jail, which usually means either a partial scope or an access window that closed.
+Detention facility, Kinston. Thursday 8/20/2026. Short day for a jail, which usually means either a partial scope or an access window that closed.
 
 Sometimes logged as Lenore County Jail. It is **Lenoir** County, county seat Kinston. _(site spelling corrected, confirm it was the jail and not the detention center)_
 
