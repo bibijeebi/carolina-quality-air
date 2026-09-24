@@ -1,3 +1,6 @@
+/* CQA brand, matched to carolinaqualityair.xyz (src/styles/global.css):
+   true blue #0072bb from the logo, navy ink from the van wrap, white ground,
+   Archivo with a condensed width axis for display type. Light only. */
 @font-face {
   font-family: "Archivo";
   src: url("/fonts/archivo-latin-var.woff2") format("woff2-variations");
@@ -6,22 +9,10 @@
   font-display: swap;
 }
 
-:root {
-  --sl-font: "Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --sl-color-accent-low: #07273f;
-  --sl-color-accent: #3fa4e3;
-  --sl-color-accent-high: #dbeefb;
-  --sl-color-white: #ffffff;
-  --sl-color-gray-1: #e4ebf1;
-  --sl-color-gray-2: #c5d1dc;
-  --sl-color-gray-3: #9db0c2;
-  --sl-color-gray-4: #536679;
-  --sl-color-gray-5: #24313d;
-  --sl-color-gray-6: #13202c;
-  --sl-color-black: #0c1722;
-}
-
+:root,
 :root[data-theme="light"] {
+  color-scheme: light;
+  --sl-font: "Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --sl-color-accent-low: #dbeefb;
   --sl-color-accent: #0072bb;
   --sl-color-accent-high: #054a79;
@@ -34,14 +25,71 @@
   --sl-color-gray-6: #f2f6f9;
   --sl-color-gray-7: #f8fafc;
   --sl-color-black: #ffffff;
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #f2f6f9;
+  --sl-color-hairline: #dde5ec;
+  --sl-color-hairline-shade: #dde5ec;
+  --cqa-navy: #07273f;
+  --cqa-navy-2: #0a3d63;
 }
 
-h1, h2, h3, .site-title {
-  font-stretch: 82%;
+/* Display type: condensed highway-gothic cut, like the main site. */
+h1, h2, h3, .site-title, .hero h1 {
+  font-variation-settings: "wdth" 84;
+  font-weight: 750;
   letter-spacing: -0.01em;
 }
-.site-title img { height: 2rem; width: auto; }
-:root[data-theme="dark"] .site-title img { filter: brightness(0) invert(1); }
+.sl-markdown-content h2 { color: var(--cqa-navy); }
+
+/* Header: white with a CQA blue keyline, logo full size. */
+header.header {
+  border-top: 4px solid #0072bb;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+.site-title { color: var(--cqa-navy); }
+.site-title img { height: 2.1rem; width: auto; }
+@media (max-width: 30rem) {
+  .site-title span { display: none; }
+}
+
+/* Sidebar: active page gets the brand blue block. */
+.sidebar-content a[aria-current="page"] {
+  background: #0072bb;
+  color: #fff;
+  font-weight: 650;
+}
+.sidebar-content .group-label .large { color: var(--cqa-navy); }
+
+/* Links and buttons */
+.sl-markdown-content a { color: #0072bb; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.sl-markdown-content a:hover { color: #054a79; }
+.sl-link-button.primary { background: #0072bb; border-color: #0072bb; color: #fff; border-radius: 7px; }
+.sl-link-button.primary:hover { background: #005b96; }
+
+/* Tables: navy header row like the site's stat bands. */
+.sl-markdown-content table th {
+  background: var(--cqa-navy);
+  color: #fff;
+  border-color: var(--cqa-navy);
+}
+
+/* Home hero: dark navy band like the main site's hero. */
+.hero {
+  background: var(--cqa-navy);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2.5rem 1.5rem !important;
+  margin-top: 1rem;
+}
+.hero h1, .hero .tagline { color: #fff; }
+.hero .tagline { color: #b3ddf7; }
+.hero .sl-link-button.minimal { color: #fff; }
+.hero .sl-link-button.primary { background: #fff; color: #07273f; border-color: #fff; }
+
+/* Link cards */
+.sl-link-card { border-color: var(--sl-color-hairline); border-left: 4px solid #0072bb; border-radius: 9px; }
+.sl-link-card:hover { border-color: #0072bb; background: #eff7fd; }
+.sl-link-card .title { color: var(--cqa-navy); }
 
 /* Machine / chemical fact strip */
 .facts {
@@ -49,20 +97,16 @@ h1, h2, h3, .site-title {
   grid-template-columns: max-content 1fr;
   gap: 0.35rem 1rem;
   padding: 0.9rem 1rem;
-  border-left: 4px solid var(--sl-color-accent);
-  background: var(--sl-color-gray-6);
+  border-left: 4px solid #0072bb;
+  background: #eff7fd;
   border-radius: 6px;
   font-size: var(--sl-text-sm);
 }
-.facts dt { font-weight: 700; }
-.facts dd { margin: 0; }
-@media (max-width: 30rem) {
-  .facts { grid-template-columns: 1fr; }
-  .facts dd { margin-bottom: 0.4rem; }
-}
 .sl-markdown-content .facts > dt,
 .sl-markdown-content .facts > dd { margin: 0; }
-.sl-markdown-content .from { font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); margin-top: 0.25rem; }
+.facts dt { font-weight: 700; color: var(--cqa-navy); }
 @media (max-width: 30rem) {
-  .site-title span { display: none; }
+  .facts { grid-template-columns: 1fr; }
+  .facts dd { margin-bottom: 0.4rem !important; }
 }
+.sl-markdown-content .from { font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); margin-top: 0.25rem; }

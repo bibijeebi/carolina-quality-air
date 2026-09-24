@@ -17,6 +17,10 @@ export default defineConfig({
       favicon: "/favicon.svg",
       disable404Route: true,
       customCss: ["./src/styles/cqa.css"],
+      components: {
+        ThemeProvider: "./src/components/ThemeProvider.astro",
+        ThemeSelect: "./src/components/Empty.astro",
+      },
       lastUpdated: false,
       pagination: true,
       head: [
