@@ -13,10 +13,14 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            kb/package-lock.json
       
       - run: npm ci
+      - run: npm ci --prefix kb
       - run: npm run build
       
       - uses: cloudflare/wrangler-action@v3

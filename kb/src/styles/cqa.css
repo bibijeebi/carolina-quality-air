@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-latin-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+:root {
+  --sl-font: "Archivo", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --sl-color-accent-low: #07273f;
+  --sl-color-accent: #3fa4e3;
+  --sl-color-accent-high: #dbeefb;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e4ebf1;
+  --sl-color-gray-2: #c5d1dc;
+  --sl-color-gray-3: #9db0c2;
+  --sl-color-gray-4: #536679;
+  --sl-color-gray-5: #24313d;
+  --sl-color-gray-6: #13202c;
+  --sl-color-black: #0c1722;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #dbeefb;
+  --sl-color-accent: #0072bb;
+  --sl-color-accent-high: #054a79;
+  --sl-color-white: #0c1722;
+  --sl-color-gray-1: #24313d;
+  --sl-color-gray-2: #44576a;
+  --sl-color-gray-3: #536679;
+  --sl-color-gray-4: #9db0c2;
+  --sl-color-gray-5: #dde5ec;
+  --sl-color-gray-6: #f2f6f9;
+  --sl-color-gray-7: #f8fafc;
+  --sl-color-black: #ffffff;
+}
+
+h1, h2, h3, .site-title {
+  font-stretch: 82%;
+  letter-spacing: -0.01em;
+}
+.site-title img { height: 2rem; width: auto; }
+:root[data-theme="dark"] .site-title img { filter: brightness(0) invert(1); }
+
+/* Machine / chemical fact strip */
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  padding: 0.9rem 1rem;
+  border-left: 4px solid var(--sl-color-accent);
+  background: var(--sl-color-gray-6);
+  border-radius: 6px;
+  font-size: var(--sl-text-sm);
+}
+.facts dt { font-weight: 700; }
+.facts dd { margin: 0; }
+@media (max-width: 30rem) {
+  .facts { grid-template-columns: 1fr; }
+  .facts dd { margin-bottom: 0.4rem; }
+}
+.sl-markdown-content .facts > dt,
+.sl-markdown-content .facts > dd { margin: 0; }
+.sl-markdown-content .from { font-size: var(--sl-text-xs); color: var(--sl-color-gray-3); margin-top: 0.25rem; }
+@media (max-width: 30rem) {
+  .site-title span { display: none; }
+}

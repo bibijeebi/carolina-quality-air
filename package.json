@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "astro build && npm --prefix kb run build",
+    "preview": "astro preview",
+    "dev:kb": "npm --prefix kb run dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",

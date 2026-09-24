@@ -1,0 +1,127 @@
+---
+title: "JOB-013 Two-story residential, attic AHU and package unit"
+description: "Two-story house with an attic air handler upstairs and a package unit downstairs, both cleaned in one day."
+sidebar:
+  order: 13
+---
+import { Content as T0 } from "../procedures/roll-out.md";
+import { Content as T1 } from "../systems/attic-air-handler.md";
+import { Content as T2 } from "../systems/package-unit.md";
+import { Content as T3 } from "../rules/what-is-in-scope.md";
+import { Content as T4 } from "../procedures/clean-the-air-handler.mdx";
+import { Content as T5 } from "../procedures/cut-an-8-inch-access.md";
+import { Content as T6 } from "../procedures/whip-and-forward-a-run.md";
+import { Content as T7 } from "../procedures/patch-a-sheet-metal-access.md";
+import { Content as T8 } from "../procedures/pop-plug-a-bit-hole.md";
+
+The most complete residential write-up in the book. Two systems in one house, both cleaned in a day, and the debrief caught the reasoning, not just the steps.
+
+## Roll out
+
+Met at Jeff's house. Van assignments got shuffled at the meet point. Drove out, stopped at Sheetz to eat, then to the house.
+
+Consequence of the van shuffle: the soaker hose attachment and the Cool Jet were in Jeff's van and did not come along. Coils got cleaned with a pump sprayer instead. That worked, but it is slower and less even than the airline-fed soaker.
+
+<T0 />
+
+<p class="from">From <a href="/kb/jobs/procedures/roll-out/">Roll out</a></p>
+
+## Reading the house
+
+Two independent systems, which is normal for a two-story in NC:
+- **Second floor**: air handler in the attic, evaporator coil in it, matched to a conventional outdoor condenser.
+- **First floor**: package unit outside. Compressor, condenser, evap coil, and blower all in one outdoor cabinet with the ducts running straight into it.
+
+<T1 />
+
+<p class="from">From <a href="/kb/jobs/systems/attic-air-handler/">Attic air handler</a></p>
+
+<T2 />
+
+<p class="from">From <a href="/kb/jobs/systems/package-unit/">Package unit</a></p>
+
+Why nobody touched the condenser sitting right there: scope.
+
+<T3 />
+
+<p class="from">From <a href="/kb/jobs/rules/what-is-in-scope/">What is in scope</a></p>
+
+Not every crew member knows the component names, even if they can do the work.
+
+---
+
+## Upstairs: the attic system
+
+### Getting the vac up
+
+Carried the electric vacuum up the stairs rather than rolling it. The flooring in the house was ripped out, so bare subfloor, and rolling on subfloor is no problem. It got carried anyway because of an earlier apartment job where the vac wheels had picked up paint from a previous job and tracked it all over.
+
+**Rule of thumb**: check the wheels before you roll anything across a customer floor.
+
+### Power
+
+See [Electric portable vacuum](/kb/gear/vacuum/hypervac/).
+
+Duct-taped the flex line to the top of the vacuum, long enough to reach the air handler in the attic.
+
+### Coils and blower
+
+<T4 />
+
+<p class="from">From <a href="/kb/jobs/procedures/clean-the-air-handler/">Clean the air handler</a></p>
+
+### Access hole
+
+The return plenum was on the left side of the air handler. Cut an 8 inch access there. The hole cutter on the drill was set slightly too big, which made it fight.
+
+<T5 />
+
+<p class="from">From <a href="/kb/jobs/procedures/cut-an-8-inch-access/">Cut an 8 inch access</a></p>
+
+Hooked the flex hose to the hole, then **tied the hose off to a beam** for strain relief. Without the tie-off the whole run wants to snake back down out of the attic into the second story.
+
+### Cleaning the return side
+
+One return. That is normal for a residential second-floor system: a single large hallway ceiling grille, one flex run up to the plenum box. There was no return trunk, because there was nothing for a trunk to collect.
+
+Whip to knock debris off the wall, forward nozzle to push it up-line toward the negative air sitting at the plenum.
+
+<T6 />
+
+<p class="from">From <a href="/kb/jobs/procedures/whip-and-forward-a-run/">Whip and forward a run</a></p>
+
+### Supply side
+
+Supply is where the actual distribution lives, so that is where the trunk was. **Round sheet metal trunk**, insulated, which matters at patch time because a flat patch has to be bent to the radius before it goes on.
+
+Cut fairbairn-bit holes into the trunk to whip the runs back toward the negative air access. One bit fell into the trunk. Had to cut a 4 inch hole to reach in and retrieve it.
+
+**Carry-forward**: a bit dropped into a trunk costs you a hole you did not plan on. Keep a hand on it going in.
+
+---
+
+## Downstairs: the package unit
+
+Gas negative air machine hooked into the package unit outside. Same rule as upstairs, just mirrored, because the suction was in a different place.
+
+See [Gas negative air machine](/kb/gear/vacuum/meyer-gas-vac/).
+
+This can look like doing it backwards. It is not. Both floors are the same rule: agitate with the whip, push toward the suction with the forward nozzle. Which tool you reach for first only depends on where you are standing relative to the negative air.
+
+---
+
+## Patching
+
+<T7 />
+
+<p class="from">From <a href="/kb/jobs/procedures/patch-a-sheet-metal-access/">Patch a sheet metal access</a></p>
+
+<T8 />
+
+<p class="from">From <a href="/kb/jobs/procedures/pop-plug-a-bit-hole/">Pop-plug a bit hole</a></p>
+
+## What this job settled
+
+1. With the system off there is no airflow, so **supply-first versus return-first does not matter physically**. What matters is branches before trunk, and air handler last. See [Order of operations](/kb/jobs/rules/order-of-operations/).
+1. Never run the blower to help move debris while ducts are open. That recirculates through a dirty coil and blows it out the open supply registers into the house.
+1. The condenser is out of scope on every duct cleaning job unless it is sold separately.

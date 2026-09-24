@@ -1,0 +1,22 @@
+---
+title: "Glossary"
+description: "Short definitions of the duct cleaning, HVAC, and NADCA terms used across the Shop Book."
+---
+- **ACR 2021** - the NADCA standard for assessment, cleaning, and restoration of HVAC systems.
+- **Airline** - the compressed air hose from the [truck compressor](/kb/gear/air/compressors/) that feeds the [whip and forward nozzle](/kb/gear/air/air-tools/). Blue line and black line on a job means two of them with different reach.
+- **ASCS** - Air Systems Cleaning Specialist. NADCA certification. Jeff holds it.
+- **Fairbairn bit** - the bit used to cut roughly 1 inch whip-access holes in a trunk.
+- **Forward** - the directional air nozzle that pushes debris toward the suction.
+- **FSK tape** - foil-scrim-kraft. The foil tape with the reinforcing grid, used to seal insulation cuts. Not duct tape.
+- **Mastic** - brush-on sealant. Perimeter seal and an X across a patch face.
+- **Negative air** - the machine that pulls, and by extension the containment it creates.
+- **Noodles** or **skipper balls** - the agitation ends on a whip.
+- **Package unit** - one outdoor cabinet with compressor, condenser, evap coil, and blower.
+- **Plenum** - the box at the air handler where duct connects. Return plenum and supply plenum.
+- **Pop plug** - the plug that closes a 1 inch bit hole.
+- **PTAC** - packaged terminal air conditioner. The in-wall hotel-style unit.
+- **Source removal** - the industry-standard method. Negative air plus mechanical agitation.
+- **Trunk** - the main duct off the plenum that branches feed off of.
+- **VAV box** - variable air volume box, modulates airflow to a zone on the supply side.
+- **VSMR** - Ventilation System Mold Remediator. NADCA certification.
+- **Whip** - the agitation tool.

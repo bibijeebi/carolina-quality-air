@@ -1,0 +1,56 @@
+---
+title: CQA Shop Book
+description: How Carolina Quality Air's machines, chemicals, and jobs work. The reference a tech pulls up on a phone at the job site.
+template: splash
+hero:
+  tagline: How our machines, chemicals, and jobs work. Pull it up on your phone at the site.
+  actions:
+    - text: How a job runs
+      link: /kb/jobs/the-job/
+      icon: right-arrow
+    - text: Odor ladder
+      link: /kb/ladders/odor/
+      icon: right-arrow
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+## Decide
+
+<CardGrid>
+  <LinkCard title="Odor ladder" description="Bio-Fresh, OdoBan, or ozone. Which one, and where it's allowed to go." href="/kb/ladders/odor/" />
+  <LinkCard title="Which machine pulls" description="HyperVac or gas vac, and why the truck compressor isn't one." href="/kb/ladders/negative-air/" />
+  <LinkCard title="Which wash tool" description="Coil jet, soaker, pressure washer, or steam. Fins fold." href="/kb/ladders/wash/" />
+</CardGrid>
+
+## Machines
+
+<CardGrid>
+  <LinkCard title="Air compressors" description="Types, sizing by CFM, and what breaks." href="/kb/gear/air/compressors/" />
+  <LinkCard title="Air tools and the soaker hose" description="Whips, skipper balls, forward nozzles, siphon sprayer." href="/kb/gear/air/air-tools/" />
+  <LinkCard title="HyperVac" description="Indoor negative air. Power, filters, overheating." href="/kb/gear/vacuum/hypervac/" />
+  <LinkCard title="Meyer gas vac" description="Outdoor negative air. Placement, engine care, CO." href="/kb/gear/vacuum/meyer-gas-vac/" />
+  <LinkCard title="Coil cleaning" description="Coil jet, soaker, pump sprayer. Pressure limits." href="/kb/gear/wash/coil-cleaning/" />
+  <LinkCard title="Pressure washer" description="Tips, pump care, pulsing." href="/kb/gear/wash/pressure-washer/" />
+  <LinkCard title="Fogger" description="Putting deodorizer into a system." href="/kb/gear/air-treatment/fogger/" />
+  <LinkCard title="Ozone machine" description="House protocol and what ozone damages." href="/kb/gear/air-treatment/ozone/" />
+</CardGrid>
+
+## Chemicals
+
+<CardGrid>
+  <LinkCard title="Bio-Fresh cd" description="Fogging deodorizer, labeled for HVAC." href="/kb/chemicals/bio-fresh-cd/" />
+  <LinkCard title="OdoBan" description="Rooms, not ducts. Dilution chart." href="/kb/chemicals/odoban/" />
+  <LinkCard title="Coil cleaners" description="Enzymatic, alkaline, acid." href="/kb/chemicals/coil-cleaners/" />
+</CardGrid>
+
+## Jobs
+
+<CardGrid>
+  <LinkCard title="The job, generically" description="The eight phases every CQA job runs through." href="/kb/jobs/the-job/" />
+  <LinkCard title="Job write-ups" description="Real CQA jobs, start to finish, and what each one taught." href="/kb/jobs/write-ups/job-013-two-story-residential-attic-ahu-and-package-unit/" />
+  <LinkCard title="Glossary" description="The words the trade uses." href="/kb/reference/glossary/" />
+</CardGrid>
+
+Study drills and exam prep live in [DuctStudy](/learning/).
