@@ -586,7 +586,7 @@
     main.innerHTML = head(`${esc(tr.code)} / Practice`, 'Practice until it sticks.', 'Drill the bank, play short rounds on the facts, and run the job the exam describes.')
       + `<div class="grid top">${drill}<section class="panel"><div class="row-between"><h2>Drill one domain</h2><span class="small muted hint">Weakest first is a good habit</span></div><div class="domain-list">${domRows || '<p class="muted">No practice questions yet.</p>'}</div></section></div>`
       + `<div class="space-lg">${gamesP}</div>` + fieldP
-      + `<section class="panel field-callout space-lg"><div><p class="eyebrow">More training</p><h2>EPA 608, forklift, the crew field guide, pricing.</h2><p class="muted">The rest of the CQA training shelf lives here too.</p></div><a class="btn secondary" href="#/library">Open more training</a></section>`;
+      + `<section class="panel field-callout space-lg"><div><p class="eyebrow">More training</p><h2>EPA 608, forklift, and the crew field guide.</h2><p class="muted">The rest of the CQA training shelf lives here too.</p></div><a class="btn secondary" href="#/library">Open more training</a></section>`;
   };
 
   /* ---------- First run ---------- */
@@ -913,12 +913,11 @@
   const SITE = 'https://carolinaqualityair.xyz/learning/';
   const LIBRARY = [
     ['On the job', [['field-guide/', 'Crew field guide', 'How CQA runs a job, from the truck to the closeout.']]],
-    ['Other certifications', [['epa608.html', 'EPA 608', 'Hub, mastery drill, and mock exam for refrigerant handling.'], ['epa609-drill.html', 'EPA 609', 'Motor vehicle air conditioning drill.'], ['forklift-drill.html', 'Forklift operator', 'Operator rules drill for the card.']]],
-    ['Pricing and sales', [['walk-the-job.html', 'Walk the Job', 'The CQA pricing game. Walk a job and price it.'], ['estimator.html', 'Job estimator trainer', 'Price duct jobs the way the office does.'], ['pricing-doctrine.html', 'Pricing doctrine', 'How CQA prices work, written down.']]]
+    ['Other certifications', [['epa608.html', 'EPA 608', 'Hub, mastery drill, and mock exam for refrigerant handling.'], ['epa609-drill.html', 'EPA 609', 'Motor vehicle air conditioning drill.'], ['forklift-drill.html', 'Forklift operator', 'Operator rules drill for the card.']]]
   ];
   function libraryView() {
     const tr = homeTrack();
-    main.innerHTML = head(`<a href="${link(tr, 'practice')}">Practice</a> / More training`, 'More training.', 'The rest of the CQA training shelf: other certifications, the crew field guide, and pricing.')
+    main.innerHTML = head(`<a href="${link(tr, 'practice')}">Practice</a> / More training`, 'More training.', 'The rest of the CQA training shelf: other certifications and the crew field guide.')
       + LIBRARY.map(([h, items]) => `<section class="space-lg"><div class="section-heading"><h2>${h}</h2></div><div class="tile-links wide">${items.map(([href, t, sub]) => `<a class="tile-link" href="${SITE + href}"><b>${t}</b><small>${sub}</small></a>`).join('')}</div></section>`).join('');
   }
 

@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "include": [
+  "/hq",
+  "/hq/*",
+  "/proposals",
+  "/proposals/*",
+  "/leads",
+  "/leads/*",
+  "/estimates",
+  "/estimates/*",
+  "/repairs",
+  "/repairs/*",
+  "/operations",
+  "/operations/*",
+  "/orders",
+  "/orders/*",
+  "/reports",
+  "/reports/*",
+  "/kb",
+  "/kb/*",
+  "/_desk",
+  "/_desk/*",
+  "/work-load",
+  "/work-load.html",
+  "/learning/estimator*",
+  "/learning/walk-the-job*",
+  "/learning/perry-sim*",
+  "/learning/pricing-doctrine*"
+ ],
+ "exclude": []
+}

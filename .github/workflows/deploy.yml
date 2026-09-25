@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# One deploy at a time, newest wins: rapid pushes used to race and ship a tree missing the last commit.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
