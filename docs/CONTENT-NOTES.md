@@ -200,6 +200,9 @@ information. Existing noindex and robots behavior remains intentional.
 - Added from the .com: Facebook and YouTube links, the fake-account notice
   site-wide, the seventh review (Ken Robol), an OG image, and 301s from the
   .com's old paths (/get-quote, /benefits, /blog, the success pages).
+- Office hours now shown as Mon–Fri 8 AM to 6 PM, matching CQA's own Google
+  Business Profile (read Sept 25). Google rating 4.9 from 31 reviews shown
+  on home and reviews pages, with the date it was read in `site.ts`.
 - Still for Jeff: street addresses (the .com publishes 140 Towerview Ct, Cary
   and 111 Essex Dr, Winterville; this site leaves them off per the Sept 7
-  note), hours, Jeff's committee, the team-size claim, the 2005 date.
+  note), Jeff's committee, the team-size claim, the 2005 date.

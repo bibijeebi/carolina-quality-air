@@ -10,7 +10,8 @@
  *
  * VERIFY-WITH-JEFF list (deliberately NOT published anywhere on the site
  * until he confirms — see docs/CONTENT-NOTES.md):
- *   - Business hours. Third-party listings contradict each other.
+ *   - Business hours. Now shown as Mon–Fri 8–6, matching CQA's own Google
+ *     Business Profile (read 2026-09-25). Change here if Jeff says otherwise.
  *   - Whether Jeff sits on NADCA's Certification committee or the
  *     Education & Safety committee. Their current site says the latter;
  *     NADCA's published rosters suggest the former.
@@ -131,6 +132,8 @@ export const site = {
    * CQA's own Google Business Profile (Winterville listing). Rating and count
    * were read from Google Places on 2026-09-25; update them when they move.
    */
+  hours: { display: "Monday to Friday, 8 AM to 6 PM", schema: "Mo-Fr 08:00-18:00" },
+
   google: {
     rating: 4.9,
     count: 31,

@@ -87,3 +87,16 @@ deploy by page title or content, and for gated paths by the 302 to `/auth/desk`.
 
 Retainer ($150–200/mo all-in) beats a lump sum. Pitch Jeff, not Perry. Keep the website pitch separate
 from any raise conversation. Demo it on a phone.
+
+## Moving DuctStudy to its own domain (planned)
+
+Benny may buy a DuctStudy domain; company-specific things stay here. When it happens:
+1. Serve `public/learning/` (minus the pricing trainers, which stay here behind sign-in) from the new domain.
+2. `public/learning/app.js`: `LIVE` regex and `SITE` constant. `public/learning/sync.js`: the `API` hostname regex.
+3. ductstudy repo: add the origin to `CORS_ORIGINS` in `src/index.js`, set `LAB_HOME` in `wrangler.toml`,
+   and add the new origin to the Google OAuth client's authorized origins if sign-in moves there.
+4. Here: `public/_redirects` `/learning/* https://<new>/:splat 301` (keep `/learning/field-guide/*` if tool
+   QR labels point at it), drop the DuctStudy links from `src/data/hq.json` or repoint them.
+5. Progress lives in each tech's browser storage per origin: signed-in users keep it through the account;
+   signed-out users lose it unless the old origin exports it on the way out (the worker's hand-over page
+   already does this with `#import=`; reuse that pattern).
