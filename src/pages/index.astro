@@ -441,12 +441,21 @@ const process = [
                 {lead.location_type}
               </figcaption>
             </figure>
-            <a
-              href="/testimonials"
-              class="link-slide shrink-0 font-semibold text-brand-700"
-            >
-              Read {testimonials.length} reviews
-            </a>
+            <div class="flex shrink-0 flex-col gap-3 lg:items-end">
+              <a
+                href={site.google.url}
+                rel="noopener"
+                class="link-slide font-semibold text-ink"
+              >
+                <span class="tnum">{site.google.rating}</span> stars from {site.google.count} Google reviews
+              </a>
+              <a
+                href="/testimonials"
+                class="link-slide font-semibold text-brand-700"
+              >
+                Read {testimonials.length} in full
+              </a>
+            </div>
           </div>
         </div>
       </section>

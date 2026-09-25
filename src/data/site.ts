@@ -127,6 +127,17 @@ export const site = {
     },
   ],
 
+  /**
+   * CQA's own Google Business Profile (Winterville listing). Rating and count
+   * were read from Google Places on 2026-09-25; update them when they move.
+   */
+  google: {
+    rating: 4.9,
+    count: 31,
+    checked: "September 2026",
+    url: "https://www.google.com/maps/place/?q=place_id:ChIJZRbnod7crokRJng1iu7o2VA",
+  },
+
   /** Self-reported to Angi; safe, verifiable-by-asking claims. */
   assurances: [
     "Free written estimates",
