@@ -12,9 +12,9 @@ final confirmation." A tape-lift sample sent to a microbiology lab costs somewhe
 around fifty dollars. If a contractor tells you that you have mold, ask them to
 physically show it to you.
 
-Two things worth knowing. If growth is in fibreglass duct liner or duct board that got
-wet, cleaning will not fix it — the EPA, NADCA and the insulation manufacturers all say
-wet or mouldy fibreglass duct material should be removed and replaced. And if whatever
+Two things worth knowing. If growth is in fiberglass duct liner or duct board that got
+wet, cleaning will not fix it. The EPA, NADCA and the insulation manufacturers all say
+wet or moldy fiberglass duct material should be removed and replaced. And if whatever
 let the moisture in is not corrected, it comes straight back.
 
 We will tell you what we actually see, in writing, and we will say when the job is

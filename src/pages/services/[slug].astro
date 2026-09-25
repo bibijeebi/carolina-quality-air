@@ -25,7 +25,7 @@ const others = (await getCollection("services"))
   .filter((s) => s.id !== entry.id)
   .sort((a, b) => a.data.order - b.data.order);
 
-const bookingUrl = d.bookingUrl ?? site.booking.freeInspection;
+const bookingUrl = d.bookingUrl ?? site.booking.freeEstimate;
 ---
 
 <Layout title={d.title} description={d.summary}>
@@ -103,7 +103,7 @@ const bookingUrl = d.bookingUrl ?? site.booking.freeInspection;
         href={bookingUrl}
         class="mt-6 block rounded-xs bg-brand-600 px-6 py-4 text-center font-semibold text-white transition-colors hover:bg-brand-700"
       >
-        Request a free inspection
+        Request a free estimate
       </a>
       <a
         href={site.phone.href}

@@ -38,11 +38,11 @@ Call the Greenville number to discuss your property and arrange service.
 
 Eastern North Carolina gets roughly 48 inches of rain a year, and summer dew
 points sit above 65°F from June clear through September. Most of the housing
-stock built before the 2000s sits over a **vented crawlspace** — and the old
+stock built before the 2000s sits over a **vented crawlspace**, and the old
 theory behind crawlspace vents only works if the outside air is drier than the
 air under the house. Around here, in the months that matter, it is not.
 
-So ducts running through that crawl sweat. Fibreglass insulation gets damp,
+So ducts running through that crawlspace sweat. Fiberglass insulation gets damp,
 stays damp, and collects everything that moves past it. That is the single
 most common thing we find in Pitt County homes, and it is why a duct in
 Greenville can look considerably worse at fifteen years old than the same duct
@@ -55,7 +55,7 @@ stock. Part of what the inspection tells us is which one you have.
 ## Manufactured homes and rural county work
 
 We cover a lot of ground outside the city, and the surrounding counties have a
-much higher share of manufactured homes than the state average — Greene County
+much higher share of manufactured homes than the state average. Greene County
 is among the highest in North Carolina. Those systems have their own issues:
 belly-board flex duct, crossover ducts under the floor, rodent intrusion and
 moisture that never fully leaves. We work on them regularly and we know what
@@ -65,15 +65,15 @@ to look for.
 
 Floyd in 1999 put twenty inches of rain on Greenville and pushed the Tar River
 to a record crest that still stands. Matthew came through the same ground in
-2016. Houses in those corridors can carry repeat crawlspace saturation years
-later, and contaminated ductwork is part of that picture.
+2016. Houses in those areas can still have crawlspace moisture problems years
+later, and contaminated ductwork is often part of it.
 
-If your house took water — recently or decades ago — say so when you call. It
+If your house took water, recently or decades ago, say so when you call. It
 changes what we look for, and sometimes it changes the honest answer from
 "this needs cleaning" to "this needs more than cleaning."
 
 ## Pollen season
 
 Loblolly pine pollen peaks from late March into mid-April and coats everything.
-The yellow film on your porch furniture is going through your return grille
-too. Late spring is our busiest stretch for a reason.
+The yellow film on your porch furniture is getting pulled into your return
+grille too.

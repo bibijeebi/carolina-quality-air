@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import nadca from "../assets/brand/nadca-logo.png";
-import { site } from "../data/site";
+import { site, listedOffices } from "../data/site";
 
 const year = new Date().getFullYear();
 
@@ -109,7 +109,7 @@ const company = [
         <h2 class="eyebrow eyebrow-plain mb-5 text-mist">Service areas</h2>
         <div class="space-y-6">
           {
-            site.offices.map((o) => (
+            listedOffices.map((o) => (
               <div>
                 <p class="text-[0.95rem] font-semibold text-paper">{o.name}</p>
                 <p class="mt-1 text-[0.85rem] leading-snug text-mist">
@@ -134,6 +134,10 @@ const company = [
       class="rule-dark mt-16 flex flex-col gap-4 pt-8 text-[0.8rem] text-mist sm:flex-row sm:items-center sm:justify-between"
     >
       <p>&copy; {year} {site.name}. All rights reserved.</p>
+      <div class="flex items-center gap-5">
+        <a href="https://www.facebook.com/hvaccleaning/" rel="noopener" class="link-slide hover:text-paper">Facebook</a>
+        <a href="https://www.youtube.com/channel/UCytmEca5Hpr3XmVKTHF62Hg" rel="noopener" class="link-slide hover:text-paper">YouTube</a>
+      </div>
       <a
         href={`mailto:${site.email}`}
         class="link-slide hover:text-paper">{site.email}</a

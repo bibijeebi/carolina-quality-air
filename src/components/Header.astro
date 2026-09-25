@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import logo from "../assets/brand/logo-cqa.png";
-import { site } from "../data/site";
+import { site, listedOffices } from "../data/site";
 
 const nav = [
   { href: "/services", label: "Services" },
@@ -32,7 +32,7 @@ const isActive = (href: string) =>
         {site.email}
       </a>
       {
-        site.offices.map((o) => (
+        listedOffices.map((o) => (
           <a
             href={o.phoneHref}
             class="link-slide tnum hover:text-paper"
@@ -105,10 +105,10 @@ const isActive = (href: string) =>
         </a>
 
         <a
-          href={site.booking.freeInspection}
+          href={site.booking.freeEstimate}
           class="hidden rounded-xs bg-brand-600 px-5 py-3 text-[0.85rem] font-semibold tracking-wide text-white transition-colors hover:bg-brand-700 sm:inline-block"
         >
-          Request a free inspection
+          Get a free estimate
         </a>
 
         {/* CSS-only mobile menu: <details> means no JavaScript ships. */}
@@ -162,7 +162,7 @@ const isActive = (href: string) =>
             </nav>
             <div class="mt-6 space-y-2">
               {
-                site.offices.map((o) => (
+                listedOffices.map((o) => (
                   <a
                     href={o.phoneHref}
                     class="flex items-center justify-between py-2 text-ink-2"

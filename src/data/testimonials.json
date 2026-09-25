@@ -40,5 +40,12 @@
     "location_type": "Residential",
     "rating": 5,
     "text": "The gentlemen who serviced this house did a thorough job and very friendly. Friendly, clean and efficient. Great job guys."
+  },
+  {
+    "id": 7,
+    "name": "Ken Robol",
+    "location_type": "Commercial",
+    "rating": 5,
+    "text": "Love it.."
   }
 ]

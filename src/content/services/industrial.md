@@ -14,8 +14,8 @@ includes:
   - NADCA-certified specialist supervising on site
 bestFor:
   - Manufacturing plants and process facilities
-  - Warehouses and distribution centres
-  - Facilities with dust, fibre or particulate loading in the return path
+  - Warehouses and distribution centers
+  - Facilities with dust, fiber or particulate loading in the return path
   - Buildings where the ventilation has never been cleaned since construction
 ---
 
@@ -23,16 +23,16 @@ bestFor:
 
 The difference between residential and industrial work is mostly a question of
 capacity. Long runs, big plenums and heavy loading need vacuum equipment and
-agitation tools that match — and a crew that has done it before. Carolina
+agitation tools that match, and a crew that has done it before. Carolina
 Quality Air runs industrial-capacity vacuums and has worked on plants across
 the state.
 
 ## We look first, always
 
 There is no honest way to price industrial ventilation cleaning over the
-phone. Someone comes out, walks the system, puts a camera in it, and writes a
-scope. That survey is free and it is the only way you get a number you can
-rely on.
+phone. Someone comes out, walks the system and writes a scope. That survey
+is free, and it is the only way you get a number you can rely on. Video
+inspection is available on request.
 
 ## Working around production
 

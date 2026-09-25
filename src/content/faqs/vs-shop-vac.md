@@ -5,7 +5,8 @@ category: "Choosing a company"
 ---
 
 A shop vac cannot hold your duct system under negative pressure. So when the dust
-gets agitated, it does not go into a collection unit — it goes around.
+gets agitated, there is nothing pulling it into a collection unit, and it goes back
+into the house.
 
 The EPA warns about this specifically: an inadequate vacuum collection system "can
 release more dust, dirt and other contaminants than if you had left the ducts alone."
@@ -16,4 +17,4 @@ ACR, the NADCA Standard. That standard requires continuously verified negative p
 mechanical agitation paired with continuous vacuum collection, and HEPA filtration at
 99.97% efficiency at 0.3 microns where the vacuum exhausts indoors.
 
-Those are testable requirements, not slogans.
+Every one of those requirements can be tested.

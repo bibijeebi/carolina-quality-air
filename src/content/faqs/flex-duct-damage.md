@@ -6,11 +6,11 @@ category: "The cleaning itself"
 
 Fair concern, and the honest answer is that a careless crew absolutely can.
 
-Flex duct and fibreglass duct board need soft-bristled brushes and a gentler hand than
+Flex duct and fiberglass duct board need soft-bristled brushes and a gentler hand than
 bare sheet metal. Aggressive spinning tools tear the inner liner, and once that is torn
 you have a bigger problem than you started with.
 
-The standard prohibits methods that damage components, and both the EPA and the NADCA
+The NADCA standard prohibits methods that damage components, and both the EPA and the
 standard warn against steam cleaning, power washing and other wet processes inside duct
 runs.
 

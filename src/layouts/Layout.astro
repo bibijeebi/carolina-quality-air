@@ -3,7 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import MobileCallBar from "../components/MobileCallBar.astro";
-import { site } from "../data/site";
+import { site, listedOffices } from "../data/site";
 
 interface Props {
   title: string;
@@ -45,6 +45,7 @@ const canonical = new URL(
     <meta name="googlebot" content="noindex, nofollow" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0072bb" />
 
     {/* Self-hosted variable font: no third-party connection, no FOIT. */}
@@ -61,7 +62,12 @@ const canonical = new URL(
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content="https://carolinaqualityair.xyz/og/cqa.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Carolina Quality Air: a dirty duct before cleaning and the same duct after" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://carolinaqualityair.xyz/og/cqa.jpg" />
 
     {/* Structured data: one HVACBusiness entity with regional contact points.
         A directory contact address does not establish a customer-facing office. */}
@@ -78,7 +84,8 @@ const canonical = new URL(
         foundingDate: "1999",
         description:
           "Family-owned, NADCA-certified air duct and dryer vent cleaning serving Eastern North Carolina since 1999.",
-        contactPoint: site.offices.map((o) => ({
+        image: "https://carolinaqualityair.xyz/og/cqa.jpg",
+        contactPoint: listedOffices.map((o) => ({
           "@type": "ContactPoint",
           contactType: "customer service",
           telephone: "+1-" + o.phone,
@@ -113,6 +120,10 @@ const canonical = new URL(
       Skip to content
     </a>
 
+    <p class="bg-brand-900 px-5 py-2 text-center text-[0.8rem] leading-snug text-brand-100">
+      Heads up: a fake social media account has been posting &ldquo;specials&rdquo; in our name. It is not us.
+      <a href="/about#fake-accounts" class="font-semibold text-white underline underline-offset-2">More</a>
+    </p>
     <Header />
     <main id="main">
       <slot />

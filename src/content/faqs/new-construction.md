@@ -7,7 +7,7 @@ category: "Getting started"
 Often yes, and it is one of the better reasons to call.
 
 New ductwork routinely collects drywall dust, sawdust, joint compound, insulation
-scraps and general site rubbish, because the system usually gets run for heat or air
+scraps and general job-site trash, because the system usually gets run for heat or air
 before the house is finished. The NADCA standard specifically addresses newly installed
 components contaminated with construction debris.
 

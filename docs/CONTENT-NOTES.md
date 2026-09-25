@@ -159,19 +159,10 @@ workmanship and scope. Not results outside your control.
 
 ## 3. Design decision worth knowing
 
-The typeface pairing is **Fraunces** (display) + **Public Sans** (body),
-self-hosted as variable woff2 with Fraunces's optical-size axis wired to the
-rendered size.
-
-One reviewer's view during the rebuild was that Fraunces has itself become a
-recognisable marker of tasteful-indie builds, and suggested Archivo Expanded +
-Literata instead. That is a legitimate alternative and it is documented here on
-purpose. The call to keep Fraunces was made because it reads distinctly in this
-particular system — warm paper ground, clay action colour, hairline rules — and
-because the pairing is carrying the pages well. If a future pass wants to
-re-approach the type, Archivo Expanded + Literata is the considered alternative,
-not a random swap.
-
+The site uses one self-hosted variable font, **Archivo** (wght + wdth axes),
+condensed for display and normal width for body, on CQA's own logo blue
+#0072bb. This replaced the Fraunces + Public Sans pairing on Aug 2, 2026 when
+the first design read as too generic.
 
 ## September 7, 2026 — company-record correction
 
@@ -192,3 +183,23 @@ year is distinct from founding in 1999 and individual certification dates.
 The /operations pages are noindex planning records, not authenticated private
 records. They contain no personal-address table, credentials or account recovery
 information. Existing noindex and robots behavior remains intentional.
+
+
+## September 25, 2026 — parity pass against carolinaqualityair.com
+
+- **The Wilmington number is gone.** 910-679-4471 is listed on Manta for
+  Impact Media Solutions, a Wilmington data company, and the .com has no
+  Wilmington number or office. Wilmington stays as a service area, booked
+  through the main line (`listed: false` in `site.ts` keeps it out of the
+  header, footer and contact lists). Never re-add a coastal number unless Jeff
+  gives one.
+- **No "free video inspection."** Camera inspection is never part of an
+  estimate at CQA; it is done on request and billed. Every CTA now says
+  "free estimate" (the .com's own wording).
+- Americanized spelling throughout (the copy had British spellings).
+- Added from the .com: Facebook and YouTube links, the fake-account notice
+  site-wide, the seventh review (Ken Robol), an OG image, and 301s from the
+  .com's old paths (/get-quote, /benefits, /blog, the success pages).
+- Still for Jeff: street addresses (the .com publishes 140 Towerview Ct, Cary
+  and 111 Essex Dr, Winterville; this site leaves them off per the Sept 7
+  note), hours, Jeff's committee, the team-size claim, the 2005 date.

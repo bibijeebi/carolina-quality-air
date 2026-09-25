@@ -11,7 +11,7 @@ health problems," and that studies do not conclusively show that dust levels in 
 rise because of dirty ducts or fall after cleaning. A good deal of what settles in
 ductwork sticks to the metal and never makes it into your living space.
 
-What cleaning reliably does is remove what is actually in there — construction debris,
+What cleaning reliably does is remove what is actually in there, such as construction debris,
 pet hair, blown-in insulation that got sucked into a return, rodent droppings, an
 evaporator coil packed solid with dust. If your system has that in it, taking it out is
 worth doing.

@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/proof", label: "Before & after" },
+  { href: "/testimonials", label: "Reviews" },
+  { href: "/contact", label: "Get a free estimate" },
+];
+---
+
+<Layout title="Page not found" description="That page isn't here. Find duct cleaning services, reviews and a free estimate from Carolina Quality Air.">
+  <section class="mx-auto max-w-[80rem] px-5 py-24 sm:px-8 sm:py-32">
+    <p class="eyebrow text-brand-700">404</p>
+    <h1 class="mt-5 max-w-2xl font-display text-display text-ink">That page isn't here.</h1>
+    <p class="mt-6 max-w-xl text-lede text-ink-3">
+      The link may be old or mistyped. Everything we do is one click away below, or call the shop at
+      <a href={site.phone.href} class="tnum font-semibold text-brand-700">{site.phone.display}</a>.
+    </p>
+    <ul class="mt-10 flex flex-wrap gap-3">
+      {links.map((l) => (
+        <li><a href={l.href} class="inline-block rounded-xs border border-hairline px-5 py-3 font-semibold text-ink hover:border-brand-600 hover:text-brand-700">{l.label}</a></li>
+      ))}
+    </ul>
+  </section>
+</Layout>

@@ -8,7 +8,7 @@ interface Props {
 
 const {
   heading = "Find out what is actually in your ducts.",
-  body = "The inspection is free and it comes with video. If your system does not need cleaning, we will tell you that.",
+  body = "Estimates are free and written down before any work starts. If your system does not need cleaning, we will tell you that.",
 } = Astro.props;
 ---
 
@@ -17,7 +17,7 @@ const {
     class="relative z-10 mx-auto grid max-w-[80rem] gap-10 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[1.3fr_1fr] lg:items-end"
   >
     <div>
-      <p class="eyebrow text-brand-300">Free inspection</p>
+      <p class="eyebrow text-brand-300">Free estimates</p>
       <h2
         class="mt-6 max-w-2xl font-display text-display optical-lg text-paper"
       >
@@ -28,10 +28,10 @@ const {
 
     <div class="flex flex-col gap-3">
       <a
-        href={site.booking.freeInspection}
+        href={site.booking.freeEstimate}
         class="flex items-center justify-between gap-4 rounded-xs bg-brand-600 px-6 py-5 font-semibold text-white transition-colors hover:bg-brand-700"
       >
-        Request a free inspection
+        Get a free estimate
         <svg
           class="size-5 shrink-0"
           viewBox="0 0 24 24"
@@ -52,8 +52,8 @@ const {
         <span class="tnum text-brand-200">{site.phone.display}</span>
       </a>
       <p class="mt-1 text-[0.8rem] leading-relaxed text-brand-200/70">
-        Greenville, the Triangle and Wilmington. Free written estimates —
-        bonded and insured.
+        Greenville, the Triangle and the coast. Free written estimates.
+        Bonded and insured.
       </p>
     </div>
   </div>

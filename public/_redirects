@@ -2,3 +2,12 @@
 /learning/lab /learning/ 301
 /learning/lab/ /learning/ 301
 /learning/lab/* /learning/:splat 301
+# Old carolinaqualityair.com paths, so their links and bookmarks land somewhere real after a domain move.
+/get-quote /contact 301
+/get-quote-success /contact 301
+/contact-success /contact 301
+/benefits / 301
+/blog /faq 301
+/blog/ /faq 301
+/blog-posts/* /faq 301
+/home / 301

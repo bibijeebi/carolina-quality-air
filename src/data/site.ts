@@ -56,6 +56,7 @@ export const site = {
       phoneHref: "tel:+12523217447",
       mapUrl: null,
       role: "Greenville service area",
+      listed: true,
     },
     {
       slug: "raleigh-triangle",
@@ -67,18 +68,23 @@ export const site = {
       phoneHref: "tel:+19199079742",
       mapUrl: null,
       role: "Triangle service area",
+      listed: true,
     },
     {
-      /* No published street address exists for Wilmington. Do not invent one. */
+      /* Coastal work is booked through the main line. There is no Wilmington
+         office, and the old 910-679-4471 number belongs to another business
+         (Manta: Impact Media Solutions, Wilmington), so it is gone for good.
+         listed:false keeps it out of the header, footer and contact lists. */
       slug: "wilmington",
-      name: "Wilmington",
+      name: "Wilmington & the coast",
       shortName: "Wilmington",
-      street: "Serving the greater Wilmington area",
+      street: "Coastal jobs booked through the main line",
       city: "Wilmington, NC",
-      phone: "910-679-4471",
-      phoneHref: "tel:+19106794471",
+      phone: "252-321-7447",
+      phoneHref: "tel:+12523217447",
       mapUrl: null,
-      role: "Coastal service area",
+      role: "Coastal jobs, booked through our main line",
+      listed: false,
     },
   ],
 
@@ -117,7 +123,7 @@ export const site = {
         "Serves on a NADCA national committee",
         "On site for the work himself",
       ],
-      bio: "Perry's son. Jeff has been with the company since 2005 and is the one who shows up at your house — he runs the crews and is on site for the work himself.",
+      bio: "Perry's son. Jeff is the one who shows up at your house — he runs the crews and is on site for the work himself.",
     },
   ],
 
@@ -133,7 +139,7 @@ export const site = {
   // duration vary too much for an open calendar. (Cal.com links
   // from the demo phase are preserved in git history.)
   booking: {
-    freeInspection: "/contact",
+    freeEstimate: "/contact",
     dryerVent: "/contact",
     commercial: "/contact",
   },
@@ -145,3 +151,5 @@ export const site = {
 } as const;
 
 export type Office = (typeof site.offices)[number];
+/** Offices that get a phone line in the header, footer and contact page. */
+export const listedOffices = site.offices.filter((o) => o.listed);
