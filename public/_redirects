@@ -11,3 +11,10 @@
 /blog/ /faq 301
 /blog-posts/* /faq 301
 /home / 301
+# Internal folders without their own index go to Staff HQ (after sign-in).
+/estimates /hq/#reports 302
+/estimates/ /hq/#reports 302
+/operations /hq/#reports 302
+/operations/ /hq/#reports 302
+/reports /hq/#tools 302
+/reports/ /hq/#tools 302

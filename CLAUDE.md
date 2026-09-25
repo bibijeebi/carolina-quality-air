@@ -1,196 +1,89 @@
-# Carolina Quality Air — Website
+# carolinaqualityair.xyz
 
-Marketing site for Carolina Quality Air, a family-owned NADCA-certified air duct
-cleaning company in Eastern North Carolina. This is **v2**, a full design and
-content rebuild of the January 2026 site.
+One Cloudflare Pages project (`carolina-quality-air`), five things on one domain. Owner: Benny Foreman
+(bennyforeman1@gmail.com), a tech at Carolina Quality Air (CQA). Tone everywhere: flat, direct, no hype,
+no em-dashes in copy.
 
----
+**The one rule:** typing carolinaqualityair.xyz must show a better parallel of CQA's real site
+(carolinaqualityair.com, Webflow, run by Red Shark Digital). That is Benny's pitch to take over their
+website (Proposal 005). Nothing on the public site links to, or hints at, anything else on the domain.
+Everything internal sits behind Google sign-in.
 
-## The brief (v2 rebuild)
+## Map
 
-**BLUF:** This is attempt two. A full v1 already exists from January 2026.
-Recover it as raw material, don't rebuild the plumbing from scratch, spend the
-new model's horsepower on design and content instead.
+| Part | Paths | Source | Access |
+|---|---|---|---|
+| Public site | `/`, `/services/*`, `/service-areas/*`, `/proof`, `/nadca`, `/about`, `/testimonials`, `/faq`, `/contact`, `/404` | `src/` (Astro 5 + Tailwind 4) | Public, noindexed until handoff |
+| Staff HQ | `/hq/` | `src/pages/hq/index.astro` + `src/data/hq.json` | Google sign-in |
+| Jeff desk | `/proposals/`, `/leads/`, `/estimates/`, `/repairs/`, `/operations/`, `/orders/`, `/reports/`, `/work-load.html` | static HTML in `public/` | Google sign-in |
+| Shop Book | `/kb/` | `kb/` (separate Astro + Starlight project, builds into `dist/kb`) | Google sign-in |
+| Pricing trainers | `/learning/{estimator,walk-the-job,perry-sim,pricing-doctrine}.html` | `public/learning/` | Google sign-in |
+| DuctStudy | `/learning/` (SPA), `/learning/field/*`, `/learning/field-guide/*`, EPA/forklift drills | `public/learning/` | Public but unlisted; its own optional Google sign-in syncs progress |
 
-### What already existed (January 2026)
+Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client; repo bibijeebi/ductstudy),
+`cqa-form-handler` (contact form to D1 + Resend), `cqa-public-api` (testimonials JSON, read at build),
+`cqa-admin` (testimonial admin behind Cloudflare Access), `lead-hub` + collectors (`evp-bid-watch`,
+`sam-lead-watch`, ...), `acr-cheat` (old ACR hub at ascs.carolinaqualityair.xyz).
 
-- Astro + Tailwind static site, deployed to Cloudflare Pages at
-  `carolina-quality-air.pages.dev` — **confirmed still live**
-- `cqa-admin` Cloudflare Worker: testimonials CRUD, contact form capture, Google
-  OAuth, D1 database — **confirmed still live**
-- Public testimonials API the site pulls from — **confirmed live, data recovered**
-- Full content extraction from their real site, optimized image set
-  (before/after gallery, van photos, NADCA logo)
-- A RevealJS pitch deck for Jeff
+## Sign-in (functions/_middleware.js)
 
-### Their current site (the thing to embarrass)
+- Runs only on the paths in `public/_routes.json`. The public site never invokes a Function.
+- No valid `cqa_desk` cookie: redirect to `https://ductstudy.bennyforeman1.workers.dev/auth/desk?next=...`.
+  That worker does Google OAuth and POSTs a 30-day Ed25519-signed pass to `/_desk/cb`, which checks it
+  against the embedded public key and the `ALLOW` set and sets the cookie.
+- **To let someone in:** add their Google email to `ALLOW` in `functions/_middleware.js` and push.
+- `/_desk/` is the sign-in page (and error landing), `/_desk/out` signs out.
+- Link-preview bots (iMessage, Slack, etc.) get only the page title and OG image, so texted links still
+  preview. `/*/og/*.jpg` images are public for the same reason. Page content never is.
+- Any `*.pages.dev` or `www` request to a gated path redirects to the apex, where the cookie lives.
+- Signed-in HTML gets a small "HQ" pill (HTMLRewriter) linking back to `/hq/`.
+- If the ductstudy worker's `MASTER` secret rotates, the key changes: copy the new `x` from
+  `/desk/key` into `DESK_KEY` the same day.
 
-`carolinaqualityair.com`, Webflow, built by Red Shark Digital, ~$30/mo.
+## Adding internal pages
 
-Confirmed problems, verified July 2026:
+- New proposal: `public/proposals/YYYY-MM-DD-slug.html` with a `№ NNN · Name` title and an og:description.
+  It shows up on `/hq/` by itself (status defaults to "Waiting on Jeff"); set status in `src/data/hq.json`.
+  Also add its card to `public/proposals/index.html`. One page per spend decision, updated in place.
+- Lead reports, estimates, repairs, operations: same pattern, auto-listed on `/hq/`.
+- A new top-level internal folder must be added to `public/_routes.json` or it is public.
+- Every internal page carries `<meta name="robots" content="noindex, nofollow">`.
+- OG images: commit same-origin under `public/<section>/og/`. R2 uploads break iMessage previews.
+- Jeff-facing pages: plain English (no "BLUF"), facts about the job first, Benny's pricing last and
+  labeled as his first pass; never describe Jeff's design thumbs-up as "approved".
 
-- **Lorem ipsum live in production** — the entire Industries 4-card grid, on
-  both the homepage and /about
-- Dead blog containing exactly one post, "COVID-19 AND HVAC SYSTEMS"
-- A viewport-eating popup (it is a real anti-impersonation notice — preserved on
-  the new site as a footnote on /about rather than a modal)
-- Four dead "Learn More" links: `/commercial`, `/residential`, `/industrial`,
-  `/medical` all 404
-- Stat block frozen at "22 years of experience" since roughly 2021
-- Tagline garbles NADCA's name: "National Association of Air Duct Cleaning
-  Experts" is not a real organisation
+## Public site
 
-### Target
+- Business facts: `src/data/site.ts` (single source). Services, areas, FAQs: `src/content/`.
+  Testimonials: build-time merge of `cqa-public-api` and `src/data/testimonials.json`.
+- Read `docs/CONTENT-NOTES.md` before changing copy. Its honesty guardrails are binding (no health
+  claims, no EPA endorsement, no energy percentages, no "free video inspection", no invented numbers).
+- `listed: false` on an office keeps it out of header/footer/contact lists (Wilmington: coastal jobs
+  book through the main line; the old 910 number belongs to another business).
+- Zero client framework. JS only for the before/after slider and the form upgrade.
+- At handoff: remove the robots meta in `src/layouts/Layout.astro` and delete `public/robots.txt`.
+- Old .com paths 301 to their equivalents (`public/_redirects`).
 
-- Domain: `carolinaqualityair.xyz` or similar, ~$2 first year. Worth it over a
-  `pages.dev` URL for the demo. **`.xyz` returned NXDOMAIN in July 2026, so it
-  looked available — verify at the registrar before promising it.**
-- Best possible state: this is a showpiece, not an MVP. Design quality is the
-  whole point.
-- **`noindex` the entire site until handoff.** A polished clone competing with
-  their `.com` in Google helps nobody and muddies their local SEO.
+## DuctStudy copy in this repo
 
-### Build priorities, in order
+`public/learning/` is the live DuctStudy client. It is built in the vent-exam-lab project and copied
+here; edits made directly here (for example the removed pricing links in `app.js`'s LIBRARY) must be
+carried back there or a re-copy will undo them.
 
-1. **Design.** v1 was clean but generic Tailwind. This pass should look like a
-   real agency did it. Local service business, trust-heavy: NADCA certs front
-   and centre, before/after photos as the hero proof, real testimonials, faces
-   and vans.
-2. **Speed.** Static, sub-1s, perfect Lighthouse. That was v1's win — keep it.
-3. **Reuse the Worker/D1 backend if recoverable**, otherwise stub. It was
-   recoverable; see "Backend" below.
-4. **Content upgrades v1 didn't have:** service-area pages (Greenville,
-   Raleigh/Triangle, eastern NC), a real services breakdown (residential,
-   commercial, dryer vent, mold-adjacent), FAQ with actual duct cleaning
-   answers, click-to-call everywhere on mobile.
-5. **One wow feature max.** Instant quote estimator or before/after slider. Not
-   five. → the before/after slider was chosen.
+## Build and deploy
 
-### Stack rules
-
-- Astro (latest), used as a **templating layer ONLY**: zero client-side
-  framework, no React/Vue islands, no hydration. Every page ships as plain HTML
-  + CSS.
-- **Dependency budget: single digits.** Currently **3** runtime dependencies.
-- Tailwind allowed but pinned, with a real design-token layer (colours, type
-  scale, spacing) and custom fonts defined up front so the site doesn't look
-  like default-Tailwind AI slop. The January build's weakness was generic
-  styling, not the stack.
-- JS only where a feature demands it, vanilla, no framework.
-- Content in markdown content collections so edits are "Claude Code as CMS":
-  describe the change, agent edits repo, builds, deploys.
-- Cloudflare Pages deploy. No Docker.
-
-### Pitch context (do not lose this)
-
-- Demo it on a phone at a job site: "look how fast this loads." Show, don't
-  pitch.
-- **Retainer beats lump sum.** $150–200/mo "I handle everything" was the January
-  conclusion. $10k lump is DOA for a family shop that shipped lorem ipsum.
-- **Pitch Jeff, not Perry.**
-- Keep this pitch in a separate conversation from the raise ask. Two asks in one
-  meeting halves both.
-
----
-
-## Tech stack
-
-- **Framework:** Astro 5 (static output, zero hydration)
-- **Styling:** Tailwind CSS 4 via `@tailwindcss/vite`, driven by a token layer
-  in `src/styles/global.css`
-- **Fonts:** Fraunces + Public Sans, self-hosted variable woff2 in
-  `public/fonts` (no third-party font request)
-- **Images:** `astro:assets` (sharp ships with Astro — no extra dependency)
-- **Hosting:** Cloudflare Pages, auto-deploy from `main`
-- **Backend:** Cloudflare Workers + D1 (separate `cqa-admin` Worker)
-
-Total JS delivered to the browser: **one inlined ~190-byte module** for the
-before/after slider. No `.js` network requests.
-
-## Development
-
-```bash
-npm install
-npm run dev      # localhost:4321
-npm run build    # → dist/
-npm run preview
+```
+npm ci && npm ci --prefix kb
+npm run build            # astro build, then the kb build into dist/kb
+npx wrangler pages dev dist   # serves dist + functions locally on :8788
 ```
 
-## Architecture
+Push to `main` deploys through GitHub Actions (`.github/workflows/deploy.yml`, `wrangler pages deploy
+dist/`, secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`). One deploy at a time, newest wins.
+Other sessions push to this repo too: `git fetch && git rebase origin/main` before every push. Verify a
+deploy by page title or content, and for gated paths by the 302 to `/auth/desk`.
 
-### Content is the CMS
+## Pitch context
 
-Everything editable lives in markdown or one TypeScript file:
-
-| What | Where |
-|---|---|
-| Business facts, phones, addresses, team, credentials | `src/data/site.ts` |
-| Services (5) | `src/content/services/*.md` |
-| Service areas (3) | `src/content/areas/*.md` |
-| FAQs (16) | `src/content/faqs/*.md` |
-| Testimonials fallback | `src/data/testimonials.json` |
-| Schemas | `src/content.config.ts` |
-
-To change what the site says, edit the markdown. No dashboard, no deploy config.
-
-### Backend
-
-Both Workers survived and are live:
-
-- `GET /testimonials` on `cqa-public-api` — **fetched at build time**, not in
-  the browser, so testimonials are baked into the HTML (no spinner, no layout
-  shift). Merged with `src/data/testimonials.json` by name, longer text wins.
-  See `src/data/getTestimonials.ts`.
-- `cqa-form-handler` — the contact form posts to it. The form is a real
-  `<form method="POST">` that works with JavaScript disabled; a small script
-  upgrades it to stay on the page.
-
-If a build cannot reach the Worker, it logs a warning and uses the committed
-testimonials. Builds never fail on it.
-
-## URLs
-
-| Environment | URL |
-|---|---|
-| Production | https://carolina-quality-air.pages.dev |
-| Admin panel | https://cqa-admin.bennyforeman1.workers.dev |
-| Testimonials API | https://cqa-public-api.bennyforeman1.workers.dev/testimonials |
-
-## Cal.com booking links
-
-| Event | URL |
-|---|---|
-| Free inspection | https://cal.com/benjamin-foreman-nmetle/free-inspection |
-| Dryer vent | https://cal.com/benjamin-foreman-nmetle/dryer-vent |
-| Commercial consultation | https://cal.com/benjamin-foreman-nmetle/commercial-consultation |
-
-## Pages
-
-| Route | Purpose |
-|---|---|
-| `/` | Hero, proof slider, services, why-it-matters, process, testimonial, areas |
-| `/services` + `/services/[slug]` | 5 services |
-| `/service-areas` + `/service-areas/[slug]` | Greenville, Raleigh/Triangle, Wilmington |
-| `/proof` | Full before/after gallery, 6 pairs |
-| `/nadca` | What certification means, ACR standard, verify-anyone |
-| `/about` | The Bagleys, the certificate, impersonation notice |
-| `/testimonials` | Real reviews only |
-| `/faq` | 16 questions, sourced answers |
-| `/contact` | Form + three offices |
-
-## Before shipping to the client
-
-See **`docs/CONTENT-NOTES.md`** — it lists every claim that still needs Jeff to
-confirm it, and the honesty guardrails this copy is written against. Read it
-before changing marketing copy.
-
-**Removing the noindex at handoff** requires two edits:
-1. Delete the `robots` meta block in `src/layouts/Layout.astro`
-2. Delete `public/robots.txt`
-
-## Deployment
-
-Pushes to `main` trigger GitHub Actions → Cloudflare Pages.
-
-Required secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
-(`561fd0701605e15d264ed1ca0e27752a`).
+Retainer ($150–200/mo all-in) beats a lump sum. Pitch Jeff, not Perry. Keep the website pitch separate
+from any raise conversation. Demo it on a phone.
