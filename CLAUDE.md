@@ -32,6 +32,9 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
   That worker does Google OAuth and POSTs a 30-day Ed25519-signed pass to `/_desk/cb`, which checks it
   against the embedded public key and the `ALLOW` set and sets the cookie.
 - **To let someone in:** add their Google email to `ALLOW` in `functions/_middleware.js` and push.
+- **Someone without Google (Jeff is AOL):** put their email in `ALLOW`, then Benny opens `/_desk/invite`
+  while signed in, makes a link (default 180 days) and texts it. `/_desk/join?pass=` sets the cookie.
+  Removing the email from `ALLOW` revokes it.
 - `/_desk/` is the sign-in page (and error landing), `/_desk/out` signs out.
 - Link-preview bots (iMessage, Slack, etc.) get only the page title and OG image, so texted links still
   preview. `/*/og/*.jpg` images are public for the same reason. Page content never is.

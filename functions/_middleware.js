@@ -3,7 +3,9 @@
 // CQA's Google client: it verifies the Google account and POSTs back a 30-day Ed25519-signed pass (ductstudy repo, /auth/desk).
 // This file checks that pass against the worker's public key and the ALLOW list below. To let someone in, add their
 // Google email to ALLOW and push.
-const ALLOW = new Set(["bennyforeman1@gmail.com", "carolinaqualityairinc@gmail.com"]);
+// Jeff's mail is AOL, so he gets in by invite link (/_desk/invite) rather than Google.
+const ALLOW = new Set(["bennyforeman1@gmail.com", "carolinaqualityairinc@gmail.com", "vikings0128@aol.com"]);
+const OWNER = "bennyforeman1@gmail.com";
 const DESK_KEY = { kty: "OKP", crv: "Ed25519", x: "K4P9C52zOw73g16LGpGlRRm0yE9gGYUzd7xTWJzup1U" }; // https://ductstudy.bennyforeman1.workers.dev/desk/key
 const AUTH = "https://ductstudy.bennyforeman1.workers.dev/auth/desk";
 const HOME = "https://carolinaqualityair.xyz";
@@ -62,6 +64,19 @@ export async function onRequest(ctx) {
     if (!who) return page("Sign-in failed", `<h1>Sign-in didn't go through</h1><p>The pass from Google sign-in wasn't valid.</p><a class="btn" href="${esc(signIn(f && f.get("next")))}">${G}Try again</a>`, 400);
     if (!ALLOW.has(who.e)) return page("Not on the list", `<h1>Staff only</h1><p>You're signed in as <b>${esc(who.e)}</b>, which isn't on this site's staff list.</p><p>If you work with Carolina Quality Air, ask Ben to add this address.</p><a href="${HOME}/">Go to the Carolina Quality Air website</a>`, 403);
     return new Response(null, { status: 303, headers: { location: safeNext(f.get("next")), "set-cookie": `${COOKIE}=${pass}; Path=/; Max-Age=${30 * 86400}; HttpOnly; Secure; SameSite=Lax`, "cache-control": "no-store" } });
+  }
+  if (p === "/_desk/join") {
+    const pass = url.searchParams.get("pass"), who = await check(pass);
+    if (!who) return page("Link expired", `<h1>That link didn't work</h1><p>It may have expired or been copied wrong. Ask Ben for a new one.</p><a href="${HOME}/">Carolina Quality Air website</a>`, 400);
+    if (!ALLOW.has(who.e)) return page("Not on the list", `<h1>Staff only</h1><p>This link is for <b>${esc(who.e)}</b>, which isn't on this site's staff list anymore. Ask Ben.</p>`, 403);
+    const age = Math.max(60, Math.floor((who.exp - Date.now()) / 1000));
+    return new Response(null, { status: 303, headers: { location: safeNext(url.searchParams.get("next")), "set-cookie": `${COOKIE}=${pass}; Path=/; Max-Age=${age}; HttpOnly; Secure; SameSite=Lax`, "cache-control": "no-store" } });
+  }
+  if (p === "/_desk/invite") {
+    const me = await check(cookieOf(req)), raw = cookieOf(req);
+    if (!me || me.e !== OWNER) return new Response(null, { status: 302, headers: { location: signIn("/_desk/invite") } });
+    const people = [...ALLOW].filter(e => e !== OWNER).map(e => `<option value="${esc(e)}">`).join("");
+    return page("Invite someone", `<h1>Invite someone</h1><p>For people who can't sign in with Google. They get a link that signs them in on whatever phone opens it. Their email has to be on the <code>ALLOW</code> list in <code>functions/_middleware.js</code>, and taking it off revokes the link.</p><form method="POST" action="https://ductstudy.bennyforeman1.workers.dev/desk/invite" style="display:grid;gap:10px"><input type="hidden" name="pass" value="${esc(raw)}"><label>Email<br><input name="email" type="email" required list="ppl" style="width:100%;min-height:44px;font:inherit;padding:0 10px"></label><datalist id="ppl">${people}</datalist><label>Name (shown nowhere, for your records)<br><input name="name" style="width:100%;min-height:44px;font:inherit;padding:0 10px"></label><label>Good for (days)<br><input name="days" type="number" min="1" max="365" value="180" style="width:100%;min-height:44px;font:inherit;padding:0 10px"></label><button style="min-height:46px;border:0;border-radius:6px;background:#0072bb;color:#fff;font:600 16px system-ui">Make the link</button></form><small><a href="/hq/">Back to Staff HQ</a></small>`);
   }
   if (p === "/_desk/out") return page("Signed out", `<h1>Signed out</h1><p>You're signed out of the Carolina Quality Air staff pages on this browser.</p><a class="btn" href="${esc(signIn("/hq/"))}">${G}Sign in with Google</a><small><a href="${HOME}/">Carolina Quality Air website</a></small>`, 200, { "set-cookie": `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax` });
   if (p === "/_desk" || p === "/_desk/") {
