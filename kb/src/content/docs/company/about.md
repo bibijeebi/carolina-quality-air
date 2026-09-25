@@ -62,12 +62,13 @@ Perry's number: CQA can field 4 to 5 crews, about 12 people, enough to clear a 2
 
 | Person | Holds | Notes |
 |---|---|---|
-| Perry Bagley | ASCS | Listed in NADCA's directory. VSMR claimed on the old site, _(unconfirmed)_. |
-| Jeff Bagley | ASCS, CVI | Listed in NADCA's directory as "ASCS, CVI". VSMR claimed on the old site, _(unconfirmed)_. |
-| Benny Foreman | ASCS | Tech. 2026. |
+| Perry Bagley | ASCS | Listed in NADCA's directory. ASCS holders also qualify as VSMR per NADCA. |
+| Jeff Bagley | ASCS, CVI | Listed in NADCA's directory as "ASCS, CVI". ASCS holders also qualify as VSMR per NADCA. |
+| Benny Foreman | ASCS | Tech. 2026. Also EPA 608 Universal (refrigerant), not used on CQA jobs. |
 
 - NADCA wants at least one owner, principal, or key full-time employee to hold ASCS. We have more than one.
 - CVI is the inspector certification. CQA does not currently sell inspection as a separate service. Jeff's words on it: we were not making any money off of it.
+- Jeff wants crew to get ASCS certified. His plan is for techs to sit it at NADCA's Fall Technical Conference, where the office handles registration. See [Standards](/kb/company/standards/).
 - Crew members sit the ASCS through the company's NADCA membership. Registering at member pricing needs the company's NADCA Member Security Code. Ask Jeff.
 
 What each certification means: [Standards](/kb/company/standards/).
@@ -86,4 +87,5 @@ These are on the public site. Do not promise more than this on a job.
 
 - [NADCA: Air Systems Cleaning Specialist (ASCS)](https://nadca.com/hvac-certification-education-training/air-systems-cleaning-specialist-ascs)
 - [NADCA: Certified Ventilation Inspector (CVI)](https://nadca.com/hvac-certification-education-training/certified-ventilation-inspector-cvi)
+- [NADCA: The ASCS Candidate's Guide (PDF)](https://nadca.com/sites/nadca/files/docs/2023/The%20ASCS%20Candidate%20Guide_updated%202023.pdf)
 - Company facts: carolinaqualityair.xyz site data, BBB start date 4/22/1999, NADCA "Find a Professional" directory (checked July 2026).

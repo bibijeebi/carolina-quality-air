@@ -9,7 +9,8 @@ Stub. A Sunday job in Durham, 4/5/2026, inside the busiest stretch of spring 202
 
 <dl class="facts">
 <dt>Site</dt><dd>4055 Chapel Hill Blvd, Durham NC</dd>
-<dt>Date</dt><dd>Sun 4/5/2026, 9:00 AM start</dd>
+<dt>Date</dt><dd>Sun 4/5/2026. On-site start about 10:15 AM.</dd>
+<dt>Landmark</dt><dd>Directly across Durham-Chapel Hill Blvd from the Starbucks at 4010</dd>
 </dl>
 
 Weekend work on a commercial address usually means the building is empty on Sunday, which is the whole reason for the day. See [JOB-016 Franklin County Health Dept](/kb/jobs/write-ups/job-016-franklin-county-health-dept/) for the same logic.

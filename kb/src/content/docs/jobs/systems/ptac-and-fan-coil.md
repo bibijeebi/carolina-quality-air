@@ -2,7 +2,7 @@
 title: "PTAC and fan coil"
 description: "In-wall and in-room units: short runs, portable equipment, and a high unit count that makes it a production line."
 sidebar:
-  order: 4
+  order: 12
 ---
 In-wall or in-room units. Hotel-style. One per room or per zone, no long distribution.
 
@@ -17,7 +17,7 @@ In-wall or in-room units. Hotel-style. One per room or per zone, no long distrib
 
 ## Window units at ECU
 
-The ECU dorms had through-the-window units, one per room (Friedrich, per the crew). Same production-line logic, but the unit is the whole system: no duct network, so **no fogging**. Coil and blower get cleaned in place. _(model and exact method unconfirmed)_
+The ECU dorms had through-the-window units, one per room (Friedrich, per the crew). Same production-line logic, but the unit is the whole system: no duct network, so **no fogging**. Coil and blower get cleaned in place. _(model and exact method unconfirmed)_ Ductless mini-splits follow the same rule. See [Split systems and heat pumps](/kb/jobs/systems/split-systems-and-heat-pumps/#ductless-mini-splits).
 
 ## After the wash
 

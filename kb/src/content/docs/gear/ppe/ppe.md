@@ -56,8 +56,14 @@ Filtering facepieces (dust masks) worn voluntarily are exempt from the written r
 
 ## Work clothes
 
-- Boots with a stiff sole. You step on screws and sheet metal edges.
-- Long sleeve shirt, work pants, knee pads if you have them.
+| Item | Notes |
+|---|---|
+| Closed-toe sneakers or tennis shoes | Jeff's call for most jobs. Commercial days are a lot of walking. Watch for screws and sheet metal scraps on the floor. |
+| Pull-on rubber boots | Wet work and crawlspaces. Jeff bought a pair for a tech on the Richmond job. They run roomy: buy true size, or plan on a thicker insole and heel grips. |
+| Long sleeve shirt | Fiberglass and sheet metal edges. |
+| Work pants or straight-fit work jeans | Khakis wear through fast crawling under houses and kneeling in attics. Slim fits bind when crawling. |
+| Knee pads | If you have them. |
+| Leather-palm work gloves | Goatskin with a cloth back was the pick for the TJ Maxx overnights. Leather palm for duct edges, cloth back so hands do not cook. |
 
 ## Sources
 

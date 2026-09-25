@@ -9,7 +9,7 @@ Photos are the proof of the work. They protect us if something is questioned lat
 ## Before photos
 
 1. **Phone up in the hole.** Once an access is cut or a register is off, put the phone camera into the duct and shoot the inside before the whip goes in.
-1. **Borescope when the phone will not reach.** Around a turn or down a long run.
+1. **Endoscope when the phone will not reach.** Around a turn or down a long run. See [Lights, mirrors, and cameras](/kb/gear/tools/lights-and-inspection/).
 1. Shoot anything already damaged before you touch it. See [ACR section 4.24](#what-nadca-says): pre-existing damage is documented and brought to the client.
 
 ## After photos

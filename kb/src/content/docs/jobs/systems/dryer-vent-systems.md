@@ -2,7 +2,7 @@
 title: "Dryer vent systems"
 description: "How a residential dryer exhaust run is supposed to be built, what the code says, and the defects to call out while you clean it."
 sidebar:
-  order: 8
+  order: 16
 ---
 Dryer vent cleaning is one of the services CQA sells alongside duct cleaning. It is a separate system from the HVAC ductwork: one dryer, one duct, straight to the outdoors. Nothing else is supposed to share it.
 

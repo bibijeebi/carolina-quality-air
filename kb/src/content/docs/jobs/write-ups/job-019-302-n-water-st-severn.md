@@ -9,7 +9,7 @@ Stub. Wednesday 4/29/2026 at 302 N Water St, Severn NC. Rural site up near the V
 
 <dl class="facts">
 <dt>Site</dt><dd>302 N Water St, Severn NC</dd>
-<dt>Date</dt><dd>Wed 4/29/2026, 9:00 AM start</dd>
+<dt>Date</dt><dd>Wed 4/29/2026, 9:00 AM crew start set by Jeff. Site day ran to about 3:00 PM.</dd>
 <dt>Equipment</dt><dd>A boom lift was on site</dd>
 </dl>
 

@@ -16,21 +16,35 @@ Read this before your first job. Then read [The job, generically](/kb/jobs/the-j
 
 Scheduling for the week comes from the office by email (Vicki). Hours go to payroll (Meredith).
 
+Multi-day out-of-town jobs: Jeff arranges a hotel. If you live within driving distance of the site you can drive home each night instead.
+
+## After each job day
+
+Text Meredith directly. Jeff asks new people to do this from day one. Include:
+
+1. Your full name.
+1. "Worked with Carolina Quality Air at" the site.
+1. The date or dates.
+1. Start and end time.
+
+On out-of-town jobs Jeff's instruction is to include drive time. Ask Jeff if you are unsure which legs count.
+
 ## What to wear
 
 | Item | Why |
 |---|---|
 | Long sleeves | Fiberglass insulation and sheet metal edges. Short sleeves means itching and cuts. |
-| Work pants | Khakis or work pants you can kneel and climb in. |
-| Boots with a stiff sole | You step on screws, cut metal and joists. Steel toe is best. Soft running shoes let every screw through. |
-| The company shirt | Handed out on site on some jobs. Give it back when asked. |
+| Work pants | Work pants or straight-fit work jeans you can kneel and crawl in. Khakis wear through fast under houses and in attics. Slim fits bind when crawling. |
+| Closed-toe sneakers or tennis shoes | Jeff's call for most jobs. You walk all day on commercial work, and a hustler runs a little. Work boots are not needed. |
+| Pull-on rubber boots | For wet work and crawlspaces. |
+| The site shirt | On sub jobs the prime contractor hands out shirts on site, as at TJ Maxx and the Durham courthouse. They are the prime's shirts, not ours. Some primes collect them back at the end. Give it back when asked. |
 
 Knee pads if you have them. There is a lot of kneeling.
 
 ## What to bring
 
 - Water, and more of it in summer. Attics are hot.
-- Lunch or snacks. The food stop happens on the way, not on site.
+- Lunch or snacks. The food stop happens on the way, not on site. On long days Jeff often calls in or picks up a group order. Text him your order as a plain item list.
 - Phone and charger. Photos are part of the job.
 - Work gloves.
 - Utility knife.
@@ -76,7 +90,7 @@ Twelve words carry most of the talk on a job. Full list in the [Glossary](/kb/re
 | Air handler (AHU) | The box with the blower and coil. |
 | Plenum | The box on the air handler where the duct connects. |
 | Trunk | The main duct off the plenum. |
-| Register / grille | The cover on the opening in the room. |
+| Register / grille | The cover on the opening in the room. Strictly, a register has a damper and a grille does not. On the job everyone says register. |
 | Negative air | The machine that pulls, and the suction it puts on the system. |
 | Whip | The agitation tool on the airline. |
 | Forward | The nozzle that pushes debris toward the suction. |
@@ -91,3 +105,7 @@ Twelve words carry most of the talk on a job. Full list in the [Glossary](/kb/re
 ## Study
 
 [DuctStudy](/learning/) has drills for the NADCA ASCS exam and the forklift card. The Shop Book pages are where the drills come from.
+
+Jeff wants crew to get ASCS certified. He keeps NADCA study books, including the HVAC Inspection Manual, and lends them out. Ask him before you buy study material. Exam format and where to sit it: [Standards](/kb/company/standards/#nadca-certifications).
+
+Spanish is a plus on the crew. Some site crews are Spanish-speaking, and a tech who can give and take job instructions in Spanish is a real help on site.

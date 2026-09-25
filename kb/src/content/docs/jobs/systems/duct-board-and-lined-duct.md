@@ -2,7 +2,7 @@
 title: "Duct board and lined duct"
 description: "Fiberglass duct board and internally lined sheet metal: dry cleaning only, gentle agitation, no exposed fiberglass at a cut, and check the label before fogging."
 sidebar:
-  order: 7
+  order: 15
 ---
 Two different things that follow the same rules because the airstream touches fiberglass.
 

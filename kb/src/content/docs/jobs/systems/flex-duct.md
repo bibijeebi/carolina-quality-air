@@ -2,7 +2,7 @@
 title: "Flex duct"
 description: "Never cut an access in flex. Work it from the ends, go easy with the whip, and replace it when the inner core is torn or it cannot come clean."
 sidebar:
-  order: 6
+  order: 14
 ---
 Insulated flexible duct: a wire-helix inner core with a plastic film liner, fiberglass insulation around it, and an outer jacket. Standard for residential branch runs and for the single return run up to an attic air handler. See [Attic air handler](/kb/jobs/systems/attic-air-handler/).
 

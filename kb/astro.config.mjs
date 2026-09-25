@@ -51,6 +51,7 @@ export default defineConfig({
           ],
         },
         { label: "Chemicals", items: [{ autogenerate: { directory: "chemicals" } }] },
+        { label: "Services", items: [{ autogenerate: { directory: "services" } }] },
         { label: "Decision guides", items: [{ autogenerate: { directory: "ladders" } }] },
         { label: "Company", items: [{ autogenerate: { directory: "company" } }] },
         { label: "Job write-ups", collapsed: true, items: [{ autogenerate: { directory: "jobs/write-ups" } }] },

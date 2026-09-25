@@ -20,7 +20,7 @@ Washington is about 35 minutes from Greenville. When the next day's job is in Gr
 
 ## Two sites, one van
 
-- Confirm the second address before you leave the first site. It came in as a screenshot. Check the street name against it. "L T Hardee" is easy to mishear.
+- Confirm the second address before you leave the first site. It came in as a screenshot. Check the street name against it. "L T Hardee" is easy to mishear. Voice-to-text turned it into "LT Party".
 - Reload the van for residential before leaving the school: plastic, drop cloths, the fogger, the right vac. See [Roll out](/kb/jobs/procedures/roll-out/) and [Stage and protect](/kb/jobs/procedures/stage-and-protect/).
 
 Not recorded: system types at either site and crew. _(unconfirmed)_

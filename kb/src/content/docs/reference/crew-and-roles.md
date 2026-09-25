@@ -12,13 +12,19 @@ description: "Who runs CQA, who is on the crew, and the roles people fill on a j
 
 Only Jeff and Perry set prices. The office transmits them. See [Pricing](/kb/company/pricing/).
 
-VSMR has been claimed for both Jeff and Perry on the old company site. _(Unconfirmed. NADCA's directory does not list it.)_
+Per NADCA's ASCS Candidate's Guide, an ASCS holder also qualifies as a Ventilation System Mold Remediator (VSMR). That covers Perry, Jeff, and any ASCS on the crew.
 
 ## Certified on the crew
 
-- **Benny**. Tech, ASCS certified 2026. Maintains this book.
+- **Benny**. Tech, ASCS certified 2026. Maintains this book. Also holds EPA 608 Universal (refrigerant handling). Not used on our jobs, since refrigerant work is out of scope. Online OSHA forklift classroom course done; hands-on evaluation not done.
+
+Jeff wants crew to get ASCS certified. He also values Spanish on the crew. A tech who can give and take job instructions in Spanish is a plus, since some site crews are Spanish-speaking.
+
+Nobody on the crew is evaluated to drive a client's forklift. See [Safety](/kb/company/safety/).
 
 ## Crew names that appear in jobs
+
+Most of the crew lives around Greenville. Triangle-area techs usually drive straight to the site.
 
 Group text roster: David, Tyler, Thomas, Andrew, Yari, and Benny.
 
@@ -48,3 +54,7 @@ When we sub to a restoration GC like Servpro, their people fill some roles:
 See [Customers and markets](/kb/company/customers-and-markets/).
 
 Vocabulary varies across the crew. Someone who does the work well may not know what a condenser is, so do not assume the term lands.
+
+## Sources
+
+- [NADCA: The ASCS Candidate's Guide (PDF)](https://nadca.com/sites/nadca/files/docs/2023/The%20ASCS%20Candidate%20Guide_updated%202023.pdf)

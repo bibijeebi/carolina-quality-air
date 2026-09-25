@@ -63,7 +63,11 @@ Forklifts are powered industrial trucks under 29 CFR 1910.178.
 1. **The evaluation repeats at least every three years**, and sooner after an incident, a near miss, or a switch to a different type of truck.
 1. **An online card is only the first part.** You are not certified to drive until someone evaluates you on the truck.
 
-On sub jobs the forklift usually belongs to the client. Do not drive it unless the site's safety officer authorizes you. Drill: [Forklift drill](/learning/forklift-drill.html).
+On sub jobs the forklift usually belongs to the client. Do not drive it unless the site's safety officer authorizes you.
+
+What happened at [Worth Higgins, Richmond](/kb/jobs/write-ups/job-008-worth-higgins-richmond/): Servpro's OSHA safety officer could train and evaluate, but would not run a practical evaluation on the client's forklift, because it was not theirs to use that way. His advice: do an online OSHA forklift course for the classroom part, so the card travels between sites. Then get the hands-on evaluation on a site with a forklift and an evaluator willing to sign.
+
+The takeaway: do the online classroom part ahead of time. Do not expect a sub job to certify you on the client's truck. As of now nobody on the crew is evaluated to drive a client's forklift. Drill: [Forklift drill](/learning/forklift-drill.html).
 
 ## Heat
 

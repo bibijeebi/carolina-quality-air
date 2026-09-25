@@ -7,7 +7,7 @@ sidebar:
 Spot these on the [Walk the job](/kb/jobs/procedures/walk-the-job/) walkthrough, not after you have opened a duct. Everyday PPE, ladders, lockout, and heat are on [Safety and PPE](/kb/jobs/rules/safety-and-ppe/).
 
 **Stop work and escalate**:
-- **Asbestos**. Pre-1980s buildings. Duct wrap, mastic, and pipe insulation. Stop, do not disturb.
+- **Asbestos**. Pre-1980s buildings. Duct wrap, mastic, and pipe insulation. Stop, do not disturb. White putty or sealant at duct joints in a pre-1980 building is suspect too. Photograph it, do not cut, scrape or whip it, and tell the lead.
 - **Vermiculite insulation**. Assume asbestos until it is tested.
 - **Visible mold**. Different protocol entirely: containment, antimicrobial treatment, and documentation. Not a whip-and-vac job.
 - **Bird or rodent infestation**. Biohazard protocol.

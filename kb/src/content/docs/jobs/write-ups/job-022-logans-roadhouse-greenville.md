@@ -23,7 +23,7 @@ After a fire, soot and grease are both in play. Soot takes a stronger cleaner th
 
 - A never-cleaned system after a fire takes the most effort a system can take. A maintained system on a schedule takes a fraction of that. The second visit is always easier than the first.
 - It was a hard job and nobody wants to repeat that version of it. That is exactly why regular maintained accounts are the better business.
-- Heat is a hazard on a summer job. Water, shade breaks, and a fan in the work area. See [JOB-006](/kb/jobs/write-ups/job-006-hallway-fan-coil-run/) for the comfort kit.
+- Heat is a hazard on a summer job. Friday 6/12 was hot enough that Perry raised it with the crew that day. Water, shade breaks, and a fan in the work area. See [JOB-006](/kb/jobs/write-ups/job-006-hallway-fan-coil-run/) for the comfort kit.
 
 Not recorded: whether the dining room HVAC was also in scope, the methods and chemicals used on the grease, and crew. _(unconfirmed)_
 

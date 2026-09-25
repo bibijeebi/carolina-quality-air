@@ -51,7 +51,7 @@ See [Coil cleaners](/kb/chemicals/coil-cleaners/) and [Pressure wash grilles and
 
 ## Travel
 
-The crew drove up and back more than once, some nights in a hotel in the Glen Allen area, some days driven round trip from Raleigh. Crew was picked up in Raleigh on the way north. Jeff drove up himself on 4/10 to move crew. Meals on site were planned by Jeff, lunch and dinner. Finishes were expected around 5 or 6pm. Actual days ran much later.
+The crew drove up and back more than once, some nights in a hotel in the Glen Allen area, some days driven round trip from Raleigh. Crew was picked up in Raleigh on the way north. Jeff drove up himself on 4/10 to move crew. Jeff arranged the hotel. One tech drove his own car and picked up Marcus each day Wednesday to Saturday. Devin joined for the back half of the week and Saturday. The Sunday 4/12 return day was a 9:00 AM start, about 200 miles and 3 hours 15 minutes from the Raleigh side. Jeff also bought pull-on rubber boots for a tech on this trip. See [PPE and work clothes](/kb/gear/ppe/ppe/#work-clothes). Meals on site were planned by Jeff, lunch and dinner. On 4/8 that was a group order from Buffalo Wild Wings. Finishes were expected around 5 or 6pm. Actual days ran much later.
 
 ## Carry forward
 

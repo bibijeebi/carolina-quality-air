@@ -55,6 +55,12 @@ Every residential job gets fogged, and the fogger, the Bio-Fresh and the coil je
 | Trailer | Bulk 8" negative-air tubing, the 12 ft A-frame and the extension ladder. Not fully counted yet. |
 | Jeff's garage | The BE 4200 psi pressure washer (not a work unit), the MEB enzyme coil cleaner, the 12% peroxide, torch cylinders. |
 
+Another van, kept at a tech's house on the Raleigh side for Triangle-area jobs, has been discussed. Not in service. _(unconfirmed)_
+
+**Radios.** None in the fleet. On commercial jobs the crew talks by yelling through the ceiling or sending a runner. License-free MURS radios have been proposed to Jeff. Whether any were bought is _(unconfirmed)_.
+
+**Rope.** Rope and a few knots come in handy all the time: makeshift handles for buckets and carts, hoisting a bucket or gear up to a ceiling, attic or roof, and securing rigging. What rope the vans carry is _(unconfirmed)_.
+
 ## Commonly forgotten
 
 These are the items that have actually cost a crew time:

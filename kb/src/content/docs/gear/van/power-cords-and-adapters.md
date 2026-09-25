@@ -20,7 +20,7 @@ The HyperVac doesn't take a household plug. Its power connection is a **twist-lo
 
 **What happened.** On the first Durham County Courthouse day in December 2025, the only adapter was in the van that blew a tire on the way. Someone drove to find one mid-job. After that, a three-pack of spares went to Jeff so every van could have one. See [JOB-001](/kb/jobs/write-ups/job-001-durham-county-courthouse/).
 
-**Which twist-lock.** The crew calls it the "20 amp adapter". Photos of the machine inlet taken that day read as the 15 A pattern (L5-15). Both exist, and they don't fit each other. NEMA designs locking connectors so different current ratings can't be mated by accident. Before you buy a spare, **look at the pin pattern on the machine** or bring the old adapter to the store. An electrical supply house stocks locking connectors more reliably than a big-box store. _(Exact pattern on each of our two machines unconfirmed.)_
+**Which twist-lock.** The crew calls it the "20 amp to 15 amp adapter". Photos of the machine inlet taken that day read as the 15 A pattern (L5-15). The machine end has **male** twist prongs coming out of it, and the crew runs it off a normal extension cord. So the part is a short adapter with a standard 5-15P wall plug on one end and an **L5-15R** (female 15 A twist-lock) on the other. The one identified that day was the AC WORKS **AD515L515** (5-15P to L5-15R). The Durham Home Depot listed it as ship-to-store only, not on the shelf. Both exist, and they don't fit each other. NEMA designs locking connectors so different current ratings can't be mated by accident. Before you buy a spare, **look at the pin pattern on the machine** or bring the old adapter to the store. An electrical supply house stocks locking connectors more reliably than a big-box store. _(Confirm the pattern on each of our two machines before buying.)_
 
 :::tip[One per van, tethered]
 The adapter is small, cheap and the only one of its kind on a job. It's on the tether list: paracord it to the HyperVac so it can't ride off in another van.
@@ -49,5 +49,6 @@ Two sets, one with cracking clamps. The box truck battery goes dead between uses
 ## Sources
 
 - [NEMA connector reference (Wikipedia)](https://en.wikipedia.org/wiki/NEMA_connector): locking connectors can't be intermated across ratings; 5-20R accepts 5-15P.
+- [AC WORKS AD515L515, 5-15P to L5-15R locking adapter](https://acworks.com/products/ad515l515locking-adapter)
 - [Hypervac Revolution Hybrid](https://hypervac.com/revolution-hybrid-vacuum/): 120 V draw, 220 V circuit and generator guidance.
 - [Revolution Hybrid 220 V manual (PDF)](https://cdn.shopify.com/s/files/1/0541/2529/7862/files/220_manual.pdf): cord gauge by length.

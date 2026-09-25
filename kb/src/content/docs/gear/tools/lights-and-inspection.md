@@ -10,7 +10,7 @@ You clean blind inside a dark metal tube. The only proof the job is done is what
 | Light | Where | Notes |
 |---|---|---|
 | DeWalt 20V worklight, magnet mount | Van 1, on the partition, pack on it | Sticks to duct or a unit cabinet. Takes the same packs as the drills. See [batteries](/kb/gear/van/batteries-and-chargers/). |
-| Headlamps (HART, Hyper Tough) | Loose, plus one in the Van 3 tool bag | Charge them at the reset. "Headlamp or worklight charged" is on the van check. |
+| Headlamps (HART, Hyper Tough) | Loose, plus one in the Van 3 tool bag | Charge them at the reset. "Headlamp or worklight charged" is on the van check. On the early commercial jobs the crew rarely used them. |
 | Hyper Tough area light | Loose | Test at the reset. |
 | Craftsman flashlight | Loose | Test at the reset. |
 | Ceiling LED puck lights | Van 2 and Van 3 cargo ceilings | For finding gear, not for work. |
@@ -18,7 +18,7 @@ You clean blind inside a dark metal tube. The only proof the job is done is what
 ## Seeing inside
 
 - **Inspection mirror and debris umbrella rig.** One in the fleet. Its status is "verify it opens."
-- **Camera or borescope.** A camera on a cable into the duct is how you check a run you can't see down. Phone photos through the access hole for everything else. _(No borescope is listed in the September 2026 inventory. Unconfirmed whether the fleet has one.)_
+- **Endoscope (borescope).** A camera on a cable into the duct is how you check a run you can't see down. How we inspect: phones up in the holes for the before pictures, then the endoscope if we need it. An endoscope has been used on our jobs. It is not in the September 2026 van inventory, so ask the lead which van or who has it. _(Company or personal unit is unconfirmed.)_
 - **Pull a register.** The cheapest inspection there is.
 
 ## Before and after photos

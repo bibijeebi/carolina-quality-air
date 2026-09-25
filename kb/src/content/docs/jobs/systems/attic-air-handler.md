@@ -2,7 +2,7 @@
 title: "Attic air handler"
 description: "Attic air handler with one return run and a round supply trunk: where negative air goes and what to watch for."
 sidebar:
-  order: 2
+  order: 10
 ---
 Air handler and evaporator coil in the attic, matched to an outdoor condenser. Standard for the second floor of a two-story NC house.
 
@@ -15,5 +15,7 @@ Air handler and evaporator coil in the attic, matched to an outdoor condenser. S
 - Heat. Attics in NC summer are the hazard, not the ductwork.
 - Watch your footing on joists if there is no decking.
 - Round trunk means patches get bent to the radius.
+
+What is inside the cabinet: [Air handler components](/kb/jobs/systems/air-handler-components/). Split system basics: [Split systems and heat pumps](/kb/jobs/systems/split-systems-and-heat-pumps/).
 
 Worked in full at [JOB-013 Two-story residential, attic AHU and package unit](/kb/jobs/write-ups/job-013-two-story-residential-attic-ahu-and-package-unit/).

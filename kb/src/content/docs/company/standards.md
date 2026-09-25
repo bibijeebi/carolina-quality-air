@@ -92,9 +92,28 @@ These are **inspection** intervals, not cleaning intervals.
 |---|---|---|---|
 | **ASCS**, Air Systems Cleaning Specialist | The core cleaning certification. Written exam. | None | Every year by June 30, with 6 CECs earned July 1 to June 30. |
 | **CVI**, Certified Ventilation Inspector | Inspection of HVAC systems. | Active ASCS | Every 3 years by June 30. |
-| **VSMR**, Ventilation System Mold Remediator | Mold remediation in ventilation systems. Launched 2003. | _(unconfirmed)_ | _(unconfirmed. Check whether NADCA still offers it.)_ |
+| **VSMR**, Ventilation System Mold Remediator | Mold remediation in ventilation systems. Launched 2003. | Comes with ASCS. NADCA's ASCS Candidate's Guide: "The ASCS certificate holder also qualifies as a Ventilation System Mold Remediator (VSMR)." | With ASCS. |
 
-- The ASCS exam is $385 at the member rate, $100 to retake. Register through nadcatesting.com with the company's Member Security Code.
+- The ASCS exam is $385 at the member rate at a testing center, $100 to retake. The 2026 Fall Technical Conference listed the same $385 member price for the ASCS exam. Register through nadcatesting.com with the company's Member Security Code.
+- The ASCS exam is 150 multiple-choice questions in 3.5 hours.
+- Where to sit it: a Kryterion testing center, or a NADCA conference. The nearest testing center on the Raleigh side is NC Elite Career Service Center, 132 Quade Dr, Cary. Other NC centers: BCY Testing Solution in Greensboro, Craven Community College Testing Center in New Bern, NC Elite in Wilmington.
+- Jeff's plan is for techs to sit the ASCS at NADCA's Fall Technical Conference. When the exam is taken there, registration goes through the conference and the office handles it. The 2026 Fall Technical Conference ran September 10 to 12, 2026, in Norfolk, VA. The 2027 one is September 17 to 19, 2027, in Concord, NC.
+
+ASCS exam domains, by weight:
+
+| Domain | Weight |
+|---|---|
+| I. Necessity for Cleaning | 5% |
+| II. Mechanical Systems | 15% |
+| III. HVAC System Inspections | 12% |
+| IV. Contamination | 12% |
+| V. Cleaning and Restoration Procedures | 42% |
+| VI. Health and Safety | 6% |
+| VII. Standards and Guidelines | 8% |
+
+Domain V is nearly half the test. Study the cleaning, access, engineering-control and verification parts of ACR hardest.
+
+Study material: ACR, The NADCA Standard, is a free PDF from NADCA. Jeff keeps NADCA study books, including the HVAC Inspection Manual, and lends them to crew going for ASCS. Ask him before you buy anything.
 - NADCA recommends that at least one owner, principal or key full-time employee who manages projects holds ASCS.
 - ACR names ASCS and CVI as the kind of qualified inspector to use for the pre-cleaning assessment. [1.2]
 
@@ -130,6 +149,9 @@ What a screen on the hood, a crushed transition hose, or a vinyl transition mean
 - [NADCA: ASCS](https://nadca.com/hvac-certification-education-training/air-systems-cleaning-specialist-ascs)
 - [NADCA: How to renew ASCS](https://nadca.com/hvac-certification-education-training/air-systems-cleaning-specialist-ascs/how-renew-ascs)
 - [NADCA: CVI](https://nadca.com/hvac-certification-education-training/certified-ventilation-inspector-cvi)
+- [NADCA: The ASCS Candidate's Guide (PDF)](https://nadca.com/sites/nadca/files/docs/2023/The%20ASCS%20Candidate%20Guide_updated%202023.pdf)
+- [NADCA: 2026 Fall Technical Conference registration](https://nadca.com/fall-tech/2026-fall-technical-conference/registration)
+- [NADCA: 2026 Fall Technical Conference](https://nadca.com/fall-tech/2026-fall-technical-conference)
 - [NADCA: History](https://nadca.com/about/history)
 - [CSIA: Certified Dryer Exhaust Technician](https://www.csia.org/certified-dryer-tech)
 - [2021 IRC Section M1502, Clothes Dryer Exhaust (PDF excerpt)](https://dryerbox.com/sites/default/files/conversions/pdfs/code/2021-IRC-1502.pdf)

@@ -16,7 +16,7 @@ What the crew actually carries and wears:
 | N95 or KN95 | Dusty returns, fogging, fiberglass. Not every task, but have one on you. |
 | Eye protection | Coil cleaner, overhead work, fog. |
 | Disposable suit | Crawlspaces. We suit up to go under a house. |
-| Work boots | Screws and sheet metal scraps end up on the floor. |
+| Closed-toe sneakers, or pull-on rubber boots for wet work and crawlspaces | Screws and sheet metal scraps end up on the floor. Jeff's call: sneakers are fine for most jobs. See [PPE and work clothes](/kb/gear/ppe/ppe/#work-clothes). |
 | 6-in-1 screwdriver with nut drivers, utility knife | Registers, panels, hex-head sheet metal screws, insulation cuts. |
 
 Match the protection to what you find. An N95 is fine for dust. Heavy mold or a chemical hazard is a different level, and is usually a stop-work call anyway. OSHA's rule: engineering controls first (negative air and containment are exactly that), respirators when those controls are not enough.

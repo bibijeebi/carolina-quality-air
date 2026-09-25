@@ -12,9 +12,22 @@ Greensboro Police Department. Worked Saturday 12/20/2025, the day after [JOB-001
 <dt>Setting</dt><dd>Occupied public-safety building, hoses run through a stairwell</dd>
 </dl>
 
+## Washing the diffusers
+
+Part of the morning's work was pulling supply diffusers with visible mold on the faces and washing them on site with a hose. The wash does most of the work. They dry fully before they go back up. See [Pressure wash grilles and registers](/kb/jobs/procedures/pressure-wash-grilles-and-registers/) Mold inside the duct system is a different protocol. See [Hazards and stop-work](/kb/jobs/rules/hazards-and-stop-work/).
+
+## Timeline
+
+| Time | What |
+|---|---|
+| Morning | Diffusers pulled and washed |
+| Mid-morning | Drop-cloth tarp folded |
+| About 10:15 AM | Airline hose split |
+| About 1:50 PM | Stairwell hose crossing taped off |
+
 ## Hoses in the stairwell
 
-The hose route ran through a stairwell. The crew was told to mark it with safety orange where people would walk across it. All that was on hand was yellow non-adhesive caution tape.
+The hose route ran through a stairwell. The site told the crew to mark it with safety orange where people would walk across it. All that was on hand was yellow non-adhesive caution tape.
 
 The fix: caution tape is barrier tape. It is made to be tied off, not stuck down. Tie one end to the stair rail, run it across at about knee height above the hose crossing, tie the other end to the opposite rail or a door handle. That puts a visual stop in front of anyone coming down the stairs.
 
@@ -34,7 +47,8 @@ See [Air compressors](/kb/gear/air/compressors/) and [Air whip and forward nozzl
 
 ## Carry forward
 
+1. Expect building staff at public-safety sites to call out trip hazards. Mark crossings before they have to ask.
 1. Walk the hose route before you run hose. Stairwells and doorways in occupied buildings need a marked crossing.
 1. A hose with a shredded jacket is tagged out at the van, not taped and sent back in.
 
-Not recorded: which part of the PD building was cleaned and the system type. _(unconfirmed)_
+Not recorded: which part of the PD building was cleaned and the system type, beyond the ceiling supply diffusers. _(unconfirmed)_
