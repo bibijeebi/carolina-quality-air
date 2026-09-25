@@ -10,6 +10,9 @@ const DESK_KEY = { kty: "OKP", crv: "Ed25519", x: "K4P9C52zOw73g16LGpGlRRm0yE9gG
 const AUTH = "https://ductstudy.bennyforeman1.workers.dev/auth/desk";
 const HOME = "https://carolinaqualityair.xyz";
 const COOKIE = "cqa_desk";
+// The Jeff-facing report folders are open to anyone with the link: no sign-in, never indexed. Everything else
+// under public/_routes.json (/hq, /kb, /orders, /work-load, the pricing trainers) still needs Google sign-in.
+const OPEN = /^\/(proposals|leads|estimates|repairs|operations|reports)(\/|$)/;
 const PREVIEW_BOT = /facebookexternalhit|Facebot|Twitterbot|Slackbot|LinkedInBot|WhatsApp|TelegramBot|Discordbot|redditbot|Applebot|SkypeUriPreview|Google-PageRenderer/i;
 
 // Every signed-in page gets a small way back to Staff HQ, without editing each page.
@@ -91,6 +94,11 @@ export async function onRequest(ctx) {
     out.headers.set("cache-control", "private, no-cache");
     if (p.startsWith("/hq") || !(out.headers.get("content-type") || "").includes("text/html")) return out;
     return new HTMLRewriter().on("body", { element: e => e.append(HQ_PILL, { html: true }) }).transform(out);
+  }
+  if (OPEN.test(p)) {
+    const r = await ctx.next(), out = new Response(r.body, r);
+    out.headers.set("x-robots-tag", "noindex, nofollow");
+    return out;
   }
   if ((req.method === "GET" || req.method === "HEAD") && PREVIEW_BOT.test(req.headers.get("user-agent") || "") && !/\.[a-z0-9]{2,5}$/i.test(p.replace(/\.html$/, ""))) return ogStub(ctx, url);
   if (/\/og\/[^/]+\.(jpe?g|png|webp)$/i.test(p)) return ctx.next(); // link-preview images only, never page content

@@ -7,7 +7,8 @@ no em-dashes in copy.
 **The one rule:** typing carolinaqualityair.xyz must show a better parallel of CQA's real site
 (carolinaqualityair.com, Webflow, run by Red Shark Digital). That is Benny's pitch to take over their
 website (Proposal 005). Nothing on the public site links to, or hints at, anything else on the domain.
-Everything internal sits behind Google sign-in.
+The Jeff-facing report folders are open to anyone with the link; everything else internal sits behind Google
+sign-in.
 
 ## Map
 
@@ -15,7 +16,8 @@ Everything internal sits behind Google sign-in.
 |---|---|---|---|
 | Public site | `/`, `/services/*`, `/service-areas/*`, `/proof`, `/nadca`, `/about`, `/testimonials`, `/faq`, `/contact`, `/404` | `src/` (Astro 5 + Tailwind 4) | Public, noindexed until handoff |
 | Staff HQ | `/hq/` | `src/pages/hq/index.astro` + `src/data/hq.json` | Google sign-in |
-| Jeff desk | `/proposals/`, `/leads/`, `/estimates/`, `/repairs/`, `/operations/`, `/orders/`, `/reports/`, `/work-load.html` | static HTML in `public/` | Google sign-in |
+| Jeff reports | `/proposals/`, `/leads/`, `/estimates/`, `/repairs/`, `/operations/`, `/reports/` | static HTML in `public/` | Anyone with the link, noindexed |
+| Jeff desk | `/orders/`, `/work-load.html` | static HTML in `public/` | Google sign-in |
 | Shop Book | `/kb/` | `kb/` (separate Astro + Starlight project, builds into `dist/kb`) | Google sign-in |
 | Pricing trainers | `/learning/{estimator,walk-the-job,perry-sim,pricing-doctrine}.html` | `public/learning/` | Google sign-in |
 | DuctStudy | https://ductstudy.com (hand-over page at `/learning/`) | bibijeebi/ductstudy `public/lab/` | Public; its own optional Google sign-in syncs progress |
@@ -28,7 +30,11 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 ## Sign-in (functions/_middleware.js)
 
 - Runs only on the paths in `public/_routes.json`. The public site never invokes a Function.
-- No valid `cqa_desk` cookie: redirect to `https://ductstudy.bennyforeman1.workers.dev/auth/desk?next=...`.
+- The `OPEN` check comes first: `/proposals`, `/leads`, `/estimates`, `/repairs`, `/operations` and `/reports`
+  are served to anyone with the link, no sign-in, with an `x-robots-tag: noindex, nofollow` header. To open or
+  close a folder, edit `OPEN` in `functions/_middleware.js`. Keep it out of `public/_routes.json` only if it
+  should also skip the Function (then it gets no noindex header).
+- Everything else on those routes needs sign-in. No valid `cqa_desk` cookie: redirect to `https://ductstudy.bennyforeman1.workers.dev/auth/desk?next=...`.
   That worker does Google OAuth and POSTs a 30-day Ed25519-signed pass to `/_desk/cb`, which checks it
   against the embedded public key and the `ALLOW` set and sets the cookie.
 - **To let someone in:** add their Google email to `ALLOW` in `functions/_middleware.js` and push.
@@ -38,8 +44,9 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 - `/_desk/` is the sign-in page (and error landing), `/_desk/out` signs out.
 - Link-preview bots (iMessage, Slack, etc.) get only the page title and OG image, so texted links still
   preview. `/*/og/*.jpg` images are public for the same reason. Page content never is.
-- Any `*.pages.dev` or `www` request to a gated path redirects to the apex, where the cookie lives.
-- Signed-in HTML gets a small "HQ" pill (HTMLRewriter) linking back to `/hq/`.
+- Any `*.pages.dev` or `www` request to a routed path redirects to the apex, where the cookie lives.
+- Signed-in HTML gets a small "HQ" pill (HTMLRewriter) linking back to `/hq/`, on open pages too. Signed-out
+  visitors on an open page get no pill and no hint that the rest of the domain exists.
 - If the ductstudy worker's `MASTER` secret rotates, the key changes: copy the new `x` from
   `/desk/key` into `DESK_KEY` the same day.
 
@@ -49,7 +56,8 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
   It shows up on `/hq/` by itself (status defaults to "Waiting on Jeff"); set status in `src/data/hq.json`.
   Also add its card to `public/proposals/index.html`. One page per spend decision, updated in place.
 - Lead reports, estimates, repairs, operations: same pattern, auto-listed on `/hq/`.
-- A new top-level internal folder must be added to `public/_routes.json` or it is public.
+- A new top-level internal folder must be added to `public/_routes.json` or it is public with no noindex
+  header. Add it to `OPEN` as well only if it is meant to be readable without sign-in.
 - Every internal page carries `<meta name="robots" content="noindex, nofollow">`.
 - OG images: commit same-origin under `public/<section>/og/`. R2 uploads break iMessage previews.
 - Jeff-facing pages: plain English (no "BLUF"), facts about the job first, Benny's pricing last and
