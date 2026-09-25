@@ -66,7 +66,7 @@ Hanover County closed. Homes that flooded then can still hold wet cavity
 insulation and contaminated ductwork years later.
 
 We will tell you plainly what we find. If a system needs remediation rather
-than cleaning, that is what the report will say. Cleaning a duct that still
+than cleaning, we will tell you that instead. Cleaning a duct that still
 has a moisture source feeding it is a waste of your money.
 
 ## Scheduling on the coast

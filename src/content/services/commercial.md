@@ -4,7 +4,7 @@ navLabel: Commercial
 order: 2
 icon: building
 summary: Offices, retail, restaurants, schools and churches, cleaned around your hours.
-lede: Nobody needs to know we were there except the people who notice the building smells better on Monday.
+lede: We work around your hours, nights and weekends included, so the building keeps running while we clean.
 includes:
   - Free walkthrough and a written scope before work starts
   - Video inspection available on request

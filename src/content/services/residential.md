@@ -14,7 +14,7 @@ includes:
   - Blower compartment and evaporator coil checked and cleaned as needed
   - A NADCA certificate for your records when the job is finished
 bestFor:
-  - Households with allergies, asthma or other respiratory problems
+  - Households where someone is bothered by dust or allergies
   - Homes with indoor pets or a smoker
   - Houses that have just been renovated, or just been bought
   - Anyone who has never had it done and does not know what is up there
