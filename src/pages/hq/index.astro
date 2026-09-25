@@ -27,13 +27,16 @@ function scan(dir: string, keep: (f: string) => boolean = () => true): Doc[] {
 }
 const byDateDesc = (a: Doc, b: Doc) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title);
 
-const S = hq.proposals as Record<string, { status: string; note?: string }>;
-const LABEL: Record<string, string> = { done: "Done", moving: "In motion", waiting: "Waiting on Jeff", parked: "Parked", dead: "Dead" };
+const S = hq.proposals as Record<string, { status: string; note?: string; label?: string }>;
+// "reference" is for a page that backs a proposal instead of asking for money: it carries no decision, so it
+// stays out of the spend-ask count. A proposal can override its chip wording with "label" in src/data/hq.json.
+const LABEL: Record<string, string> = { done: "Done", moving: "In motion", waiting: "Waiting on Jeff", parked: "Parked", dead: "Dead", reference: "Reference" };
 const proposals = scan("proposals").map((d) => {
   const m = /№\s*(\d+)\s*·\s*([^·]+)/.exec(d.title);
   const st = S[d.slug] || { status: "waiting" };
-  return { ...d, num: m ? m[1] : "", name: m ? m[2].trim() : d.title, status: st.status, note: st.note || "" };
-}).sort((a, b) => +b.num - +a.num);
+  return { ...d, num: m ? m[1] : "", name: m ? m[2].trim() : d.title, status: st.status, note: st.note || "", label: st.label || LABEL[st.status] || st.status };
+}).sort((a, b) => +b.num - +a.num || Number(a.status === "reference") - Number(b.status === "reference"));
+const askCount = proposals.filter((p) => p.status !== "reference").length;
 const counts = Object.keys(LABEL).map((k) => [k, proposals.filter((p) => p.status === k).length] as const).filter(([, n]) => n);
 const leads = scan("leads", (f) => /^\d{4}-/.test(f)).sort(byDateDesc);
 const estimates = scan("estimates");
@@ -56,8 +59,8 @@ const asOf = new Date(hq.asOf + "T12:00:00").toLocaleDateString("en-US", { month
 <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <style is:inline>
 @font-face{font-family:"Archivo";src:url("/fonts/archivo-latin-var.woff2") format("woff2-variations");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
-:root{--bg:#f2f5f8;--card:#fff;--ink:#0c1722;--ink2:#44576a;--line:#dde5ec;--blue:#0072bb;--navy:#0f2233;--ok:#1f7a45;--okb:#e3f3e9;--mv:#005b96;--mvb:#dbeefb;--wt:#9a4b0b;--wtb:#fbeedf;--pk:#5b6b7b;--pkb:#e9eef2;--dd:#9b2c22;--ddb:#f9e3e0;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0b131b;--card:#121d28;--ink:#e3eaf1;--ink2:#9db0c2;--line:#23313f;--blue:#4aa8e8;--ok:#6fd49a;--okb:#143022;--mv:#7ec4ef;--mvb:#10283a;--wt:#f2a765;--wtb:#33220f;--pk:#a8b6c3;--pkb:#1c2834;--dd:#ff8f84;--ddb:#3a1714;color-scheme:dark}}
+:root{--bg:#f2f5f8;--card:#fff;--ink:#0c1722;--ink2:#44576a;--line:#dde5ec;--blue:#0072bb;--navy:#0f2233;--ok:#1f7a45;--okb:#e3f3e9;--mv:#005b96;--mvb:#dbeefb;--wt:#9a4b0b;--wtb:#fbeedf;--pk:#5b6b7b;--pkb:#e9eef2;--dd:#9b2c22;--ddb:#f9e3e0;--rf:#4a5c74;--rfb:#e8ecf2;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0b131b;--card:#121d28;--ink:#e3eaf1;--ink2:#9db0c2;--line:#23313f;--blue:#4aa8e8;--ok:#6fd49a;--okb:#143022;--mv:#7ec4ef;--mvb:#10283a;--wt:#f2a765;--wtb:#33220f;--pk:#a8b6c3;--pkb:#1c2834;--dd:#ff8f84;--ddb:#3a1714;--rf:#aab8cc;--rfb:#1a222e;color-scheme:dark}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Archivo,system-ui,sans-serif}
@@ -78,7 +81,7 @@ h2 small{font-stretch:100%;font-weight:500;font-size:13px;color:var(--ink2)}
 .watch b{font-variant-numeric:tabular-nums;color:#a34d08;font-size:13px;white-space:nowrap}
 .tally{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-family:system-ui,-apple-system,sans-serif;display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:4px;white-space:nowrap}
-.c-done{color:var(--ok);background:var(--okb)}.c-moving{color:var(--mv);background:var(--mvb)}.c-waiting{color:var(--wt);background:var(--wtb)}.c-parked{color:var(--pk);background:var(--pkb)}.c-dead{color:var(--dd);background:var(--ddb)}
+.c-done{color:var(--ok);background:var(--okb)}.c-moving{color:var(--mv);background:var(--mvb)}.c-waiting{color:var(--wt);background:var(--wtb)}.c-parked{color:var(--pk);background:var(--pkb)}.c-dead{color:var(--dd);background:var(--ddb)}.c-reference{color:var(--rf);background:var(--rfb)}
 .props{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:8px}
 .props li{display:grid;grid-template-columns:3.2em 1fr auto;gap:4px 14px;padding:12px 16px;border-top:1px solid var(--line);align-items:start}
 .props li:first-child{border-top:0}
@@ -113,14 +116,14 @@ footer{color:var(--ink2);font-size:12.5px;padding:0 16px 40px}
   </section>
 
   <section id="proposals" aria-labelledby="h-props">
-    <h2 id="h-props">Proposals <small>{proposals.length} spend asks · status as of {asOf}</small></h2>
+    <h2 id="h-props">Proposals <small>{askCount} spend asks · status as of {asOf}</small></h2>
     <div class="tally" style="margin-bottom:10px">{counts.map(([k, n]) => <span class={`chip c-${k}`}>{n} {LABEL[k]}</span>)}</div>
     <ol class="props" reversed>
       {proposals.map((p) => (
         <li>
           <span class="num">{p.num}</span>
           <div><a href={p.href}>{p.name}</a>{p.note && <p class="note">{p.note}</p>}<p>{p.desc}</p></div>
-          <span class={`chip c-${p.status}`}>{LABEL[p.status] || p.status}</span>
+          <span class={`chip c-${p.status}`}>{p.label}</span>
         </li>
       ))}
     </ol>

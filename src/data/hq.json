@@ -55,6 +55,11 @@
     },
     "2026-09-25-ground-game": {
       "status": "waiting"
+    },
+    "2026-09-25-sign-map": {
+      "status": "reference",
+      "label": "Reference, goes with № 015",
+      "note": "The map behind the Ground Game. Nothing to decide here."
     }
   },
   "watch": [

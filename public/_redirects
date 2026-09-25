@@ -11,13 +11,14 @@
 /blog/ /faq 301
 /blog-posts/* /faq 301
 /home / 301
-# Internal folders without their own index go to Staff HQ (after sign-in).
-/estimates /hq/#reports 302
-/estimates/ /hq/#reports 302
-/operations /hq/#reports 302
-/operations/ /hq/#reports 302
-/reports /hq/#tools 302
-/reports/ /hq/#tools 302
+# Internal folders without their own index go to the proposals index, which needs no sign-in. Staff HQ would
+# bounce a signed-out visitor to Google.
+/estimates /proposals/ 302
+/estimates/ /proposals/ 302
+/operations /proposals/ 302
+/operations/ /proposals/ 302
+/reports /proposals/ 302
+/reports/ /proposals/ 302
 # DuctStudy moved to its own domain (Sept 2026). /learning/ itself is a hand-over page that carries progress along.
 /learning/field/* https://ductstudy.com/field/:splat 301
 /learning/data/* https://ductstudy.com/data/:splat 301
