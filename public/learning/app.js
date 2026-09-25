@@ -8,7 +8,8 @@
   const TRACKS = [
     { id: 'ascs', code: 'ASCS', kind: 'Exam prep', name: 'Air Systems Cleaning Specialist' },
     { id: 'cvi', code: 'CVI', kind: 'Exam prep', name: 'Certified Ventilation Inspector' },
-    { id: 'dvt', code: 'DVT', kind: 'Certificate prep', name: 'Dryer Vent Technician Certificate' }
+    { id: 'dvt', code: 'DVT', kind: 'Certificate prep', name: 'Dryer Vent Technician Certificate' },
+    { id: 'dxc', code: 'DEC', kind: 'Projected exam', name: 'Dryer Exhaust Cleaning Certification (projected)' }
   ];
   const TAGS = {
     SHALL: ['Required', 'shall'], SHOULD: ['Should', 'should'], REC: ['Recommended', 'rec'], MAY: ['Permitted', 'may'],
@@ -38,7 +39,8 @@
   const TITLES = {
     ascs: 'Make today’s study count.',
     cvi: 'Inspect it the way the exam asks.',
-    dvt: 'Get the dryer vent basics cold.'
+    dvt: 'Get the dryer vent basics cold.',
+    dxc: 'Get ahead of the full dryer exam.'
   };
   const MINUTES = [10, 15, 20, 30, 45, 60, 90];
   const SEC_PER_Q = 90; // planning pace for drill sizing: about 1.5 minutes per question with review
@@ -368,7 +370,7 @@
     if (!track) {
       if (!store.setup && !store.last && !anyWork()) { location.replace('#/setup'); return; }
       const last = store.last && store.last.route;
-      location.replace(last && /^#\/((ascs|cvi|dvt)\/[a-z]+|field(\/[a-z-]+)?)$/.test(last) ? last : '#/ascs/today');
+      location.replace(last && /^#\/((ascs|cvi|dvt|dxc)\/[a-z]+|field(\/[a-z-]+)?)$/.test(last) ? last : '#/ascs/today');
       return;
     }
     const view = V.views[r.view] ? r.view : null;
@@ -588,7 +590,7 @@
   };
 
   /* ---------- First run ---------- */
-  const SETUP_NOTE = { ascs: 'The core credential. Most people start here.', cvi: 'You need an active ASCS to sit the CVI. Study both here if you do not have it yet.', dvt: 'The dryer vent certificate. Shorter bank, heavy on code calls.' };
+  const SETUP_NOTE = { ascs: 'The core credential. Most people start here.', cvi: 'You need an active ASCS to sit the CVI. Study both here if you do not have it yet.', dvt: 'The dryer vent certificate. Shorter bank, heavy on code calls.', dxc: 'Our projection of the full ASCS-style dryer exam NADCA plans after the DVT certificate. Built from today\'s codes and standards.' };
   function setupView() {
     const cur = homeTrack(), S0 = store.t[cur];
     const min0 = S0 && S0.plan && MINUTES.includes(S0.plan.min) ? S0.plan.min : 20;

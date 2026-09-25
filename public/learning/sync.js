@@ -11,13 +11,15 @@
   // The copy published on the CQA site talks to the DuctStudy worker across origins; anywhere else (the worker's own
   // host, a custom domain on it, local dev) the API is same-origin.
   const API = /(^|\.)carolinaqualityair\.xyz$/.test(location.hostname) ? metaUrl : '';
-  const FALLBACK_TOTAL = { ascs: 781, cvi: 385, dvt: 274 }; // practice-pool sizes, used only when a track's data is not loaded
+  const FALLBACK_TOTAL = { ascs: 781, cvi: 385, dvt: 274, dxc: 465 }; // practice-pool sizes, used only when a track's data is not loaded
   const LOCAL_ONLY = ['sim', 'drill']; // an in-progress sim or drill never leaves the device
   const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
   const put = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); return true; } catch (e) { return false; } };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const pool = t => 'lab-' + t;
-  const tracks = () => (V.TRACKS || []).map(x => x.id);
+  // Tracks the worker has no pool for yet stay in this browser only. Remove dxc here once lab-dxc is on the worker.
+  const LOCAL_TRACKS = ['dxc'];
+  const tracks = () => (V.TRACKS || []).map(x => x.id).filter(t => !LOCAL_TRACKS.includes(t));
   const isObj = o => !!o && typeof o === 'object' && !Array.isArray(o);
 
   // The lab keeps its own sign-in (vel-token) so disconnecting here never signs the tech out of the DuctStudy app.
@@ -143,7 +145,7 @@
   // One reconcile for one track: pull, decide, maybe merge, compare-and-swap push. Serialized per track, and a
   // reconcile already waiting in line covers any new request for the same track.
   function syncTrack(t) {
-    if (!t) return Promise.resolve();
+    if (!t || LOCAL_TRACKS.includes(t)) return Promise.resolve();
     if (queued[t]) return locks[t];
     queued[t] = true;
     return (locks[t] = (locks[t] || Promise.resolve()).then(() => { queued[t] = false; return reconcile(t, 0); }).then(() => { if (t === 'ascs') return oldAppImport(); }).catch(() => {}));
