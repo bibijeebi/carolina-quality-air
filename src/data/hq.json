@@ -101,15 +101,15 @@
       ]
     },
     {
-      "group": "Training (public, unlisted)",
+      "group": "Training (public)",
       "items": [
         {
-          "href": "/learning/",
+          "href": "https://ductstudy.com/",
           "name": "DuctStudy",
-          "desc": "ASCS, CVI, dryer vent prep. Anyone with the link can use it."
+          "desc": "ASCS, CVI, dryer vent prep at ductstudy.com. Open to anyone."
         },
         {
-          "href": "/learning/#/field",
+          "href": "https://ductstudy.com/#/field",
           "name": "Field sims",
           "desc": "Attic Job, Job Board, Inspection Desk, Vent Call, Duct Reflex, Read the Print."
         },

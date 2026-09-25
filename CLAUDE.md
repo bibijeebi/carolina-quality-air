@@ -18,7 +18,7 @@ Everything internal sits behind Google sign-in.
 | Jeff desk | `/proposals/`, `/leads/`, `/estimates/`, `/repairs/`, `/operations/`, `/orders/`, `/reports/`, `/work-load.html` | static HTML in `public/` | Google sign-in |
 | Shop Book | `/kb/` | `kb/` (separate Astro + Starlight project, builds into `dist/kb`) | Google sign-in |
 | Pricing trainers | `/learning/{estimator,walk-the-job,perry-sim,pricing-doctrine}.html` | `public/learning/` | Google sign-in |
-| DuctStudy | `/learning/` (SPA), `/learning/field/*`, `/learning/field-guide/*`, EPA/forklift drills | `public/learning/` | Public but unlisted; its own optional Google sign-in syncs progress |
+| DuctStudy | https://ductstudy.com (hand-over page at `/learning/`) | bibijeebi/ductstudy `public/lab/` | Public; its own optional Google sign-in syncs progress |
 
 Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client; repo bibijeebi/ductstudy),
 `cqa-form-handler` (contact form to D1 + Resend), `cqa-public-api` (testimonials JSON, read at build),
@@ -67,12 +67,6 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 - At handoff: remove the robots meta in `src/layouts/Layout.astro` and delete `public/robots.txt`.
 - Old .com paths 301 to their equivalents (`public/_redirects`).
 
-## DuctStudy copy in this repo
-
-`public/learning/` is the live DuctStudy client. It is built in the vent-exam-lab project and copied
-here; edits made directly here (for example the removed pricing links in `app.js`'s LIBRARY) must be
-carried back there or a re-copy will undo them.
-
 ## Build and deploy
 
 ```
@@ -91,15 +85,10 @@ deploy by page title or content, and for gated paths by the 302 to `/auth/desk`.
 Retainer ($150–200/mo all-in) beats a lump sum. Pitch Jeff, not Perry. Keep the website pitch separate
 from any raise conversation. Demo it on a phone.
 
-## Moving DuctStudy to its own domain (planned)
+## DuctStudy lives at ductstudy.com
 
-Benny may buy a DuctStudy domain; company-specific things stay here. When it happens:
-1. Serve `public/learning/` (minus the pricing trainers, which stay here behind sign-in) from the new domain.
-2. `public/learning/app.js`: `LIVE` regex and `SITE` constant. `public/learning/sync.js`: the `API` hostname regex.
-3. ductstudy repo: add the origin to `CORS_ORIGINS` in `src/index.js`, set `LAB_HOME` in `wrangler.toml`,
-   and add the new origin to the Google OAuth client's authorized origins if sign-in moves there.
-4. Here: `public/_redirects` `/learning/* https://<new>/:splat 301` (keep `/learning/field-guide/*` if tool
-   QR labels point at it), drop the DuctStudy links from `src/data/hq.json` or repoint them.
-5. Progress lives in each tech's browser storage per origin: signed-in users keep it through the account;
-   signed-out users lose it unless the old origin exports it on the way out (the worker's hand-over page
-   already does this with `#import=`; reuse that pattern).
+Since Sept 25, 2026 the DuctStudy app is served by the `ductstudy` worker (repo bibijeebi/ductstudy, files in
+`public/lab/`) at https://ductstudy.com. Edit it there, not here. `public/learning/index.html` here is a hand-over
+page that carries a tech's saved progress and sign-in to ductstudy.com; `/learning/field/*` and `/learning/data/*`
+301 there. What stays here under `/learning/`: the crew field guide (QR labels point at it), the EPA 608/609 and
+forklift drills, ascs-cram, and the staff-only pricing trainers.

@@ -18,3 +18,6 @@
 /operations/ /hq/#reports 302
 /reports /hq/#tools 302
 /reports/ /hq/#tools 302
+# DuctStudy moved to its own domain (Sept 2026). /learning/ itself is a hand-over page that carries progress along.
+/learning/field/* https://ductstudy.com/field/:splat 301
+/learning/data/* https://ductstudy.com/data/:splat 301
