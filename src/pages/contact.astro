@@ -204,12 +204,12 @@ const propertyTypes = [
           <p class="text-[0.78rem] uppercase tracking-[0.12em] text-ink-4">
             Email
           </p>
-          <a
+          <Fragment set:html="<!--email_off-->" /><a
             href={`mailto:${site.email}`}
             class="link-slide mt-2 inline-block text-[0.95rem] font-semibold text-ink"
           >
             {site.email}
-          </a>
+          </a><Fragment set:html="<!--/email_off-->" />
         </div>
       </div>
     </aside>

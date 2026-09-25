@@ -28,9 +28,9 @@ const isActive = (href: string) =>
       }
     </p>
     <div class="flex items-center gap-6 text-mist">
-      <a href={`mailto:${site.email}`} class="link-slide hover:text-paper">
+      <Fragment set:html="<!--email_off-->" /><a href={`mailto:${site.email}`} class="link-slide hover:text-paper">
         {site.email}
-      </a>
+      </a><Fragment set:html="<!--/email_off-->" />
       {
         listedOffices.map((o) => (
           <a
