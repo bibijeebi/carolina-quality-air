@@ -2,49 +2,168 @@
   "_readme": "Staff HQ at /hq/ reads this file. Proposal, lead report, estimate, repair and operations pages are picked up automatically from public/; this file only adds status and notes. Status: done | moving | waiting | parked | dead. A proposal not listed here shows as waiting.",
   "asOf": "2026-09-25",
   "proposals": {
-    "2026-08-23-eddm-pilot": { "status": "moving", "note": "2,171 cards mailed Sep 5. No call-source tracking yet, so results are unknown (015 fixes that)." },
-    "2026-08-25-print-kit": { "status": "waiting", "note": "Sticker cart staged at Sticker Mule, not ordered." },
-    "2026-08-25-van-reset": { "status": "moving", "note": "First Sunday reset ran Sep 7. See Operations." },
-    "2026-08-25-content-engine": { "status": "waiting" },
-    "2026-08-25-website": { "status": "waiting", "note": "The public side of this domain is the demo." },
-    "2026-09-03-taa-membership": { "status": "waiting", "note": "Time-boxed: the plan joins on Oct 1." },
-    "2026-09-04-hood-lane": { "status": "waiting" },
-    "2026-09-04-money-on-the-table": { "status": "waiting" },
-    "2026-09-04-shop-move": { "status": "waiting" },
-    "2026-09-10-third-seat": { "status": "waiting" },
-    "2026-09-12-training-house": { "status": "waiting", "note": "Jeff picks the date and format." },
-    "2026-09-13-study-tool": { "status": "waiting", "note": "Decision is ownership. Thomas is studying on it now." },
-    "2026-09-17-van-wallet": { "status": "waiting" },
-    "2026-09-21-toll-stickers": { "status": "waiting" },
-    "2026-09-25-ground-game": { "status": "waiting" }
+    "2026-08-23-eddm-pilot": {
+      "status": "moving",
+      "note": "2,171 cards mailed Sep 5. No call-source tracking yet, so results are unknown (015 fixes that)."
+    },
+    "2026-08-25-print-kit": {
+      "status": "parked",
+      "note": "Stickers on hold for now (Sept 25)."
+    },
+    "2026-08-25-van-reset": {
+      "status": "moving",
+      "note": "Scaled back Sept 25: no mass inventory or labeling of gear outside Ben's van. Just keep counts of what we have."
+    },
+    "2026-08-25-content-engine": {
+      "status": "waiting"
+    },
+    "2026-08-25-website": {
+      "status": "waiting",
+      "note": "The public side of this domain is the demo."
+    },
+    "2026-09-03-taa-membership": {
+      "status": "waiting",
+      "note": "Ben is pushing this with Jeff. Oct 1 is the earliest good day to join, not a deadline: joining in Q4 gets the rest of 2026 free."
+    },
+    "2026-09-04-hood-lane": {
+      "status": "waiting"
+    },
+    "2026-09-04-money-on-the-table": {
+      "status": "moving",
+      "note": "Jeff is getting new company credit cards; Ben gets one. Fuel cards are not happening for now."
+    },
+    "2026-09-04-shop-move": {
+      "status": "waiting"
+    },
+    "2026-09-10-third-seat": {
+      "status": "waiting"
+    },
+    "2026-09-12-training-house": {
+      "status": "waiting",
+      "note": "Jeff picks the date and format."
+    },
+    "2026-09-13-study-tool": {
+      "status": "waiting",
+      "note": "Decision is ownership. Thomas is studying on it now."
+    },
+    "2026-09-17-van-wallet": {
+      "status": "parked",
+      "note": "The fuel-card half is off for now; company credit cards are the route instead."
+    },
+    "2026-09-21-toll-stickers": {
+      "status": "waiting"
+    },
+    "2026-09-25-ground-game": {
+      "status": "waiting"
+    }
   },
   "watch": [
-    { "when": "2026-10-01", "what": "TAA supplier join date (Proposal 006)", "href": "/proposals/2026-09-03-taa-membership" },
-    { "when": "now", "what": "Green Road: get the bid tab, quote the apparent low bidder", "href": "/leads/2026-09-25" }
+    {
+      "when": "2026-10-01",
+      "what": "TAA: earliest day to join as a supplier (Q4 2026 comes free). Ask Jeff for the yes.",
+      "href": "/proposals/2026-09-03-taa-membership"
+    },
+    {
+      "when": "now",
+      "what": "Green Road: get the bid tab, quote the apparent low bidder",
+      "href": "/leads/2026-09-25"
+    }
   ],
   "tools": [
-    { "group": "Know-how", "items": [
-      { "href": "/kb/", "name": "Shop Book", "desc": "Gear, chemicals, procedures, systems, 32 job write-ups." },
-      { "href": "/learning/pricing-doctrine.html", "name": "Pricing doctrine", "desc": "How Jeff and Perry price work, written down." },
-      { "href": "/learning/estimator.html", "name": "Estimator trainer", "desc": "Cost-stack calculator and practice jobs." },
-      { "href": "/learning/walk-the-job.html", "name": "Walk the Job", "desc": "Pricing game: inspect, estimate, get graded." },
-      { "href": "/learning/perry-sim.html", "name": "Duct Duct Sales Club!", "desc": "Sales and pricing visual novel." }
-    ]},
-    { "group": "Training (public, unlisted)", "items": [
-      { "href": "/learning/", "name": "DuctStudy", "desc": "ASCS, CVI, dryer vent prep. Anyone with the link can use it." },
-      { "href": "/learning/#/field", "name": "Field sims", "desc": "Attic Job, Job Board, Inspection Desk, Vent Call, Duct Reflex, Read the Print." },
-      { "href": "/learning/field-guide/", "name": "Crew field guide", "desc": "QR-label guide pages, planned, not yet filmed." }
-    ]},
-    { "group": "Crew and data", "items": [
-      { "href": "/orders/", "name": "Crew orders", "desc": "Everyone's food order, by place." },
-      { "href": "/reports/duct-age-2026-08", "name": "Duct-age neighborhoods", "desc": "Wake subdivisions built 2006 to 2011, ranked." },
-      { "href": "/leads/targets-2026-08.html", "name": "Government targets (Aug)", "desc": "First pass at NC government duct work." },
-      { "href": "/work-load.html", "name": "Work load", "desc": "Ben's steps and distance against the hours ledger." }
-    ]},
-    { "group": "Outside this site", "items": [
-      { "href": "https://lead-hub.bennyforeman1.workers.dev/", "name": "Lead Radar", "desc": "Live lead board from the bid collectors." },
-      { "href": "https://evp-bid-watch.bennyforeman1.workers.dev/", "name": "eVP Bid Watch", "desc": "Nightly NC eVP scan." },
-      { "href": "https://ductstudy.bennyforeman1.workers.dev/usage", "name": "DuctStudy usage", "desc": "Daily use counts (needs the master key)." }
-    ]}
+    {
+      "group": "Know-how",
+      "items": [
+        {
+          "href": "/kb/",
+          "name": "Shop Book",
+          "desc": "Gear, chemicals, procedures, systems, 32 job write-ups."
+        },
+        {
+          "href": "/learning/pricing-doctrine.html",
+          "name": "Pricing doctrine",
+          "desc": "How Jeff and Perry price work, written down."
+        },
+        {
+          "href": "/learning/estimator.html",
+          "name": "Estimator trainer",
+          "desc": "Cost-stack calculator and practice jobs."
+        },
+        {
+          "href": "/learning/walk-the-job.html",
+          "name": "Walk the Job",
+          "desc": "Pricing game: inspect, estimate, get graded."
+        },
+        {
+          "href": "/learning/perry-sim.html",
+          "name": "Duct Duct Sales Club!",
+          "desc": "Sales and pricing visual novel."
+        }
+      ]
+    },
+    {
+      "group": "Training (public, unlisted)",
+      "items": [
+        {
+          "href": "/learning/",
+          "name": "DuctStudy",
+          "desc": "ASCS, CVI, dryer vent prep. Anyone with the link can use it."
+        },
+        {
+          "href": "/learning/#/field",
+          "name": "Field sims",
+          "desc": "Attic Job, Job Board, Inspection Desk, Vent Call, Duct Reflex, Read the Print."
+        },
+        {
+          "href": "/learning/field-guide/",
+          "name": "Crew field guide",
+          "desc": "QR-label guide pages, planned, not yet filmed."
+        }
+      ]
+    },
+    {
+      "group": "Crew and data",
+      "items": [
+        {
+          "href": "/orders/",
+          "name": "Crew orders",
+          "desc": "Everyone's food order, by place."
+        },
+        {
+          "href": "/reports/duct-age-2026-08",
+          "name": "Duct-age neighborhoods",
+          "desc": "Wake subdivisions built 2006 to 2011, ranked."
+        },
+        {
+          "href": "/leads/targets-2026-08.html",
+          "name": "Government targets (Aug)",
+          "desc": "First pass at NC government duct work."
+        },
+        {
+          "href": "/work-load.html",
+          "name": "Work load",
+          "desc": "Ben's steps and distance against the hours ledger."
+        }
+      ]
+    },
+    {
+      "group": "Outside this site",
+      "items": [
+        {
+          "href": "https://lead-hub.bennyforeman1.workers.dev/",
+          "name": "Lead Radar",
+          "desc": "Live lead board from the bid collectors."
+        },
+        {
+          "href": "https://evp-bid-watch.bennyforeman1.workers.dev/",
+          "name": "eVP Bid Watch",
+          "desc": "Nightly NC eVP scan."
+        },
+        {
+          "href": "https://ductstudy.bennyforeman1.workers.dev/usage",
+          "name": "DuctStudy usage",
+          "desc": "Daily use counts (needs the master key)."
+        }
+      ]
+    }
   ]
 }
