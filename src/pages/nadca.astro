@@ -33,7 +33,26 @@ const credentials = [
     eyebrow="Certification"
     title="What the letters actually mean."
     lede="Every duct cleaning company says it is certified. Here is what that word is worth, what ours covers, and how to check it yourself in thirty seconds."
-  />
+  >
+    <div slot="aside" class="rounded-md bg-paper p-7 text-ink shadow-2xl ring-1 ring-white/15">
+      <div class="flex items-center gap-4 border-b border-hairline pb-5">
+        <Image src={nadcaLogo} alt="" widths={[120, 240]} sizes="64px" class="h-14 w-auto" />
+        <div>
+          <p class="font-display text-xl">NADCA member</p>
+          <p class="text-[0.85rem] text-ink-3">Since {site.nadcaMemberSince}</p>
+        </div>
+      </div>
+      <ul class="mt-5 grid grid-cols-3 gap-3 text-center">
+        {[["ASCS", "Air Systems Cleaning Specialist"], ["CVI", "Certified Ventilation Inspector"], ["ACR", "The NADCA Standard"]].map(([k, v]) => (
+          <li class="rounded-sm bg-paper-2 px-2 py-4">
+            <span class="block font-display text-2xl text-brand-700">{k}</span>
+            <span class="mt-1 block text-[0.72rem] leading-snug text-ink-3">{v}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-5 text-[0.82rem] leading-relaxed text-ink-3">A certified specialist is on site for every job, and a cleaning ends with a NADCA certificate for your records.</p>
+    </div>
+  </PageHero>
 
   {/* ── What NADCA is ───────────────────────────────────── */}
   <section class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
@@ -75,7 +94,7 @@ const credentials = [
         <div class="border border-hairline bg-paper-2 p-7 text-center">
           <Image
             src={nadcaLogo}
-            alt="NADCA — National Air Duct Cleaners Association"
+            alt="NADCA, National Air Duct Cleaners Association"
             widths={[180, 360]}
             sizes="120px"
             class="mx-auto h-24 w-auto"

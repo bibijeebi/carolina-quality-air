@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageHero from "../components/PageHero.astro";
+import heroImg from "../assets/work/van-house.jpg";
 import { site, listedOffices } from "../data/site";
 
 const propertyTypes = [
@@ -20,6 +21,8 @@ const propertyTypes = [
   <PageHero
     eyebrow="Get in touch"
     title="Tell us about the building."
+    image={heroImg}
+    imageAlt="Two Carolina Quality Air vans at a customer's home with equipment running"
     lede="The more you tell us up front (how many systems, what you are noticing, when it was last done), the more useful the first conversation is."
   />
 

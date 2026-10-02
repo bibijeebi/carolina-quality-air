@@ -1,0 +1,30 @@
+---
+/* Air moving through the space behind a dark hero: a few soft streams, drawn
+   in the brand blue and drifting left to right. CSS only, no script; still
+   under reduced motion (global.css). Purely decorative. */
+interface Props { class?: string; }
+const { class: cls = "" } = Astro.props;
+const streams = [
+  "M-40 120 C 180 60, 320 200, 560 140 S 900 60, 1180 150 S 1500 210, 1700 120",
+  "M-40 260 C 220 210, 380 330, 640 270 S 980 180, 1240 280 S 1520 330, 1700 250",
+  "M-40 400 C 160 360, 360 470, 600 410 S 960 330, 1200 420 S 1500 480, 1700 390",
+  "M-40 540 C 240 500, 420 600, 700 540 S 1040 460, 1300 560 S 1560 600, 1700 520",
+  "M-40 660 C 200 630, 400 720, 660 670 S 1000 600, 1260 690 S 1540 720, 1700 650",
+];
+---
+<svg class:list={["airflow pointer-events-none absolute inset-0 h-full w-full", cls]} viewBox="0 0 1600 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="af-fade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0" />
+      <stop offset=".25" stop-color="currentColor" stop-opacity="1" />
+      <stop offset=".8" stop-color="currentColor" stop-opacity="1" />
+      <stop offset="1" stop-color="currentColor" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  {streams.map((d, i) => (
+    <g>
+      <path d={d} class="af-base" stroke="url(#af-fade)" />
+      <path d={d} class={`af-flow af-${i}`} stroke="url(#af-fade)" />
+    </g>
+  ))}
+</svg>

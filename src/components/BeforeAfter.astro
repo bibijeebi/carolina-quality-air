@@ -27,7 +27,7 @@ const { before, after, alt, caption, start = 55, eager = false } = Astro.props;
   >
     <Image
       src={before}
-      alt={`Before — ${alt}`}
+      alt={`Before: ${alt}`}
       widths={[480, 800, 1200]}
       sizes="(min-width: 1024px) 46rem, 92vw"
       class="photo-warm block w-full"
@@ -38,7 +38,7 @@ const { before, after, alt, caption, start = 55, eager = false } = Astro.props;
     <div class="ba-clip absolute inset-0">
       <Image
         src={after}
-        alt={`After — ${alt}`}
+        alt={`After: ${alt}`}
         widths={[480, 800, 1200]}
         sizes="(min-width: 1024px) 46rem, 92vw"
         class="photo-warm absolute inset-0 h-full w-full object-cover"
@@ -85,7 +85,7 @@ const { before, after, alt, caption, start = 55, eager = false } = Astro.props;
       max="100"
       value={start}
       step="0.1"
-      aria-label={`Reveal the cleaned duct — ${alt}`}
+      aria-label={`Reveal the cleaned duct: ${alt}`}
     />
   </div>
 

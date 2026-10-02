@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import PageHero from "../../components/PageHero.astro";
+import heroImg from "../../assets/work/duct-2-after.jpg";
 import CallToAction from "../../components/CallToAction.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 
@@ -17,6 +18,8 @@ const services = (await getCollection("services")).sort(
   <PageHero
     eyebrow="What we do"
     title="Five services. One method."
+    image={heroImg}
+    imageAlt="The inside of a supply duct after source-removal cleaning, bare metal from end to end"
     lede="Every job runs the same way regardless of size: inspect, contain, agitate, extract, document. What changes is the equipment and the scheduling."
   />
 

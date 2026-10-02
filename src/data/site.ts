@@ -106,7 +106,7 @@ export const site = {
          also claimed VSMR; NADCA does not list it, so it is off the site
          until Jeff confirms. */
       credentials: [
-        "ASCS — Air Systems Cleaning Specialist",
+        "ASCS: Air Systems Cleaning Specialist",
         "NADCA Regional Coordinator, U.S. Southeast",
         "Serves on NADCA national committees",
         "Teaches NADCA training classes around the country",
@@ -119,12 +119,12 @@ export const site = {
       /* NADCA's directory lists him as "Jeff Bagley, ASCS, CVI". The CVI is
          new — their old site never mentioned it. VSMR withheld as above. */
       credentials: [
-        "ASCS — Air Systems Cleaning Specialist",
-        "CVI — Certified Ventilation Inspector",
+        "ASCS: Air Systems Cleaning Specialist",
+        "CVI: Certified Ventilation Inspector",
         "Serves on a NADCA national committee",
         "On site for the work himself",
       ],
-      bio: "Perry's son. Jeff is the one who shows up at your house — he runs the crews and is on site for the work himself.",
+      bio: "Perry's son. Jeff is the one who shows up at your house. He runs the crews and is on site for the work himself.",
     },
   ],
 

@@ -173,6 +173,8 @@ h3 {
 
 /* Eyebrow: small-caps label with a leading rule. Used instead
    of the centered pill-badge cliche. */
+/* In the components layer so a color utility (text-brand-300 on dark grounds) wins over the default ink. */
+@layer components {
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -192,6 +194,7 @@ h3 {
 }
 .eyebrow-plain::before {
   display: none;
+}
 }
 
 /* Hairline rules carry the layout instead of drop shadows. */
@@ -342,3 +345,45 @@ h3 {
 .rise-4 {
   animation-delay: 0.24s;
 }
+
+/* ============================================================
+   FLAIR (site v2): moving air, scroll reveals, counting numbers.
+   All of it is decoration. Reduced motion stops it (the BASE
+   block above caps every animation at a single 0.01ms run).
+   ============================================================ */
+
+.airflow { color: var(--color-brand-400); -webkit-mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .35) 30%, #000 62%); mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .35) 30%, #000 62%); } /* the air runs behind the picture side, faint behind the words */
+.airflow .af-base { fill: none; stroke-width: 1.2; opacity: .14; }
+.airflow .af-flow { fill: none; stroke-width: 2; stroke-linecap: round; opacity: .55; stroke-dasharray: 2 26 70 400; animation: af-drift 9s linear infinite; }
+.airflow .af-1 { animation-duration: 11s; animation-delay: -3s; }
+.airflow .af-2 { animation-duration: 8s; animation-delay: -6s; }
+.airflow .af-3 { animation-duration: 12s; animation-delay: -1s; }
+.airflow .af-4 { animation-duration: 10s; animation-delay: -8s; }
+@keyframes af-drift { to { stroke-dashoffset: -498; } }
+
+/* Sections ease up as they scroll into view, where the browser can tie the
+   animation to scrolling. Nothing is hidden where it cannot. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 22%; }
+    .reveal-kids > * { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+  }
+  .kenburns { animation: kenburns 22s ease-in-out infinite alternate; transform-origin: 60% 50%; }
+}
+@keyframes reveal { from { opacity: 0; transform: translateY(26px); } }
+@keyframes kenburns { to { transform: scale(1.07); } }
+
+/* A number that counts up to --to on load. The real number is in the markup
+   for readers and for any browser without registered properties. */
+@property --num { syntax: "<integer>"; initial-value: 0; inherits: false; }
+.count { --num: var(--to); counter-reset: n var(--num); }
+.count > .n { display: none; }
+.count::after { content: counter(n); }
+@media (prefers-reduced-motion: no-preference) { .count { animation: count 1.8s var(--ease-out-expo) .3s both; } }
+@keyframes count { from { --num: 0; } }
+
+/* The process line: air moving along a duct from step to step. */
+.duct-run { position: relative; height: 10px; border-radius: 99px; background: var(--color-paper-3); overflow: hidden; }
+.duct-run::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 18px, var(--color-brand-400) 18px 30px); opacity: .7; }
+@media (prefers-reduced-motion: no-preference) { .duct-run::after { animation: duct-run 1.4s linear infinite; } }
+@keyframes duct-run { from { background-position: -30px 0; } to { background-position: 0 0; } }

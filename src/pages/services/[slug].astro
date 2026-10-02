@@ -26,27 +26,49 @@ const others = (await getCollection("services"))
   .sort((a, b) => a.data.order - b.data.order);
 
 const bookingUrl = d.bookingUrl ?? site.booking.freeEstimate;
+// Our own photos, one per service where one fits (dryer vent has none of its own yet, so it gets none).
+import { Image } from "astro:assets";
+import Airflow from "../../components/Airflow.astro";
+import p1 from "../../assets/work/duct-1-after.jpg";
+import p3 from "../../assets/work/duct-3-after.jpg";
+import p5 from "../../assets/work/duct-5-before.jpg";
+import p6 from "../../assets/work/duct-6-after.jpg";
+const PHOTO: Record<string, [ImageMetadata, string]> = {
+  residential: [p1, "A residential supply duct after cleaning"],
+  commercial: [p3, "A commercial duct run after source-removal cleaning"],
+  medical: [p6, "A duct after cleaning, bare metal end to end"],
+  industrial: [p5, "A duct before cleaning, its floor bedded with debris"],
+};
+const photo = PHOTO[entry.id];
 ---
 
 <Layout title={d.title} description={d.summary}>
-  <section class="border-b border-hairline bg-paper-2">
-    <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
-      <a
-        href="/services"
-        class="link-slide text-[0.85rem] font-semibold text-ink-3">&larr; All services</a
-      >
-      <div class="mt-8 flex items-start gap-5">
-        <ServiceIcon
-          name={d.icon}
-          class="mt-1 size-10 shrink-0 text-brand-600"
-        />
-        <div>
-          <h1 class="max-w-[18ch] font-display text-display optical-lg text-ink">
-            {d.title}
-          </h1>
-          <p class="mt-6 max-w-2xl text-lede text-ink-2">{d.lede}</p>
+  <section class="grain relative overflow-hidden bg-ink text-white">
+    <Airflow />
+    <div class:list={["relative z-10 mx-auto grid max-w-[80rem] items-center gap-10 px-5 py-16 sm:px-8 sm:py-20", photo && "lg:grid-cols-[1.2fr_0.8fr] lg:gap-16"]}>
+      <div class="rise">
+        <a
+          href="/services"
+          class="link-slide text-[0.85rem] font-semibold text-brand-300">&larr; All services</a
+        >
+        <div class="mt-8 flex items-start gap-5">
+          <ServiceIcon
+            name={d.icon}
+            class="mt-1 size-10 shrink-0 text-brand-300"
+          />
+          <div>
+            <h1 class="max-w-[18ch] font-display text-display optical-lg text-white">
+              {d.title}
+            </h1>
+            <p class="mt-6 max-w-2xl text-lede text-mist">{d.lede}</p>
+          </div>
         </div>
       </div>
+      {photo && (
+        <div class="rise rise-2 hidden overflow-hidden rounded-md ring-1 ring-white/15 lg:block">
+          <Image src={photo[0]} alt={photo[1]} widths={[480, 720, 960]} sizes="26rem" class="photo-warm kenburns aspect-[4/3] w-full object-cover" loading="eager" />
+        </div>
+      )}
     </div>
   </section>
 

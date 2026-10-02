@@ -1,29 +1,54 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Airflow from "./Airflow.astro";
+
 interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
   /** Renders the title tighter, for long service/area titles. */
   narrow?: boolean;
+  /** A photo from our own jobs on the right, on wide screens. */
+  image?: ImageMetadata;
+  imageAlt?: string;
 }
 
-const { eyebrow, title, lede, narrow = false } = Astro.props;
+const { eyebrow, title, lede, narrow = false, image, imageAlt = "" } = Astro.props;
+const side = image || Astro.slots.has("aside");
 ---
 
-<section class="border-b border-hairline bg-paper-2">
-  <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
-    <p class="eyebrow">{eyebrow}</p>
-    <h1
-      class:list={[
-        "mt-6 font-display optical-lg text-ink",
-        narrow ? "max-w-[20ch] text-display" : "max-w-[16ch] text-hero",
-      ]}
-    >
-      {title}
-    </h1>
+<section class="grain relative overflow-hidden bg-ink text-white">
+  <Airflow />
+  <div
+    class:list={[
+      "relative z-10 mx-auto grid max-w-[80rem] items-center gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:py-24",
+      side && "lg:grid-cols-[1.15fr_0.85fr] lg:gap-16",
+    ]}
+  >
+    <div class="rise">
+      <p class="eyebrow text-brand-300">{eyebrow}</p>
+      <h1
+        class:list={[
+          "mt-6 font-display optical-lg text-white",
+          narrow ? "max-w-[20ch] text-display" : "max-w-[16ch] text-hero",
+        ]}
+      >
+        {title}
+      </h1>
+      {lede && <p class="mt-7 max-w-2xl text-lede text-mist">{lede}</p>}
+    </div>
     {
-      lede && (
-        <p class="mt-7 max-w-2xl text-lede text-ink-2">{lede}</p>
+      side && (
+        <div class="rise rise-2 relative hidden lg:block">
+          {image ? (
+            <div class="overflow-hidden rounded-md ring-1 ring-white/15">
+              <Image src={image} alt={imageAlt} widths={[480, 720, 960]} sizes="28rem" class="photo-warm kenburns aspect-[4/3] w-full object-cover" loading="eager" />
+            </div>
+          ) : (
+            <slot name="aside" />
+          )}
+        </div>
       )
     }
   </div>

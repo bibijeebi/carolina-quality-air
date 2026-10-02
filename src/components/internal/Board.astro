@@ -1,0 +1,43 @@
+---
+// The look of a Jeff-facing board (/proposals/, /estimates/, /operations/, /reports/): a navy masthead and cards.
+// Open to anyone with the link and noindexed (functions/_middleware.js OPEN). Nothing here links to the rest of the domain.
+interface Props { title: string; sub: string; }
+const { title, sub } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b2237">
+<title>{title} · Carolina Quality Air</title>
+<meta property="og:title" content={`${title} · Carolina Quality Air`}>
+<meta property="og:description" content={sub}>
+<link rel="icon" href="/favicon.svg">
+<link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<style is:inline>
+@font-face{font-family:"Archivo";src:url("/fonts/archivo-latin-var.woff2") format("woff2-variations");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+:root{--blue:#0072bb;--navy:#0b2237;--ink:#0c1722;--ink2:#44576a;--paper:#f2f6f9;--line:#dde5ec;--card:#fff;--ok:#1f7a45;--okb:#e3f3e9;--mv:#005b96;--mvb:#dbeefb;--wt:#9a4b0b;--wtb:#fbeedf;--pk:#5b6b7b;--pkb:#e9eef2;--dd:#9b2c22;--ddb:#f9e3e0}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Archivo,-apple-system,system-ui,sans-serif;overflow-x:hidden}
+a{color:var(--blue)}
+.mast{position:relative;overflow:hidden;background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 34px) 18px 40px;border-bottom:4px solid var(--blue)}
+.mast::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 120% at 85% 0%,#0072bb55,transparent 60%),radial-gradient(40% 90% at 100% 100%,#3fa4e322,transparent 70%);pointer-events:none}
+.w{position:relative;max-width:1084px;margin:0 auto}
+.brand{font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#9fc9e8}
+h1{font-stretch:68%;font-weight:800;font-size:clamp(36px,7vw,64px);line-height:.95;text-transform:uppercase;margin:10px 0 10px;letter-spacing:-.005em}
+.sub{max-width:62ch;font-size:16px;color:#c3d1dd;margin:0}
+main{max-width:1120px;margin:0 auto;padding:28px 18px 80px}
+.foot{max-width:1120px;margin:0 auto;padding:0 18px 40px;font-size:13px;color:var(--ink2)}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s}.card:hover{transform:translateY(-3px);box-shadow:0 2px 4px #0b223322,0 14px 28px #0b22331f;border-color:#9fc9e8}}
+</style>
+<slot name="head" />
+</head>
+<body>
+<header class="mast"><div class="w"><div class="brand">Carolina Quality Air</div><h1>{title}</h1><p class="sub">{sub}</p></div></header>
+<main><slot /></main>
+<div class="foot">Carolina Quality Air · internal page, not listed anywhere public.</div>
+</body>
+</html>

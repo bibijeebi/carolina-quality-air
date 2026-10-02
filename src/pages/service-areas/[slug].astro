@@ -28,29 +28,31 @@ const others = (await getCollection("areas"))
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+import Airflow from "../../components/Airflow.astro";
 ---
 
 <Layout title={d.title} description={d.summary}>
-  <section class="border-b border-hairline bg-paper-2">
-    <div class="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
+  <section class="grain relative overflow-hidden bg-ink text-white">
+    <Airflow />
+    <div class="rise relative z-10 mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
       <a
         href="/service-areas"
-        class="link-slide text-[0.85rem] font-semibold text-ink-3"
+        class="link-slide text-[0.85rem] font-semibold text-brand-300"
         >&larr; All service areas</a
       >
-      <h1 class="mt-8 max-w-[20ch] font-display text-display optical-lg text-ink">
+      <h1 class="mt-8 max-w-[20ch] font-display text-display optical-lg text-white">
         {d.title}
       </h1>
-      <p class="mt-6 max-w-2xl text-lede text-ink-2">{d.summary}</p>
+      <p class="mt-6 max-w-2xl text-lede text-mist">{d.summary}</p>
 
       <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
         <a
           href={office.phoneHref}
-          class="tnum inline-flex items-center gap-2.5 font-display text-2xl text-brand-700"
+          class="tnum inline-flex items-center gap-2.5 font-display text-2xl text-brand-300"
         >
           {office.phone}
         </a>
-        <span class="text-[0.85rem] text-ink-3">
+        <span class="text-[0.85rem] text-mist">
           {office.role}{office.mapUrl && ` · ${office.street}, ${office.city}`}
         </span>
       </div>

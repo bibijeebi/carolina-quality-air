@@ -52,9 +52,13 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 
 ## Adding internal pages
 
-- New proposal: `public/proposals/YYYY-MM-DD-slug.html` with a `№ NNN · Name` title and an og:description.
-  It shows up on `/hq/` by itself (status defaults to "Waiting on Jeff"); set status in `src/data/hq.json`.
-  Also add its card to `public/proposals/index.html`. One page per spend decision, updated in place.
+- New proposal: `public/proposals/YYYY-MM-DD-slug.html` with a `№ NNN · Name` title, an og:description and an
+  og:image under `public/proposals/og/`. It shows up on `/hq/` and on the proposals board (`/proposals/`,
+  `src/pages/proposals/index.astro`) by itself (status defaults to "Waiting on Jeff"); set status and the one-line
+  cost (`ask`) in `src/data/hq.json`. Notes there are staff-only and never shown on the board. One page per spend
+  decision, updated in place.
+- `/estimates/`, `/operations/` and `/reports/` boards list their folder's pages by themselves too
+  (`src/components/internal/List.astro`, scanner in `src/lib/internal.ts`). `/leads/` keeps its hand-kept index.
 - Lead reports, estimates, repairs, operations: same pattern, auto-listed on `/hq/`.
 - A new top-level internal folder must be added to `public/_routes.json` or it is public with no noindex
   header. Add it to `OPEN` as well only if it is meant to be readable without sign-in.
@@ -72,6 +76,10 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 - `listed: false` on an office keeps it out of header/footer/contact lists (Wilmington: coastal jobs
   book through the main line; the old 910 number belongs to another business).
 - Zero client framework. JS only for the before/after slider and the form upgrade.
+- The look (site v2, Oct 2026): dark heroes carry `Airflow.astro` (CSS-only drifting air streams, faded behind the
+  words); sections ease in with CSS scroll-driven animation (`.reveal`, `.reveal-kids`, no JS, nothing hidden where
+  unsupported); `.count` counts a number up on load; `.kenburns` slowly pushes into hero photos; `.duct-run` is the
+  process line. All of it stops under reduced motion. Hero photos are only the company's own (`src/assets/work/`).
 - At handoff: remove the robots meta in `src/layouts/Layout.astro` and delete `public/robots.txt`.
 - Old .com paths 301 to their equivalents (`public/_redirects`).
 

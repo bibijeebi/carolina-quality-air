@@ -1,0 +1,62 @@
+---
+// The proposals board. Every public/proposals/*.html page shows up here by itself (the old hand-kept index is gone):
+// number and name from its <title>, the line from og:description, the picture from og:image, status and the cost line
+// from src/data/hq.json. Notes in hq.json are staff-only and never shown here.
+import Board from "../../components/internal/Board.astro";
+import hq from "../../data/hq.json";
+import { scan, fmtDate } from "../../lib/internal";
+
+const S = hq.proposals as Record<string, { status: string; label?: string; ask?: string }>;
+const LABEL: Record<string, string> = { done: "Done", moving: "In motion", waiting: "Waiting on Jeff", parked: "Parked", dead: "Not doing", reference: "Reference" };
+const items = scan("proposals").map((d) => {
+  const m = /№\s*(\d+)\s*·\s*([^·]+)/.exec(d.title);
+  const st = S[d.slug] || { status: "waiting" };
+  return { ...d, num: m ? m[1] : "", name: m ? m[2].trim() : d.title, status: st.status, label: st.label || LABEL[st.status] || st.status, ask: st.ask || "" };
+}).sort((a, b) => +b.num - +a.num || Number(a.status === "reference") - Number(b.status === "reference") || b.date.localeCompare(a.date));
+const order = ["waiting", "moving", "done", "parked", "reference", "dead"];
+const counts = order.map((k) => [k, items.filter((p) => p.status === k).length] as const).filter(([, n]) => n);
+---
+<Board title="Proposals" sub="Spend asks with the research attached. One page per decision, newest first. Tap a card for the full page.">
+  <style is:inline>
+    .tally{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+    .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:4px;white-space:nowrap}
+    .chip.waiting{background:var(--wtb);color:var(--wt)}.chip.moving{background:var(--mvb);color:var(--mv)}.chip.done{background:var(--okb);color:var(--ok)}.chip.parked,.chip.reference{background:var(--pkb);color:var(--pk)}.chip.dead{background:var(--ddb);color:var(--dd)}
+    .ops{display:grid;gap:4px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ok);border-radius:6px;padding:16px 18px;margin:0 0 26px}
+    .ops b{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok)}
+    .ops p{margin:2px 0;font-size:15px}
+    .grid{display:grid;gap:18px}
+    @media (min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+    @media (min-width:1080px){.grid{grid-template-columns:1fr 1fr 1fr}}
+    .card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;color:var(--ink);text-decoration:none;box-shadow:0 1px 2px #0b22330f}
+    .pic{position:relative;aspect-ratio:1.91/1;background:#0b2237 center/cover no-repeat}
+    .pic .no{position:absolute;left:12px;top:12px;font-stretch:70%;font-weight:800;font-size:14px;letter-spacing:.04em;color:#fff;background:#0b2237d9;padding:4px 9px;border-radius:4px}
+    .pic.plain{display:flex;align-items:flex-end;padding:16px;background:linear-gradient(135deg,#0b2237,#0a3d63)}
+    .pic.plain span{font-stretch:68%;font-weight:800;font-size:30px;line-height:1;color:#fff;text-transform:uppercase}
+    .body{display:flex;flex-direction:column;gap:8px;flex:1;padding:16px 18px 18px}
+    .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+    .name{font-stretch:76%;font-weight:800;font-size:22px;line-height:1.08;color:#0b2237;margin:0}
+    .num{display:block;font-stretch:100%;font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--ink2);margin-bottom:3px}
+    .ask{font-weight:700;font-size:14px;color:var(--blue)}
+    .desc{font-size:14.5px;line-height:1.5;color:var(--ink2);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .date{margin-top:auto;padding-top:6px;font-size:12.5px;color:var(--ink2)}
+  </style>
+  <div class="tally">{counts.map(([k, n]) => <span class={`chip ${k}`}>{n} {LABEL[k]}</span>)}</div>
+  <section class="ops">
+    <b>Operations</b>
+    <p><a href="/operations/fleet-readiness">Fleet readiness and identification</a> · <a href="/operations/company-records">Company-record cleanup</a> · <a href="/operations/2026-09-07-reset">September 7 gear reset: results and confirmed order</a></p>
+    <p style="font-size:13px;color:var(--ink2)">Working plans and status checks behind the proposals below.</p>
+  </section>
+  <div class="grid">
+    {items.map((p) => (
+      <a class="card" href={p.href}>
+        {p.img ? <div class="pic" style={`background-image:url(${p.img})`}></div> : <div class="pic plain"><span>№ {p.num}</span></div>}
+        <div class="body">
+          <div class="row"><span class={`chip ${p.status}`}>{p.label}</span>{p.ask && <span class="ask">{p.ask}</span>}</div>
+          <h2 class="name"><span class="num">№ {p.num}</span>{p.name}</h2>
+          {p.desc && <p class="desc">{p.desc}</p>}
+          <span class="date">{fmtDate(p.date)}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</Board>

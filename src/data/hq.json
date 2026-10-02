@@ -1,60 +1,75 @@
 {
-  "_readme": "Staff HQ at /hq/ reads this file. Proposal, lead report, estimate, repair and operations pages are picked up automatically from public/; this file only adds status and notes. Status: done | moving | waiting | parked | dead. A proposal not listed here shows as waiting.",
+  "_readme": "Staff HQ at /hq/ reads this file. Proposal, lead report, estimate, repair and operations pages are picked up automatically from public/; this file only adds status and notes. Status: done | moving | waiting | parked | dead. A proposal not listed here shows as waiting. \"ask\" is the one-line cost shown on the proposals board.",
   "asOf": "2026-09-25",
   "proposals": {
     "2026-08-23-eddm-pilot": {
       "status": "moving",
-      "note": "2,171 cards mailed Sep 5. No call-source tracking yet, so results are unknown (015 fixes that)."
+      "note": "2,171 cards mailed Sep 5. No call-source tracking yet, so results are unknown (015 fixes that).",
+      "ask": "Mailed Sep 5 · $887.74"
     },
     "2026-08-25-print-kit": {
       "status": "parked",
-      "note": "Stickers on hold for now (Sept 25)."
+      "note": "Stickers on hold for now (Sept 25).",
+      "ask": "~$150"
     },
     "2026-08-25-van-reset": {
       "status": "moving",
-      "note": "Scaled back Sept 25: no mass inventory or labeling of gear outside Ben's van. Just keep counts of what we have."
+      "note": "Scaled back Sept 25: no mass inventory or labeling of gear outside Ben's van. Just keep counts of what we have.",
+      "ask": "Sundays, time and a half"
     },
     "2026-08-25-content-engine": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "Phone pilot first"
     },
     "2026-08-25-website": {
       "status": "waiting",
-      "note": "The public side of this domain is the demo."
+      "note": "The public side of this domain is the demo.",
+      "ask": "$150–200/mo, all-in"
     },
     "2026-09-03-taa-membership": {
       "status": "waiting",
-      "note": "Ben is pushing this with Jeff. Oct 1 is the earliest good day to join, not a deadline: joining in Q4 gets the rest of 2026 free."
+      "note": "Ben is pushing this with Jeff. Oct 1 is the earliest good day to join, not a deadline: joining in Q4 gets the rest of 2026 free.",
+      "ask": "~$430"
     },
     "2026-09-04-hood-lane": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "~$1,070 now, equipment later"
     },
     "2026-09-04-money-on-the-table": {
       "status": "moving",
-      "note": "Jeff is getting new company credit cards; Ben gets one. Fuel cards are not happening for now."
+      "note": "Jeff is getting new company credit cards; Ben gets one. Fuel cards are not happening for now.",
+      "ask": "$0, paperwork only"
     },
     "2026-09-04-shop-move": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "$29k–56k in-house, $40k–76k turnkey"
     },
     "2026-09-10-third-seat": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "Target under $500 a van"
     },
     "2026-09-12-training-house": {
       "status": "waiting",
-      "note": "Jeff picks the date and format."
+      "note": "Jeff picks the date and format.",
+      "ask": "One Sunday, nothing invoiced"
     },
     "2026-09-13-study-tool": {
       "status": "waiting",
-      "note": "Decision is ownership. Thomas is studying on it now."
+      "note": "Decision is ownership. Thomas is studying on it now.",
+      "ask": "$0 now, a decision on who owns it"
     },
     "2026-09-17-van-wallet": {
       "status": "parked",
-      "note": "The fuel-card half is off for now; company credit cards are the route instead."
+      "note": "The fuel-card half is off for now; company credit cards are the route instead.",
+      "ask": "~$150 hardware, fuel cards from $0/mo"
     },
     "2026-09-21-toll-stickers": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "~$15, no monthly fee"
     },
     "2026-09-25-ground-game": {
-      "status": "waiting"
+      "status": "waiting",
+      "ask": "~$120–215 cash"
     },
     "2026-09-25-sign-map": {
       "status": "reference",
