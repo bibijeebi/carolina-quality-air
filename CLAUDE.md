@@ -58,7 +58,7 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
   cost (`ask`) in `src/data/hq.json`. Notes there are staff-only and never shown on the board. One page per spend
   decision, updated in place.
 - `/estimates/`, `/operations/` and `/reports/` boards list their folder's pages by themselves too
-  (`src/components/internal/List.astro`, scanner in `src/lib/internal.ts`). `/leads/` keeps its hand-kept index.
+  (`src/components/internal/List.astro`, scanner in `src/lib/internal.ts`). `/leads/` and `/repairs/` do too.
 - Lead reports, estimates, repairs, operations: same pattern, auto-listed on `/hq/`.
 - A new top-level internal folder must be added to `public/_routes.json` or it is public with no noindex
   header. Add it to `OPEN` as well only if it is meant to be readable without sign-in.

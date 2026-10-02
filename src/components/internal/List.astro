@@ -2,8 +2,9 @@
 // A plain board of one folder's pages, newest first, each with its picture when the page has one.
 import Board from "./Board.astro";
 import { scan, byDateDesc, fmtDate } from "../../lib/internal";
-interface Props { dir: string; title: string; sub: string; empty?: string; }
-const { dir, title, sub, empty = "Nothing here yet." } = Astro.props;
+interface Props { dir: string; title: string; sub: string; empty?: string; trim?: string; }
+const { dir, title, sub, empty = "Nothing here yet.", trim } = Astro.props;
+const cut = trim ? new RegExp(trim) : null;
 const items = scan(dir).sort(byDateDesc);
 ---
 <Board title={title} sub={sub}>
@@ -23,7 +24,7 @@ const items = scan(dir).sort(byDateDesc);
       {items.map((d) => (
         <a class="card" href={d.href}>
           <div class="pic" style={d.img ? `background-image:url(${d.img})` : ""}></div>
-          <div class="body"><h2 class="name">{d.title}</h2>{d.desc && <p class="desc">{d.desc}</p>}{d.date && <span class="date">{fmtDate(d.date)}</span>}</div>
+          <div class="body"><h2 class="name">{cut ? d.title.replace(cut, "") : d.title}</h2>{d.desc && <p class="desc">{d.desc}</p>}{d.date && <span class="date">{fmtDate(d.date)}</span>}</div>
         </a>
       ))}
     </div>

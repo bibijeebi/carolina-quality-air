@@ -20,7 +20,7 @@ const srv = createServer((req, res) => {
 }).listen(4444, async () => {
   const { chromium } = require("playwright");
   const axe = readFileSync("node_modules/axe-core/axe.min.js", "utf8");
-  const routes = ["/proposals/", "/estimates/", "/operations/", "/reports/", "/", "/about/", "/services/", "/faq/", "/contact/", "/testimonials/", "/nadca/", "/proof/", "/service-areas/", "/service-areas/greenville/", "/service-areas/wilmington/", "/services/residential/", "/services/commercial/", "/services/dryer-vent/", "/404.html", "/hq/"];
+  const routes = ["/proposals/", "/leads/", "/repairs/", "/estimates/", "/operations/", "/reports/", "/", "/about/", "/services/", "/faq/", "/contact/", "/testimonials/", "/nadca/", "/proof/", "/service-areas/", "/service-areas/greenville/", "/service-areas/wilmington/", "/services/residential/", "/services/commercial/", "/services/dryer-vent/", "/404.html", "/hq/"];
   const b = await chromium.launch({ args: ["--no-sandbox"], executablePath: process.env.CHROME_PATH });
   let total = 0;
   for (const r of routes) {
