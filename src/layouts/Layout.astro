@@ -10,12 +10,15 @@ interface Props {
   description?: string;
   /** Set false on the homepage, where the title stands alone. */
   suffixTitle?: boolean;
+  /** The office line to dial on this page (an area page passes its own office). */
+  phone?: { display: string; href: string };
 }
 
 const {
   title,
   description = "NADCA-certified air duct cleaning across Eastern North Carolina. Family owned since 1999, serving Greenville, the Triangle and Wilmington.",
   suffixTitle = true,
+  phone = site.phone,
 } = Astro.props;
 
 const fullTitle = suffixTitle ? `${title} | ${site.name}` : title;
@@ -122,14 +125,14 @@ const canonical = new URL(
     </a>
 
     <p class="bg-brand-900 px-5 py-2 text-center text-[0.8rem] leading-snug text-brand-100">
-      Heads up: a fake social media account has been posting &ldquo;specials&rdquo; in our name. It is not us.
+      Fake &ldquo;specials&rdquo; posts in our name are not us.
       <a href="/about#fake-accounts" class="font-semibold text-white underline underline-offset-2">More</a>
     </p>
-    <Header />
+    <Header phone={phone} />
     <main id="main">
       <slot />
     </main>
     <Footer />
-    <MobileCallBar />
+    <MobileCallBar phone={phone} />
   </body>
 </html>

@@ -3,6 +3,8 @@ import { Image } from "astro:assets";
 import logo from "../assets/brand/logo-cqa.png";
 import { site, listedOffices } from "../data/site";
 
+const { phone = site.phone } = Astro.props as { phone?: { display: string; href: string } };
+
 const nav = [
   { href: "/services", label: "Services" },
   { href: "/service-areas", label: "Service areas" },
@@ -84,7 +86,7 @@ const isActive = (href: string) =>
 
       <div class="flex items-center gap-3">
         <a
-          href={site.phone.href}
+          href={phone.href}
           class="tnum hidden items-center gap-2 text-[0.95rem] font-semibold text-ink md:inline-flex"
         >
           <svg
@@ -101,7 +103,7 @@ const isActive = (href: string) =>
               d="M3 5a2 2 0 0 1 2-2h3.3a1 1 0 0 1 .95.68l1.5 4.5a1 1 0 0 1-.5 1.2l-2.26 1.13a11 11 0 0 0 5.5 5.5l1.13-2.25a1 1 0 0 1 1.2-.5l4.5 1.5a1 1 0 0 1 .68.94V19a2 2 0 0 1-2 2h-1C9.7 21 3 14.3 3 6Z"
             ></path>
           </svg>
-          {site.phone.display}
+          {phone.display}
         </a>
 
         <a

@@ -46,8 +46,8 @@ const categories = [
   <script type="application/ld+json" set:html={faqSchema} />
   <PageHero
     eyebrow="Questions"
-    title="Straight answers, including the unflattering ones."
-    lede="This trade has a reputation problem, and it earned it. So where the honest answer is 'probably not' or 'you don't need us', that is what it says below."
+    title="Questions people ask before they call"
+    lede="Duct cleaning has a reputation for upselling. Where the honest answer is 'probably not' or 'you don't need us', that is what it says below."
   />
 
   <div
@@ -55,13 +55,13 @@ const categories = [
   >
     <nav class="lg:sticky lg:top-28 lg:self-start" aria-label="Question topics">
       <h2 class="eyebrow eyebrow-plain">Jump to</h2>
-      <ul class="mt-5 space-y-2.5">
+      <ul class="mt-3 space-y-0">
         {
           categories.map((c) => (
             <li>
               <a
                 href={`#${c.toLowerCase().replace(/[^a-z]+/g, "-")}`}
-                class="link-slide text-[0.9rem] text-ink-2 hover:text-brand-700"
+                class="link-slide inline-block py-2.5 text-[0.9rem] text-ink-2 hover:text-brand-700"
               >
                 {c}
               </a>

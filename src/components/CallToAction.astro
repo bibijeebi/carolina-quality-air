@@ -1,15 +1,19 @@
 ---
-import { site } from "../data/site";
+import { site, listedOffices } from "../data/site";
 
 interface Props {
   heading?: string;
   body?: string;
+  /** One office line; without it every listed office gets its own row. */
+  phone?: { display: string; href: string; label?: string };
 }
 
 const {
   heading = "Find out what is actually in your ducts.",
   body = "Estimates are free and written down before any work starts. If your system does not need cleaning, we will tell you that.",
+  phone,
 } = Astro.props;
+const lines = phone ? [{ label: phone.label ?? "Call the shop", ...phone }] : listedOffices.map((o) => ({ label: o.name, display: o.phone, href: o.phoneHref }));
 ---
 
 <section class="relative overflow-hidden bg-brand-900 text-paper grain">
@@ -44,13 +48,15 @@ const {
           ></path>
         </svg>
       </a>
-      <a
-        href={site.phone.href}
-        class="flex items-center justify-between gap-4 rounded-xs border border-brand-300/35 px-6 py-5 font-semibold text-paper transition-colors hover:bg-brand-800"
-      >
-        <span>Call the shop</span>
-        <span class="tnum text-brand-200">{site.phone.display}</span>
-      </a>
+      {lines.map((l) => (
+        <a
+          href={l.href}
+          class="flex items-center justify-between gap-4 rounded-xs border border-brand-300/35 px-6 py-5 font-semibold text-paper transition-colors hover:bg-brand-800"
+        >
+          <span>{l.label}</span>
+          <span class="tnum text-brand-200">{l.display}</span>
+        </a>
+      ))}
       <p class="mt-1 text-[0.8rem] leading-relaxed text-brand-200/70">
         Greenville, the Triangle and the coast. Free written estimates.
         Bonded and insured.

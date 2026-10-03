@@ -3,18 +3,18 @@ title: Residential air duct cleaning
 navLabel: Residential
 order: 1
 icon: home
-summary: Whole-home duct and vent cleaning for families, allergy sufferers and pet owners.
+summary: Whole-home duct and vent cleaning for houses with pets, a recent renovation, or more dust than they should have.
 lede: Your heating and air system moves the same air through the same ducts every day. We take what has settled in there back out of the house.
 includes:
   - A free written estimate before any work starts
-  - Video inspection of the ductwork available on request
+  - Video inspection of the ductwork on request, billed separately
   - Negative-air vacuum connected directly to the duct trunk
   - Mechanical agitation of every interior surface with the High Velocity Air Sweeper
   - Every supply and return register pulled, cleaned and reset
   - Blower compartment and evaporator coil checked and cleaned as needed
   - A NADCA certificate for your records when the job is finished
 bestFor:
-  - Households where someone is bothered by dust or allergies
+  - Households where dust keeps coming back soon after you clean
   - Homes with indoor pets or a smoker
   - Houses that have just been renovated, or just been bought
   - Anyone who has never had it done and does not know what is up there
@@ -25,7 +25,7 @@ bestFor:
 We start by looking at your system before you decide to spend anything.
 Sometimes the honest answer is that it does not need us yet, and we would
 rather tell you that than sell you a cleaning. If you want to see inside the
-ducts on video, ask. Camera inspection is available on request.
+ducts on video, ask. Camera inspection is available on request and billed separately.
 
 If the system does need cleaning, we connect an industrial negative-air
 vacuum directly to the ductwork. That puts the entire system under suction, so

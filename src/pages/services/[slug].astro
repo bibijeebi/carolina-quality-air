@@ -49,7 +49,7 @@ const photo = PHOTO[entry.id];
       <div class="rise">
         <a
           href="/services"
-          class="link-slide text-[0.85rem] font-semibold text-brand-300">&larr; All services</a
+          class="link-slide inline-block py-2.5 text-[0.85rem] font-semibold text-brand-300">&larr; All services</a
         >
         <div class="mt-8 flex items-start gap-5">
           <ServiceIcon
@@ -144,7 +144,7 @@ const photo = PHOTO[entry.id];
           others.map((s) => (
             <a
               href={`/services/${s.id}`}
-              class="link-slide font-display text-xl text-ink hover:text-brand-700"
+              class="link-slide inline-block py-1.5 font-display text-xl text-ink hover:text-brand-700"
             >
               {s.data.navLabel}
             </a>

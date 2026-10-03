@@ -18,6 +18,7 @@ towns:
   - Wake Forest
   - Rolesville
   - Clayton
+  - Willow Spring
   - Wendell
   - Zebulon
   - Pittsboro
@@ -55,7 +56,7 @@ approach, same inspection to figure out which you have.
 
 The Triangle's pollen season is genuinely extreme. NC's environmental agency
 recorded a record tree-pollen count in Raleigh of 16,284 grains per cubic
-meter on the first of April, and the visible yellow pine pollen peaks from
+meter on April 1, 2024, and the visible yellow pine pollen peaks from
 late March through mid-April. Tree season as a whole runs from February into
 May.
 

@@ -55,13 +55,13 @@ const company = [
 
       <div>
         <h2 class="eyebrow eyebrow-plain mb-5 text-mist">Services</h2>
-        <ul class="space-y-3">
+        <ul class="space-y-0.5">
           {
             services.map((s) => (
               <li>
                 <a
                   href={`/services/${s.id}`}
-                  class="link-slide text-[0.95rem] text-paper/80 hover:text-paper"
+                  class="link-slide inline-block py-2.5 text-[0.95rem] text-paper/80 hover:text-paper"
                 >
                   {s.data.navLabel}
                 </a>
@@ -71,13 +71,13 @@ const company = [
         </ul>
 
         <h2 class="eyebrow eyebrow-plain mb-5 mt-10 text-mist">Areas</h2>
-        <ul class="space-y-3">
+        <ul class="space-y-0.5">
           {
             areas.map((a) => (
               <li>
                 <a
                   href={`/service-areas/${a.id}`}
-                  class="link-slide text-[0.95rem] text-paper/80 hover:text-paper"
+                  class="link-slide inline-block py-2.5 text-[0.95rem] text-paper/80 hover:text-paper"
                 >
                   {a.data.city}
                 </a>
@@ -89,13 +89,13 @@ const company = [
 
       <div>
         <h2 class="eyebrow eyebrow-plain mb-5 text-mist">Company</h2>
-        <ul class="space-y-3">
+        <ul class="space-y-0.5">
           {
             company.map((c) => (
               <li>
                 <a
                   href={c.href}
-                  class="link-slide text-[0.95rem] text-paper/80 hover:text-paper"
+                  class="link-slide inline-block py-2.5 text-[0.95rem] text-paper/80 hover:text-paper"
                 >
                   {c.label}
                 </a>
@@ -107,6 +107,7 @@ const company = [
 
       <div>
         <h2 class="eyebrow eyebrow-plain mb-5 text-mist">Service areas</h2>
+        <p class="mb-6 text-[0.85rem] leading-snug text-mist">Office hours: {site.hours.display}</p>
         <div class="space-y-6">
           {
             listedOffices.map((o) => (
@@ -119,7 +120,7 @@ const company = [
                 </p>
                 <a
                   href={o.phoneHref}
-                  class="tnum mt-1.5 inline-block font-semibold text-brand-300 hover:text-brand-200"
+                  class="tnum inline-block py-2.5 font-semibold text-brand-300 hover:text-brand-200"
                 >
                   {o.phone}
                 </a>
@@ -135,12 +136,12 @@ const company = [
     >
       <p>&copy; {year} {site.name}. All rights reserved.</p>
       <div class="flex items-center gap-5">
-        <a href="https://www.facebook.com/hvaccleaning/" rel="noopener" class="link-slide hover:text-paper">Facebook</a>
-        <a href="https://www.youtube.com/channel/UCytmEca5Hpr3XmVKTHF62Hg" rel="noopener" class="link-slide hover:text-paper">YouTube</a>
+        <a href="https://www.facebook.com/hvaccleaning/" rel="noopener" class="link-slide inline-block py-3 hover:text-paper">Facebook</a>
+        <a href="https://www.youtube.com/channel/UCytmEca5Hpr3XmVKTHF62Hg" rel="noopener" class="link-slide inline-block py-3 hover:text-paper">YouTube</a>
       </div>
       <Fragment set:html={"<!--email_off-->"} /><a
         href={`mailto:${site.email}`}
-        class="link-slide hover:text-paper">{site.email}</a
+        class="link-slide inline-block py-3 hover:text-paper">{site.email}</a
       ><Fragment set:html={"<!--/email_off-->"} />
     </div>
   </div>

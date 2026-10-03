@@ -21,9 +21,9 @@ const areas = (await getCollection("areas")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const testimonials = await getTestimonials();
-const lead = testimonials[0];
-// Three reviews side by side: five stars, the fullest ones that still read in a breath
-const trio = testimonials.filter((t) => t.rating === 5 && t.text.length >= 100 && t.text.length <= 560).sort((a, b) => b.text.length - a.text.length).slice(0, 3);
+// Three reviews side by side: five stars, the fullest ones that still read in a breath. A review that reads as a health
+// benefit stays off the home page: a review the company features counts as its own claim (docs/CONTENT-NOTES.md).
+const trio = testimonials.filter((t) => t.rating === 5 && !/transplant|breath|allerg|asthma|sick|health|illness/i.test(t.text) && t.text.length >= 100 && t.text.length <= 560).sort((a, b) => b.text.length - a.text.length).slice(0, 3);
 
 const process = [
   {
@@ -62,18 +62,19 @@ const process = [
     >
       <div class="rise">
         <p class="eyebrow text-brand-300">
-          Family owned in Winterville since {site.founded}
+          Cleaning up your indoor air pollution
         </p>
 
         <h1
-          class="mt-7 max-w-[14ch] font-display text-hero optical-lg text-white"
+          class="mt-7 max-w-[16ch] font-display text-hero optical-lg text-white"
         >
-          Cleaning up your indoor air pollution
+          Air duct cleaning in Greenville, Raleigh and the coast
         </h1>
 
         <p class="mt-7 max-w-lg text-lede text-mist">
-          Carolina Quality Air has been cleaning ductwork across Eastern North
-          Carolina for {site.yearsInBusiness} years, in homes, hospitals,
+          Family owned in Winterville since {site.founded}, Carolina Quality
+          Air has cleaned ductwork across Eastern North Carolina for
+          {site.yearsInBusiness} years, in homes, hospitals,
           universities and plants. NADCA-certified, and a certified specialist
           is on site for every single job.
         </p>
@@ -174,10 +175,11 @@ const process = [
       <div class="lg:sticky lg:top-28 lg:self-start">
         <p class="eyebrow">Our results</p>
         <h2 class="mt-6 max-w-[14ch] font-display text-display text-ink">
-          Drag it. This is a real house.
+          Before and after, from a real house.
         </h2>
         <p class="mt-6 max-w-md text-lede text-ink-2">
-          Same duct, same camera position, about four hours apart. Every photo
+          Same duct, same camera position, about four hours apart. Drag the
+          slider to compare. Every photo
           in our gallery was taken by our own crew on our own jobs. No stock
           images, no other company's work.
         </p>
@@ -221,7 +223,7 @@ const process = [
         <div>
           <p class="eyebrow">What we do</p>
           <h2 class="mt-6 max-w-[16ch] font-display text-display text-ink">
-            Five things, done properly.
+            What we clean
           </h2>
         </div>
         <p class="max-w-sm text-[0.95rem] leading-relaxed text-ink-3">
@@ -400,7 +402,7 @@ const process = [
           </p>
           <a
             href="/faq"
-            class="link-slide inline-flex items-center gap-2 font-semibold text-brand-700"
+            class="link-slide inline-flex items-center gap-2 py-2.5 font-semibold text-brand-700"
           >
             How we price a job, honestly &rarr;
           </a>
@@ -435,7 +437,7 @@ const process = [
               </figure>
             ))}
           </div>
-          <a href="/testimonials" class="link-slide mt-10 inline-flex font-semibold text-brand-700">Read all {testimonials.length} reviews</a>
+          <a href="/testimonials" class="link-slide mt-8 inline-flex py-2.5 font-semibold text-brand-700">Read all {testimonials.length} reviews</a>
         </div>
       </section>
     )
