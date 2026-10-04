@@ -6,7 +6,7 @@ import BeforeAfter from "../components/BeforeAfter.astro";
 import CallToAction from "../components/CallToAction.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
 import Airflow from "../components/Airflow.astro";
-import { site } from "../data/site";
+import { site, listedOffices } from "../data/site";
 import { getTestimonials } from "../data/getTestimonials";
 
 import vanHouse from "../assets/work/van-house.jpg";
@@ -109,8 +109,12 @@ const process = [
         </div>
 
         <p class="mt-6 text-[0.85rem] text-mist">
-          Free written estimates &middot; Bonded and insured &middot; Greenville,
-          the Triangle &amp; Wilmington
+          Free written estimates &middot; Bonded and insured &middot; {site.hours.display}
+        </p>
+        <p class="mt-1 flex flex-wrap gap-x-5 text-[0.85rem] text-mist">
+          {listedOffices.map((o) => (
+            <span>{o.name.split(" /")[0]} <a href={o.phoneHref} class="tnum inline-block py-2.5 font-semibold text-brand-300 hover:text-brand-200">{o.phone}</a></span>
+          ))}
         </p>
       </div>
 
