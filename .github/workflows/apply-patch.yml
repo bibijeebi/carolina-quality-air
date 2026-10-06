@@ -1,0 +1,64 @@
+name: apply-patch
+
+# For a session that can reach GitHub only through the REST API (no git push).
+# It sends a unified diff as an input. This job applies it on top of `base`, runs `post`
+# if given (a build step, or a data patch script the diff itself added), commits, and
+# pushes the commit to refs/heads/patch/<id>. Nothing fires on that push. The session then
+# compares the commit's tree sha with its own, points a real branch at the commit through
+# the API (that push does fire CI) and opens the PR. Chain big changes: base = patch/<id>.
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: "Patch id. The commit lands on refs/heads/patch/<id>"
+        required: true
+      base:
+        description: "Branch or sha to apply on"
+        required: true
+        default: main
+      message:
+        description: "Commit message"
+        required: true
+      patch:
+        description: "Unified diff (git diff). May be empty when post does the work"
+        required: false
+        default: ""
+      post:
+        description: "Shell command run after the patch and before the commit"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-patch-${{ inputs.id }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.base }}
+      - name: Apply, build, commit, push
+        env:
+          ID: ${{ inputs.id }}
+          MSG: ${{ inputs.message }}
+          PATCH: ${{ inputs.patch }}
+          POST: ${{ inputs.post }}
+        run: |
+          set -euo pipefail
+          case "$ID" in *[!A-Za-z0-9._-]*|"") echo "bad id"; exit 1;; esac
+          if [ -n "$PATCH" ]; then
+            printf '%s\n' "$PATCH" > "$RUNNER_TEMP/p.diff"
+            git apply --index --whitespace=nowarn "$RUNNER_TEMP/p.diff"
+          fi
+          if [ -n "$POST" ]; then bash -c "$POST"; fi
+          git add -A
+          git -c user.name="bibijeebi" -c user.email="bennyforeman1@gmail.com" commit -q -m "$MSG"
+          echo "commit $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo "tree $(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_STEP_SUMMARY"
+          git push -q --force origin "HEAD:refs/heads/patch/$ID"
