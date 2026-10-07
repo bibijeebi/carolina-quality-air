@@ -141,11 +141,11 @@ export const site = {
     url: "https://www.google.com/maps/place/?q=place_id:ChIJZRbnod7crokRJng1iu7o2VA",
   },
 
-  /** Self-reported to Angi; safe, verifiable-by-asking claims. */
+  /** Self-reported to Angi; safe, verifiable-by-asking claims. Shown on the contact page and in the footer. */
   assurances: [
     "Free written estimates",
     "Bonded and insured",
-    "Visa, MasterCard, Discover, American Express and check accepted",
+    "Visa, Mastercard, Discover, American Express and check accepted",
   ],
 
   // Lead capture goes through the quote form + phone. Self-serve
@@ -153,14 +153,15 @@ export const site = {
   // duration vary too much for an open calendar. (Cal.com links
   // from the demo phase are preserved in git history.)
   booking: {
-    freeEstimate: "/contact",
-    dryerVent: "/contact",
-    commercial: "/contact",
+    freeEstimate: "/contact/",
+    dryerVent: "/contact/",
+    commercial: "/contact/",
   },
 
   api: {
     testimonials: "https://cqa-public-api.bennyforeman1.workers.dev/testimonials",
-    formHandler: "https://cqa-form-handler.bennyforeman1.workers.dev",
+    /* Same-origin: functions/api/quote.js forwards the post to the cqa-form-handler worker. */
+    formHandler: "/api/quote",
   },
 } as const;
 

@@ -4,8 +4,8 @@ order: 3
 category: "The cleaning itself"
 ---
 
-A typical single-system home with twelve to twenty vents takes about three to five
-hours with a two-person crew. Two systems can push it to most of a day.
+A typical single-system home with twelve to twenty vents takes the crew about three
+to five hours. Two systems can push it to most of a day.
 
 Anyone quoting you ninety minutes for a whole house is either skipping the air handler
 or not doing source removal at all.

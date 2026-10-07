@@ -52,13 +52,13 @@ const process = [
 <Layout
   title="Carolina Quality Air: NADCA-certified duct cleaning in Eastern NC"
   suffixTitle={false}
-  description="Family-owned, NADCA-certified air duct cleaning in Greenville, Raleigh and Wilmington. Free written estimates, source-removal cleaning, and a certificate for your records."
+  description="Family-owned, NADCA-certified air duct cleaning in Greenville, Raleigh and Wilmington. Free written estimates and a certificate for your records."
 >
   {/* ── Hero ─────────────────────────────────────────────── */}
   <section class="grain relative overflow-hidden bg-ink text-white">
     <Airflow />
     <div
-      class="relative z-10 mx-auto grid max-w-[80rem] items-center gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-28 lg:pt-24"
+      class="relative z-10 mx-auto grid max-w-[80rem] items-center gap-12 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-20 lg:pt-14"
     >
       <div class="rise">
         <p class="eyebrow text-brand-300">
@@ -66,22 +66,22 @@ const process = [
         </p>
 
         <h1
-          class="mt-7 max-w-[16ch] font-display text-hero optical-lg text-white"
+          class="mt-7 max-w-[16ch] font-display text-hero optical-lg text-white lg:mt-6 lg:max-w-none lg:text-[clamp(3.25rem,5.3vw,4.25rem)]"
         >
           Air duct cleaning in Greenville, Raleigh and the coast
         </h1>
 
-        <p class="mt-7 max-w-lg text-lede text-mist">
-          Family owned in Winterville since {site.founded}, Carolina Quality
+        <p class="mt-7 max-w-lg text-lede text-mist lg:mt-6 lg:max-w-xl lg:text-[1.2rem]">
+          Family owned and operated since {site.founded}, Carolina Quality
           Air has cleaned ductwork across Eastern North Carolina for
           {site.yearsInBusiness} years, in homes, hospitals,
           universities and plants. NADCA-certified, and a certified specialist
           is on site for every single job.
         </p>
 
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row lg:mt-8">
           <a
-            href={site.booking.freeInspection}
+            href={site.booking.freeEstimate}
             class="inline-flex items-center justify-center gap-2.5 rounded-sm bg-brand-600 px-7 py-4 font-semibold text-white transition-colors hover:bg-brand-500"
           >
             Request a free estimate
@@ -188,7 +188,7 @@ const process = [
           images, no other company's work.
         </p>
         <a
-          href="/proof"
+          href="/proof/"
           class="link-slide mt-7 inline-flex items-center gap-2 font-semibold text-brand-700"
         >
           See the full gallery
@@ -241,7 +241,7 @@ const process = [
           services.map((s, i) => (
             <li>
               <a
-                href={`/services/${s.id}`}
+                href={`/services/${s.id}/`}
                 class="group grid items-baseline gap-x-8 gap-y-3 border-t border-hairline py-8 transition-colors hover:bg-paper md:grid-cols-[auto_16rem_1fr_auto] md:py-9"
               >
                 <span class="tnum font-display text-lg text-ink-4">
@@ -314,7 +314,7 @@ const process = [
         <ul class="mt-7 space-y-px">
           {
             [
-              "Someone in the house is bothered by dust or allergies",
+              "Dust is visible on the registers or around the return grille",
               "There are indoor pets, or someone smokes inside",
               "A musty or stale smell shows up when the heat or air first kicks on",
               "Airflow from some registers is noticeably weaker than others",
@@ -405,7 +405,7 @@ const process = [
             cleaning yet, we'll say so.
           </p>
           <a
-            href="/faq"
+            href="/faq/"
             class="link-slide inline-flex items-center gap-2 py-2.5 font-semibold text-brand-700"
           >
             How we price a job, honestly &rarr;
@@ -441,7 +441,7 @@ const process = [
               </figure>
             ))}
           </div>
-          <a href="/testimonials" class="link-slide mt-8 inline-flex py-2.5 font-semibold text-brand-700">Read all {testimonials.length} reviews</a>
+          <a href="/testimonials/" class="link-slide mt-8 inline-flex py-2.5 font-semibold text-brand-700">Read all {testimonials.length} reviews</a>
         </div>
       </section>
     )
@@ -467,7 +467,7 @@ const process = [
             );
             return (
               <a
-                href={`/service-areas/${a.id}`}
+                href={`/service-areas/${a.id}/`}
                 class="group bg-paper p-8 transition-colors hover:bg-paper-2"
               >
                 <h3 class="font-display text-title text-ink">{a.data.city}</h3>

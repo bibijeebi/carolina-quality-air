@@ -6,7 +6,7 @@ category: "Cost"
 
 Probably not by much, and we will not put a percentage on it.
 
-You will see "save 20–30% on your energy bill" all over this industry. That figure
+You will see big energy-savings percentages quoted all over this industry. The usual figure
 comes from Department of Energy guidance about overall HVAC maintenance and gets
 misapplied to duct cleaning constantly. The EPA's position is that "little evidence
 exists that cleaning only the ducts will improve the efficiency of the system."

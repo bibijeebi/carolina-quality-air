@@ -214,6 +214,14 @@ const propertyTypes = [
         </div>
         <div class="bg-paper p-6">
           <p class="text-[0.78rem] uppercase tracking-[0.12em] text-ink-4">
+            Good to know
+          </p>
+          <ul class="mt-2 space-y-1 text-[0.92rem] leading-snug text-ink-2">
+            {site.assurances.map((a) => <li>{a}</li>)}
+          </ul>
+        </div>
+        <div class="bg-paper p-6">
+          <p class="text-[0.78rem] uppercase tracking-[0.12em] text-ink-4">
             Email
           </p>
           <Fragment set:html={"<!--email_off-->"} /><a
@@ -230,7 +238,8 @@ const propertyTypes = [
 
 <script>
   // Progressive enhancement only: without this the form still posts
-  // normally to the Worker. With it, the visitor stays on the page.
+  // normally to /api/quote, which answers with a small page. With it, the
+  // visitor stays on this one.
   const form = document.querySelector<HTMLFormElement>("#quote-form");
   const status = document.querySelector<HTMLParagraphElement>("#form-status");
   const button = document.querySelector<HTMLButtonElement>("#form-submit");
@@ -253,6 +262,7 @@ const propertyTypes = [
       try {
         const response = await fetch(form.action, {
           method: "POST",
+          headers: { accept: "application/json" },
           body: new FormData(form),
         });
         const data = await response.json().catch(() => ({}));

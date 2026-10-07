@@ -14,12 +14,12 @@ const areas = (await getCollection("areas")).sort(
 );
 
 const company = [
-  { href: "/about", label: "About us" },
-  { href: "/nadca", label: "NADCA certification" },
-  { href: "/proof", label: "Before & after" },
-  { href: "/testimonials", label: "Reviews" },
-  { href: "/faq", label: "Questions" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about/", label: "About us" },
+  { href: "/nadca/", label: "NADCA certification" },
+  { href: "/proof/", label: "Before & after" },
+  { href: "/testimonials/", label: "Reviews" },
+  { href: "/faq/", label: "Questions" },
+  { href: "/contact/", label: "Contact" },
 ];
 ---
 
@@ -60,7 +60,7 @@ const company = [
             services.map((s) => (
               <li>
                 <a
-                  href={`/services/${s.id}`}
+                  href={`/services/${s.id}/`}
                   class="link-slide inline-block py-2.5 text-[0.95rem] text-paper/80 hover:text-paper"
                 >
                   {s.data.navLabel}
@@ -76,7 +76,7 @@ const company = [
             areas.map((a) => (
               <li>
                 <a
-                  href={`/service-areas/${a.id}`}
+                  href={`/service-areas/${a.id}/`}
                   class="link-slide inline-block py-2.5 text-[0.95rem] text-paper/80 hover:text-paper"
                 >
                   {a.data.city}
@@ -128,6 +128,7 @@ const company = [
             ))
           }
         </div>
+        <p class="mt-6 text-[0.85rem] leading-snug text-mist">{site.assurances.join(". ")}.</p>
       </div>
     </div>
 

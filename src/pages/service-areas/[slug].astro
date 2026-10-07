@@ -31,12 +31,12 @@ const services = (await getCollection("services")).sort(
 import Airflow from "../../components/Airflow.astro";
 ---
 
-<Layout title={d.title} description={d.summary} phone={{ display: office.phone, href: office.phoneHref }}>
+<Layout title={d.metaTitle ?? d.title} description={d.summary} phone={{ display: office.phone, href: office.phoneHref }}>
   <section class="grain relative overflow-hidden bg-ink text-white">
     <Airflow />
     <div class="rise relative z-10 mx-auto max-w-[80rem] px-5 py-16 sm:px-8 sm:py-20">
       <a
-        href="/service-areas"
+        href="/service-areas/"
         class="link-slide inline-block py-2.5 text-[0.85rem] font-semibold text-brand-300"
         >&larr; All service areas</a
       >
@@ -85,7 +85,7 @@ import Airflow from "../../components/Airflow.astro";
             services.map((s) => (
               <li>
                 <a
-                  href={`/services/${s.id}`}
+                  href={`/services/${s.id}/`}
                   class="link-slide inline-block py-2.5 text-[0.9rem] text-ink-2 hover:text-brand-700"
                 >
                   {s.data.navLabel}
@@ -118,7 +118,7 @@ import Airflow from "../../components/Airflow.astro";
         {
           others.map((a) => (
             <a
-              href={`/service-areas/${a.id}`}
+              href={`/service-areas/${a.id}/`}
               class="link-slide inline-block py-1.5 font-display text-xl text-ink hover:text-brand-700"
             >
               {a.data.city}

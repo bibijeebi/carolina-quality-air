@@ -4,14 +4,16 @@ import logo from "../assets/brand/logo-cqa.png";
 import { site, listedOffices } from "../data/site";
 
 const { phone = site.phone } = Astro.props as { phone?: { display: string; href: string } };
+// The page's own office line comes first wherever the lines are listed (an area page passes its office).
+const offices = [...listedOffices].sort((a, b) => Number(b.phoneHref === phone.href) - Number(a.phoneHref === phone.href));
 
 const nav = [
-  { href: "/services", label: "Services" },
-  { href: "/service-areas", label: "Service areas" },
-  { href: "/proof", label: "Our work" },
-  { href: "/nadca", label: "Certification" },
-  { href: "/about", label: "About" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/services/", label: "Services" },
+  { href: "/service-areas/", label: "Service areas" },
+  { href: "/proof/", label: "Our work" },
+  { href: "/nadca/", label: "Certification" },
+  { href: "/about/", label: "About" },
+  { href: "/faq/", label: "FAQ" },
 ];
 
 const path = Astro.url.pathname;
@@ -34,7 +36,7 @@ const isActive = (href: string) =>
         {site.email}
       </a><Fragment set:html={"<!--/email_off-->"} />
       {
-        listedOffices.map((o) => (
+        offices.map((o) => (
           <a
             href={o.phoneHref}
             class="link-slide tnum hover:text-paper"
@@ -113,11 +115,13 @@ const isActive = (href: string) =>
           Get a free estimate
         </a>
 
-        {/* CSS-only mobile menu: <details> means no JavaScript ships. */}
-        <details class="group relative lg:hidden">
+        {/* The mobile menu is a <details>, so it opens with no script. The few lines under it
+            keep the button's label in step and let Escape close it. */}
+        <details id="site-menu" class="group relative lg:hidden">
           <summary
             class="flex size-11 cursor-pointer list-none items-center justify-center rounded-xs border border-hairline text-ink"
             aria-label="Open menu"
+            aria-expanded="false"
           >
             <svg
               class="size-5 group-open:hidden"
@@ -156,7 +160,7 @@ const isActive = (href: string) =>
                 ))
               }
               <a
-                href="/contact"
+                href="/contact/"
                 class="block border-b border-hairline py-4 font-display text-2xl text-ink"
               >
                 Contact
@@ -164,7 +168,7 @@ const isActive = (href: string) =>
             </nav>
             <div class="mt-6 space-y-2">
               {
-                listedOffices.map((o) => (
+                offices.map((o) => (
                   <a
                     href={o.phoneHref}
                     class="flex items-center justify-between py-2 text-ink-2"
@@ -179,6 +183,16 @@ const isActive = (href: string) =>
             </div>
           </div>
         </details>
+        <script is:inline>
+          (() => {
+            const menu = document.getElementById("site-menu"), btn = menu && menu.querySelector("summary");
+            if (!btn) return;
+            const sync = () => { btn.setAttribute("aria-expanded", String(menu.open)); btn.setAttribute("aria-label", menu.open ? "Close menu" : "Open menu"); };
+            menu.addEventListener("toggle", sync);
+            document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu.open) { menu.open = false; btn.focus(); } });
+            sync();
+          })();
+        </script>
       </div>
     </div>
   </div>

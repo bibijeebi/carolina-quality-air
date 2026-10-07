@@ -16,7 +16,7 @@ for (const p of gated) { const r = await hit(p); assert.ok(!r.passed && [302, 40
 
 for (const p of ["/proposals/", "/%70roposals/", "/leads/2026-08-21", "/reports/"]) { const r = await hit(p); assert.ok(r.passed && /noindex/.test(r.robots || ""), `${p} is open by link and must carry noindex`); }
 
-for (const p of ["/", "/about/", "/services/air-duct-cleaning/", "/_astro/x.css", "/learning/", "/learning/field-guide.html", "/hqx/", "/robots.txt"]) { const r = await hit(p); assert.ok(r.passed && r.status === 200, `${p} is public and must pass straight through`); }
+for (const p of ["/", "/about/", "/services/air-duct-cleaning/", "/_astro/x.css", "/learning/", "/learning/field-guide.html", "/hqx/", "/robots.txt", "/api/quote"]) { const r = await hit(p); assert.ok(r.passed && r.status === 200, `${p} is public and must pass straight through`); }
 
 for (const p of ["/%E0%A4%A", "/%252e%252e/hq/", "/a/%2e%2e%2fhq/"]) { const r = await hit(p); assert.ok(!r.passed || r.status === 200, `${p} handled`); }
 assert.equal((await hit("/%E0%A4%A")).status, 400);

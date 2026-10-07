@@ -30,6 +30,8 @@ const areas = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/areas" }),
   schema: z.object({
     title: z.string(),
+    /** Shorter title for the browser tab and search results (the page heading keeps `title`). */
+    metaTitle: z.string().optional(),
     /** The hub city name on its own, e.g. "Greenville". */
     city: z.string(),
     order: z.number(),

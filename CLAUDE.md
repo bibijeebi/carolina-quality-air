@@ -23,7 +23,8 @@ sign-in.
 | DuctStudy | https://ductstudy.com (hand-over page at `/learning/`) | bibijeebi/ductstudy `public/lab/` | Public; its own optional Google sign-in syncs progress |
 
 Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client; repo bibijeebi/ductstudy),
-`cqa-form-handler` (contact form to D1 + Resend), `cqa-public-api` (testimonials JSON, read at build),
+`cqa-form-handler` (contact form to D1 + Resend; the form posts to `/api/quote`, and
+`functions/api/quote.js` passes it on, so the page source never carries the worker's address), `cqa-public-api` (testimonials JSON, read at build),
 `cqa-admin` (testimonial admin behind Cloudflare Access), `lead-hub` + collectors (`evp-bid-watch`,
 `sam-lead-watch`, ...), `acr-cheat` (old ACR hub at ascs.carolinaqualityair.xyz).
 
@@ -77,7 +78,9 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
   claims, no EPA endorsement, no energy percentages, no "free video inspection", no invented numbers).
 - `listed: false` on an office keeps it out of header/footer/contact lists (Wilmington: coastal jobs
   book through the main line; the old 910 number belongs to another business).
-- Zero client framework. JS only for the before/after slider and the form upgrade.
+- Zero client framework. JS only for the before/after slider, the form upgrade, and a few inline lines in the
+  header that keep the mobile menu button's label in step and let Escape close it.
+- Internal links carry their trailing slash (`/about/`, not `/about`): without it every click costs a 308.
 - The look (site v2, Oct 2026): dark heroes carry `Airflow.astro` (CSS-only drifting air streams, faded behind the
   words); sections ease in with CSS scroll-driven animation (`.reveal`, `.reveal-kids`, no JS, nothing hidden where
   unsupported); `.count` counts a number up on load; `.kenburns` slowly pushes into hero photos; `.duct-run` is the

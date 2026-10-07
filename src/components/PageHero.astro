@@ -16,6 +16,9 @@ interface Props {
 
 const { eyebrow, title, lede, narrow = false, image, imageAlt = "" } = Astro.props;
 const side = image || Astro.slots.has("aside");
+// The photo shows on wide screens only. Below that the <picture> hands the browser a blank 1px source, so a phone
+// never downloads a photo it will not show (loading="lazy" does not stop that everywhere).
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 ---
 
 <section class="grain relative overflow-hidden bg-ink text-white">
@@ -43,7 +46,10 @@ const side = image || Astro.slots.has("aside");
         <div class="rise rise-2 relative hidden lg:block">
           {image ? (
             <div class="overflow-hidden rounded-md ring-1 ring-white/15">
-              <Image src={image} alt={imageAlt} widths={[480, 720, 960]} sizes="28rem" class="photo-warm kenburns aspect-[4/3] w-full object-cover" loading="eager" />
+              <picture>
+                <source media="(max-width: 63.98rem)" srcset={BLANK} />
+                <Image src={image} alt={imageAlt} widths={[480, 720, 960]} sizes="28rem" class="photo-warm kenburns aspect-[4/3] w-full object-cover" loading="eager" />
+              </picture>
             </div>
           ) : (
             <slot name="aside" />

@@ -352,7 +352,7 @@ h3 {
    block above caps every animation at a single 0.01ms run).
    ============================================================ */
 
-.airflow { color: var(--color-brand-400); -webkit-mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .35) 30%, #000 62%); mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .35) 30%, #000 62%); } /* the air runs behind the picture side, faint behind the words */
+.airflow { color: var(--color-brand-400); -webkit-mask-image: linear-gradient(90deg, transparent 46%, #000 68%); mask-image: linear-gradient(90deg, transparent 46%, #000 68%); } /* the air runs behind the picture side and stays off the words */
 .airflow .af-base { fill: none; stroke-width: 1.2; opacity: .14; }
 .airflow .af-flow { fill: none; stroke-width: 2; stroke-linecap: round; opacity: .55; stroke-dasharray: 2 26 70 400; animation: af-drift 9s linear infinite; }
 .airflow .af-1 { animation-duration: 11s; animation-delay: -3s; }
@@ -360,6 +360,14 @@ h3 {
 .airflow .af-3 { animation-duration: 12s; animation-delay: -1s; }
 .airflow .af-4 { animation-duration: 10s; animation-delay: -8s; }
 @keyframes af-drift { to { stroke-dashoffset: -498; } }
+/* Below the two-column layout the words fill the hero, so the air keeps to the strip of padding under them and
+   never runs through a line of text. The strokes are redrawn for the smaller scale the strip gives the drawing. */
+@media (width < 64rem) {
+  .airflow { top: auto; height: 4rem; -webkit-mask-image: linear-gradient(transparent, #000 35%, #000 65%, transparent); mask-image: linear-gradient(transparent, #000 35%, #000 65%, transparent); }
+  .airflow .af-base { stroke-width: 4; }
+  .airflow .af-flow { stroke-width: 7; stroke-dasharray: 8 104 280 1600; animation-name: af-drift-sm; }
+}
+@keyframes af-drift-sm { to { stroke-dashoffset: -1992; } }
 
 /* Sections ease up as they scroll into view, where the browser can tie the
    animation to scrolling. Nothing is hidden where it cannot. */

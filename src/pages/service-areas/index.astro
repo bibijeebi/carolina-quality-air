@@ -27,7 +27,7 @@ const areas = (await getCollection("areas")).sort(
           const office = site.offices.find((o) => o.slug === a.data.officeSlug);
           return (
             <a
-              href={`/service-areas/${a.id}`}
+              href={`/service-areas/${a.id}/`}
               class="group grid gap-6 border-t border-hairline py-10 transition-colors hover:bg-paper-2 lg:grid-cols-[auto_1fr_18rem] lg:gap-10"
             >
               <span class="tnum font-display text-lg text-ink-4">
@@ -73,7 +73,7 @@ const areas = (await getCollection("areas")).sort(
 
     <p class="mt-10 max-w-2xl text-[0.9rem] leading-relaxed text-ink-3">
       Not on the list? We travel further than this for larger commercial and
-      industrial work. Call the Winterville shop and describe the job. If it
+      industrial work. Call us and describe the job. If it
       is not something we should take on, we will say so.
     </p>
   </section>

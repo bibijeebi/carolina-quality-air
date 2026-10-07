@@ -1,5 +1,6 @@
 ---
 title: Air duct cleaning in Raleigh, Cary & the Triangle
+metaTitle: Air duct cleaning in Raleigh & Cary
 city: Raleigh & the Triangle
 order: 2
 officeSlug: raleigh-triangle

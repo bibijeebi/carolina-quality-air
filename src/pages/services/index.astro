@@ -28,7 +28,7 @@ const services = (await getCollection("services")).sort(
       {
         services.map((s) => (
           <a
-            href={`/services/${s.id}`}
+            href={`/services/${s.id}/`}
             class="group flex flex-col bg-paper p-8 transition-colors hover:bg-paper-2 sm:p-10"
           >
             <ServiceIcon name={s.data.icon} class="size-8 text-brand-600" />
@@ -63,7 +63,7 @@ const services = (await getCollection("services")).sort(
           all.
         </p>
         <a
-          href="/contact"
+          href="/contact/"
           class="link-slide mt-6 inline-block font-semibold text-brand-700"
         >
           Ask us

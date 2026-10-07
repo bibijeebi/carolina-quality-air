@@ -2,7 +2,7 @@
 import { site } from "../data/site";
 
 const { phone = site.phone } = Astro.props as { phone?: { display: string; href: string } };
-const onContact = Astro.url.pathname.replace(/\/$/, "") === site.booking.freeEstimate;
+const onContact = Astro.url.pathname.replace(/\/?$/, "/") === site.booking.freeEstimate;
 ---
 
 {/*
