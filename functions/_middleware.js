@@ -57,10 +57,22 @@ async function ogStub(ctx, url) {
   return new Response(`<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>${t}</title><meta property="og:title" content="${t}"><meta property="og:url" content="${esc(url.href)}"><meta property="og:site_name" content="Carolina Quality Air">${img ? `<meta property="og:image" content="${img}"><meta name="twitter:image" content="${img}"><meta name="twitter:card" content="summary_large_image">` : ""}`, { headers: { "content-type": "text/html;charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex" } });
 }
 
+// The gate decides on the path the asset server will serve, not the one that was typed. The asset server decodes
+// percent-escapes, so /%68q/ is /hq/. Until Oct 2026 the Function ran only on a list of literal paths and one encoded
+// letter walked past it. Now it runs on every request (public/_routes.json is "/*") and reads the decoded path.
+const INTERNAL = /^\/(?:(?:hq|proposals|leads|estimates|repairs|operations|orders|reports|kb|_desk)(?:\/|$)|work-load(?:\.html)?(?:\/|$)|learning\/(?:estimator|walk-the-job|perry-sim|pricing-doctrine))/i;
+function canon(path) {
+  let p = path;
+  for (let i = 0; i < 4 && p.includes("%"); i++) { try { p = decodeURIComponent(p); } catch (e) { return null; } }
+  return p.replace(/\\/g, "/").replace(/\/{2,}/g, "/");
+}
+
 export async function onRequest(ctx) {
   const req = ctx.request, url = new URL(req.url);
-  if (url.hostname !== "carolinaqualityair.xyz" && url.hostname !== "localhost" && url.hostname !== "127.0.0.1") return Response.redirect(HOME + url.pathname + url.search, 301);
-  const p = url.pathname;
+  const p = canon(url.pathname);
+  if (p === null || p.includes("%") || /(^|\/)\.\.?(\/|$)/.test(p)) return new Response("Bad request", { status: 400 }); // an escape that will not decode, or dot segments: nothing real asks for these
+  if (!INTERNAL.test(p)) return ctx.next(); // the public site: untouched
+  if (url.hostname !== "carolinaqualityair.xyz" && url.hostname !== "localhost" && url.hostname !== "127.0.0.1") return Response.redirect(HOME + p + url.search, 301);
 
   if (p === "/_desk/cb" && req.method === "POST") {
     const f = await req.formData().catch(() => null), pass = f && f.get("pass"), who = await check(pass);
@@ -101,7 +113,7 @@ export async function onRequest(ctx) {
     return out;
   }
   if ((req.method === "GET" || req.method === "HEAD") && PREVIEW_BOT.test(req.headers.get("user-agent") || "") && !/\.[a-z0-9]{2,5}$/i.test(p.replace(/\.html$/, ""))) return ogStub(ctx, url);
-  if (/\/og\/[^/]+\.(jpe?g|png|webp)$/i.test(p)) return ctx.next(); // link-preview images only, never page content
+  if (/\/og\/[^/]+\.(jpe?g|png|webp)$/i.test(p) && p === url.pathname) return ctx.next(); // link-preview images only, never page content, and only by their plain spelling
   if (req.method !== "GET" && req.method !== "HEAD") return new Response("Sign in required", { status: 401 });
   return new Response(null, { status: 302, headers: { location: signIn(p + url.search), "cache-control": "no-store" } });
 }

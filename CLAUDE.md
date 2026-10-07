@@ -29,11 +29,13 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 
 ## Sign-in (functions/_middleware.js)
 
-- Runs only on the paths in `public/_routes.json`. The public site never invokes a Function.
+- Runs on every request (`public/_routes.json` is `/*`) and decides on the decoded path: `INTERNAL` in
+  `functions/_middleware.js` lists what is internal, and everything else passes straight through. Do not go back
+  to a list of literal routes: the asset server decodes percent-escapes, so until Oct 6, 2026 `/%68q/` served
+  Staff HQ to anyone. `node tests/gate.test.mjs` holds the spellings that used to get through.
 - The `OPEN` check comes first: `/proposals`, `/leads`, `/estimates`, `/repairs`, `/operations` and `/reports`
   are served to anyone with the link, no sign-in, with an `x-robots-tag: noindex, nofollow` header. To open or
-  close a folder, edit `OPEN` in `functions/_middleware.js`. Keep it out of `public/_routes.json` only if it
-  should also skip the Function (then it gets no noindex header).
+  close a folder, edit `OPEN` in `functions/_middleware.js`.
 - Everything else on those routes needs sign-in. No valid `cqa_desk` cookie: redirect to `https://ductstudy.bennyforeman1.workers.dev/auth/desk?next=...`.
   That worker does Google OAuth and POSTs a 30-day Ed25519-signed pass to `/_desk/cb`, which checks it
   against the embedded public key and the `ALLOW` set and sets the cookie.
@@ -60,8 +62,8 @@ Workers (not in this repo): `ductstudy` (DuctStudy API + D1 + the Google client;
 - `/estimates/`, `/operations/` and `/reports/` boards list their folder's pages by themselves too
   (`src/components/internal/List.astro`, scanner in `src/lib/internal.ts`). `/leads/` and `/repairs/` do too.
 - Lead reports, estimates, repairs, operations: same pattern, auto-listed on `/hq/`.
-- A new top-level internal folder must be added to `public/_routes.json` or it is public with no noindex
-  header. Add it to `OPEN` as well only if it is meant to be readable without sign-in.
+- A new top-level internal folder must be added to `INTERNAL` in `functions/_middleware.js` or it is public with
+  no noindex header. Add it to `OPEN` as well only if it is meant to be readable without sign-in.
 - Every internal page carries `<meta name="robots" content="noindex, nofollow">`.
 - OG images: commit same-origin under `public/<section>/og/`. R2 uploads break iMessage previews.
 - Jeff-facing pages: plain English (no "BLUF"), facts about the job first, Benny's pricing last and
