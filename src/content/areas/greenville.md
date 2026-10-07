@@ -63,7 +63,7 @@ to look for.
 
 ## Flood-affected houses
 
-Floyd in 1999 put twenty inches of rain on Greenville and pushed the Tar River
+Floyd in 1999 put about fourteen inches of rain on Greenville and pushed the Tar River
 to a record crest that still stands. Matthew came through the same ground in
 2016. Houses in those areas can still have crawlspace moisture problems years
 later, and contaminated ductwork is often part of it.

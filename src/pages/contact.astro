@@ -35,7 +35,7 @@ const propertyTypes = [
         id="quote-form"
         method="POST"
         action={site.api.formHandler}
-        class="space-y-6"
+        class="scroll-mt-28 space-y-6 [&_input]:scroll-mt-28 [&_select]:scroll-mt-28 [&_textarea]:scroll-mt-28"
       >
         {/* Honeypots — bots fill these, people never see them. */}
         <div class="absolute left-[-9999px]" aria-hidden="true">
@@ -57,6 +57,7 @@ const propertyTypes = [
               name="firstName"
               type="text"
               required
+              pattern=".*[^ ].*"
               autocomplete="given-name"
               class="mt-3 w-full rounded-xs border border-hairline bg-paper px-4 py-3.5 text-ink outline-none transition-colors focus:border-brand-600"
             />
@@ -84,6 +85,8 @@ const propertyTypes = [
               name="phone"
               type="tel"
               required
+              pattern="([^0-9]*[0-9]){7,}[^0-9]*"
+              title="A phone number we can call back"
               autocomplete="tel"
               inputmode="tel"
               class="mt-3 w-full rounded-xs border border-hairline bg-paper px-4 py-3.5 text-ink outline-none transition-colors focus:border-brand-600"
@@ -183,7 +186,7 @@ const propertyTypes = [
               <h3 class="mt-1.5 font-display text-lg text-ink">{o.name}</h3>
               <a
                 href={o.phoneHref}
-                class="tnum mt-2 block font-display text-2xl text-brand-700"
+                class="tnum mt-1 block py-1.5 font-display text-2xl text-brand-700"
               >
                 {o.phone}
               </a>

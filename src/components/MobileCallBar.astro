@@ -2,6 +2,7 @@
 import { site } from "../data/site";
 
 const { phone = site.phone } = Astro.props as { phone?: { display: string; href: string } };
+const onContact = Astro.url.pathname.replace(/\/$/, "") === site.booking.freeEstimate;
 ---
 
 {/*
@@ -32,7 +33,7 @@ const { phone = site.phone } = Astro.props as { phone?: { display: string; href:
     <span class="tnum">{phone.display}</span>
   </a>
   <a
-    href={site.booking.freeEstimate}
+    href={onContact ? "#quote-form" : site.booking.freeEstimate}
     class="flex items-center justify-center bg-brand-600 py-4 text-[0.95rem] font-semibold text-white"
   >
     Free estimate
